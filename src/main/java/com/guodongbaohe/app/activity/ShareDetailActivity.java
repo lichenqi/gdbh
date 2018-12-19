@@ -44,6 +44,8 @@ public class ShareDetailActivity extends BaseActivity {
         iv_back = findViewById(R.id.iv_back);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
+
+
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);
@@ -79,7 +81,8 @@ public class ShareDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 if (webview.canGoBack()) {
                     webview.goBack();
-                } else {
+                }
+                 else {
                     finish();
                 }
             }
@@ -94,6 +97,13 @@ public class ShareDetailActivity extends BaseActivity {
         map.put("x-devtype", Constant.IMEI);
         map.put("x-token", ParamUtil.GroupMap(getApplicationContext(), PreferUtils.getString(getApplicationContext(), "member_id")));
         webview.loadUrl(url, map);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        webview.removeAllViews();
+        webview.destroy();
     }
 
     @Override

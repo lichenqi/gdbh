@@ -476,7 +476,7 @@ public class CreationShareActivity extends BaseActivity {
                 break;
             case R.id.order_shuoming:
                 intent = new Intent(getApplicationContext(), ShareDetailActivity.class);
-                intent.putExtra("url", PreferUtils.getString(getApplicationContext(), "invite_friends"));
+                intent.putExtra("url", PreferUtils.getString(getApplicationContext(), "shareGoods"));
                 startActivity(intent);
                 break;
         }

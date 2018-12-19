@@ -521,6 +521,7 @@ public class MainActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "online_switch_android", online_switch_android);
                                 /*存储用户协议*/
                                 PreferUtils.putString(getApplicationContext(), "agreement", bean.getResult().getAgreement());
+                                PreferUtils.putString(getApplicationContext(), "shareGoods", bean.getResult().getShare_goods());/*存储盒子余额*/
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }

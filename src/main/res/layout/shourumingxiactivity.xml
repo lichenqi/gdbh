@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toly="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.guodongbaohe.app.view.MyRadioButton
+            android:id="@+id/radio_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableBottom="@drawable/order_tab"
+            android:gravity="center"
+            android:tag="0"
+            android:text="销售佣金"
+            android:textColor="@color/tab_color_order"
+            toly:rb_height="2dp"
+            toly:rb_width="50dp" />
+
+        <View
+            android:layout_width="0.2dp"
+            android:layout_height="15dp"
+            android:background="@color/gray" />
+
+        <com.guodongbaohe.app.view.MyRadioButton
+            android:id="@+id/radio_two"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableBottom="@drawable/order_tab"
+            android:gravity="center"
+            android:tag="1"
+            android:text="团队奖励"
+            android:textColor="@color/tab_color_order"
+            toly:rb_height="2dp"
+            toly:rb_width="50dp" />
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/gray" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never" />
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/user_moren_logo"
+        app:riv_corner_radius="5dp" />
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:lineSpacingExtra="6dp"
+        android:text="             返得多，赚得多！果冻宝盒，近3000万网购达人公认的，能省钱还能赚钱的超级购物APP。覆盖淘宝天猫所有商品，每天更新海量品牌高额优惠券。比淘宝天猫直接买，省40%-90%。在果冻宝盒赚到的钱，是省钱的100倍！网购省钱，分享赚钱，6亿网购用户的首选"
+        android:textColor="@color/txblack" />
+
+
+</LinearLayout>

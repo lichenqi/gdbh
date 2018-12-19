@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="rtl_RecyclerTabLayout">
+        <attr name="rtl_tabIndicatorColor" format="color" />
+        <attr name="rtl_tabIndicatorHeight" format="dimension" />
+        <attr name="rtl_tabBackground" format="reference" />
+        <attr name="rtl_tabTextAppearance" format="reference" />
+        <attr name="rtl_tabSelectedTextColor" format="color" />
+        <attr name="rtl_tabOnScreenLimit" format="integer" />
+        <attr name="rtl_tabMinWidth" format="dimension" />
+        <attr name="rtl_tabMaxWidth" format="dimension" />
+        <attr name="rtl_tabPaddingStart" format="dimension" />
+        <attr name="rtl_tabPaddingTop" format="dimension" />
+        <attr name="rtl_tabPaddingEnd" format="dimension" />
+        <attr name="rtl_tabPaddingBottom" format="dimension" />
+        <attr name="rtl_tabPadding" format="dimension" />
+        <attr name="rtl_scrollEnabled" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MyRadioButton">
+        <attr name="rb_width" format="dimension" />
+        <attr name="rb_height" format="dimension" />
+    </declare-styleable>
+    <!-- 弹出查看大图 -->
+    <declare-styleable name="AlertImageView">
+        <attr name="url" format="string" />
+    </declare-styleable>
+
+    <!-- CircleImageView -->
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+        <attr name="border_overlay" format="boolean" />
+    </declare-styleable>
+</resources>

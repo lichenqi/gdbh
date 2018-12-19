@@ -153,7 +153,7 @@ public class SearchActivity extends BaseActivity {
         map.put("q", s);
         map.put("code", "utf-8");
         String param = ParamUtil.getMapParam(map);
-        Log.i("搜索词组", s);
+//        Log.i("搜索词组", s);
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.FUZZY_DATA + param)
                 .tag(this)

@@ -173,7 +173,7 @@ public class SearchActivity extends BaseActivity {
                             fuzzyAdater.setonclicklistener(new OnItemClick() {
                                 @Override
                                 public void OnItemClickListener(View view, int position) {
-
+                                    //TODO
                                     HistorySearchUtil.getInstance(SearchActivity.this).putNewSearch(result.get(position).get(0));//保存记录到数据库
                                     intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                                     intent.putExtra("keyword", result.get(position).get(0));

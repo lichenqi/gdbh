@@ -9,7 +9,8 @@ public class ToastUtils {
     /*连续点击弹土司显示问题*/
     public static void showToast(Context context, String content) {
         if (toast == null) {
-            toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(context, null, Toast.LENGTH_SHORT);
+            toast.setText(content);
         } else {
             toast.setText(content);
         }

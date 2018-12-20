@@ -21,6 +21,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.zxing.oned.rss.RSSUtils;
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.activity.GBossH5Activity;
+import com.guodongbaohe.app.activity.GFriendToBossActivity;
+import com.guodongbaohe.app.activity.GVipToFriendActivity;
 import com.guodongbaohe.app.activity.HaveSoncountUpgradeActivity;
 import com.guodongbaohe.app.activity.HeHuoRenToBossActivity;
 import com.guodongbaohe.app.activity.PartnerTopUpActivity;
@@ -241,17 +244,21 @@ public class MakeMoneyFragment extends Fragment {
     @OnClick({R.id.tv_open_vip})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_open_vip:
+            case R.id.tv_open_vip:  //升级合伙人
                 String upgrade_invite_num = PreferUtils.getString(getContext(), "upgrade_invite_num");
                 if (member_role.equals("2")) {
-                    ToastUtils.showToast(getContext(), "您已是总裁了");
+//                    ToastUtils.showToast(getContext(), "您已是总裁了");
+                    intent=new Intent(getContext(),GBossH5Activity.class);
+                    startActivity(intent);
                 } else if (member_role.equals("1")) {
                     /*合伙人升级总裁*/
-                    intent = new Intent(getContext(), HeHuoRenToBossActivity.class);
+//                    intent = new Intent(getContext(), HeHuoRenToBossActivity.class);
+                    intent = new Intent(getContext(), GFriendToBossActivity.class);
                     startActivity(intent);
                 } else {
                     if (Integer.valueOf(son_count) > 0 && Integer.valueOf(son_count) < Integer.valueOf(upgrade_invite_num)) {/*vip级别要升级到合伙人*/
-                        intent = new Intent(getContext(), PartnerTopUpActivity.class);
+//                        intent = new Intent(getContext(), PartnerTopUpActivity.class);
+                        intent = new Intent(getContext(), GVipToFriendActivity.class);
                         intent.putExtra("son_count", son_count);
                         startActivity(intent);
                     } else if (Integer.valueOf(son_count) >= Integer.valueOf(upgrade_invite_num)) {

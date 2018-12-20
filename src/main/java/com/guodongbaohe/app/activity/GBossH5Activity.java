@@ -1,0 +1,54 @@
+package com.guodongbaohe.app.activity;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
+
+import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.util.WebViewUtil;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class GBossH5Activity extends BaseActivity {
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+    @BindView(R.id.webview)
+    WebView webview;
+    String url;
+    @Override
+    public int getContainerView() {
+        return R.layout.gbossh5activity;
+
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ButterKnife.bind(this);
+        url="http://app.mopland.com/help/presidentone";
+        WebSettings settings = webview.getSettings();
+        webview.setVerticalScrollBarEnabled(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportZoom(false);
+        settings.setBuiltInZoomControls(true);
+        webview.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return true;
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return super.shouldOverrideUrlLoading(view, request);
+            }
+        });
+        webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
+    }
+}

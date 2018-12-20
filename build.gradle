@@ -153,7 +153,7 @@ MobSDK {
                 sortId 2
                 appId "wx84008f9992caeaf3"
                 appSecret "8bdafdd4c81eb96550dd88bff9b7d99a"
-                bypassApproval false
+                bypassApproval true
                 enable true
             }
             QQ {

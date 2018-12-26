@@ -99,7 +99,7 @@ public class CouponMoneyFragment extends android.support.v4.app.Fragment {
                 .addHeader("APPID", Constant.APPID)
                 .addHeader("APPKEY", Constant.APPKEY)
                 .addHeader("x-userid", member_id)
-                .addHeader("VERSION", VersionUtil.getVersionCode(getContext()))
+                .addHeader("VERSION", VersionUtil.getVersionCode(getActivity().getApplicationContext()))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.InviteAwardBean;
@@ -44,7 +45,7 @@ public class YaoQingFriendAdapter extends RecyclerView.Adapter<YaoQingFriendAdap
 
     @Override
     public void onBindViewHolder(final YaoQingFriendHolder holder, int position) {
-        Glide.with(context).load(result.get(position).getImage()).into(holder.iv);
+        Glide.with(context).load(result.get(position).getImage()).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(holder.iv);
         holder.code.setText("邀请码:" + PreferUtils.getString(context, "invite_code"));
         holder.qrcode.setImageBitmap(qrCodeBitmap);
         if (result.get(position).isChoose()) {

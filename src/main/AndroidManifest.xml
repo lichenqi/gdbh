@@ -25,14 +25,14 @@
         tools:replace="android:name">
         <activity
             android:name=".activity.StartActivity"
-            android:theme="@style/StartActivityTheme">>
+            android:theme="@style/StartActivityTheme">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
@@ -46,7 +46,6 @@
             android:exported="false"
             android:screenOrientation="behind"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
@@ -167,7 +166,7 @@
             android:name=".activity.TransparencyPicsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.guodongbaohe.app.activity.AdvertisementActivity"
+            android:name=".activity.AdvertisementActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MyDepatermentSearchActivity"
@@ -219,18 +218,18 @@
         <activity
             android:name=".activity.TuanDuiJinTieActivity"
             android:screenOrientation="portrait" />
-        <!--注册网络变化监听器-->
-        <receiver android:name="com.guodongbaohe.app.receiver.NetBroadcastReceiver">
+        <!-- 注册网络变化监听器 -->
+        <receiver android:name=".receiver.NetBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <!--剪切板-->
+        <!-- 剪切板 -->
         <service android:name=".receiver.JianQieBroadcastReceiver" />
-
         <service android:name=".service.ClipyService">
             <intent-filter>
                 <action android:name="com.intel.unit.Clipy" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
@@ -238,6 +237,7 @@
         <receiver android:name=".receiver.ClipyToastBroadcast">
             <intent-filter>
                 <action android:name="com.intel.unit.Clipy" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
@@ -267,7 +267,7 @@
             android:name=".activity.TaoBaoH5Activity"
             android:screenOrientation="portrait" />
 
-        <service android:name="com.guodongbaohe.app.cliputil.ClipService">
+        <service android:name=".cliputil.ClipService">
             <intent-filter>
                 <action android:name="com.service.clipservice" />
             </intent-filter>
@@ -301,6 +301,8 @@
         <activity
             android:name=".activity.GVipToFriendActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.GCollectionActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

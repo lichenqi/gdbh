@@ -1,5 +1,7 @@
 package com.guodongbaohe.app.util;
 
+import android.text.TextUtils;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,9 +67,11 @@ public class EmjoyAndTeShuUtil {
     /*判断字符是否包含数字*/
     public static boolean isDigit(String str) {
         boolean isDigit = false;
-        for (int i = 0; i < str.length(); i++) {
-            if (Character.isDigit(str.charAt(i))) {
-                isDigit = true;
+        if (!TextUtils.isEmpty(str)){
+            for (int i = 0; i < str.length(); i++) {
+                if (Character.isDigit(str.charAt(i))) {
+                    isDigit = true;
+                }
             }
         }
         return isDigit;

@@ -57,6 +57,15 @@ public class AllNetBean {
         private boolean isLogin;
         private String son_count;
         private String member_role;
+        private boolean isChoosed;
+
+        public boolean isChoosed() {
+            return isChoosed;
+        }
+
+        public void setChoosed(boolean choosed) {
+            isChoosed = choosed;
+        }
 
         public String getGoods_slogan() {
             return goods_slogan;

@@ -93,7 +93,7 @@ public class MingXiFragment extends Fragment {
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
                 .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getActivity().getApplicationContext()))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
                 .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))

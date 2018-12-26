@@ -63,7 +63,7 @@ public class EditUserNameOrWchatActivity extends BaseActivity {
         if (type.equals("username")) {
             setMiddleTitle("修改用户名");
             label.setText("用户名");
-            if (TextUtils.isEmpty(content)) {
+            if (TextUtils.isEmpty(content)||"".equals(content)) {
                 ed_name.setHint("请输入用户名");
             } else {
                 ed_name.setText(content);
@@ -72,7 +72,7 @@ public class EditUserNameOrWchatActivity extends BaseActivity {
         } else {
             setMiddleTitle("修改微信号");
             label.setText("微信号");
-            if (TextUtils.isEmpty(content)) {
+            if (TextUtils.isEmpty(content)||"".equals(content)) {
                 ed_name.setHint("请输入微信号");
             } else {
                 ed_name.setText(content);
@@ -96,14 +96,17 @@ public class EditUserNameOrWchatActivity extends BaseActivity {
                     }
                     return;
                 }
-                HashMap<String, String> map = new HashMap<>();
-                if (type.equals("username")) {
-                    map.put("member_name", name);
-                } else {
-                    map.put("wechat", name);
-                }
+                JSONObject jsonObject = new JSONObject();
+//                HashMap<String, String> map = new HashMap<>();
                 try {
-                    JSONObject jsonObject = new JSONObject(map.toString());
+//                    JSONObject jsonObject = new JSONObject(map.toString());
+                    if (type.equals("username")) {
+                        jsonObject.put("member_name", name);
+//                    map.put("member_name", name);
+                    } else {
+                        jsonObject.put("wechat", name);
+//                        map.put("wechat", name);
+                    }
                     Log.i("那看数据", jsonObject.toString());
                     saveData(jsonObject.toString());
                 } catch (JSONException e) {

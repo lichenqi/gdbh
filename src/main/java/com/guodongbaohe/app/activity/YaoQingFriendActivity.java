@@ -198,7 +198,7 @@ public class YaoQingFriendActivity extends BaseActivity {
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measuredHeight = View.MeasureSpec.makeMeasureSpec(DensityUtils.dip2px(getApplicationContext(), 600), View.MeasureSpec.AT_MOST);
         v.measure(measuredWidth, measuredHeight);
-        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
+//        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         viewSaveToImage(v);
     }
 

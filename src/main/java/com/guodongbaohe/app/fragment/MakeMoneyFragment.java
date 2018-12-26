@@ -261,10 +261,12 @@ public class MakeMoneyFragment extends Fragment {
                         intent = new Intent(getContext(), GVipToFriendActivity.class);
                         intent.putExtra("son_count", son_count);
                         startActivity(intent);
-                    } else if (Integer.valueOf(son_count) >= Integer.valueOf(upgrade_invite_num)) {
-                        intent = new Intent(getContext(), HaveSoncountUpgradeActivity.class);
+                    }
+                    else if (Integer.valueOf(son_count) >= Integer.valueOf(upgrade_invite_num)) {
+                        intent = new Intent(getContext(), GVipToFriendActivity.class);
                         startActivity(intent);
-                    } else {
+                    }
+                    else {
                         intent = new Intent(getContext(), YaoQingFriendActivity.class);
                         startActivity(intent);
                     }

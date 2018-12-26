@@ -9,14 +9,21 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
+import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
+import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcDetailPage;
 import com.alipay.sdk.app.PayTask;
@@ -39,6 +46,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -46,10 +54,12 @@ import butterknife.ButterKnife;
 
 public class GVipToFriendActivity extends BaseActivity {
     String url;
+    ImageView iv_back;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
+//    private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -59,6 +69,8 @@ public class GVipToFriendActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        iv_back=findViewById(R.id.iv_back);
+//        alibcShowParams = new AlibcShowParams(OpenType.Native, true);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         Intent intent = getIntent();
         son_count = intent.getStringExtra("son_count");
@@ -71,7 +83,8 @@ public class GVipToFriendActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                view.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
+                Log.i("网页地址",url);
                 return true;
             }
 
@@ -80,15 +93,44 @@ public class GVipToFriendActivity extends BaseActivity {
                 return super.shouldOverrideUrlLoading(view, request);
             }
         });
+        webview.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setProgress(newProgress);
+                }
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                setMiddleTitle(title);
+                super.onReceivedTitle(view, title);
+            }
+        });
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview.canGoBack()) {
+                    webview.goBack();
+                } else {
+                    finish();
+                }
+            }
+        });
+//        webview.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0");
         webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(),"daihao");
 
     }
+    int i=0;
     public class DemoJavascriptInterface {
 
         @JavascriptInterface
         public void pay() {
-//            Log.i("商品id", id);
+            Log.i("商品id", i+"");
             payData();
         }
     }
@@ -98,11 +140,12 @@ public class GVipToFriendActivity extends BaseActivity {
     private void payData() {
         loadingDialog = DialogUtil.createLoadingDialog(GVipToFriendActivity.this, "加载中...");
         long timelineStr = System.currentTimeMillis() / 1000;
-        HashMap<String, String> map = new HashMap<>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("member_id", member_id);
         map.put("method", "alipay");
+        map.put("is_new","ture");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -125,6 +168,12 @@ public class GVipToFriendActivity extends BaseActivity {
                         Log.i("支付", response.toString());
                         try {
                             jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getString("result").equals("升级成功")){
+                                DialogUtil.closeDialog(loadingDialog);
+                                Intent intent = new Intent(getApplicationContext(), PaySuccessActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                             int status = jsonObject.getInt("status");
                             if (status >= 0) {
                                 JSONObject result = jsonObject.getJSONObject("result");
@@ -254,5 +303,24 @@ public class GVipToFriendActivity extends BaseActivity {
                     }
                 });
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
+            webview.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    protected void onDestroy() {
+        if (webview != null) {
+            webview.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            webview.clearHistory();
+            ((ViewGroup) webview.getParent()).removeView(webview);
+            webview.destroy();
+            webview = null;
+        }
+        super.onDestroy();
     }
 }

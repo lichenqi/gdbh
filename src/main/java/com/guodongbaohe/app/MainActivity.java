@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -161,23 +163,61 @@ public class MainActivity extends BigBaseActivity {
         /*版本升级接口*/
         local_version = VersionUtil.getVersionCode(getApplicationContext());
         getVersionCodeData();
-    }
+//        loadApps();
 
+    }
+    private List<ResolveInfo> apps = new ArrayList<>();
+    private void loadApps() {
+        Intent intent = new Intent(Intent.ACTION_MAIN, null);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        apps = getPackageManager().queryIntentActivities(intent, 0);
+        //for循环遍历ResolveInfo对象获取包名和类名
+        for (int i = 0; i < apps.size(); i++) {
+            ResolveInfo info = apps.get(i);
+            String packageName = info.activityInfo.packageName;
+            CharSequence cls = info.activityInfo.name;
+            CharSequence name = info.activityInfo.loadLabel(getPackageManager());
+            Log.e("ddddddd", name + "----" + packageName + "----" + cls);
+        }
+    }
+        int clip=0;
     @Override
     protected void onResume() {
         super.onResume();
         /*获取剪切板内容*/
         getClipContent();
+//        getTextFromClip(getApplicationContext());
     }
-
+//    public void getTextFromClip(Context context){
+//        ClipboardManager clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+//        //判断剪切版时候有内容
+//        if(!clipboardManager.hasPrimaryClip())
+//            return;
+//        ClipData clipData = clipboardManager.getPrimaryClip();
+//        //获取 ClipDescription
+//        ClipDescription clipDescription = clipboardManager.getPrimaryClipDescription();
+//        //获取 lable
+////        String lable = clipDescription.getLabel().toString();
+//        //获取 text
+//        String text = clipData.getItemAt(0).coerceToText(getApplicationContext()).toString();
+//        showSearchDialog(text);
+//    }
     private void getClipContent() {
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        ClipData data = cm.getPrimaryClip();
-        if (data == null) return;
-        ClipData.Item item = data.getItemAt(0);
-        String content = item.getText().toString();
-        if (TextUtils.isEmpty(content)) return;
-        showSearchDialog(content);
+
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        boolean b = cm.hasPrimaryClip();
+        if (b) {
+            ClipData data = cm.getPrimaryClip();
+            if (data == null) return;
+            ClipData.Item item = data.getItemAt(0);
+            if (item == null) return;
+            String content = item.coerceToText(getApplicationContext()).toString().trim();
+            if (TextUtils.isEmpty(content)) return;
+            if (clip==0){
+                showSearchDialog(content);
+            }
+
+        }
     }
 
     private void getConfigurationData() {
@@ -232,9 +272,8 @@ public class MainActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "phoneNum", phone);/*存储电话号码*/
                                 if (EmjoyAndTeShuUtil.containsEmoji(member_name)) {
                                     PreferUtils.putString(getApplicationContext(), "userName", "果冻" + num);/*存储用户名*/
-                                } else if (EmjoyAndTeShuUtil.isDigit(member_name) && EmjoyAndTeShuUtil.isLetter(member_name) == false && EmjoyAndTeShuUtil.isContainChinese(member_name) == false) {
-                                    PreferUtils.putString(getApplicationContext(), "userName", "果冻" + num);/*存储用户名*/
-                                } else {
+                                    Log.i(""+num,"num");
+                                }  else {
                                     PreferUtils.putString(getApplicationContext(), "userName", member_name);/*存储用户名*/
                                 }
                                 PreferUtils.putString(getApplicationContext(), "wchatname", wechat);/*存储微信号*/
@@ -566,6 +605,7 @@ public class MainActivity extends BigBaseActivity {
             showOnlySearchDialog(content);
         }
         PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
+        clip=1;
     }
 
     private void showOnlySearchDialog(final String content) {

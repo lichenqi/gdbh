@@ -128,6 +128,8 @@ dependencies {
     /*友盟统计*/
     compile 'com.umeng.umsdk:analytics:7.5.4'
     compile 'com.umeng.umsdk:common:1.5.4'
+
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }
 
 repositories {

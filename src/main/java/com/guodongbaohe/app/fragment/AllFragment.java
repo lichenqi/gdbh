@@ -107,7 +107,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     private TabLayout tablayout;
     private RelativeLayout re_search_title;
     String notice_url;
-
+public AllFragment(){}
     public AllFragment(TabLayout tablayout, RelativeLayout re_search_title) {
         this.tablayout = tablayout;
         this.re_search_title = re_search_title;

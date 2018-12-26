@@ -9,11 +9,16 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.alipay.sdk.app.PayTask;
@@ -29,17 +34,21 @@ import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
+import com.guodongbaohe.app.util.WebViewUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GFriendToBossActivity extends BaseActivity {
+    ImageView iv_back;
     String url;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -55,6 +64,10 @@ public class GFriendToBossActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         url="http://app.mopland.com/help/president";
+        iv_back=findViewById(R.id.iv_back);
+        member_id = PreferUtils.getString(getApplicationContext(), "member_id");
+        Intent intent = getIntent();
+        son_count = intent.getStringExtra("son_count");
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);
@@ -63,7 +76,8 @@ public class GFriendToBossActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                view.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
+                Log.i("网页地址",url);
                 return true;
             }
 
@@ -72,7 +86,34 @@ public class GFriendToBossActivity extends BaseActivity {
                 return super.shouldOverrideUrlLoading(view, request);
             }
         });
-        webview.loadUrl(url);
+        webview.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.setProgress(newProgress);
+                }
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                setMiddleTitle(title);
+                super.onReceivedTitle(view, title);
+            }
+        });
+        iv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview.canGoBack()) {
+                    webview.goBack();
+                } else {
+                    finish();
+                }
+            }
+        });
+        webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(),"daihao");
 
     }
@@ -81,7 +122,7 @@ public class GFriendToBossActivity extends BaseActivity {
 
         @JavascriptInterface
         public void pay() {
-//            Log.i("商品id", id);
+//            Log.i("商品id", i+"");
             payData();
         }
     }
@@ -91,11 +132,12 @@ public class GFriendToBossActivity extends BaseActivity {
     private void payData() {
         loadingDialog = DialogUtil.createLoadingDialog(GFriendToBossActivity.this, "加载中...");
         long timelineStr = System.currentTimeMillis() / 1000;
-        HashMap<String, String> map = new HashMap<>();
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("member_id", member_id);
         map.put("method", "alipay");
+        map.put("is_new","ture");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -118,6 +160,12 @@ public class GFriendToBossActivity extends BaseActivity {
                         Log.i("支付", response.toString());
                         try {
                             jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getString("result").equals("升级成功")){
+                                DialogUtil.closeDialog(loadingDialog);
+                                Intent intent = new Intent(getApplicationContext(), PaySuccessActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                             int status = jsonObject.getInt("status");
                             if (status >= 0) {
                                 JSONObject result = jsonObject.getJSONObject("result");
@@ -247,5 +295,24 @@ public class GFriendToBossActivity extends BaseActivity {
                     }
                 });
 
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
+            webview.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+    @Override
+    protected void onDestroy() {
+        if (webview != null) {
+            webview.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            webview.clearHistory();
+            ((ViewGroup) webview.getParent()).removeView(webview);
+            webview.destroy();
+            webview = null;
+        }
+        super.onDestroy();
     }
 }

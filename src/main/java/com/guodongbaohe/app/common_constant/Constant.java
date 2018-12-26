@@ -160,4 +160,10 @@ public class Constant {
     public static final String VERSIONUPDATE = "assets/appUpdate";
     /*邀请好友海报接口*/
     public static final String INVITEFRIENDHAIBAO = "qrcode/invite";
+
+    /*收藏夹列表*/
+    public static final String SHOUCANG="member/collectList";
+
+    /*收藏夹数据删除*/
+    public static final String SC_DELETE="member/collectGoods/delete";
 }

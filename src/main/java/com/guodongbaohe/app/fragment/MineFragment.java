@@ -26,6 +26,7 @@ import com.alibaba.baichuan.android.trade.callback.AlibcLoginCallback;
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.AboutUsActivity;
+import com.guodongbaohe.app.activity.GCollectionActivity;
 import com.guodongbaohe.app.activity.MoneyTiXianActivity;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
 import com.guodongbaohe.app.activity.MyOrderActivity;
@@ -64,6 +65,8 @@ import butterknife.OnClick;
 
 public class MineFragment extends Fragment {
     private View view;
+    @BindView(R.id.re_with_shoucang)
+    RelativeLayout re_with_shoucang;
     @BindView(R.id.re_clean_cache)
     RelativeLayout re_clean_cache;
     @BindView(R.id.tv_cache_size)
@@ -306,7 +309,7 @@ public class MineFragment extends Fragment {
 
     @OnClick({R.id.re_clean_cache, R.id.circleimageview, R.id.re_order, R.id.re_aboutus, R.id.re_my_department, R.id.re_tuandui,
             R.id.re_incomeing, R.id.re_invite_award, R.id.tv_fuzhi_anniu, R.id.re_user_bg, R.id.re_withdraw_deposit,
-            R.id.re_wechat, R.id.iv_set, R.id.re_xinshou_jiaocheng, R.id.re_question, R.id.re_taobao_gwuche, R.id.re_taobao_order})
+            R.id.re_wechat, R.id.iv_set, R.id.re_xinshou_jiaocheng, R.id.re_question, R.id.re_taobao_gwuche, R.id.re_taobao_order,R.id.re_with_shoucang})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.re_clean_cache:
@@ -416,6 +419,10 @@ public class MineFragment extends Fragment {
                         ToastUtils.showToast(getContext(), "淘宝授权失败");
                     }
                 });
+                break;
+            case R.id.re_with_shoucang:
+                Intent intent=new Intent(getContext(),GCollectionActivity.class);
+                startActivity(intent);
                 break;
         }
     }

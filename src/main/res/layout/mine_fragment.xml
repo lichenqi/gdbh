@@ -472,6 +472,40 @@
                     </RelativeLayout>
 
                     <View style="@style/mine_view" />
+                    <RelativeLayout
+                        android:id="@+id/re_with_shoucang"
+                        style="@style/mine_relativeLayout">
+
+
+                        <ImageView
+                            android:id="@+id/iv_shoucang"
+                            style="@style/mine_imageview"
+                            android:src="@mipmap/shoucang" />
+
+                        <TextView
+                            style="@style/mine_textview"
+                            android:layout_toRightOf="@+id/iv_shoucang"
+                            android:text="收藏" />
+
+                        <TextView
+                            android:id="@+id/tv_shoucangjia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@+id/iv_s_shou"
+                            android:textColor="@color/gray"
+                            android:textSize="14sp" />
+
+
+                        <ImageView
+                            android:id="@+id/iv_s_shou"
+                            style="@style/imageview_jiantou" />
+
+                    </RelativeLayout>
+
+                    <View style="@style/mine_view" />
 
                     <RelativeLayout
                         android:id="@+id/re_tuandui"

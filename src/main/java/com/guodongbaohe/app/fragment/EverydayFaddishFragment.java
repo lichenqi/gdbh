@@ -214,7 +214,7 @@ public class EverydayFaddishFragment extends Fragment {
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
                 .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getActivity().getApplicationContext()))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
                 .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
@@ -275,6 +275,7 @@ public class EverydayFaddishFragment extends Fragment {
     private void getGaoYongJinData(int pos) {
         loadingDialog = DialogUtil.createLoadingDialog(getContext(), "加载...");
         long timelineStr = System.currentTimeMillis() / 1000;
+
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);

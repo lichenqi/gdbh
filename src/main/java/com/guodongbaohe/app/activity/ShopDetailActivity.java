@@ -382,7 +382,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         ClipData data = cm.getPrimaryClip();
         if (data == null) return;
         ClipData.Item item = data.getItemAt(0);
-        final String content = item.getText().toString();
+        final String content = item.coerceToText(getApplicationContext()).toString();
         if (TextUtils.isEmpty(content)) return;
         boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
         if (!isFirstClip) {

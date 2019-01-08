@@ -270,7 +270,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         indicators = new ImageView[bannerList.size()];
         for (int i = 0; i < bannerList.size(); i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.view_cycle_viewpager_indicator, null);
-            ImageView iv = view.findViewById(R.id.image_indicator);
+            ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
             indicators[i] = iv;
             llpoint.addView(view);
         }
@@ -411,9 +411,9 @@ public class ShopDetailActivity extends BigBaseActivity {
         dialog.setContentView(R.layout.clip_search_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        TextView title = dialog.findViewById(R.id.content);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView title = (TextView) dialog.findViewById(R.id.content);
         title.setText(content);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -965,7 +965,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
-            ImageView iv = view.findViewById(R.id.iv);
+            ImageView iv = (ImageView) view.findViewById(R.id.iv);
             Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).into(iv);
             container.addView(view);
             return view;

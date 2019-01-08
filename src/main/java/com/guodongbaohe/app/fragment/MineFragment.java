@@ -483,8 +483,8 @@ public class MineFragment extends Fragment {
         dialog.setContentView(R.layout.clean_cache_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView dismiss = dialog.findViewById(R.id.dismiss);
-        TextView sure = dialog.findViewById(R.id.sure);
+        TextView dismiss = (TextView) dialog.findViewById(R.id.dismiss);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
         dismiss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

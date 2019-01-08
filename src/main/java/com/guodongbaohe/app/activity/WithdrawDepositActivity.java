@@ -43,7 +43,7 @@ public class WithdrawDepositActivity extends BaseActivity {
         setMiddleTitle("提现");
         setRightTitle("提现明细");
         setRightTVVisible();
-        tv_right_name = findViewById(R.id.tv_right_name);
+        tv_right_name = (TextView) findViewById(R.id.tv_right_name);
         fragments = new ArrayList<>();
         fragments.add(new CouponMoneyFragment());
         fragments.add(new CouponMoneyFragment());

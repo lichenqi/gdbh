@@ -40,7 +40,7 @@ public class GBossH5Activity extends BaseActivity {
         ButterKnife.bind(this);
         url="http://app.mopland.com/help/presidentone";
 //        url="http://app.mopland.com/help/president";
-        iv_back=findViewById(R.id.iv_back);
+        iv_back= (ImageView) findViewById(R.id.iv_back);
 //        member_id = PreferUtils.getString(getApplicationContext(), "member_id");
 //        Intent intent = getIntent();
 //        son_count = intent.getStringExtra("son_count");

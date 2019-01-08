@@ -353,12 +353,12 @@ public class CreationShareActivity extends BaseActivity {
             }
         }
         view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.creation_erweima_pic, null);
-        TextView p_title = view.findViewById(R.id.p_title);
-        TextView p_coupon_price = view.findViewById(R.id.p_coupon_price);
-        TextView tv_coupon = view.findViewById(R.id.tv_coupon);
-        p_iv = view.findViewById(R.id.p_iv);
-        TextView p_one_price = view.findViewById(R.id.p_one_price);
-        iv_qr_code = view.findViewById(R.id.iv_qr_code);
+        TextView p_title = (TextView) view.findViewById(R.id.p_title);
+        TextView p_coupon_price = (TextView) view.findViewById(R.id.p_coupon_price);
+        TextView tv_coupon = (TextView) view.findViewById(R.id.tv_coupon);
+        p_iv = (ImageView) view.findViewById(R.id.p_iv);
+        TextView p_one_price = (TextView) view.findViewById(R.id.p_one_price);
+        iv_qr_code = (ImageView) view.findViewById(R.id.iv_qr_code);
         IconAndTextGroupUtil.setTextView(getApplicationContext(), p_title, goods_name, attr_site);
         p_coupon_price.setText(StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
         double d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);

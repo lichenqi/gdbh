@@ -97,7 +97,7 @@ public class MoneyTiXianActivity extends BaseActivity {
         setMiddleTitle("支付宝提现");
         setRightTitle("提现记录");
         setRightTVVisible();
-        tv_right_name = findViewById(R.id.tv_right_name);
+        tv_right_name = (TextView) findViewById(R.id.tv_right_name);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         min_withdraw_alipay = PreferUtils.getString(getApplicationContext(), "min_withdraw_alipay");
         min_withdraw_card = PreferUtils.getString(getApplicationContext(), "min_withdraw_card");

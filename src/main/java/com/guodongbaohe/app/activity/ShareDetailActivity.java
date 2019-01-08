@@ -41,7 +41,7 @@ public class ShareDetailActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        iv_back = findViewById(R.id.iv_back);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
 

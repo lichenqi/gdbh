@@ -2,7 +2,10 @@ package com.guodongbaohe.app.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +19,7 @@ import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.receiver.SmsObserver;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -44,7 +48,6 @@ public class CheckPhoneActivity extends BigBaseActivity {
     ImageView iv_back;
     /*是否需要邀请码标识*/
     String online_switch_android;
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

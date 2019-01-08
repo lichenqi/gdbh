@@ -69,7 +69,7 @@ public class GVipToFriendActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        iv_back=findViewById(R.id.iv_back);
+        iv_back= (ImageView) findViewById(R.id.iv_back);
 //        alibcShowParams = new AlibcShowParams(OpenType.Native, true);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         Intent intent = getIntent();

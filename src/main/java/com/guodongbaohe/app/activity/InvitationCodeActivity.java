@@ -8,21 +8,27 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ChackYQ;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
+import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
+import com.guodongbaohe.app.view.CircleImageView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -62,7 +68,7 @@ public class InvitationCodeActivity extends BaseActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         setMiddleTitle("邀请码");
-        et_invited_code();
+//        et_invited_code();
     }
 
     private void et_invited_code() {
@@ -89,7 +95,7 @@ public class InvitationCodeActivity extends BaseActivity {
             }
         });
     }
-
+    Dialog dialog;
     @OnClick({R.id.tv_sure})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -99,6 +105,8 @@ public class InvitationCodeActivity extends BaseActivity {
                     ToastUtils.showToast(getApplicationContext(), "邀请码不能为空");
                     return;
                 }
+
+
                 verificationCodeData(code);
                 break;
         }
@@ -118,7 +126,7 @@ public class InvitationCodeActivity extends BaseActivity {
         String token = EncryptUtil.encrypt(mapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
         String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.CHECKINVITEDCODE + "?" + param)
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.JY_NUMBER + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
@@ -134,15 +142,46 @@ public class InvitationCodeActivity extends BaseActivity {
                         Log.i("邀请码", response.toString());
                         DialogUtil.closeDialog(loadingDialog);
                         try {
+
+                            ChackYQ chackYQ=GsonUtil.GsonToBean(response.toString(), ChackYQ.class);
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
+                          final   String result_code = jsonObject.getString("result");
                             if (aReturn >= 0) {
-                                String result_code = jsonObject.getString("result");
+                                if (dialog != null) {
+                                    dialog.dismiss();
+                                }
+                                dialog = new Dialog(InvitationCodeActivity.this, R.style.transparentFrameWindowStyle);
+                                dialog.setContentView(R.layout.querenyaoqing);
+                                Window window = dialog.getWindow();
+                                window.setGravity(Gravity.CENTER | Gravity.CENTER);
+                                TextView sure = (TextView) dialog.findViewById(R.id.sure);
+                                TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+                                CircleImageView imageView= (CircleImageView) dialog.findViewById(R.id.touxiang);
+                                TextView user_name= (TextView) dialog.findViewById(R.id.user_name);
+                                Glide.with(getApplicationContext()).load(chackYQ.getResult().getAvatar()).into(imageView);
+                                user_name.setText(chackYQ.getResult().getMember_name());
+//                              final   String result_code = jsonObject.getString("result");
+                                cancel.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                                sure.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        dialog.dismiss();
+                                        Intent intent = new Intent(getApplicationContext(), FirstUserLoginActivity.class);
+                                        intent.putExtra("phone", phone);
+                                        intent.putExtra("invite_code", result_code);
+                                        startActivityForResult(intent, 100);
+                                    }
+                                });
+                                dialog.show();
+
                                 /*验证通过*/
-                                Intent intent = new Intent(getApplicationContext(), FirstUserLoginActivity.class);
-                                intent.putExtra("phone", phone);
-                                intent.putExtra("invite_code", result_code);
-                                startActivityForResult(intent, 100);
+
                             } else {
                                 result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);

@@ -356,7 +356,7 @@ public AllFragment(){}
                         indicators = new ImageView[banner_result.size()];
                         for (int i = 0; i < banner_result.size(); i++) {
                             View view = LayoutInflater.from(getContext()).inflate(R.layout.view_cycle_viewpager_indicator, null);
-                            ImageView iv = view.findViewById(R.id.image_indicator);
+                            ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
                             indicators[i] = iv;
                             llpoint.addView(view);
                         }
@@ -411,9 +411,9 @@ public AllFragment(){}
                                 views = new ArrayList<>();
                                 for (int i = 0; i < userList.size(); i++) {
                                     View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_news_scroll, null);
-                                    TextView name = view.findViewById(R.id.name);
-                                    TextView time = view.findViewById(R.id.time);
-                                    TextView tmoney = view.findViewById(R.id.money);
+                                    TextView name = (TextView) view.findViewById(R.id.name);
+                                    TextView time = (TextView) view.findViewById(R.id.time);
+                                    TextView tmoney = (TextView) view.findViewById(R.id.money);
                                     String member_name = userList.get(i).getMember_name();
                                     String order_time = userList.get(i).getOrder_time();
                                     String money = userList.get(i).getMoney();
@@ -568,7 +568,7 @@ public AllFragment(){}
     Intent intent;
 
     private void initClassicRecycler() {
-        RecyclerView recyclerview = headView.findViewById(R.id.recyclerview);
+        RecyclerView recyclerview = (RecyclerView) headView.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
         GridLayoutManager manager = new GridLayoutManager(getContext(), mokuaiList.size());
         recyclerview.setLayoutManager(manager);
@@ -626,10 +626,10 @@ public AllFragment(){}
 
     private void initbannerview() {
         view_color = headView.findViewById(R.id.view_color);
-        viewpager = headView.findViewById(R.id.viewpager);
-        llpoint = headView.findViewById(R.id.llpoint);
-        upmarqueeview = headView.findViewById(R.id.upmarqueeview);
-        iv_xinshou = headView.findViewById(R.id.iv_xinshou);
+        viewpager = (ViewPager) headView.findViewById(R.id.viewpager);
+        llpoint = (LinearLayout) headView.findViewById(R.id.llpoint);
+        upmarqueeview = (UPMarqueeView) headView.findViewById(R.id.upmarqueeview);
+        iv_xinshou = (ImageView) headView.findViewById(R.id.iv_xinshou);
         getBannerData();
         getBuyData();
         getFiveMoKuaiData();
@@ -692,7 +692,7 @@ public AllFragment(){}
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.banner_viewpager, container, false);
-            RoundedImageView iv = view.findViewById(R.id.iv);
+            RoundedImageView iv = (RoundedImageView) view.findViewById(R.id.iv);
             Glide.with(getContext()).load(banner_result.get(position % banner_result.size()).getImage()).into(iv);
             container.addView(view);
             iv.setOnClickListener(new View.OnClickListener() {
@@ -721,6 +721,9 @@ public AllFragment(){}
         int i = Color.parseColor(s);
         view_color.setBackgroundColor(i);
         ll_parent.setBackgroundColor(i);
+        if (tablayout==null){
+            return;
+        }
         tablayout.setBackgroundColor(i);
         re_search_title.setBackgroundColor(i);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -778,10 +781,13 @@ public AllFragment(){}
     }
 
     private void setColorChange(int colorChange) {
-        view_color.setBackgroundColor(colorChange);
-        ll_parent.setBackgroundColor(colorChange);
-        tablayout.setBackgroundColor(colorChange);
-        re_search_title.setBackgroundColor(colorChange);
+//        view_color.setBackgroundColor(colorChange);
+//        ll_parent.setBackgroundColor(colorChange);
+        if (!TextUtils.isEmpty(String.valueOf(colorChange))){
+//            tablayout.setBackgroundColor(colorChange);
+        }
+
+//        re_search_title.setBackgroundColor(colorChange);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

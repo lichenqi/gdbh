@@ -75,7 +75,7 @@ public class SecondClassicActivity extends BaseActivity {
         setMiddleTitle(title);
         fragments = new ArrayList<>();
         popupView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.second_classic_show, null);
-        recyclerview = popupView.findViewById(R.id.recyclerview);
+        recyclerview = (RecyclerView) popupView.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
         initView();

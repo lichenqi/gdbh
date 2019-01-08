@@ -88,7 +88,7 @@ public class NewSecondClassicActivity extends BaseActivity {
         ClipData data = cm.getPrimaryClip();
         if (data == null) return;
         ClipData.Item item = data.getItemAt(0);
-        final String content = item.getText().toString();
+        final String content = item.coerceToText(getApplicationContext()).toString();
         if (TextUtils.isEmpty(content)) return;
         boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
         if (!isFirstClip) {
@@ -117,9 +117,9 @@ public class NewSecondClassicActivity extends BaseActivity {
         dialog.setContentView(R.layout.clip_search_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        TextView title = dialog.findViewById(R.id.content);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView title = (TextView) dialog.findViewById(R.id.content);
         title.setText(content);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +152,7 @@ public class NewSecondClassicActivity extends BaseActivity {
         String name = intent.getStringExtra("name");
         cate_id = intent.getStringExtra("cate_id");
         parent_id = intent.getStringExtra("parent_id");
-        iv_right = findViewById(R.id.iv_right);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.drawable.huise_search);
         setMiddleTitle(name);

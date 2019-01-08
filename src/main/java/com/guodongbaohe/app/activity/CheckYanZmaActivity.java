@@ -1,8 +1,11 @@
 package com.guodongbaohe.app.activity;
 
 import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +21,7 @@ import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.receiver.SmsObserver;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EmjoyAndTeShuUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
@@ -39,6 +43,7 @@ import butterknife.OnClick;
 
 /*老用户登录界面*/
 public class CheckYanZmaActivity extends BigBaseActivity {
+    public static int MSG_RECEIVED_CODE=1;
     String phone;
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -51,8 +56,9 @@ public class CheckYanZmaActivity extends BigBaseActivity {
     @BindView(R.id.re_user_xieyi)
     RelativeLayout re_user_xieyi;
     private TimeCount time = new TimeCount(60000, 1000);
+    private SmsObserver smsObserver;
+    private Handler handle;
     int num;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +67,19 @@ public class CheckYanZmaActivity extends BigBaseActivity {
         re_user_xieyi.setVisibility(View.GONE);
         phone = getIntent().getStringExtra("phone");
         num = (int) ((Math.random() * 9 + 1) * 10000000);
+//        handle=new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                if (msg.what==MSG_RECEIVED_CODE){
+//                    String code=(String) msg.obj;
+//                    ed_yanzma.setText(code);
+//                }
+//            }
+//        };
+//        smsObserver=new SmsObserver(CheckYanZmaActivity.this,handle);
+//        Uri uri=Uri.parse("content://sms");
+//        getContentResolver().registerContentObserver(uri,true,smsObserver);
     }
 
     @OnClick({R.id.iv_back, R.id.tv_get_code, R.id.login})

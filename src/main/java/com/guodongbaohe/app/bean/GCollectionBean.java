@@ -4,13 +4,22 @@ import java.util.List;
 
 public class GCollectionBean {
 
+
     /**
      * status : 0
-     * result : [{"id":"26","member_id":"16553","goods_id":"550481924749","goods_name":"莎小姐s925银戒指女日韩简约开口对戒情侣指环饰品送女友节日礼物","goods_short":"莎小姐s925银戒指女日韩简约开口对戒情侣指环饰品送女友节日礼物","goods_thumb":"https://img.alicdn.com/bao/uploaded/i4/3260858930/O1CN012FpzKn5snjdaEpP_!!0-item_pic.jpg","attr_site":"tmall","attr_prime":"109.90","attr_price":"9.90","attr_ratio":"30.50","sales_month":"28854","seller_shop":null,"coupon_total":"50000","dateline":"1545792090","datetime":"20181226","status":"1"},{"id":"27","member_id":"16553","goods_id":"577712619278","goods_name":"纸巾抽纸家庭装整箱心逸30包实惠装家用面巾纸餐巾纸卫生纸纸抽","goods_short":"家庭装整箱心逸30包实惠装卫生纸","goods_thumb":"https://img.alicdn.com/bao/uploaded/i3/4110473140/O1CN01r9xyC41Z4A7cOyKF5_!!0-item_pic.jpg","attr_site":"tmall","attr_prime":"29.98","attr_price":"26.98","attr_ratio":"10.00","sales_month":"36560","seller_shop":null,"coupon_total":"100000","dateline":"1545792095","datetime":"20181226","status":"1"},{"id":"29","member_id":"16553","goods_id":"563668657354","goods_name":"2018秋冬新款女装百搭圆领上衣加绒加厚秋衣打底衫保暖t恤女长袖","goods_short":"2018秋冬新款女装百搭圆领上衣加绒加厚秋衣打底衫保暖t恤女长袖","goods_thumb":"https://img.alicdn.com/bao/uploaded/i2/3393104038/O1CN011fhRmKNj8kOhhhG_!!0-item_pic.jpg","attr_site":"tmall","attr_prime":"38.90","attr_price":"28.90","attr_ratio":"20.01","sales_month":"9503","seller_shop":null,"coupon_total":"70000","dateline":"1545792109","datetime":"20181226","status":"1"},{"id":"30","member_id":"16553","goods_id":"557103683985","goods_name":"网红裸睡水洗棉四件套床单被套床上用品单人床学生被子宿舍三件套","goods_short":"【五件套】裸睡水洗棉床单被套","goods_thumb":"https://img.alicdn.com/imgextra/i4/2104776049/TB1vxinSVXXXXXPaXXXXXXXXXXX_!!0-item_pic.jpg","attr_site":"tmall","attr_prime":"49.00","attr_price":"34.00","attr_ratio":"20.00","sales_month":"62549","seller_shop":null,"coupon_total":"100000","dateline":"1545792114","datetime":"20181226","status":"1"},{"id":"32","member_id":"16553","goods_id":"535615570326","goods_name":"【百草味-年货坚果大礼包1380g】每日坚果零食组合混合装干果礼盒","goods_short":"【百草味】坚果大礼包1358g","goods_thumb":"https://img.alicdn.com/imgextra/i4/628189716/O1CN016HubwD2Ldyez8Mfzz_!!628189716.jpg","attr_site":"tmall","attr_prime":"98.00","attr_price":"93.00","attr_ratio":"15.00","sales_month":"186165","seller_shop":null,"coupon_total":"2000000","dateline":"1545793885","datetime":"20181226","status":"1"},{"id":"33","member_id":"16553","goods_id":"565214766523","goods_name":"日本正品Purevivi皇后卸妆水女脸部温和清洁无刺激眼唇卸妆液学生","goods_short":"【旗舰店】Purevivi 日本皇后卸妆水","goods_thumb":"https://img.alicdn.com/imgextra/i1/2694739447/O1CN01v5HLmS2Jem7a6HEt9_!!2694739447.jpg","attr_site":"tmall","attr_prime":"69.00","attr_price":"39.00","attr_ratio":"25.00","sales_month":"4743","seller_shop":null,"coupon_total":"35000","dateline":"1545793890","datetime":"20181226","status":"1"},{"id":"34","member_id":"16553","goods_id":"543266986647","goods_name":"南极人3条大毛巾纯棉 加大加厚全棉洗脸面巾家用成人情侣柔软吸水","goods_short":"【南极人】纯棉大毛巾3条","goods_thumb":"https://img.alicdn.com/imgextra/i2/3012913363/O1CN01gQv4P11aiISJQhvkL_!!3012913363.jpg","attr_site":"tmall","attr_prime":"24.00","attr_price":"21.00","attr_ratio":"20.01","sales_month":"74410","seller_shop":null,"coupon_total":"30000","dateline":"1545793897","datetime":"20181226","status":"1"}]
-     * servtime : 1545793954
+     * pagesize : 14
+     * rowscount : 7
+     * pagecount : 1
+     * pagenum : 1
+     * result : [{"id":"122","member_id":"36816","goods_id":"577372396957","goods_name":"鑫盾苹果数据线iphone6数据线7plus快充线6s通用5手机8加长ipad充电器头iphone8x充电线平板电脑ios数剧线7P","goods_short":"闪电快充~鑫盾苹果数据线1.8m","goods_thumb":"https://img.alicdn.com/imgextra/i4/2208348758/O1CN012EZDCp1B0JTP8GS_!!2208348758.jpg","attr_site":"tmall","attr_prime":"16.90","attr_price":"6.90","attr_ratio":"30.00","sales_month":"13322","seller_shop":"傲天下数码专营店","coupon_total":"100000","coupon_surplus":"19000","dateline":"1545992357","datetime":"20181228","status":"1"},{"id":"123","member_id":"36816","goods_id":"577372396957","goods_name":"鑫盾苹果数据线iphone6数据线7plus快充线6s通用5手机8加长ipad充电器头iphone8x充电线平板电脑ios数剧线7P","goods_short":"闪电快充~鑫盾苹果数据线1.8m","goods_thumb":"https://img.alicdn.com/imgextra/i4/2208348758/O1CN012EZDCp1B0JTP8GS_!!2208348758.jpg","attr_site":"tmall","attr_prime":"16.90","attr_price":"6.90","attr_ratio":"30.00","sales_month":"13322","seller_shop":"傲天下数码专营店","coupon_total":"100000","coupon_surplus":"19000","dateline":"1545992690","datetime":"20181228","status":"1"},{"id":"124","member_id":"36816","goods_id":"577372396957","goods_name":"鑫盾苹果数据线iphone6数据线7plus快充线6s通用5手机8加长ipad充电器头iphone8x充电线平板电脑ios数剧线7P","goods_short":"闪电快充~鑫盾苹果数据线1.8m","goods_thumb":"https://img.alicdn.com/imgextra/i4/2208348758/O1CN012EZDCp1B0JTP8GS_!!2208348758.jpg","attr_site":"tmall","attr_prime":"16.90","attr_price":"6.90","attr_ratio":"30.00","sales_month":"13322","seller_shop":"傲天下数码专营店","coupon_total":"100000","coupon_surplus":"19000","dateline":"1545993189","datetime":"20181228","status":"1"},{"id":"125","member_id":"36816","goods_id":"578350649973","goods_name":"迷你充电宝移动电源快充大容量超薄便携闪充适用于苹果vivo华为oppo小米手机通用安卓10000毫安男女款古尚古","goods_short":"手机通用超薄20000M迷你充电宝","goods_thumb":"https://img.alicdn.com/imgextra/i4/2024058652/O1CN012DmfDsgpcroauYc_!!2024058652.jpg","attr_site":"tmall","attr_prime":"45.00","attr_price":"35.00","attr_ratio":"20.00","sales_month":"168994","seller_shop":"古尚古旗舰店","coupon_total":"100000","coupon_surplus":"1000","dateline":"1545993194","datetime":"20181228","status":"1"},{"id":"126","member_id":"36816","goods_id":"583096232606","goods_name":"冬季男士加绒裤子男韩版潮流休闲裤运动裤男加厚束脚裤卫裤秋冬款","goods_short":"爆款返场~百搭休闲运动裤","goods_thumb":"https://img.alicdn.com/imgextra/i1/2946687566/O1CN01M1zV5H25lH7GODUUW_!!2946687566.jpg","attr_site":"tmall","attr_prime":"68.00","attr_price":"28.00","attr_ratio":"40.00","sales_month":"48740","seller_shop":"魅零旗舰店","coupon_total":"100000","coupon_surplus":"14000","dateline":"1545993209","datetime":"20181228","status":"1"},{"id":"128","member_id":"36816","goods_id":"577712468197","goods_name":"秋冬季肉色抗寒加绒雪地袜子女光腿露脚踝神器抖音网红中筒加厚肤","goods_short":"【丹吉娅3双装】加绒保暖舒适雪地袜","goods_thumb":"https://img.alicdn.com/imgextra//img.alicdn.com/imgextra/i3/1895435119/O1CN016hb0g31ngXwdOtMxn_!!1895435119.jpg","attr_site":"tmall","attr_prime":"19.90","attr_price":"9.90","attr_ratio":"30.00","sales_month":"18198","seller_shop":"丹吉娅官方旗舰店","coupon_total":"10000","coupon_surplus":"10000","dateline":"1545994019","datetime":"20181228","status":"1"},{"id":"129","member_id":"36816","goods_id":"580735727826","goods_name":"欧式糖果盒干果盒客厅家用创意现代分格带盖干果盘零食瓜子坚果盒","goods_short":"欧式创意分格带盖干果盒瓜子盒","goods_thumb":"https://img.alicdn.com/imgextra/i2/2153404589/O1CN01H0cx3u1jlo25MsPa9_!!2153404589.jpg","attr_site":"tmall","attr_prime":"29.90","attr_price":"14.90","attr_ratio":"30.50","sales_month":"2315","seller_shop":"浩骏家居专营店","coupon_total":"40000","coupon_surplus":"40000","dateline":"1545994050","datetime":"20181228","status":"1"}]
+     * servtime : 1546047863
      */
 
     private int status;
+    private int pagesize;
+    private int rowscount;
+    private int pagecount;
+    private int pagenum;
     private int servtime;
     private List<ResultBean> result;
 
@@ -20,6 +29,38 @@ public class GCollectionBean {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getPagesize() {
+        return pagesize;
+    }
+
+    public void setPagesize(int pagesize) {
+        this.pagesize = pagesize;
+    }
+
+    public int getRowscount() {
+        return rowscount;
+    }
+
+    public void setRowscount(int rowscount) {
+        this.rowscount = rowscount;
+    }
+
+    public int getPagecount() {
+        return pagecount;
+    }
+
+    public void setPagecount(int pagecount) {
+        this.pagecount = pagecount;
+    }
+
+    public int getPagenum() {
+        return pagenum;
+    }
+
+    public void setPagenum(int pagenum) {
+        this.pagenum = pagenum;
     }
 
     public int getServtime() {
@@ -40,21 +81,22 @@ public class GCollectionBean {
 
     public static class ResultBean {
         /**
-         * id : 26
-         * member_id : 16553
-         * goods_id : 550481924749
-         * goods_name : 莎小姐s925银戒指女日韩简约开口对戒情侣指环饰品送女友节日礼物
-         * goods_short : 莎小姐s925银戒指女日韩简约开口对戒情侣指环饰品送女友节日礼物
-         * goods_thumb : https://img.alicdn.com/bao/uploaded/i4/3260858930/O1CN012FpzKn5snjdaEpP_!!0-item_pic.jpg
+         * id : 122
+         * member_id : 36816
+         * goods_id : 577372396957
+         * goods_name : 鑫盾苹果数据线iphone6数据线7plus快充线6s通用5手机8加长ipad充电器头iphone8x充电线平板电脑ios数剧线7P
+         * goods_short : 闪电快充~鑫盾苹果数据线1.8m
+         * goods_thumb : https://img.alicdn.com/imgextra/i4/2208348758/O1CN012EZDCp1B0JTP8GS_!!2208348758.jpg
          * attr_site : tmall
-         * attr_prime : 109.90
-         * attr_price : 9.90
-         * attr_ratio : 30.50
-         * sales_month : 28854
-         * seller_shop : null
-         * coupon_total : 50000
-         * dateline : 1545792090
-         * datetime : 20181226
+         * attr_prime : 16.90
+         * attr_price : 6.90
+         * attr_ratio : 30.00
+         * sales_month : 13322
+         * seller_shop : 傲天下数码专营店
+         * coupon_total : 100000
+         * coupon_surplus : 19000
+         * dateline : 1545992357
+         * datetime : 20181228
          * status : 1
          */
 
@@ -69,8 +111,9 @@ public class GCollectionBean {
         private String attr_price;
         private String attr_ratio;
         private String sales_month;
-        private Object seller_shop;
+        private String seller_shop;
         private String coupon_total;
+        private String coupon_surplus;
         private String dateline;
         private String datetime;
         private String status;
@@ -172,11 +215,11 @@ public class GCollectionBean {
             this.sales_month = sales_month;
         }
 
-        public Object getSeller_shop() {
+        public String getSeller_shop() {
             return seller_shop;
         }
 
-        public void setSeller_shop(Object seller_shop) {
+        public void setSeller_shop(String seller_shop) {
             this.seller_shop = seller_shop;
         }
 
@@ -186,6 +229,14 @@ public class GCollectionBean {
 
         public void setCoupon_total(String coupon_total) {
             this.coupon_total = coupon_total;
+        }
+
+        public String getCoupon_surplus() {
+            return coupon_surplus;
+        }
+
+        public void setCoupon_surplus(String coupon_surplus) {
+            this.coupon_surplus = coupon_surplus;
         }
 
         public String getDateline() {

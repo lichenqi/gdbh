@@ -6,74 +6,92 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
-import com.guodongbaohe.app.bean.AllNetBean;
 import com.guodongbaohe.app.bean.GCollectionBean;
+import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetImageLoadUtil;
+import com.guodongbaohe.app.util.NumUtil;
+import com.guodongbaohe.app.util.PreferUtils;
+import com.guodongbaohe.app.util.StringCleanZeroUtil;
+import com.guodongbaohe.app.util.TextViewUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder>{
+public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder> {
     private static final int MYLIVE_MODE_CHECK = 0;
     int mEditMode = MYLIVE_MODE_CHECK;
     String id;
     private int secret = 0;
     private String title = "";
     private Context context;
-    private List<GCollectionBean.ResultBean> mMyLiveList;
     private OnItemClickListener mOnItemClickListener;
+    private List<GCollectionBean.ResultBean> list;
 
-    public GScAdapter(Context context) {
+    public GScAdapter(Context context, List<GCollectionBean.ResultBean> list) {
         this.context = context;
-    }
-
-
-    public void notifyAdapter(List<GCollectionBean.ResultBean> myLiveList, boolean isAdd) {
-        if (!isAdd) {
-            this.mMyLiveList = myLiveList;
-        } else {
-            this.mMyLiveList.addAll(myLiveList);
-        }
-        notifyDataSetChanged();
-    }
-
-    public List<GCollectionBean.ResultBean> getMyLiveList() {
-        if (mMyLiveList == null) {
-            mMyLiveList = new ArrayList<>();
-        }
-        return mMyLiveList;
+        this.list = list;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.gcollection_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.gcollection_list_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
+    BigDecimal bg3;
+    String tax_rate;
+    double app_v;
+
     @Override
     public int getItemCount() {
-        return mMyLiveList.size();
+        return list.size();
     }
+
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final GCollectionBean.ResultBean myLive = mMyLiveList.get(holder.getAdapterPosition());
+        final GCollectionBean.ResultBean myLive = list.get(position);
+        tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
+        app_v = 1 - Double.valueOf(tax_rate);
         NetImageLoadUtil.loadImage(myLive.getGoods_thumb(), context, holder.iv);
-         id=myLive.getGoods_id();
+        id = myLive.getGoods_id();
         holder.title.setText(myLive.getGoods_name());
         holder.tv_price.setText(myLive.getAttr_price());
-//        holder.dianpu_name.setText(myLive.getSeller_shop());
-        holder.tv_sale_num.setText(myLive.getSales_month());
-//        holder.ninengzhuan.setText();
+        IconAndTextGroupUtil.setTextView(context, holder.dianpu_name, myLive.getSeller_shop(), myLive.getAttr_site());
+        holder.tv_sale_num.setText("月销" + NumUtil.getNum(myLive.getSales_month()));
+        StringCleanZeroUtil.StringFormat(myLive.getAttr_price(), holder.tv_price);
+        double sj_result = Double.valueOf(myLive.getAttr_price()) * Double.valueOf(myLive.getAttr_ratio()) * 82 / 10000 * app_v;
+        bg3 = new BigDecimal(sj_result);
+        double sj_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        String ninengzhuan_money = "你能赚¥" + sj_money;
+        TextViewUtil.setTextViewSize(ninengzhuan_money, holder.ninengzhuan);
+        String coupon_surplus = myLive.getCoupon_surplus();
+        double d_price = Double.valueOf(myLive.getAttr_prime()) - Double.valueOf(myLive.getAttr_price());
+        bg3 = new BigDecimal(d_price);
+        double d_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        if (Double.valueOf(coupon_surplus) > 0) {
+            holder.sjizhuan.setText(StringCleanZeroUtil.DoubleFormat(d_money) + "元券");
+            holder.tv_classic_type.setText("券后");
+        } else {
+            if (d_price > 0) {
+                double disaccount = Double.valueOf(myLive.getAttr_price()) / Double.valueOf(myLive.getAttr_prime()) * 10;
+                bg3 = new BigDecimal(disaccount);
+                double d_zhe = bg3.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
+                holder.sjizhuan.setText(d_zhe + "折");
+                holder.tv_classic_type.setText("折后");
+            } else {
+                holder.sjizhuan.setText("立即抢购");
+                holder.tv_classic_type.setText("特惠价");
+            }
+        }
         if (mEditMode == MYLIVE_MODE_CHECK) {
             holder.ck_chose.setVisibility(View.GONE);
         } else {
@@ -89,7 +107,7 @@ public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mMyLiveList);
+                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition() - 1, list);
             }
         });
     }
@@ -97,9 +115,11 @@ public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder>{
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
+
     public interface OnItemClickListener {
-        void onItemClickListener(int pos,List<GCollectionBean.ResultBean> myLiveList);
+        void onItemClickListener(int pos, List<GCollectionBean.ResultBean> myLiveList);
     }
+
     public void setEditMode(int editMode) {
         mEditMode = editMode;
         notifyDataSetChanged();
@@ -122,12 +142,12 @@ public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder>{
         TextView sjizhuan;
         @BindView(R.id.ck_chose)
         ImageView ck_chose;
-
-
+        @BindView(R.id.tv_classic_type)
+        TextView tv_classic_type;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

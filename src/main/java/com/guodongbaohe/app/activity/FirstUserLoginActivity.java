@@ -1,9 +1,16 @@
 package com.guodongbaohe.app.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -12,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
@@ -19,11 +27,17 @@ import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.receiver.SmsObserver;
+import com.guodongbaohe.app.request.IRequestPermissions;
+import com.guodongbaohe.app.request.IRequestPermissionsResult;
+import com.guodongbaohe.app.request.RequestPermissions;
+import com.guodongbaohe.app.request.RequestPermissionsResultSetApp;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EmjoyAndTeShuUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
+import com.guodongbaohe.app.util.PermissionUtils;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
@@ -40,6 +54,7 @@ import butterknife.OnClick;
 
 /*新用户手机号码登录界面*/
 public class FirstUserLoginActivity extends BigBaseActivity {
+    public static int MSG_RECEIVED_CODE=1;
     String phone, invite_code;
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -56,7 +71,20 @@ public class FirstUserLoginActivity extends BigBaseActivity {
     private TimeCount time = new TimeCount(60000, 1000);
     int num;
     private boolean isXieyi = true;
-
+    SmsObserver smsObserver;
+    IRequestPermissions requestPermissions = RequestPermissions.getInstance();//动态权限请求
+    IRequestPermissionsResult requestPermissionsResult = RequestPermissionsResultSetApp.getInstance();//动态权限请求结果处理
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_RECEIVED_CODE) {
+                //设置读取到的内容
+                ed_yanzma.setText(msg.obj.toString());
+                ed_yanzma.setSelection(msg.obj.toString().length());
+            }
+        }
+    };
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +94,21 @@ public class FirstUserLoginActivity extends BigBaseActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         invite_code = intent.getStringExtra("invite_code");
+
+
+        requestPermissions();
+        smsObserver = new SmsObserver(FirstUserLoginActivity.this, handler);
+        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, smsObserver);
+    }
+    //请求权限
+    private boolean requestPermissions(){
+        //需要请求的权限
+        String[] permissions = {Manifest.permission.READ_SMS,Manifest.permission.RECEIVE_SMS};
+        //开始请求权限
+        return requestPermissions.requestPermissions(
+                this,
+                permissions,
+                PermissionUtils.ResultCode1);
     }
 
     @OnClick({R.id.iv_back, R.id.tv_get_code, R.id.login, R.id.iv_xieyi, R.id.ll_xieyi})
@@ -198,6 +241,8 @@ public class FirstUserLoginActivity extends BigBaseActivity {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
                             if (aReturn >= 0) {
+//                                smsObserver = new SmsObserver(FirstUserLoginActivity.this, handler);
+//                                getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, smsObserver);
                                 ToastUtils.showToast(getApplicationContext(), "短息验证码已发送至您的手机");
                                 time.start();
                             } else {
@@ -250,6 +295,7 @@ public class FirstUserLoginActivity extends BigBaseActivity {
         if (time != null) {
             time.cancel();
         }
+        getContentResolver().unregisterContentObserver(smsObserver);
         super.onDestroy();
     }
 
@@ -338,4 +384,21 @@ public class FirstUserLoginActivity extends BigBaseActivity {
                     }
                 });
     }
+
+    //用户授权操作结果（可能授权了，也可能未授权）
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //用户给APP授权的结果
+        //判断grantResults是否已全部授权，如果是，执行相应操作，如果否，提醒开启权限
+        if(requestPermissionsResult.doRequestPermissionsResult(this, permissions, grantResults)){
+            //请求的权限全部授权成功，此处可以做自己想做的事了
+            //输出授权结果
+            Toast.makeText(FirstUserLoginActivity.this,"授权成功，请重新点击刚才的操作！",Toast.LENGTH_LONG).show();
+        }else{
+            //输出授权结果
+            Toast.makeText(FirstUserLoginActivity.this,"授权失败，请手动输入验证码！",Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

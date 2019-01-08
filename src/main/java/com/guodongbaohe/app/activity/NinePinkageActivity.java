@@ -91,7 +91,7 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
         ClipData data = cm.getPrimaryClip();
         if (data == null) return;
         ClipData.Item item = data.getItemAt(0);
-        final String content = item.getText().toString();
+        final String content = item.coerceToText(getApplicationContext()).toString();
         if (TextUtils.isEmpty(content)) return;
         boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
         if (!isFirstClip) {
@@ -120,9 +120,9 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
         dialog.setContentView(R.layout.clip_search_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        TextView title = dialog.findViewById(R.id.content);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView title = (TextView) dialog.findViewById(R.id.content);
         title.setText(content);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,7 +222,7 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
         adapter = new JhsAdapter(list, getApplicationContext());
         xrecycler.setAdapter(adapter);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.nine_head_view, null);
-        iv_head = view.findViewById(R.id.iv_head);
+        iv_head = (RoundedImageView) view.findViewById(R.id.iv_head);
         xrecycler.addHeaderView(view);
         initHeadView(view);
         getFourHeadIVData();
@@ -324,10 +324,10 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
     TextView zuixin, xiaoliang, tv_jiage, renqi;
 
     private void initHeadView(View view) {
-        zuixin = view.findViewById(R.id.zuixin);
-        xiaoliang = view.findViewById(R.id.xiaoliang);
-        tv_jiage = view.findViewById(R.id.tv_jiage);
-        renqi = view.findViewById(R.id.renqi);
+        zuixin = (TextView) view.findViewById(R.id.zuixin);
+        xiaoliang = (TextView) view.findViewById(R.id.xiaoliang);
+        tv_jiage = (TextView) view.findViewById(R.id.tv_jiage);
+        renqi = (TextView) view.findViewById(R.id.renqi);
         zuixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

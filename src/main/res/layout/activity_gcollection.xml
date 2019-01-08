@@ -6,17 +6,49 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context=".activity.GCollectionActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/order_shuoming"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff9ed"
+        android:padding="10dp"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/ivdeng"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/dengpao" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ivdeng"
+            android:text="果冻收藏夹商品信息每日凌晨更新"
+            android:textColor="#f6c15b" />
+
+
+
+    </RelativeLayout>
+</LinearLayout>
     <LinearLayout
-        android:gravity="center_vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
         <ImageView
             android:id="@+id/nodata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/scnodata"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -24,40 +56,48 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <android.support.v7.widget.RecyclerView
+
+        <com.jcodecraeer.xrecyclerview.XRecyclerView
             android:id="@+id/xrecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
             android:cacheColorHint="@null"
-          />
+            android:scrollbars="none" />
 
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/show_no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <TextView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="-----到底了-----" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/gray"/>
     <LinearLayout
         android:id="@+id/rl_bottom"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:visibility="gone"
+       >
+
         <RelativeLayout
-            android:layout_marginLeft="10dp"
             android:id="@+id/re_show_fanli"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp">
 
-            <!--<CheckBox-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:id="@+id/ck_chose"-->
-                <!--android:layout_width="40dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:button="@drawable/check_box_style"-->
-                <!--android:scaleX="0.6"-->
-                <!--android:scaleY="0.6" />-->
             <CheckBox
                 android:id="@+id/ck_all"
                 android:layout_width="wrap_content"
@@ -70,31 +110,33 @@
                 android:scaleX="0.6"
                 android:scaleY="0.6"
                 android:text="全选"
-                android:textSize="25dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/black" />
-
+                android:textColor="@color/black"
+                android:textSize="25dp" />
 
         </RelativeLayout>
-        <View
 
+        <View
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"></View>
+            android:layout_weight="1"/>
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_gravity="center_vertical"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_weight="1">
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            >
 
             <TextView
                 android:id="@+id/login"
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:background="@drawable/yellow_bg_base"
                 android:padding="8dp"
+                android:layout_marginRight="8dp"
                 android:text="删 除"
                 android:textColor="@color/white" />
         </LinearLayout>

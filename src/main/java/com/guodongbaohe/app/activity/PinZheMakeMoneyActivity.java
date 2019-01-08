@@ -50,7 +50,7 @@ public class PinZheMakeMoneyActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        iv_back = findViewById(R.id.iv_back);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);

@@ -59,7 +59,7 @@ public class GuideActivity extends BigBaseActivity {
         indicators = new ImageView[guides.length];
         for (int i = 0; i < guides.length; i++) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.view_cycle_viewpager_indicator, null);
-            ImageView iv = view.findViewById(R.id.image_indicator);
+            ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
             indicators[i] = iv;
             llpoint.addView(view);
         }
@@ -123,7 +123,7 @@ public class GuideActivity extends BigBaseActivity {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
-            ImageView iv = view.findViewById(R.id.iv);
+            ImageView iv = (ImageView) view.findViewById(R.id.iv);
             iv.setImageResource(guides[position]);
             container.addView(view);
             return view;

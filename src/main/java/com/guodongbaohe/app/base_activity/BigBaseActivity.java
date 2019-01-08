@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import com.guodongbaohe.app.common_constant.AppManager;
 import com.guodongbaohe.app.receiver.NetBroadcastReceiver;
 import com.guodongbaohe.app.util.NetUtil;
+import com.umeng.message.PushAgent;
 
 
 public class BigBaseActivity extends AppCompatActivity implements NetBroadcastReceiver.NetEvevt {
@@ -23,6 +24,7 @@ public class BigBaseActivity extends AppCompatActivity implements NetBroadcastRe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         AppManager.getInstance().addActivity(this); //添加到栈中
+        PushAgent.getInstance(getApplicationContext()).onAppStart();
         evevt = this;
         inspectNet();
     }

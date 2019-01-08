@@ -37,19 +37,19 @@ public class CustomBehavior extends  AppBarLayout.Behavior {
             fieldScroller.set(this, mScroller);
         } catch (Exception e) {}
     }
-    //fling上滑appbar然后迅速fling下滑recycler时, HeaderBehavior的mScroller并未停止, 会导致上下来回晃动
-    @Override
-    public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed, int type) {
-        if(mScroller!=null){ //当recyclerView 做好滑动准备的时候 直接干掉Appbar的滑动
-            if (mScroller.computeScrollOffset()) {
-                mScroller.abortAnimation();
-            }
-        }
-        if (type == ViewCompat.TYPE_NON_TOUCH&&getTopAndBottomOffset() == 0) { //recyclerview 鸡儿的 惯性比较大 会顶在头部一会儿  到头直接干掉它的滑动
-            ViewCompat.stopNestedScroll(target, type);
-        }
-        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
-    }
+//    //fling上滑appbar然后迅速fling下滑recycler时, HeaderBehavior的mScroller并未停止, 会导致上下来回晃动
+//    @Override
+//    public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child, View target, int dx, int dy, int[] consumed, int type) {
+//        if(mScroller!=null){ //当recyclerView 做好滑动准备的时候 直接干掉Appbar的滑动
+//            if (mScroller.computeScrollOffset()) {
+//                mScroller.abortAnimation();
+//            }
+//        }
+//        if (type == ViewCompat.TYPE_NON_TOUCH&&getTopAndBottomOffset() == 0) { //recyclerview 鸡儿的 惯性比较大 会顶在头部一会儿  到头直接干掉它的滑动
+//            ViewCompat.stopNestedScroll(target, type);
+//        }
+//        super.onNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, type);
+//    }
 
     @Override
     public boolean onTouchEvent(CoordinatorLayout parent, AppBarLayout child, MotionEvent e) {

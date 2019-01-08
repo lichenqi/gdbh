@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.guodongbaohe.app">
@@ -11,6 +12,23 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CELL_BROADCASTS"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- SDCard中创建与删除文件权限 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
+    <!-- 向SDCard写入数据权限 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission
         android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
@@ -22,7 +40,8 @@
         android:roundIcon="@mipmap/login_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:name">
+        tools:replace="android:name"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".activity.StartActivity"
             android:theme="@style/StartActivityTheme">
@@ -52,7 +71,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GuideActivity"
-            android:screenOrientation="portrait"
+
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.NinePinkageActivity"
@@ -83,7 +102,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LoginAndRegisterActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.PhoneLoginActivity"
@@ -102,15 +120,12 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CheckPhoneActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.CheckYanZmaActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.FirstUserLoginActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.PersonalActivity"
@@ -138,11 +153,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.PicsLookActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.LocalPicsLookActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
 
         <provider
@@ -224,6 +237,22 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+        <!--魅族push应用定义消息receiver声明 -->
+        <receiver android:name="com.guodongbaohe.app.service.MeizuTestReceiver">
+            <intent-filter>
+                <!-- 接收push消息 -->
+                <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
+                <!-- 接收register消息 -->
+                <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
+                <!-- 接收unregister消息-->
+                <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
+                <!-- 兼容低版本Flyme3推送服务配置 -->
+                <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
+                <action android:name="com.meizu.c2dm.intent.RECEIVE" />
+
+                <category android:name="${applicationId}"></category>
+            </intent-filter>
+        </receiver>
         <!-- 剪切板 -->
         <service android:name=".receiver.JianQieBroadcastReceiver" />
         <service android:name=".service.ClipyService">
@@ -241,7 +270,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <activity
             android:name=".activity.MyTeamActivity"
             android:screenOrientation="portrait" />
@@ -259,6 +287,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.XinShouJiaoChengActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShouRuMingXiActivity"
@@ -266,7 +295,7 @@
         <activity
             android:name=".activity.TaoBaoH5Activity"
             android:screenOrientation="portrait" />
-
+        <activity android:name=".activity.DownLoadVideoActivity"/>
         <service android:name=".cliputil.ClipService">
             <intent-filter>
                 <action android:name="com.service.clipservice" />
@@ -303,6 +332,10 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.GCollectionActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".activity.TestUmessageActivity"/>
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=100556127" />
     </application>
 
 </manifest>

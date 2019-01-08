@@ -108,8 +108,8 @@ public class ChangeQRCodePicActivity extends BaseActivity {
         setMiddleTitle("更换二维码主图");
         setRightTVVisible();
         setRightTitle("保存");
-        tv_right_name = findViewById(R.id.tv_right_name);
-        iv_back = findViewById(R.id.iv_back);
+        tv_right_name = (TextView) findViewById(R.id.tv_right_name);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         recyclerview.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);

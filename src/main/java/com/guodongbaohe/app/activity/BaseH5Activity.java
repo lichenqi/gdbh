@@ -63,7 +63,7 @@ public class BaseH5Activity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        iv_back = findViewById(R.id.iv_back);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
         alibcShowParams = new AlibcShowParams(OpenType.Native, true);

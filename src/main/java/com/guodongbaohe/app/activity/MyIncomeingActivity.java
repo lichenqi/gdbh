@@ -80,7 +80,7 @@ public class MyIncomeingActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        tv_right_name = findViewById(R.id.tv_right_name);
+        tv_right_name = (TextView) findViewById(R.id.tv_right_name);
         setMiddleTitle("收入详情");
         setRightTVVisible();
         setRightTitle("明细");

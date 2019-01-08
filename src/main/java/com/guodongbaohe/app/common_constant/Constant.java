@@ -162,8 +162,13 @@ public class Constant {
     public static final String INVITEFRIENDHAIBAO = "qrcode/invite";
 
     /*收藏夹列表*/
-    public static final String SHOUCANG="member/collectList";
+    public static final String SHOUCANG = "member/collectList";
+
+    public static final String SHOUCANGFY="favorite/list";
 
     /*收藏夹数据删除*/
-    public static final String SC_DELETE="member/collectGoods/delete";
+    public static final String SC_DELETE = "favorite/delete";
+
+    /*校验邀请码*/
+    public static final String JY_NUMBER = "auth/checkAuth";
 }

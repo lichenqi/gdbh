@@ -1,22 +1,34 @@
 package com.guodongbaohe.app.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.receiver.SmsObserver;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EmjoyAndTeShuUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
@@ -46,7 +58,21 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
     TextView login;
     private TimeCount time = new TimeCount(60000, 1000);
     int num;
+    private SmsObserver smsObserver;
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == PERMISSION_RESULT_CODE) {
+                //设置读取到的内容
+                String code=(String) msg.obj;
+                ed_yanzma.setText(code);
+            }
+        }
+    };
 
+    public static int MSG_RECEIVED_CODE=1;
+    public static final int PERMISSION_RESULT_CODE = 123;
     @Override
     public int getContainerView() {
         return R.layout.noinvitecodenewloginactivity;
@@ -60,8 +86,38 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         num = (int) ((Math.random() * 9 + 1) * 10000000);
-    }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{
+                        Manifest.permission.BROADCAST_SMS,
+                        Manifest.permission.READ_SMS,
+                        Manifest.permission.SEND_SMS,
+                        Manifest.permission.RECEIVE_SMS}, PERMISSION_RESULT_CODE);
+            }
+        }
+//        handle=new Handler(){
+//            @Override
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                if (msg.what==MSG_RECEIVED_CODE){
+//                    String code=(String) msg.obj;
+//                    ed_yanzma.setText(code);
+//                }
+//            }
+//        };
+//        smsObserver = new SmsObserver(NoInviteOldUserLoginActivity.this, handler);
+//        getContentResolver().registerContentObserver(Uri.parse("content://sms/"), true, smsObserver);
 
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_RESULT_CODE){
+            for (int i= 0; i< permissions.length; i++) {
+                Log.d("111111111", permissions[i] + " " + grantResults[i]);
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
     @OnClick({R.id.tv_get_code, R.id.login})
     public void OnClick(View view) {
         switch (view.getId()) {

@@ -81,6 +81,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+
 public class MainActivity extends BigBaseActivity {
     @BindView(R.id.fl_container)
     FrameLayout fl_container;
@@ -129,6 +130,7 @@ public class MainActivity extends BigBaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+//        PushAgent.getInstance(getApplicationContext()).onAppStart();
         EventBus.getDefault().register(this);
         num = (int) ((Math.random() * 9 + 1) * 10000000);
         imageViewList.add(iv_home);
@@ -624,9 +626,9 @@ public class MainActivity extends BigBaseActivity {
         dialog.setContentView(R.layout.clip_search_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        TextView title = dialog.findViewById(R.id.content);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView title = (TextView) dialog.findViewById(R.id.content);
         title.setText(content);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -724,12 +726,12 @@ public class MainActivity extends BigBaseActivity {
         dialog.setContentView(R.layout.version_update_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView tv_one = dialog.findViewById(R.id.tv_one);
-        TextView tv_two = dialog.findViewById(R.id.tv_two);
-        TextView sure = dialog.findViewById(R.id.sure);
+        TextView tv_one = (TextView) dialog.findViewById(R.id.tv_one);
+        TextView tv_two = (TextView) dialog.findViewById(R.id.tv_two);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
         tv_one.setText(title);
         tv_two.setText(desc);
-        RelativeLayout cancel = dialog.findViewById(R.id.cancel);
+        RelativeLayout cancel = (RelativeLayout) dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

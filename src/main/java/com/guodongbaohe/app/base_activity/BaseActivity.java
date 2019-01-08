@@ -24,12 +24,12 @@ public abstract class BaseActivity extends BigBaseActivity {
         BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baseactivity);
-        rl_parent = findViewById(R.id.rl_parent);
-        iv_back = findViewById(R.id.iv_back);
-        tv_title = findViewById(R.id.tv_title);
-        tv_right_name = findViewById(R.id.tv_right_name);
-        iv_right = findViewById(R.id.iv_right);
-        fl_container = findViewById(R.id.fl_container);
+        rl_parent = (RelativeLayout) findViewById(R.id.rl_parent);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_right_name = (TextView) findViewById(R.id.tv_right_name);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        fl_container = (FrameLayout) findViewById(R.id.fl_container);
         View view = getLayoutInflater().inflate(getContainerView(), null);
         fl_container.addView(view);
     }

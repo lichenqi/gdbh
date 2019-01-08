@@ -205,9 +205,9 @@ public class PersonalActivity extends BaseActivity {
         dialog.setContentView(R.layout.dialog_edit_sex);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView boy = dialog.findViewById(R.id.boy);
-        TextView girl = dialog.findViewById(R.id.girl);
-        TextView cancel = dialog.findViewById(R.id.cancel);
+        TextView boy = (TextView) dialog.findViewById(R.id.boy);
+        TextView girl = (TextView) dialog.findViewById(R.id.girl);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -320,9 +320,9 @@ public class PersonalActivity extends BaseActivity {
         dialog.onWindowAttributesChanged(wl);
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
-        btn_picture = view.findViewById(R.id.bt_picture);
-        btn_photo = view.findViewById(R.id.bt_photo);
-        btn_cancle = view.findViewById(R.id.bt_cancle);
+        btn_picture = (Button) view.findViewById(R.id.bt_picture);
+        btn_photo = (Button) view.findViewById(R.id.bt_photo);
+        btn_cancle = (Button) view.findViewById(R.id.bt_cancle);
         btn_picture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -555,8 +555,8 @@ public class PersonalActivity extends BaseActivity {
         dialog.setContentView(R.layout.dialog_login_out);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

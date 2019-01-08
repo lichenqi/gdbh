@@ -50,7 +50,7 @@ public class TaoBaoH5Activity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        iv_back = findViewById(R.id.iv_back);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         String type = getIntent().getStringExtra("type");
         alibcShowParams = new AlibcShowParams(OpenType.H5, true);
         if (type.equals("1")) {

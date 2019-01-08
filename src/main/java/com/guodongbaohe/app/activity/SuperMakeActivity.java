@@ -106,7 +106,7 @@ public class SuperMakeActivity extends BaseActivity {
         ClipData data = cm.getPrimaryClip();
         if (data == null) return;
         ClipData.Item item = data.getItemAt(0);
-        final String content = item.getText().toString();
+        final String content = item.coerceToText(getApplicationContext()).toString();
         if (TextUtils.isEmpty(content)) return;
         boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
         if (!isFirstClip) {
@@ -135,9 +135,9 @@ public class SuperMakeActivity extends BaseActivity {
         dialog.setContentView(R.layout.clip_search_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        TextView title = dialog.findViewById(R.id.content);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView title = (TextView) dialog.findViewById(R.id.content);
         title.setText(content);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class SuperMakeActivity extends BaseActivity {
         xrecycler.setAdapter(adapter);
         View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.base_head_img, null);
         xrecycler.addHeaderView(view);
-        iv_head = view.findViewById(R.id.iv_head);
+        iv_head = (RoundedImageView) view.findViewById(R.id.iv_head);
         getFourHeadIVData();
         xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

@@ -54,7 +54,7 @@ public class ShopRangingClassicActivity extends BaseActivity {
         ClipData data = cm.getPrimaryClip();
         if (data == null) return;
         ClipData.Item item = data.getItemAt(0);
-        final String content = item.getText().toString();
+        final String content = item.coerceToText(getApplicationContext()).toString();
         if (TextUtils.isEmpty(content)) return;
         boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
         if (!isFirstClip) {
@@ -83,9 +83,9 @@ public class ShopRangingClassicActivity extends BaseActivity {
         dialog.setContentView(R.layout.clip_search_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        TextView title = dialog.findViewById(R.id.content);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        TextView title = (TextView) dialog.findViewById(R.id.content);
         title.setText(content);
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +133,7 @@ public class ShopRangingClassicActivity extends BaseActivity {
         for (int i = 0; i < adapter.getCount(); i++) {
             TabLayout.Tab tab = tablayout.getTabAt(i);//获得每一个tab
             tab.setCustomView(R.layout.tablayout_item);//给每一个tab设置view
-            TextView textView = tab.getCustomView().findViewById(R.id.tab_text);
+            TextView textView = (TextView) tab.getCustomView().findViewById(R.id.tab_text);
             textView.setText(titles[i]);//设置tab上的文字
             textView.setSelected(false);
             if (i == position) {

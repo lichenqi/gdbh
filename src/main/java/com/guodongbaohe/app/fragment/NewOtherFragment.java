@@ -285,15 +285,15 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
     RecyclerView recyclerview;
 
     private void initHeadView(View view) {
-        ll_head_parent = view.findViewById(R.id.ll_head_parent);
-        recyclerview = view.findViewById(R.id.recyclerview);
+        ll_head_parent = (LinearLayout) view.findViewById(R.id.ll_head_parent);
+        recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
         getHeadData();
-        zuixin = view.findViewById(R.id.zuixin);
-        xiaoliang = view.findViewById(R.id.xiaoliang);
-        tv_jiage = view.findViewById(R.id.tv_jiage);
-        renqi = view.findViewById(R.id.renqi);
+        zuixin = (TextView) view.findViewById(R.id.zuixin);
+        xiaoliang = (TextView) view.findViewById(R.id.xiaoliang);
+        tv_jiage = (TextView) view.findViewById(R.id.tv_jiage);
+        renqi = (TextView) view.findViewById(R.id.renqi);
         zuixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

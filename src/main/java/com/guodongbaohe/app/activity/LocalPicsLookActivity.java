@@ -30,9 +30,9 @@ public class LocalPicsLookActivity extends BigBaseActivity {
         String share_friends_title = PreferUtils.getString(getApplicationContext(), "share_friends_title");
         int position = getIntent().getIntExtra("position", 0);
         imgList = (List<InviteAwardBean.InviteAwardData>) getIntent().getSerializableExtra("imgList");
-        ImageView iv = findViewById(R.id.iv);
-        TextView tv_invite_code = findViewById(R.id.tv_invite_code);
-        ImageView iv_qrcode = findViewById(R.id.iv_qrcode);
+        ImageView iv = (ImageView) findViewById(R.id.iv);
+        TextView tv_invite_code = (TextView) findViewById(R.id.tv_invite_code);
+        ImageView iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
         tv_invite_code.setText("邀请码: " + invite_code);
         if (position == 0) {
             tv_invite_code.setTextColor(0xff000000);

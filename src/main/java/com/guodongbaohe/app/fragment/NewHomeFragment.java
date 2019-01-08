@@ -252,6 +252,7 @@ public class NewHomeFragment extends Fragment {
 
     private void setColor(String color) {
         int i = Color.parseColor(color);
+        if (tablayout==null)return;
         tablayout.setBackgroundColor(i);
         re_search_title.setBackgroundColor(i);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

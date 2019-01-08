@@ -401,8 +401,8 @@ public class EverydayFaddishFragment extends Fragment {
         dialog.setContentView(R.layout.open_weixin);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = dialog.findViewById(R.id.sure);
-        TextView cancel = dialog.findViewById(R.id.cancel);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -494,17 +494,17 @@ public class EverydayFaddishFragment extends Fragment {
         loadingDialog = DialogUtil.createLoadingDialog(getContext(), "加载...");
         share_view = LayoutInflater.from(getContext()).inflate(R.layout.creation_erweima_pic, null);
         /*标题*/
-        p_title = share_view.findViewById(R.id.p_title);
+        p_title = (TextView) share_view.findViewById(R.id.p_title);
         /*券后价*/
-        p_coupon_price = share_view.findViewById(R.id.p_coupon_price);
+        p_coupon_price = (TextView) share_view.findViewById(R.id.p_coupon_price);
         /*券后*/
-        tv_coupon = share_view.findViewById(R.id.tv_coupon);
+        tv_coupon = (TextView) share_view.findViewById(R.id.tv_coupon);
         /*主图*/
-        p_iv = share_view.findViewById(R.id.p_iv);
+        p_iv = (ImageView) share_view.findViewById(R.id.p_iv);
         /*主图售价*/
-        p_one_price = share_view.findViewById(R.id.p_one_price);
+        p_one_price = (TextView) share_view.findViewById(R.id.p_one_price);
         /*二维码图片*/
-        iv_qr_code = share_view.findViewById(R.id.iv_qr_code);
+        iv_qr_code = (ImageView) share_view.findViewById(R.id.iv_qr_code);
         shareGetShopDetailData(which_position);
     }
 

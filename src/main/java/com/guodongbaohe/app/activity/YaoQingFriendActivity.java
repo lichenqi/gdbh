@@ -87,9 +87,9 @@ public class YaoQingFriendActivity extends BaseActivity {
         recyclerview.setLayoutManager(manager);
         space = DensityUtils.dip2px(getApplicationContext(), 15);
         share_view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.share_view_invite_code, null);
-        share_iv = share_view.findViewById(R.id.iv);
-        TextView share_code = share_view.findViewById(R.id.code);
-        share_qrcode = share_view.findViewById(R.id.qrcode);
+        share_iv = (ImageView) share_view.findViewById(R.id.iv);
+        TextView share_code = (TextView) share_view.findViewById(R.id.code);
+        share_qrcode = (ImageView) share_view.findViewById(R.id.qrcode);
         share_code.setText("邀请码:" + PreferUtils.getString(getApplicationContext(), "invite_code"));
         /*二维码内容*/
         getQrCodeData();

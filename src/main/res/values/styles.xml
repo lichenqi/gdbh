@@ -66,7 +66,7 @@
     <!--手机状态栏透明效果样式-->
     <style name="TranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 

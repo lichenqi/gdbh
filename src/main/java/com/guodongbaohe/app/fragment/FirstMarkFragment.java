@@ -113,9 +113,9 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
             getFirstMarketData();
             initRecyclerview();
             shaixuanview = LayoutInflater.from(getContext()).inflate(R.layout.shaixuanview, null);
-            all = shaixuanview.findViewById(R.id.all);
-            boss = shaixuanview.findViewById(R.id.boss);
-            partner = shaixuanview.findViewById(R.id.partner);
+            all = (TextView) shaixuanview.findViewById(R.id.all);
+            boss = (TextView) shaixuanview.findViewById(R.id.boss);
+            partner = (TextView) shaixuanview.findViewById(R.id.partner);
             iniChooseListener();
         }
         return view;
@@ -285,14 +285,14 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
         dialog.setContentView(R.layout.showpersonaldatadialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView cancel = dialog.findViewById(R.id.cancel);
-        CircleImageView circleimageview = dialog.findViewById(R.id.circleimageview);
-        TextView name = dialog.findViewById(R.id.name);
-        TextView invite_code = dialog.findViewById(R.id.invite_code);
-        TextView wechat = dialog.findViewById(R.id.wechat);
-        TextView month = dialog.findViewById(R.id.month);
-        TextView total = dialog.findViewById(R.id.total);
-        TextView time = dialog.findViewById(R.id.time);
+        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
+        CircleImageView circleimageview = (CircleImageView) dialog.findViewById(R.id.circleimageview);
+        TextView name = (TextView) dialog.findViewById(R.id.name);
+        TextView invite_code = (TextView) dialog.findViewById(R.id.invite_code);
+        TextView wechat = (TextView) dialog.findViewById(R.id.wechat);
+        TextView month = (TextView) dialog.findViewById(R.id.month);
+        TextView total = (TextView) dialog.findViewById(R.id.total);
+        TextView time = (TextView) dialog.findViewById(R.id.time);
         String avatar = list.get(i).getAvatar();
         if (TextUtils.isEmpty(avatar)) {
             circleimageview.setImageResource(R.mipmap.login_logo);

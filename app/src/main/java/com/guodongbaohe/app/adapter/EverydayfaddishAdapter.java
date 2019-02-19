@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.EverydayHostGoodsBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.TimeShowUtil;
 
@@ -72,14 +73,13 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
 
     @Override
     public void onBindViewHolder(final EverydayfaddishHolder holder, int position) {
-        String money_upgrade_switch = PreferUtils.getString(context, "money_upgrade_switch");/*华为上线开关*/
         tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
         if (!TextUtils.isEmpty(tax_rate)) {
             app_v = 1 - Double.valueOf(tax_rate);
         }
         status = list.get(position).getStatus();
-        if (!TextUtils.isEmpty(status)){
-            Log.i("抢光了",status);
+        if (!TextUtils.isEmpty(status)) {
+            Log.i("抢光了", status);
         }
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
@@ -120,10 +120,10 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             holder.re_fuzhi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!TextUtils.isEmpty(status)){
+                    if (!TextUtils.isEmpty(status)) {
                         onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
-                    }else {
-                        Toast.makeText(context,"商品信息不存在",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "商品信息不存在", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -147,36 +147,28 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             });
         }
 
-        if (!TextUtils.isEmpty(money_upgrade_switch)) {
-            if (money_upgrade_switch.equals("yes")) {
-                holder.ninengzhuan.setVisibility(View.INVISIBLE);
-            } else {
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
-            }
-        }
-
         if (list.get(position).isLogin()) {
             /*登录*/
             String member_role = list.get(position).getMember_role();
-            String son_count = list.get(position).getSon_count();
-            if (member_role.equals("2")) {
+            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+                /*总裁用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 touristData(holder, 90);
             } else if (member_role.equals("1")) {
-                touristData(holder, 82);
+                /*合伙人用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                touristData(holder, 70);
+            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*vip用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                touristData(holder, 70);
             } else {
-                if (!TextUtils.isEmpty(son_count)) {
-                    if (!son_count.equals("0")) {
-                        /*存在下级*/
-                        touristData(holder, 50);
-                    } else {
-                        /*不存在下级即游客*/
-                        touristData(holder, 40);
-                    }
-                }
+                /*普通用户*/
+                holder.ninengzhuan.setVisibility(View.GONE);
             }
         } else {
             /*游客*/
-            touristData(holder, 40);
+            holder.ninengzhuan.setVisibility(View.GONE);
         }
 
     }

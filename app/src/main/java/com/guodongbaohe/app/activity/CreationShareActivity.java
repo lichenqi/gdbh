@@ -41,6 +41,7 @@ import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.adapter.ImagesBitmapAdapter;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.bean.ChooseImagsNum;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.dialogfragment.BaseNiceDialog;
 import com.guodongbaohe.app.dialogfragment.NiceDialog;
 import com.guodongbaohe.app.dialogfragment.ViewConvertListener;
@@ -153,7 +154,6 @@ public class CreationShareActivity extends BaseActivity {
     @BindView(R.id.tv_tuijian_view_line)
     TextView tv_tuijian_view_line;
     double v;
-    String money_upgrade_switch;
     @BindView(R.id.tv_xaidandizi_view_line)
     TextView tv_xaidandizi_view_line;
     @BindView(R.id.tv_xaidandizi)
@@ -183,7 +183,6 @@ public class CreationShareActivity extends BaseActivity {
         son_count = PreferUtils.getString(getApplicationContext(), "son_count");
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         String tax_rate = PreferUtils.getString(getApplicationContext(), "tax_rate");
-        money_upgrade_switch = PreferUtils.getString(getApplicationContext(), "money_upgrade_switch");
         app_v = 1 - Double.valueOf(tax_rate);
         Intent intent = getIntent();
         goods_thumb = intent.getStringExtra("goods_thumb");
@@ -229,17 +228,20 @@ public class CreationShareActivity extends BaseActivity {
             }
         }
 
-        if (member_role.equals("2")) {
+        if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+            /*总裁用户*/
             rebateData(90);
-        } else if (member_role.equals("1")) {
-            rebateData(82);
+        } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+            /*合伙人用户*/
+            rebateData(70);
+        } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            /*vip用户*/
+            rebateData(40);
         } else {
-            if (son_count.equals("0")) {
-                rebateData(40);
-            } else {
-                rebateData(50);
-            }
+            rebate.setText("【下载果冻宝盒购买】你能返¥0");
+            share_money.setText("立即分享");
         }
+
         if (TextUtils.isEmpty(promo_slogan)) {
             tv_tuijian_view_line.setVisibility(View.GONE);
             recommend_result.setVisibility(View.GONE);
@@ -252,33 +254,11 @@ public class CreationShareActivity extends BaseActivity {
     }
 
     private void rebateData(int num) {
-        double ninengfan;
-        if (son_count.equals("0")) {
-            ninengfan = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * 40 / 10000 * app_v;
-        } else {
-            ninengfan = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * 50 / 10000 * app_v;
-        }
+        double ninengfan = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
         bg3 = new BigDecimal(ninengfan);
         double money_ninneng = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        if (!TextUtils.isEmpty(money_upgrade_switch)) {
-            if (money_upgrade_switch.equals("yes")) {
-                rebate.setText("【下载果冻宝盒购买】");
-            } else {
-                rebate.setText("【下载果冻宝盒购买】你能返¥" + money_ninneng);
-            }
-        }
-
-        double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
-        bg3 = new BigDecimal(result);
-        double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-
-        if (!TextUtils.isEmpty(money_upgrade_switch)) {
-            if (money_upgrade_switch.equals("yes")) {
-                share_money.setText("立即分享");
-            } else {
-                share_money.setText("分享赚¥" + money + "元");
-            }
-        }
+        rebate.setText("【下载果冻宝盒购买】你能返¥" + money_ninneng);
+        share_money.setText("分享赚¥" + money_ninneng + "元");
     }
 
     ImageView p_iv;

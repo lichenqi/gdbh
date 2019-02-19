@@ -869,7 +869,7 @@ public class MainActivity extends BigBaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
-                                NewYearsBean bean = GsonUtil.GsonToBean("{\"status\":0,\"result\":[]}\n", NewYearsBean.class);
+                                NewYearsBean bean = GsonUtil.GsonToBean(response.toString(), NewYearsBean.class);
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
                                 if (four_iv_list.size() > 0) {

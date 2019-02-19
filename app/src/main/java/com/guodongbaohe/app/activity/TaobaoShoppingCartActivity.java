@@ -21,6 +21,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
@@ -34,6 +35,7 @@ import com.alibaba.baichuan.android.trade.page.AlibcMyCartsPage;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.util.DialogUtil;
+import com.guodongbaohe.app.util.PreferUtils;
 
 import java.util.HashMap;
 
@@ -48,6 +50,8 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
+    @BindView(R.id.notice)
+    RelativeLayout notice;
     ImageView iv_back;
     private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
     AlibcBasePage page;
@@ -78,7 +82,6 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
         /*js文件*/
         js = "var ns = document.createElement('script');";
         js += "ns.src = '" + script + "'; ns.onload = function(){TbCart.init();};";
-//        js += "ns.src = '" + script + "';";
         js += "document.body.appendChild(ns);";
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "Guodong");
         AlibcTrade.show(TaobaoShoppingCartActivity.this, webview, new MyWebViewClient(), new MyWebChromeClient(), page, alibcShowParams, null, exParams, new AlibcTradeCallback() {
@@ -139,9 +142,9 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-//            if (!TextUtils.isEmpty(js)) {
-//                webview.loadUrl("javascript:" + js);
-//            }
+            if (!TextUtils.isEmpty(js)) {
+                webview.loadUrl("javascript:" + js);
+            }
         }
 
     }
@@ -152,11 +155,15 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
 
         @JavascriptInterface
         public void coupon(String[] msg) {
+            shop_ids = "";
             for (int i = 0; i < msg.length; i++) {
                 shop_ids += msg[i] + ",";
             }
             shop_ids = shop_ids.substring(0, shop_ids.length() - 1);
-            Log.i("订单数据", shop_ids);
+            Log.i("订单数据", shop_ids + "李晨奇");
+            if (!TextUtils.isEmpty(shop_ids)) {
+                PreferUtils.putString(getApplicationContext(), "shop_ids", shop_ids);
+            }
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -177,12 +184,7 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-//                    tv_youhui.setVisibility(View.VISIBLE);
-                    if (!TextUtils.isEmpty(shop_ids)) {
-                        Intent intent = new Intent(getApplicationContext(), SaveMoneyShopCartActivity.class);
-                        intent.putExtra("shop_ids", shop_ids);
-                        startActivity(intent);
-                    }
+                    tv_youhui.setVisibility(View.VISIBLE);
                     break;
                 default:
                     break;
@@ -192,14 +194,15 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
 
     Dialog loadingDialog;
 
-    @OnClick({R.id.tv_youhui})
+    @OnClick({R.id.tv_youhui, R.id.notice})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_youhui:
-                if (!TextUtils.isEmpty(js)) {
-                    webview.loadUrl("javascript:" + js);
-                }
                 loadingDialog = DialogUtil.createLoadingDialog(TaobaoShoppingCartActivity.this, "正在查询");
+                Intent intent = new Intent(getApplicationContext(), SaveMoneyShopCartActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.notice:
                 break;
         }
     }

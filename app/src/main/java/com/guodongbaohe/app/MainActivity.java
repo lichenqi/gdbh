@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -123,6 +124,7 @@ public class MainActivity extends BigBaseActivity {
     int size, normal_size, normal_iv_size;
     int num;
     String local_version, start_guide_to_login;
+    int flag_frist = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,10 +175,13 @@ public class MainActivity extends BigBaseActivity {
     protected void onResume() {
         super.onResume();
         /*获取剪切板内容*/
-        getClipContent();
+        if (flag_frist == 1) {
+            getClipContent();
+        }
     }
 
     private void getClipContent() {
+        flag_frist = 1;
         ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         boolean b = cm.hasPrimaryClip();
         if (b) {
@@ -864,35 +869,49 @@ public class MainActivity extends BigBaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
-                                NewYearsBean bean = GsonUtil.GsonToBean(response.toString(), NewYearsBean.class);
+                                NewYearsBean bean = GsonUtil.GsonToBean("{\"status\":0,\"result\":[]}\n", NewYearsBean.class);
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
-                                if (four_iv_list.size() == 0) return;
-                                dialogs = new Dialog(MainActivity.this, R.style.transparentFrameWindowStyle);
-                                dialogs.setContentView(R.layout.g_newyears);
-                                Window window = dialogs.getWindow();
-                                window.setGravity(Gravity.CENTER | Gravity.CENTER);
-                                final ImageView sure = (ImageView) dialogs.findViewById(R.id.shouye_dialog);
-                                ImageView cancel = (ImageView) dialogs.findViewById(R.id.close_dialog_im);
-                                if (sure == null || cancel == null) return;
-                                Glide.with(MainActivity.this).load(four_iv_list.get(0).getImage()).into(sure);
-                                Glide.with(MainActivity.this).load(R.mipmap.close_dialog).into(cancel);
-                                sure.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialogs.dismiss();
-                                        Intent intent = new Intent(MainActivity.this, TaoBaoWebViewActivity.class);
-                                        intent.putExtra("url", four_iv_list.get(0).getUrl());
-                                        startActivity(intent);
-                                    }
-                                });
-                                cancel.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        dialogs.dismiss();
-                                    }
-                                });
-                                dialogs.show();
+                                if (four_iv_list.size() > 0) {
+                                    dialogs = new Dialog(MainActivity.this, R.style.transparentFrameWindowStyle);
+                                    dialogs.setContentView(R.layout.g_newyears);
+                                    Window window = dialogs.getWindow();
+                                    window.setGravity(Gravity.CENTER | Gravity.CENTER);
+                                    final ImageView sure = (ImageView) dialogs.findViewById(R.id.shouye_dialog);
+                                    ImageView cancel = (ImageView) dialogs.findViewById(R.id.close_dialog_im);
+                                    if (sure == null || cancel == null) return;
+                                    Glide.with(MainActivity.this).load(four_iv_list.get(0).getImage()).into(sure);
+                                    Glide.with(MainActivity.this).load(R.mipmap.close_dialog).into(cancel);
+                                    sure.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            Intent intent = new Intent(MainActivity.this, TaoBaoWebViewActivity.class);
+                                            intent.putExtra("url", four_iv_list.get(0).getUrl());
+                                            startActivity(intent);
+                                            flag_frist = 1;
+                                            dialogs.dismiss();
+                                        }
+                                    });
+                                    cancel.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            dialogs.dismiss();
+                                        }
+                                    });
+
+                                    dialogs.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                                        @Override
+                                        public void onDismiss(DialogInterface dialogInterface) {
+                                            if (flag_frist == 0) {
+                                                getClipContent();
+                                            }
+                                        }
+                                    });
+                                    dialogs.show();
+                                } else {
+                                    flag_frist = 1;
+                                    getClipContent();
+                                }
 
                             }
                         } catch (JSONException e) {
@@ -905,5 +924,4 @@ public class MainActivity extends BigBaseActivity {
                     }
                 });
     }
-
 }

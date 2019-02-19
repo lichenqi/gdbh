@@ -1,7 +1,6 @@
 package com.guodongbaohe.app.activity;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -81,8 +80,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
         ButterKnife.bind(this);
         setMiddleTitle("省钱购物车");
         loadingDialog = DialogUtil.createLoadingDialog(SaveMoneyShopCartActivity.this, "加载...");
-        Intent intent = getIntent();
-        shop_ids = intent.getStringExtra("shop_ids");
+        shop_ids = PreferUtils.getString(getApplicationContext(), "shop_ids");
         member_role = PreferUtils.getString(getApplicationContext(), "member_role");
         String tax_rate = PreferUtils.getString(getApplicationContext(), "tax_rate");
         app_v = 1 - Double.valueOf(tax_rate);

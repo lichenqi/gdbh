@@ -192,12 +192,12 @@ public class PublicityMaterialFragment extends Fragment {
             adapter.setonFuZhiClickListener(new OnItemClick() {
                 @Override
                 public void OnItemClickListener(View view, int position) {
-                    String comment = list.get(position - 1).getComment();
-                    ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData mClipData = ClipData.newPlainText("Label", comment);
-                    cm.setPrimaryClip(mClipData);
-                    ClipContentUtil.getInstance(getContext()).putNewSearch(comment);//保存记录到数据库
-                    ToastUtils.showToast(getContext(), "复制评论成功");
+                        String comment = list.get(position - 1).getComment();
+                        ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData mClipData = ClipData.newPlainText("Label", comment);
+                        cm.setPrimaryClip(mClipData);
+                        ClipContentUtil.getInstance(getContext()).putNewSearch(comment);//保存记录到数据库
+                        ToastUtils.showToast(getContext(), "复制评论成功");
                 }
             });
         }

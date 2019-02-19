@@ -190,4 +190,6 @@ public class Constant {
     public static final String BOSS_USER_LEVEL = "2|7";
     /*购物车优惠券数据*/
     public static final String SHOPPING_CART_LIST_DATA = "goods/coupon";
+    /*收藏改变*/
+    public static final String COLLECT_CHANGE = "collect_change";
 }

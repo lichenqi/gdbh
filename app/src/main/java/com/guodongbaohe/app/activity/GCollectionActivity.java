@@ -33,6 +33,7 @@ import com.guodongbaohe.app.util.XRecyclerViewUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,9 +70,16 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         tv_title = (TextView) findViewById(R.id.tv_title);
         iv_back = (ImageView) findViewById(R.id.iv_back);
@@ -94,11 +102,15 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
         });
     }
 
-    @Override
-    protected void onResume() {
-        pageNum = 1;
-        getListData();
-        super.onResume();
+    // 声明一个订阅方法，用于接收事件
+    @Subscribe
+    public void onEvent(String msg) {
+        switch (msg) {
+            case Constant.COLLECT_CHANGE:
+                pageNum = 1;
+                getListData();
+                break;
+        }
     }
 
     private boolean isSelectAll = false;

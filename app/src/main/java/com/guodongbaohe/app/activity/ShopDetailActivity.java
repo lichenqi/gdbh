@@ -1386,6 +1386,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 iv_collect.setImageResource(R.mipmap.yi_collected);
                                 tv_collect.setText("已收藏");
                                 isShopCollect = true;
+                                EventBus.getDefault().post(Constant.COLLECT_CHANGE);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -1440,6 +1441,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 isShopCollect = false;
                                 iv_collect.setImageResource(R.mipmap.wei_collect);
                                 tv_collect.setText("收藏");
+                                EventBus.getDefault().post(Constant.COLLECT_CHANGE);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);

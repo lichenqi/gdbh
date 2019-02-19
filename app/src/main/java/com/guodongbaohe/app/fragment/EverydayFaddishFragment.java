@@ -514,6 +514,11 @@ public class EverydayFaddishFragment extends Fragment {
                                 EverydayHostGoodsBean bean = GsonUtil.GsonToBean(response.toString(), EverydayHostGoodsBean.class);
                                 if (bean == null) return;
                                 List<EverydayHostGoodsBean.GoodsList> list_result = bean.getResult();
+                                for (int i=0;i<list_result.size();i++){
+                                    String goodid=list_result.get(i).getGoods_id();
+                                    Log.i("商品id",goodid);
+                                }
+
                                 if (list_result.size() == 0) {
                                     xrecycler.setNoMore(true);
                                     xrecycler.refreshComplete();

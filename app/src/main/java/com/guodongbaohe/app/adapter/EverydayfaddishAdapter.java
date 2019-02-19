@@ -5,12 +5,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
@@ -76,6 +78,9 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             app_v = 1 - Double.valueOf(tax_rate);
         }
         status = list.get(position).getStatus();
+        if (!TextUtils.isEmpty(status)){
+            Log.i("抢光了",status);
+        }
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();
@@ -115,7 +120,12 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             holder.re_fuzhi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
+                    if (!TextUtils.isEmpty(status)){
+                        onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
+                    }else {
+                        Toast.makeText(context,"商品信息不存在",Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             });
         }

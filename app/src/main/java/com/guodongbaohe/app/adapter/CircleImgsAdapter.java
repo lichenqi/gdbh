@@ -63,6 +63,8 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
             } else {
                 holder.v_go.setVisibility(View.VISIBLE);
             }
+        }else {
+            holder.v_go.setVisibility(View.VISIBLE);
         }
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +86,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
     public class CircleImgsHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv)
         ImageView iv;
-        @BindView(R.id.v_go)
+        @BindView(R.id.v_go) //抢光了
         View v_go;
 
         public CircleImgsHolder(View itemView) {

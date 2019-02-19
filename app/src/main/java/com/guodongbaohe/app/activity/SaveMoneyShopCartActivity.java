@@ -101,7 +101,9 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
-        map.put("goods_id", shop_ids);
+        if (!TextUtils.isEmpty(shop_ids)) {
+            map.put("goods_id", shop_ids);
+        }
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

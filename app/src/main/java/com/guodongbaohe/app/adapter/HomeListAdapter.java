@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.HomeListBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetImageLoadUtil;
 import com.guodongbaohe.app.util.NumUtil;
@@ -113,27 +114,26 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
         if (list.get(position).isLogin()) {
             /*登录*/
             String member_role = list.get(position).getMember_role();
-            String son_count = list.get(position).getSon_count();
-            if (member_role.equals("2")) {
+            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+                /*总裁角色*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 NiNengZhuanViewData(holder, 90);
-            } else if (member_role.equals("1")) {
-                NiNengZhuanViewData(holder, 82);
-            } else {
-                if (!TextUtils.isEmpty(son_count)) {
-                    if (!son_count.equals("0")) {
-                        /*存在下级*/
-                        NiNengZhuanViewData(holder, 50);
-                    } else {
-                        /*不存在下级即游客*/
-                        NiNengZhuanViewData(holder, 40);
-                    }
-                }
+            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                /*合伙人角色*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                NiNengZhuanViewData(holder, 70);
+            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*Vip角色*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                NiNengZhuanViewData(holder, 40);
+            } else if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户角色*/
+                holder.ninengzhuan.setVisibility(View.GONE);
             }
         } else {
             /*游客*/
-            NiNengZhuanViewData(holder, 40);
+            holder.ninengzhuan.setVisibility(View.GONE);
         }
-
 
         if (onItemClick != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

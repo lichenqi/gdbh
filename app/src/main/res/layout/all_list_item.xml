@@ -116,7 +116,8 @@
                     android:background="@drawable/ninengzhuan"
                     android:gravity="center"
                     android:textColor="#ba2336"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    android:visibility="gone" />
 
                 <RelativeLayout
                     android:layout_width="74dp"

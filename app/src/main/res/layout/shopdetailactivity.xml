@@ -462,25 +462,25 @@
             </RelativeLayout>
 
             <TextView
-                android:id="@+id/tv_share_money"
+                android:id="@+id/tv_buy"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/share_yellow"
                 android:gravity="center"
-                android:text="分享赚¥"
+                android:text="领券购买"
                 android:textColor="#6f4207"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tv_buy"
+                android:id="@+id/tv_share_money"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/buy_bg"
                 android:gravity="center"
-                android:text="购买返¥"
+                android:text="立即分享"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

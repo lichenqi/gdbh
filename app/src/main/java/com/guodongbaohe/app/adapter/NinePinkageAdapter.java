@@ -3,7 +3,6 @@ package com.guodongbaohe.app.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.HomeListBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetImageLoadUtil;
 import com.guodongbaohe.app.util.NumUtil;
@@ -50,7 +50,6 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
 
     @Override
     public void onBindViewHolder(final NineHolder holder, int position) {
-        String money_upgrade_switch = PreferUtils.getString(context, "money_upgrade_switch");/*华为上线开关*/
         tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
         app_v = 1 - Double.valueOf(tax_rate);
         attr_price = list.get(position).getAttr_price();
@@ -82,33 +81,28 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
             }
         }
 
-        if (money_upgrade_switch.equals("yes")) {
-            holder.ninengzhuan.setVisibility(View.GONE);
-        } else {
-            holder.ninengzhuan.setVisibility(View.VISIBLE);
-            if (list.get(position).isLogin()) {
-                /*登录*/
-                String member_role = list.get(position).getMember_role();
-                String son_count = list.get(position).getSon_count();
-                if (member_role.equals("2")) {
-                    YouMakeMoney(holder, 90);
-                } else if (member_role.equals("1")) {
-                    YouMakeMoney(holder, 82);
-                } else {
-                    if (!TextUtils.isEmpty(son_count)) {
-                        if (!son_count.equals("0")) {
-                            /*存在下级*/
-                            YouMakeMoney(holder, 50);
-                        } else {
-                            /*不存在下级即游客*/
-                            YouMakeMoney(holder, 40);
-                        }
-                    }
-                }
-            } else {
-                /*游客*/
+        if (list.get(position).isLogin()) {
+            /*登录*/
+            String member_role = list.get(position).getMember_role();
+            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+                /*总裁用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                YouMakeMoney(holder, 90);
+            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                /*合伙人用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                YouMakeMoney(holder, 70);
+            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*vip用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 40);
+            } else {
+                /*普通用户*/
+                holder.ninengzhuan.setVisibility(View.GONE);
             }
+        } else {
+            /*游客*/
+            holder.ninengzhuan.setVisibility(View.GONE);
         }
 
         if (onItemClick != null) {

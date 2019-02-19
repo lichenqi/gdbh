@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.AllNetBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetImageLoadUtil;
 import com.guodongbaohe.app.util.NumUtil;
@@ -51,7 +52,6 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
 
     @Override
     public void onBindViewHolder(final BaseSearchHolder holder, int position) {
-        String money_upgrade_switch = PreferUtils.getString(context, "money_upgrade_switch");
         String tax_rate = PreferUtils.getString(context, "tax_rate");
         app_v = 1 - Double.valueOf(tax_rate);
         String goods_thumb = list.get(position).getGoods_thumb();
@@ -92,32 +92,28 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
             }
         }
 
-        if (money_upgrade_switch.equals("yes")) {
-            holder.re_bottom.setVisibility(View.INVISIBLE);
-        } else {
-            holder.re_bottom.setVisibility(View.VISIBLE);
-        }
-
         if (list.get(position).isLogin()) {
             String member_role = list.get(position).getMember_role();
-            String son_count = list.get(position).getSon_count();
-            if (member_role.equals("2")) {
+            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+                /*总裁用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 touristData(holder, 90);
-            } else if (member_role.equals("1")) {
-                touristData(holder, 82);
+            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                /*合伙人用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                touristData(holder, 70);
+            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*vip用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                touristData(holder, 40);
             } else {
-                if (!son_count.equals("0")) {
-                    /*存在下级*/
-                    touristData(holder, 50);
-                } else {
-                    /*不存在下级即游客*/
-                    touristData(holder, 40);
-                }
+                holder.ninengzhuan.setVisibility(View.GONE);
             }
         } else {
-            /*不存在下级即游客*/
-            touristData(holder, 40);
+            /*游客*/
+            holder.ninengzhuan.setVisibility(View.GONE);
         }
+
         if (onItemClick != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

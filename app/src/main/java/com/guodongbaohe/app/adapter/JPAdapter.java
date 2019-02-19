@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.RouteBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.StringCleanZeroUtil;
@@ -48,7 +49,6 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
 
     @Override
     public void onBindViewHolder(final JPHolder holder, int position) {
-        String money_upgrade_switch = PreferUtils.getString(context, "money_upgrade_switch");
         String tax_rate = PreferUtils.getString(context, "tax_rate");
         app_v = 1 - Double.valueOf(tax_rate);
         String goods_thumb = list_related.get(position).getGoods_thumb();
@@ -79,32 +79,28 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
             }
         }
 
-        if (money_upgrade_switch.equals("yes")) {
-            holder.ninengzhuan.setVisibility(View.GONE);
-        } else {
-            holder.ninengzhuan.setVisibility(View.VISIBLE);
-        }
-
         if (list_related.get(position).isLogin()) {
             /*登录*/
             String member_role = list_related.get(position).getMember_role();
-            String son_count = list_related.get(position).getSon_count();
-            if (member_role.equals("2")) {
+            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+                /*总裁用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 90);
-            } else if (member_role.equals("1")) {
-                YouMakeMoney(holder, 82);
+            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                /*和火人用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                YouMakeMoney(holder, 70);
+            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*Vip用户*/
+                holder.ninengzhuan.setVisibility(View.VISIBLE);
+                YouMakeMoney(holder, 40);
             } else {
-                if (!son_count.equals("0")) {
-                    /*存在下级*/
-                    YouMakeMoney(holder, 50);
-                } else {
-                    /*不存在下级即游客*/
-                    YouMakeMoney(holder, 40);
-                }
+                /*普通用户*/
+                holder.ninengzhuan.setVisibility(View.GONE);
             }
         } else {
             /*游客*/
-            YouMakeMoney(holder, 40);
+            holder.ninengzhuan.setVisibility(View.GONE);
         }
 
         if (onItemClick != null) {

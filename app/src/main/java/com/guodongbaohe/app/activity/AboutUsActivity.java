@@ -19,6 +19,7 @@ import com.guodongbaohe.app.util.WebViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 /*1227*/
 public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.webview)
@@ -65,6 +66,6 @@ public class AboutUsActivity extends BaseActivity {
                 }
             }
         });
-        webview.loadUrl(about_us);
+        webview.loadUrl(about_us, WebViewUtil.getWebViewHead(getApplicationContext()));
     }
 }

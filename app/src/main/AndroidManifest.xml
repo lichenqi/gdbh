@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.guodongbaohe.app">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
+
+    <application
+        android:name=".common_constant.MyApplication"
+        android:icon="@mipmap/login_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/login_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:name">
+        <activity
+            android:name=".activity.StartActivity"
+            android:theme="@style/StartActivityTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            tools:replace="android:configChanges" />
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GuideActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.NinePinkageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.KesalanPathActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CommonActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SuperMakeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SearchResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShopDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BuyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SecondClassicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.LoginAndRegisterActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.PhoneLoginActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.PassWordLoginActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.InvitationCodeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckPhoneActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.CheckYanZmaActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.FirstUserLoginActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.PersonalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyOrderActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShareMakeMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyDepartmentActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".activity.MyIncomeingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.WChatYaoQingMaActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PicsLookActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.LocalPicsLookActivity"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.EditCodeActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.guodongbaohe.app.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name=".activity.EditUserNameOrWchatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.EditWchatActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.ShopBuyH5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TransparencyPicsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.guodongbaohe.app.activity.AdvertisementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyDepatermentSearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CreationShareActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChangeQRCodePicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PartnerTopUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WithdrawDepositActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TiXianRecordActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShopRangingClassicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HaveSoncountUpgradeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaySuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.HeHuoRenToBossActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MoneyTiXianActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EditAlipayDataActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.BankTiXianActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BankXinXiEditActviity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".activity.AllNetSerachShopdetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TuanDuiJinTieActivity"
+            android:screenOrientation="portrait" />
+        <!--注册网络变化监听器-->
+        <receiver android:name="com.guodongbaohe.app.receiver.NetBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+        <!--剪切板-->
+        <service android:name=".receiver.JianQieBroadcastReceiver" />
+
+        <service android:name=".service.ClipyService">
+            <intent-filter>
+                <action android:name="com.intel.unit.Clipy" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <receiver android:name=".receiver.ClipyToastBroadcast">
+            <intent-filter>
+                <action android:name="com.intel.unit.Clipy" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activity.MyTeamActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BaseH5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NewSecondClassicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PinZheMakeMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.XinShouJiaoChengActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShouRuMingXiActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TaoBaoH5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TaobaoShoppingCartActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SaveMoneyShopCartActivity"
+            android:screenOrientation="portrait" />
+
+        <service android:name="com.guodongbaohe.app.cliputil.ClipService">
+            <intent-filter>
+                <action android:name="com.service.clipservice" />
+            </intent-filter>
+        </service>
+
+        <activity
+            android:name=".activity.YaoQingFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ShareDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TransitionSearchActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TouMingSearchDialogActivity"
+            android:theme="@style/custom_dialog2" />
+        <activity
+            android:name=".activity.NoInviteCodeNewLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.NoInviteOldUserLoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GFriendToBossActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GBossH5Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GVipToFriendActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.GGfwChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MipushTestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".activity.TaoBaoWebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SaveMoneyActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TiXianSuccessActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BaiChuanActivity"
+            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+        <!--友盟推送start-->
+        <meta-data
+            android:name="com.huawei.hms.client.appid"
+            android:value="appid=100556127" />
+        <!--魅族push应用定义消息receiver声明 -->
+        <receiver android:name="com.guodongbaohe.app.receiver.MeizuTestReceiver">
+            <intent-filter>
+                <!-- 接收push消息 -->
+                <action android:name="com.meizu.flyme.push.intent.MESSAGE" />
+                <!-- 接收register消息 -->
+                <action android:name="com.meizu.flyme.push.intent.REGISTER.FEEDBACK" />
+                <!-- 接收unregister消息-->
+                <action android:name="com.meizu.flyme.push.intent.UNREGISTER.FEEDBACK" />
+                <!-- 兼容低版本Flyme3推送服务配置 -->
+                <action android:name="com.meizu.c2dm.intent.REGISTRATION" />
+                <action android:name="com.meizu.c2dm.intent.RECEIVE" />
+
+                <category android:name="${applicationId}"></category>
+            </intent-filter>
+        </receiver>
+        <!--友盟推送end-->
+    </application>
+
+</manifest>

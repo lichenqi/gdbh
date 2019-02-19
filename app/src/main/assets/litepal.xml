@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <!-- 数据库库名 -->
+    <dbname value="students" />
+    <!-- 版本号 -->
+    <version value="2"></version>
+
+    <list>
+        <mapping class="com.guodongbaohe.app.bean.ClipBean"></mapping>
+        <mapping class="com.guodongbaohe.app.bean.LitePalHeadTitleBean"></mapping>
+        <mapping class="com.guodongbaohe.app.bean.LocalCollectBean"></mapping>
+    </list>
+
+</litepal>

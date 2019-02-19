@@ -1,0 +1,300 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--<item name="android:windowTranslucentStatus">true</item>-->
+        <item name="colorPrimary">@color/blackbase</item>
+        <item name="colorPrimaryDark">@color/blackbase</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="MyImageView">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="MyTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginTop">1dp</item>
+    </style>
+
+    <style name="rtl_RecyclerTabLayout">
+        <item name="rtl_tabMinWidth">72dp</item>
+        <item name="rtl_tabMaxWidth">264dp</item>
+        <item name="rtl_tabIndicatorColor">?attr/colorAccent</item>
+        <item name="rtl_tabIndicatorHeight">2dp</item>
+        <item name="rtl_tabPaddingStart">12dp</item>
+        <item name="rtl_tabPaddingEnd">12dp</item>
+        <item name="rtl_tabBackground">?attr/selectableItemBackground</item>
+        <item name="rtl_tabTextAppearance">@style/rtl_RecyclerTabLayout.Tab</item>
+        <item name="rtl_tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="rtl_RecyclerTabLayout.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="style_pop_animation">
+        <item name="android:windowEnterAnimation">@anim/anim_pop_in</item>
+        <item name="android:windowExitAnimation">@anim/anim_pop_out</item>
+    </style>
+
+    <style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="PopWindowAnimStyle">
+        <item name="android:windowShowAnimation">@anim/dialog_enter</item>
+        <item name="android:windowHideAnimation">@anim/dialog_exit</item>
+    </style>
+
+    <!--手机状态栏透明效果样式-->
+    <style name="TranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <!--启动页样式-->
+    <style name="StartActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@mipmap/start_page</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
+    <style name="imageview_jiantou">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:src">@drawable/wodejiantou</item>
+    </style>
+
+    <style name="mine_textview">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="mine_imageview">
+        <item name="android:layout_width">22dp</item>
+        <item name="android:layout_height">22dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+
+    <style name="mine_view">
+        <item name="android:background">@color/gray</item>
+        <item name="android:layout_height">0.2dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
+    <style name="mine_order">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="paihangbang_iv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="makemoney_iv">
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="mine_relativeLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="mine_order_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">@color/txblack</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="makenoney_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">@color/txblack</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="makenoney_tv_two">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <!--直接从界面中间弹窗效果很好-->
+    <style name="activitydialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="tv_tixian_and_comquestion">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/base_white</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:textColor">@color/shouyiwenzi</item>
+    </style>
+
+    <style name="lin_padd">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:background">@drawable/base_white</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingTop">15dp</item>
+    </style>
+
+    <style name="AlertImage">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="transparentFrameWindowStyle" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/photo_choose_bg</item>
+    </style>
+
+    <style name="main_menu_animstyle">
+        <item name="android:windowEnterAnimation">@anim/photo_dialog_in_anim</item>
+        <item name="android:windowExitAnimation">@anim/photo_dialog_out_anim</item>
+    </style>
+
+    <style name="pdata_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:textColor">@color/txblack</item>
+    </style>
+    <!--dialogfragment样式-->
+    <style name="NiceDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+    <!--dialogfragment样式动画-->
+    <style name="DefaultAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/exit_anim</item>
+    </style>
+
+    <style name="EnterExitAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/exit_anim</item>
+    </style>
+
+    <style name="NoTitleTranslucentTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="user_phb_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">#C0A865</item>
+    </style>
+
+    <style name="user_phb_iv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="user_phb_re">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="iv_to_top">
+        <item name="android:background">@drawable/shape_goods_oval</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:src">@mipmap/to_top</item>
+    </style>
+
+    <style name="custom_dialog2" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否漂现在activity上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 去除黑色边框的关键设置项 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 屏幕背景是否变暗 -->
+        <item name="android:backgroundDimAmount">0.3</item>
+    </style>
+</resources>

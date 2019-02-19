@@ -64,6 +64,7 @@ public class PinZheMakeMoneyActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
                 return false;
             }
 

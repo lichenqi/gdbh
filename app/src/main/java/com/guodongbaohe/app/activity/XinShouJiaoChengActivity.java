@@ -44,6 +44,7 @@ import com.guodongbaohe.app.receiver.RequestPermissions;
 import com.guodongbaohe.app.receiver.RequestPermissionsResultSetApp;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.PermissionUtils;
+import com.guodongbaohe.app.util.WebViewUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
 import com.liulishuo.filedownloader.FileDownloader;
@@ -115,7 +116,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                view.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
                 return true;
             }
 
@@ -192,7 +193,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
                 }
             }
         });
-        webview.loadUrl(url);
+        webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
     }
 

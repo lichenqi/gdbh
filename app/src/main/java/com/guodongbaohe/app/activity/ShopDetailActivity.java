@@ -73,6 +73,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.litepal.util.Const;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -586,24 +587,24 @@ public class ShopDetailActivity extends BigBaseActivity {
         }
 
         if (isLogin) {
-            if (member_role.equals("2")) {
+            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁比例*/
                 setDataBiLi(90);
-            } else if (member_role.equals("1")) {
+            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人比例*/
-                setDataBiLi(82);
+                setDataBiLi(70);
+            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*vip比例*/
+                setDataBiLi(40);
             } else {
-                if (son_count.equals("0")) {
-                    /*没有下级比例*/
-                    setDataBiLi(40);
-                } else {
-                    /*有下级比例*/
-                    setDataBiLi(50);
-                }
+                /*普通用户角色*/
+                tv_share_money.setText("立即分享");
+                tv_buy.setText("领券购买");
             }
         } else {
-            /*没有下级比例*/
-            setDataBiLi(40);
+            /*游客*/
+            tv_share_money.setText("立即分享");
+            tv_buy.setText("领券购买");
         }
     }
 
@@ -1006,18 +1007,6 @@ public class ShopDetailActivity extends BigBaseActivity {
                 });
     }
 
-    private void toMakeMoneyFragment() {
-        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-            intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.putExtra("shopdetail_upgrade", "shopdetail_upgrade");
-            startActivity(intent);
-            finish();
-        } else {
-            intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
-            startActivity(intent);
-        }
-    }
-
     private void initPicRecycler() {
         recyclerview_pic.setHasFixedSize(true);
         recyclerview_pic.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -1030,18 +1019,11 @@ public class ShopDetailActivity extends BigBaseActivity {
     List<String> list_detail;
 
     private void setDataBiLi(int num) {
-        if (!TextUtils.isEmpty(money_upgrade_switch)) {
-            if (money_upgrade_switch.equals("yes")) {
-                tv_share_money.setText("立即分享");
-                tv_buy.setText("领券购买");
-            } else {
-                double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
-                BigDecimal bg3 = new BigDecimal(result);
-                double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                tv_share_money.setText("分享赚¥" + money);
-                tv_buy.setText("购买返¥" + money);
-            }
-        }
+        double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
+        BigDecimal bg3 = new BigDecimal(result);
+        double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        tv_share_money.setText("分享赚¥" + money);
+        tv_buy.setText("购买返¥" + money);
     }
 
     /*设置指示器*/

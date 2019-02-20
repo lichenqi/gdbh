@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
@@ -31,7 +30,7 @@ import butterknife.ButterKnife;
 public class EverydayfaddishAdapter extends RecyclerView.Adapter<EverydayfaddishAdapter.EverydayfaddishHolder> {
     private List<EverydayHostGoodsBean.GoodsList> list;
     private Context context;
-    private OnItemClick onItemClick, onFuzhiClick, allItemClick;
+    private OnItemClick onShareClick, onFuzhiClick, allItemClick;
     private FragmentActivity activity;
     List<String> list_imgs;
     private OnLongClick onLongClick;
@@ -47,8 +46,8 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         this.allItemClick = allItemClick;
     }
 
-    public void onShareClickListener(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+    public void onShareClickListener(OnItemClick onShareClick) {
+        this.onShareClick = onShareClick;
     }
 
     public void setonFuZhiListener(OnItemClick onFuzhiClick) {
@@ -108,11 +107,11 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             holder.re_taokouling_buju.setVisibility(View.VISIBLE);
             holder.tv_kouling_wenben.setText(list.get(position).getComment());
         }
-        if (onItemClick != null) {
+        if (onShareClick != null) {
             holder.re_share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClick.OnItemClickListener(holder.re_share, holder.getAdapterPosition());
+                    onShareClick.OnItemClickListener(holder.re_share, holder.getAdapterPosition());
                 }
             });
         }
@@ -120,12 +119,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             holder.re_fuzhi.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (!TextUtils.isEmpty(status)) {
-                        onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
-                    } else {
-                        Toast.makeText(context, "商品信息不存在", Toast.LENGTH_SHORT).show();
-                    }
-
+                    onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
                 }
             });
         }

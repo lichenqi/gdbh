@@ -27,7 +27,6 @@ import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
-import com.guodongbaohe.app.util.WebViewUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +63,6 @@ public class PinZheMakeMoneyActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
                 return false;
             }
 
@@ -138,7 +136,7 @@ public class PinZheMakeMoneyActivity extends BaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 PinZheBean pinZheBean = GsonUtil.GsonToBean(response.toString(), PinZheBean.class);
                                 String promote_id = pinZheBean.getResult().getPromote_id();
-                                webview.loadUrl(url + promote_id, WebViewUtil.getWebViewHead(getApplicationContext()));
+                                webview.loadUrl(url + promote_id);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

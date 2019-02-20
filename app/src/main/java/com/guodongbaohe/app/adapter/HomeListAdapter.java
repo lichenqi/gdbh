@@ -54,14 +54,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
 
     @Override
     public void onBindViewHolder(@NonNull final HomeListHolder holder, int position) {
-        String money_upgrade_switch = PreferUtils.getString(context, "money_upgrade_switch");
-        if (!TextUtils.isEmpty(money_upgrade_switch)) {
-            if (money_upgrade_switch.equals("yes")) {
-                holder.re_bottom.setVisibility(View.INVISIBLE);
-            } else {
-                holder.re_bottom.setVisibility(View.VISIBLE);
-            }
-        }
         tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
         app_v = 1 - Double.valueOf(tax_rate);
         attr_prime = list.get(position).getAttr_prime();/*原价*/

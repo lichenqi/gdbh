@@ -107,6 +107,7 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
                 holder.ninengzhuan.setVisibility(View.VISIBLE);
                 touristData(holder, 40);
             } else {
+                /*普通用户*/
                 holder.ninengzhuan.setVisibility(View.GONE);
             }
         } else {

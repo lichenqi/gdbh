@@ -465,6 +465,7 @@ public class SearchResultActivity extends BigBaseActivity {
                 intent.putExtra("coupon_total", list.get(pos).getCoupon_total());
                 intent.putExtra("coupon_id", list.get(pos).getCoupon_id());
                 intent.putExtra(Constant.SHOP_REFERER, "search");/*商品来源*/
+                intent.putExtra(Constant.GAOYONGJIN_SOURCE, list.get(pos).getSource());/*高佣金来源*/
                 startActivity(intent);
             }
         });

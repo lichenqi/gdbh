@@ -149,6 +149,7 @@ public class RankingListFragment extends BaseLazyLoadFragment {
                 intent.putExtra("coupon_total", list.get(pos).getCoupon_total());
                 intent.putExtra("coupon_id", list.get(pos).getCoupon_id());/*优惠券id*/
                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                intent.putExtra(Constant.GAOYONGJIN_SOURCE, list.get(pos).getSource());/*高佣金来源*/
                 startActivity(intent);
             }
         });

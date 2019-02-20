@@ -313,6 +313,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 intent.putExtra("coupon_total", result.getCoupon_total());
                                 intent.putExtra("coupon_id", result.getCoupon_id());
                                 intent.putExtra(Constant.SHOP_REFERER, "circle");/*商品来源*/
+                                intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");
@@ -347,6 +348,9 @@ public class EverydayFaddishFragment extends Fragment {
         map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
         map.put("goods_id", list.get(pos).getGoods_id());
         map.put(Constant.SHOP_REFERER, "circle");
+        if (!TextUtils.isEmpty(list.get(pos).getSource())) {
+            map.put(Constant.GAOYONGJIN_SOURCE, list.get(pos).getSource());
+        }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -658,6 +662,9 @@ public class EverydayFaddishFragment extends Fragment {
         map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
         map.put("goods_id", list.get(which_position).getGoods_id());
         map.put(Constant.SHOP_REFERER, "circle");
+        if (!TextUtils.isEmpty(list.get(which_position).getSource())) {
+            map.put(Constant.GAOYONGJIN_SOURCE, list.get(which_position).getSource());
+        }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

@@ -55,6 +55,15 @@ public class RouteBean {
         private String user_type;
         private String white_image;
         private String goods_slogan;
+        private String source;
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
 
         public String getGoods_slogan() {
             return goods_slogan;

@@ -37,6 +37,15 @@ public class ShopBasicBean {
         private String sales_today;
         private String seller_id;
         private String seller_shop;
+        private String source;
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
 
         public String getAttr_price() {
             return attr_price;

@@ -39,6 +39,15 @@ public class EverydayHostGoodsBean {
         private String type;
         private boolean isLogin;
         private String son_count;
+        private String source;
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
 
         public boolean isLogin() {
             return isLogin;

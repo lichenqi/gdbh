@@ -181,8 +181,9 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                                         public void OnItemClickListener(View view, int position) {
                                             String goods_id = list.get(position).getGoods_id();
                                             String coupon_id = list.get(position).getCoupon_id();
+                                            String source = list.get(position).getSource();
                                             /*调用高佣金接口*/
-                                            getGaoYongJinData(goods_id, coupon_id);
+                                            getGaoYongJinData(goods_id, coupon_id, source);
                                         }
                                     });
                                 }
@@ -206,7 +207,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
     /*跳转淘宝链接*/
     String coupon_url;
 
-    private void getGaoYongJinData(String goods_id, String coupon_id) {
+    private void getGaoYongJinData(String goods_id, String coupon_id, String source) {
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
@@ -219,6 +220,9 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
             map.put("coupon_id", coupon_id);
         }
         map.put(Constant.SHOP_REFERER, "cart");
+        if (!TextUtils.isEmpty(source)) {
+            map.put(Constant.GAOYONGJIN_SOURCE, source);
+        }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

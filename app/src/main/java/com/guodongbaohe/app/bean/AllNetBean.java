@@ -57,6 +57,15 @@ public class AllNetBean {
         private boolean isLogin;
         private String son_count;
         private String member_role;
+        private String source;
+
+        public String getSource() {
+            return source;
+        }
+
+        public void setSource(String source) {
+            this.source = source;
+        }
 
         public String getGoods_slogan() {
             return goods_slogan;

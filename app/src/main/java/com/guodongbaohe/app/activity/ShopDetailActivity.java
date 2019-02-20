@@ -73,7 +73,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.litepal.util.Const;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -147,7 +146,8 @@ public class ShopDetailActivity extends BigBaseActivity {
     boolean isLogin;
     String son_count, member_role, tax_rate;
     String goods_id, cate_route, attr_price, attr_prime, attr_ratio, sales_month, goods_name, goods_short, seller_shop,
-            goods_thumb, goods_gallery, coupon_begin, coupon_final, coupon_surplus, coupon_explain, cate_category, attr_site, coupon_total, coupon_id, referer;
+            goods_thumb, goods_gallery, coupon_begin, coupon_final, coupon_surplus, coupon_explain, cate_category,
+            attr_site, coupon_total, coupon_id, referer, source;
     /*标题头部布局*/
     @BindView(R.id.iv_yuanxing_back)
     ImageView iv_yuanxing_back;
@@ -224,6 +224,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         coupon_total = intent.getStringExtra("coupon_total");
         coupon_id = intent.getStringExtra("coupon_id");
         referer = intent.getStringExtra(Constant.SHOP_REFERER);
+        source = intent.getStringExtra(Constant.GAOYONGJIN_SOURCE);
         String short_title = PreferUtils.getString(getApplicationContext(), "short_title");
         is_pop_window = PreferUtils.getString(getApplicationContext(), "is_pop_window");
         is_show_money_vip = PreferUtils.getString(getApplicationContext(), "is_show_money_vip");
@@ -724,6 +725,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                         intent.putExtra("coupon_total", result.get(pos).getCoupon_total());
                                         intent.putExtra("coupon_id", result.get(pos).getCoupon_id());
                                         intent.putExtra(Constant.SHOP_REFERER, "search");/*商品来源*/
+                                        intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.get(pos).getSource());/*高佣金来源*/
                                         startActivity(intent);
                                     }
                                 });
@@ -954,6 +956,9 @@ public class ShopDetailActivity extends BigBaseActivity {
                     break;
             }
         }
+        if (!TextUtils.isEmpty(source)) {
+            map.put(Constant.GAOYONGJIN_SOURCE, source);
+        }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -1101,6 +1106,9 @@ public class ShopDetailActivity extends BigBaseActivity {
                     map.put(Constant.SHOP_REFERER, "favorite");
                     break;
             }
+        }
+        if (!TextUtils.isEmpty(source)) {
+            map.put(Constant.GAOYONGJIN_SOURCE, source);
         }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);

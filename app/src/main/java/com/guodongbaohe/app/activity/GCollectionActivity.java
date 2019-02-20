@@ -385,6 +385,7 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
             intent.putExtra("attr_site", result.getAttr_site());/*天猫或者淘宝*/
             intent.putExtra("coupon_total", result.getCoupon_total());
             intent.putExtra(Constant.SHOP_REFERER, "favorite");/*商品来源*/
+            intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
             startActivity(intent);
         } else {
             ToastUtils.showToast(getContext(), "商品信息不全，请试试其他商品");

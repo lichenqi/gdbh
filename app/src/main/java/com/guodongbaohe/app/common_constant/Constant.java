@@ -170,6 +170,8 @@ public class Constant {
     public static final String YOUMENGPUSH = "guodong_alias";
     /*商品来源字段*/
     public static final String SHOP_REFERER = "referer";
+    /*高佣金来源字段*/
+    public static final String GAOYONGJIN_SOURCE = "source";
     /*修改邀请码*/
     public static final String MODIFY_CODE = "member/modifyCode";
     /*修改用户基本信息字段*/

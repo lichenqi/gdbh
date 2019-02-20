@@ -630,6 +630,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 intent.putExtra("coupon_total", list.get(pos).getCoupon_total());/*券数量*/
                 intent.putExtra("coupon_id", list.get(pos).getCoupon_id());/*优惠券id*/
                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                intent.putExtra(Constant.GAOYONGJIN_SOURCE, list.get(pos).getSource());/*高佣金来源*/
                 startActivity(intent);
             }
         });
@@ -862,12 +863,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 public void onClick(View v) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                         String url = xin_list.get(position).getUrl();
-                        if (!TextUtils.isEmpty(url)){
+                        if (!TextUtils.isEmpty(url)) {
                             if (xin_list.get(position).getTitle().equals("新手快速赚钱必看教程")) {
                                 intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                                 intent.putExtra("url", url);
                                 startActivity(intent);
-                            }else {
+                            } else {
                                 intent = new Intent(getContext(), BaseH5Activity.class);
                                 intent.putExtra("url", url);
                                 startActivity(intent);
@@ -1018,6 +1019,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 intent.putExtra("coupon_total", result.getCoupon_total());
                                 intent.putExtra("coupon_id", result.getCoupon_id());
                                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                                intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");

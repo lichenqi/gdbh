@@ -59,7 +59,7 @@ public class KesalanPathActivity extends BaseActivity {
     JhsAdapter adapter;
     RoundedImageView iv_head;
 
-    // 声明一个订阅方法，用于接收事件
+    // 声明一个订阅方法，用于接收事件茶空间了你我所取代我破产我就请稍等
     @Subscribe
     public void onEvent(String msg) {
         switch (msg) {

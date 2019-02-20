@@ -22,9 +22,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.alipay.PayResult;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
@@ -41,6 +44,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -48,12 +52,12 @@ import butterknife.ButterKnife;
 
 public class GFriendToBossActivity extends BaseActivity {
     ImageView iv_back;
-    String url;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-
+    String url,getUrl;
+    ConfigurationBean.PageBean list_data;
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -63,7 +67,14 @@ public class GFriendToBossActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-        url = "http://app.mopland.com/help/president";
+//        url = "http://app.mopland.com/help/president";
+        getUrl=PreferUtils.getString(this,"http_list_data");
+        if (!TextUtils.isEmpty(getUrl)){
+            Gson gson=new Gson();
+            list_data=gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>(){}.getType());
+            url=list_data.getPresident().getUrl();
+            Log.i("升级总裁",url);
+        }
         iv_back = (ImageView) findViewById(R.id.iv_back);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         Intent intent = getIntent();

@@ -40,6 +40,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.SearchResultActivity;
 import com.guodongbaohe.app.activity.TaoBaoWebViewActivity;
@@ -477,7 +478,7 @@ public class MainActivity extends BigBaseActivity {
             }
         }
     }
-
+    ConfigurationBean.PageBean http_list;
     private void getPeiZhiData() {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.APPPEIZHIDATA)
                 .tag(this)
@@ -500,6 +501,11 @@ public class MainActivity extends BigBaseActivity {
                             if (status >= 0) {
                                 ConfigurationBean bean = GsonUtil.GsonToBean(response.toString(), ConfigurationBean.class);
                                 if (bean == null) return;
+                                /*H5地址*/
+                                http_list=bean.getPage();
+                                Gson gson=new Gson();
+                                String http_list_data=gson.toJson(http_list); //保存h5地址信息
+                                PreferUtils.putString(getApplicationContext(), "http_list_data", http_list_data);
                                 /*邀请说明*/
                                 String invite_friends = bean.getResult().getInvite_friends();
                                 /*最低支付宝提现金额*/

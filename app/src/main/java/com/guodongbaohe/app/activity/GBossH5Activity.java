@@ -2,6 +2,8 @@ package com.guodongbaohe.app.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -12,9 +14,17 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
+import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.WebViewUtil;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +34,9 @@ public class GBossH5Activity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    String url;
+    String url,getUrl;
     ImageView iv_back;
+    ConfigurationBean.PageBean list_data;
 
     @Override
     public int getContainerView() {
@@ -37,7 +48,15 @@ public class GBossH5Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        url = "http://app.mopland.com/help/presidentone";
+//        url = "http://app.mopland.com/help/presidentone";
+        getUrl=PreferUtils.getString(this,"http_list_data");
+        if (!TextUtils.isEmpty(getUrl)){
+            Gson gson=new Gson();
+            list_data=gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>(){}.getType());
+            url=list_data.getBoss().getUrl();
+            Log.i("总裁h5",url);
+        }
+
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);

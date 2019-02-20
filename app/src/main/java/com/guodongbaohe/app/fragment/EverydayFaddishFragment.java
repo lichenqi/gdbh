@@ -159,6 +159,7 @@ public class EverydayFaddishFragment extends Fragment {
                     getData();
                 }
             });
+            /*分享点击*/
             adapter.onShareClickListener(new OnItemClick() {
                 @Override
                 public void OnItemClickListener(View view, int position) {
@@ -166,7 +167,7 @@ public class EverydayFaddishFragment extends Fragment {
                         which_position = position - 1;
                         goods_gallery = list.get(which_position).getGoods_gallery();
                         String status = list.get(which_position).getStatus();
-                        if (!TextUtils.isEmpty(status) && status.equals("0")) {
+                        if (TextUtils.isEmpty(status) || status.equals("0")) {
                             ToastUtils.showToast(getContext(), "该商品抢光呢!");
                             return;
                         }
@@ -193,13 +194,14 @@ public class EverydayFaddishFragment extends Fragment {
                     }
                 }
             });
+            /*复制评论点击*/
             adapter.setonFuZhiListener(new OnItemClick() {
                 @Override
                 public void OnItemClickListener(View view, int position) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                         which_position = position - 1;
                         String status = list.get(which_position).getStatus();
-                        if (!TextUtils.isEmpty(status) && status.equals("0")) {
+                        if (TextUtils.isEmpty(status) || status.equals("0")) {
                             ToastUtils.showToast(getContext(), "该商品抢光呢!");
                             return;
                         }
@@ -215,7 +217,7 @@ public class EverydayFaddishFragment extends Fragment {
                 public void OnItemClickListener(View view, int position) {
                     int pos = position - 1;
                     String status = list.get(pos).getStatus();
-                    if (!TextUtils.isEmpty(status) && status.equals("0")) {
+                    if (TextUtils.isEmpty(status) || status.equals("0")) {
                         ToastUtils.showToast(getContext(), "该商品抢光呢!");
                         return;
                     }
@@ -514,9 +516,9 @@ public class EverydayFaddishFragment extends Fragment {
                                 EverydayHostGoodsBean bean = GsonUtil.GsonToBean(response.toString(), EverydayHostGoodsBean.class);
                                 if (bean == null) return;
                                 List<EverydayHostGoodsBean.GoodsList> list_result = bean.getResult();
-                                for (int i=0;i<list_result.size();i++){
-                                    String goodid=list_result.get(i).getGoods_id();
-                                    Log.i("商品id",goodid);
+                                for (int i = 0; i < list_result.size(); i++) {
+                                    String goodid = list_result.get(i).getGoods_id();
+                                    Log.i("商品id", goodid);
                                 }
 
                                 if (list_result.size() == 0) {

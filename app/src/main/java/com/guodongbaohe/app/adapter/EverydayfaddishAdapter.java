@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,9 +76,6 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             app_v = 1 - Double.valueOf(tax_rate);
         }
         status = list.get(position).getStatus();
-        if (!TextUtils.isEmpty(status)) {
-            Log.i("抢光了", status);
-        }
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();

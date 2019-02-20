@@ -41,7 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/*邀请码界面*/
+/*邀请码界面new*/
 public class InvitationCodeActivity extends BaseActivity {
     @BindView(R.id.et_invited_code)
     EditText et_invited_code;

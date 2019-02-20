@@ -52,7 +52,6 @@ public class ShopCartAdapter extends RecyclerView.Adapter<ShopCartAdapter.ShopCa
 
     @Override
     public void onBindViewHolder(final ShopCartHolder holder, int position) {
-        String money_upgrade_switch = PreferUtils.getString(context, "money_upgrade_switch");
         String tax_rate = PreferUtils.getString(context, "tax_rate");
         app_v = 1 - Double.valueOf(tax_rate);
         String goods_thumb = list.get(position).getGoods_thumb();
@@ -93,23 +92,21 @@ public class ShopCartAdapter extends RecyclerView.Adapter<ShopCartAdapter.ShopCa
             }
         }
 
-        if (money_upgrade_switch.equals("yes")) {
-            holder.re_bottom.setVisibility(View.INVISIBLE);
-        } else {
-            holder.re_bottom.setVisibility(View.VISIBLE);
-        }
-
         String member_role = list.get(position).getMember_role();
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+            /*总裁用户*/
             holder.ninengzhuan.setVisibility(View.VISIBLE);
             touristData(holder, 90);
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+            /*合伙人*/
             holder.ninengzhuan.setVisibility(View.VISIBLE);
             touristData(holder, 70);
         } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            /*vip用户*/
             holder.ninengzhuan.setVisibility(View.VISIBLE);
             touristData(holder, 40);
         } else {
+            /*普通用户*/
             holder.ninengzhuan.setVisibility(View.GONE);
         }
 

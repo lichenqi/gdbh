@@ -88,8 +88,6 @@ public class YaoQingFriendActivity extends BaseActivity {
     Bitmap qrCodeBitmap;
     @BindView(R.id.re_share)
     RelativeLayout re_share;
-    @BindView(R.id.tv_ptong_user)
-    TextView tv_ptong_user;
     View share_view;
     int space;
     ImageView share_iv;
@@ -107,12 +105,6 @@ public class YaoQingFriendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setMiddleTitle("邀请好友");
-        String son_count = PreferUtils.getString(getApplicationContext(), "son_count");
-        if (son_count.equals("0")) {
-            tv_ptong_user.setVisibility(View.VISIBLE);
-        } else {
-            tv_ptong_user.setVisibility(View.GONE);
-        }
         recyclerview.setHasFixedSize(true);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);

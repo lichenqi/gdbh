@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
@@ -54,6 +55,8 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
     TextView tv_shengqian;
     @BindView(R.id.tv_make_yuan)
     TextView tv_make_yuan;
+    @BindView(R.id.re_keweinizhuan)
+    RelativeLayout re_keweinizhuan;
     String shop_ids, member_role;
     private int coupon_num = 0;
     private double coupon_money = 0;
@@ -92,6 +95,15 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
     private void initRecyclerview() {
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+            re_keweinizhuan.setVisibility(View.VISIBLE);
+        } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+            re_keweinizhuan.setVisibility(View.VISIBLE);
+        } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            re_keweinizhuan.setVisibility(View.VISIBLE);
+        } else {
+            re_keweinizhuan.setVisibility(View.GONE);
+        }
     }
 
     /*查询数据*/

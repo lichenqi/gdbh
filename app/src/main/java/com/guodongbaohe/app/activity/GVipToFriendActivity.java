@@ -22,9 +22,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.alipay.PayResult;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
@@ -47,7 +50,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GVipToFriendActivity extends BaseActivity {
-    String url;
+    String url,getUrl;
+    ConfigurationBean.PageBean list_data;
     ImageView iv_back;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
@@ -65,8 +69,13 @@ public class GVipToFriendActivity extends BaseActivity {
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
-        Intent intent = getIntent();
-        url = "http://app.mopland.com/help/member";
+        getUrl=PreferUtils.getString(this,"http_list_data");
+        if (!TextUtils.isEmpty(getUrl)){
+            Gson gson=new Gson();
+            list_data=gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>(){}.getType());
+            url=list_data.getPartner().getUrl();
+            Log.i("升级合伙人",url);
+        }
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);

@@ -333,6 +333,7 @@
         <activity
             android:name=".activity.BaiChuanActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.GetTokenActivity"/>
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

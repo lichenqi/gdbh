@@ -332,17 +332,21 @@ public class MakeMoneyFragment extends Fragment {
     private void OtherDataChange() {
         initImageView();
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+            /*总裁*/
             memberRoleSecond();
             getTotalData();
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+            /*合伙人*/
             memberRoleFirst();
             getTotalData();
         } else {
             /*赚钱接口数据*/
             getData();
             if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
                 touristData();
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*Vip用户*/
                 haveSonData();
             }
         }
@@ -389,7 +393,7 @@ public class MakeMoneyFragment extends Fragment {
         OtherDataChange();
     }
 
-    /*用户角色1*/
+    /*合伙人角色*/
     private void memberRoleFirst() {
         long currentTimeMillis = System.currentTimeMillis();
         long youxiaotime = Long.valueOf(validity) * 1000;
@@ -417,7 +421,7 @@ public class MakeMoneyFragment extends Fragment {
         tv_open_vip.setText("升级成为总裁 >");
     }
 
-    /*用户角色2*/
+    /*总裁角色*/
     private void memberRoleSecond() {
         update_label.setText("总裁享受最高特权");
         identity_label.setText("您的身份永不过期");
@@ -436,7 +440,7 @@ public class MakeMoneyFragment extends Fragment {
         tv_open_vip.setText("您已是总裁!");
     }
 
-    /*拥有下级数据界面*/
+    /*Vip角色*/
     private void haveSonData() {
         update_label.setText("VIP专属特权");
         identity_label.setText("您已达到升级合伙人的资格");
@@ -455,7 +459,7 @@ public class MakeMoneyFragment extends Fragment {
         tv_open_vip.setText("升级成为合伙人 >");
     }
 
-    /*没有下级数据*/
+    /*普通用户角色*/
     private void touristData() {
         update_label.setText("升级成为VIP享受以下特权");
         identity_label.setText("邀请一位好友成为VIP");

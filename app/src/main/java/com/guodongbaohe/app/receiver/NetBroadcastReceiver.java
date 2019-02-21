@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.text.TextUtils;
 
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.util.NetUtil;
@@ -23,10 +24,10 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
             int netWorkState = NetUtil.getNetWorkState(context);
             // 接口回调传过去状态的类型
-            if ("null".equals(String.valueOf(netWorkState)) || "0".equals(String.valueOf(netWorkState))) {
-                return;
+            if (!TextUtils.isEmpty(String.valueOf(netWorkState)) || netWorkState!=0) {
+                evevt.onNetChange(netWorkState);
             }
-            evevt.onNetChange(netWorkState);
+
         }
     }
 

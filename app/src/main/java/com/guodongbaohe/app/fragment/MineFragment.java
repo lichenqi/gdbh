@@ -46,6 +46,7 @@ import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.AboutUsActivity;
 import com.guodongbaohe.app.activity.GCollectionActivity;
 import com.guodongbaohe.app.activity.GGfwChatActivity;
+import com.guodongbaohe.app.activity.GetTokenActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.MoneyTiXianActivity;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
@@ -60,6 +61,7 @@ import com.guodongbaohe.app.activity.YaoQingFriendActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.BeiAnBean;
 import com.guodongbaohe.app.bean.MineDataBean;
+import com.guodongbaohe.app.bean.TokenBean;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -155,6 +157,12 @@ public class MineFragment extends Fragment {
     /*收藏夹个数*/
     @BindView(R.id.tv_collect_num)
     TextView tv_collect_num;
+    /*手机令牌*/
+    @BindView(R.id.gd_lingpai_rl)
+    RelativeLayout gd_lingpai_rl;
+    /*令牌号*/
+    @BindView(R.id.tv_lingpai_num)
+    TextView tv_lingpai_num;
     @BindView(R.id.swiperefreshlayout)
     SwipeRefreshLayout swiperefreshlayout;
     @BindView(R.id.ll_oppo)
@@ -389,7 +397,7 @@ public class MineFragment extends Fragment {
             R.id.re_incomeing, R.id.re_invite_award, R.id.tv_fuzhi_anniu, R.id.re_user_bg, R.id.re_withdraw_deposit,
             R.id.re_wechat, R.id.iv_set, R.id.re_xinshou_jiaocheng, R.id.re_question, R.id.re_taobao_gwuche, R.id.re_taobao_order
             , R.id.gd_collect_jia, R.id.guanfangweixin, R.id.re_version_update,
-            R.id.oppo_gd_collect_jia, R.id.oppo_re_xinshou_jiaocheng, R.id.oppo_re_question, R.id.oppo_re_aboutus, R.id.oppo_re_clean_cache})
+            R.id.oppo_gd_collect_jia, R.id.oppo_re_xinshou_jiaocheng, R.id.oppo_re_question, R.id.oppo_re_aboutus, R.id.oppo_re_clean_cache,R.id.gd_lingpai_rl})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.re_clean_cache:
@@ -503,6 +511,10 @@ public class MineFragment extends Fragment {
                 break;
             case R.id.re_version_update:
                 getVersionCodeData();
+                break;
+            case R.id.gd_lingpai_rl:   //手机令牌
+                intent=new Intent(getContext(),GetTokenActivity.class);
+                startActivity(intent);
                 break;
         }
     }

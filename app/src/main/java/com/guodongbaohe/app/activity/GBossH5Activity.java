@@ -48,7 +48,6 @@ public class GBossH5Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-//        url = "http://app.mopland.com/help/presidentone";
         getUrl=PreferUtils.getString(this,"http_list_data");
         if (!TextUtils.isEmpty(getUrl)){
             Gson gson=new Gson();

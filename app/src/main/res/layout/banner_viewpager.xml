@@ -14,4 +14,5 @@
         android:scaleType="fitXY"
         app:riv_border_color="#ffffffff"
         app:riv_corner_radius="8dp" />
+
 </LinearLayout>

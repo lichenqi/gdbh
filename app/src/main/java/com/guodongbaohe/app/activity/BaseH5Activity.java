@@ -129,6 +129,7 @@ public class BaseH5Activity extends BaseActivity {
 
     public class DemoJavascriptInterface {
 
+        /*地推物料交互到淘宝详情（不用转高拥接口）*/
         @JavascriptInterface
         public void shareIndex(String id) {
             Log.i("商品id", id);
@@ -144,7 +145,7 @@ public class BaseH5Activity extends BaseActivity {
             }
         }
 
-        /*复制按钮交互*/
+        /*地推物料复制按钮交互*/
         @JavascriptInterface
         public void copy(String url) {
             if (!TextUtils.isEmpty(url)) {
@@ -152,11 +153,23 @@ public class BaseH5Activity extends BaseActivity {
             }
         }
 
-        /*到商品详情交互*/
+        /*到本地商品详情交互*/
         @JavascriptInterface
         public void toShopDetail(String shop_id) {
             Log.i("商品详情id", shop_id);
             getShopBasicData(shop_id);
+        }
+
+        /*转高佣接口  到淘宝详情界面*/
+        @JavascriptInterface
+        public void highCommissionToTaoBaoDetail(String shop_id) {
+            Log.i("商品详情高拥id", shop_id);
+            if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+                getGaoYongJinData(shop_id);
+            } else {
+                Intent intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
+                startActivity(intent);
+            }
         }
 
     }
@@ -171,6 +184,9 @@ public class BaseH5Activity extends BaseActivity {
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
         map.put("goods_id", goods_id);
+        map.put("coupon_id", "");
+        map.put(Constant.SHOP_REFERER, "");
+        map.put(Constant.GAOYONGJIN_SOURCE, "");
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -184,8 +200,8 @@ public class BaseH5Activity extends BaseActivity {
                 .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
                 .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
                 .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
                 .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), PreferUtils.getString(getApplicationContext(), "member_id")))
-                .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -270,6 +286,7 @@ public class BaseH5Activity extends BaseActivity {
                                 intent.putExtra("coupon_total", result.getCoupon_total());
                                 intent.putExtra("coupon_id", result.getCoupon_id());
                                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                                intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");

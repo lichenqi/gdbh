@@ -52,6 +52,15 @@ public class OrderBean {
         private String total_commission_fee;
         private String total_commission_rate;
         private String trade_id;
+        private String freeze;
+
+        public String getFreeze() {
+            return freeze;
+        }
+
+        public void setFreeze(String freeze) {
+            this.freeze = freeze;
+        }
 
         public String getMoney() {
             return money;

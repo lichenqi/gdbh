@@ -53,21 +53,27 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
         app_v = 1 - Double.valueOf(tax_rate);
         NetImageLoadUtil.loadImage(Constant.BASE_URL + Constant.ORDER_PHOTO + list.get(position).getNum_iid() + "?size=100", context, holder.iv);
         String tk_status = list.get(position).getTk_status();
+        String freeze = list.get(position).getFreeze();
         holder.title.setText(list.get(position).getItem_title());
         holder.order_no.setText("订单号:" + list.get(position).getTrade_id());
         holder.order_price.setText("商品付款¥" + list.get(position).getAlipay_total_price());
-        if (tk_status.equals("13")) {
-            holder.taonbao.setText("订单失效");
-            holder.taonbao.setTextColor(0xfff40000);
-        } else if (tk_status.equals("3")) {
-            holder.taonbao.setTextColor(0xff008080);
-            holder.taonbao.setText("订单结算");
-        } else if (tk_status.equals("12")) {
-            holder.taonbao.setTextColor(0xff000000);
-            holder.taonbao.setText("订单付款");
-        } else if (tk_status.equals("14")) {
-            holder.taonbao.setTextColor(0xff000000);
-            holder.taonbao.setText("订单成功");
+        if (freeze.equals("1")) {
+            holder.taonbao.setText("订单已冻结");
+            holder.taonbao.setTextColor(0xffff0000);
+        } else {
+            if (tk_status.equals("13")) {
+                holder.taonbao.setText("订单失效");
+                holder.taonbao.setTextColor(0xfff40000);
+            } else if (tk_status.equals("3")) {
+                holder.taonbao.setTextColor(0xff008080);
+                holder.taonbao.setText("订单结算");
+            } else if (tk_status.equals("12")) {
+                holder.taonbao.setTextColor(0xff000000);
+                holder.taonbao.setText("订单付款");
+            } else if (tk_status.equals("14")) {
+                holder.taonbao.setTextColor(0xff000000);
+                holder.taonbao.setText("订单成功");
+            }
         }
         holder.time.setText("下单时间:" + list.get(position).getCreate_time());
         holder.makemoney.setText("你能赚¥" + list.get(position).getMoney());

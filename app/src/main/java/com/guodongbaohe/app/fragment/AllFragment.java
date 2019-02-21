@@ -813,14 +813,17 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         String url = banner_result.get(position % banner_result.size()).getUrl();
                         if (!TextUtils.isEmpty(url)) {
                             if (url.contains("http")) {
+                                /*普通链接地址*/
                                 intent = new Intent(getContext(), BaseH5Activity.class);
                                 intent.putExtra("url", url);
                                 startActivity(intent);
                             } else if (url.contains("taobao")) {
+                                /*淘宝天猫链接地址*/
                                 intent = new Intent(getContext(), TaoBaoWebViewActivity.class);
                                 intent.putExtra("url", url);
                                 startActivity(intent);
                             } else {
+                                /*实例商品到商品详情*/
                                 getShopBasicData(url);
                             }
                         }

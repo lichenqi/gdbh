@@ -194,4 +194,7 @@ public class Constant {
     public static final String SHOPPING_CART_LIST_DATA = "goods/coupon";
     /*收藏改变*/
     public static final String COLLECT_CHANGE = "collect_change";
+
+    /*手机令牌*/
+    public static final String GET_TOKEN="member/getToken";
 }

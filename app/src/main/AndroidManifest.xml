@@ -333,6 +333,7 @@
         <activity
             android:name=".activity.BaiChuanActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.GetTokenActivity"/>
         <activity android:name=".activity.TestBannerActivity" />
 
         <receiver

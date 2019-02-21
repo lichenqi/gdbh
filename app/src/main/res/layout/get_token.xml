@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:id="@+id/zhenduiweizhi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+        <com.guodongbaohe.app.view.VerifyCodeView
+            android:id="@+id/vc_centerLine"
+            android:layout_width="240dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="42dp"
+            app:vcTextCount="6"
+            app:vcTextSize="36sp"
+            app:vcDividerWidth="8dp"
+            app:vcWrapper="centerLine"
+            app:vcWrapperColor="#313335"
+            app:vcWrapperStrokeWidth="2dp"/>
+        </LinearLayout>
+
+    <TextView
+        android:layout_below="@+id/zhenduiweizhi"
+        android:id="@+id/copy_lingpai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/yellow_bg_base"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="复制令牌"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/copy_lingpai"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有效期:"/>
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/youxiaoqi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sssss"
+            />
+    </LinearLayout>
+
+</RelativeLayout>

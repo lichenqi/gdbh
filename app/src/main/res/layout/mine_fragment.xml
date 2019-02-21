@@ -591,6 +591,44 @@
                             style="@style/imageview_jiantou" />
 
                     </RelativeLayout>
+                    <View style="@style/mine_view" />
+
+                    <RelativeLayout
+                        android:id="@+id/gd_lingpai_rl"
+                        style="@style/mine_relativeLayout">
+
+                        <ImageView
+                            android:id="@+id/iv_lingpai"
+                            style="@style/mine_imageview"
+                            android:src="@mipmap/gd_collect_jia" />
+
+                        <TextView
+                            android:id="@+id/tv_lingpai_tv"
+                            style="@style/mine_textview"
+                            android:layout_toRightOf="@+id/iv_lingpai"
+                            android:text="果冻令牌" />
+
+                        <TextView
+                            android:id="@+id/tv_lingpai_num"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="2dp"
+                            android:layout_toLeftOf="@+id/lingpai"
+                            android:layout_toRightOf="@+id/tv_lingpai_tv"
+                            android:ellipsize="end"
+                            android:gravity="right"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:textColor="@color/txblack"
+                             />
+
+                        <ImageView
+                            android:id="@+id/lingpai"
+                            style="@style/imageview_jiantou" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 

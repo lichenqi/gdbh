@@ -96,16 +96,22 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
                 /*用户退出*/
                 pageNum = 1;
                 getListData();
+                userLevelHeadChange();
+                userLevelChange();
                 break;
             case Constant.LOGINSUCCESS:
                 /*登录成功*/
                 pageNum = 1;
                 getListData();
+                userLevelHeadChange();
+                userLevelChange();
                 break;
             case Constant.USER_LEVEL_UPGRADE:
                 /*用户等级升级成功*/
                 pageNum = 1;
                 getListData();
+                userLevelHeadChange();
+                userLevelChange();
                 break;
         }
     }
@@ -116,6 +122,38 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    /*佣金和人气切换（初始布局）*/
+    private void userLevelChange() {
+        if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+            String member_role = PreferUtils.getString(getContext(), "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                tv_renqi.setText("人气");
+            } else {
+                /*vip及以上*/
+                tv_renqi.setText("佣金");
+            }
+        } else {
+            tv_renqi.setText("人气");
+        }
+    }
+
+    /*佣金和人气切换（头部布局）*/
+    private void userLevelHeadChange() {
+        if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+            String member_role = PreferUtils.getString(getContext(), "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                renqi.setText("人气");
+            } else {
+                /*vip及以上*/
+                renqi.setText("佣金");
+            }
+        } else {
+            renqi.setText("人气");
+        }
+    }
+
     @Override
     public View initView(LayoutInflater inflater, @Nullable ViewGroup container) {
         if (view == null) {
@@ -124,6 +162,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
             EventBus.getDefault().register(this);
             initView();
             getListData();
+            userLevelChange();
         }
         return view;
     }
@@ -323,6 +362,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
                 setRenqiColor();
             }
         });
+        userLevelHeadChange();
 
         classicHeight = DensityUtils.dip2px(getContext(), 205);
         totalHeight = DensityUtils.dip2px(getContext(), 245);

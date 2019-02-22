@@ -112,6 +112,7 @@ public class SearchResultActivity extends BigBaseActivity {
         super.onResume();
         /*获取剪切板内容*/
         getClipContent();
+        userLevelChange();
     }
 
     Dialog dialog;
@@ -493,4 +494,21 @@ public class SearchResultActivity extends BigBaseActivity {
             }
         });
     }
+
+    /*佣金和人气切换（初始布局）*/
+    private void userLevelChange() {
+        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+            String member_role = PreferUtils.getString(getApplicationContext(), "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                tv_yongjin.setText("人气");
+            } else {
+                /*vip及以上*/
+                tv_yongjin.setText("佣金");
+            }
+        } else {
+            tv_yongjin.setText("人气");
+        }
+    }
+
 }

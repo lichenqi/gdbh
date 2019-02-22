@@ -57,7 +57,6 @@ public class GetTokenActivity extends BaseActivity {
     TextView copy_lingpai; //复制
     @BindView(R.id.youxiaoqi)
     TextView youxiaoqi;
-    Dialog loadingDialog;
     SimpleDateFormat format;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,11 +68,9 @@ public class GetTokenActivity extends BaseActivity {
         iv_right.setImageResource(R.mipmap.refish_h);
         //启动定时器
         timer.schedule(task, 0, 2*60*1000);
-         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                loadingDialog = DialogUtil.createLoadingDialog(GetTokenActivity.this, "...");
                 getTokenData();
                 ToastUtils.showToast(GetTokenActivity.this,"刷新成功！");
             }
@@ -90,16 +87,7 @@ public class GetTokenActivity extends BaseActivity {
             }
         });
         vc_centerLine.setEnabled(false);
-    }
-    public Date StrToData(String str){
-
-        Date date = null;
-        try {
-            date = format.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date;
+        vc_centerLine.setFocusable(false);
     }
     private Handler handler  = new Handler(){
         public void handleMessage(Message msg) {
@@ -109,8 +97,6 @@ public class GetTokenActivity extends BaseActivity {
             }
         }
     };
-
-
     private Timer timer = new Timer(true);
 
     //任务
@@ -161,7 +147,6 @@ public class GetTokenActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("手机令牌数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -182,41 +167,11 @@ public class GetTokenActivity extends BaseActivity {
                             e.printStackTrace();
                         }
                     }
-
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getContext(), Constant.NONET);
                     }
                 });
-    }
-    /*时间戳转换成字符窜*/
-    public static String getDateToString(long time) {
-//        Date d = new Date(time);
-//        SimpleDateFormat  mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        return mSimpleDateFormat.format(d);
-        TimeZone tz = TimeZone.getTimeZone("ETC/GMT-8");
-        TimeZone.setDefault(tz);
-        SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-        return df.format(Long.valueOf(time));
-    }
-    // 时间戳转字符串  1503991612952 ==> 2017-08-29 15:26:52  时间戳 是long 类型
-    public static String timeToString(long s){
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date;
-        try {
-            date = sdf.parse(sdf.format(new Date(s)));
-            //Date date = sdf.parse(sdf.format(new Long(s)));// 等价于
-            return sdf.format(date);
-        } catch (NumberFormatException e) {
-            // TODO 自动生成的 catch 块
-            e.printStackTrace();
-        } catch (ParseException e) {
-            // TODO 自动生成的 catch 块
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public void CopyToClipboard(Context context, String text) {

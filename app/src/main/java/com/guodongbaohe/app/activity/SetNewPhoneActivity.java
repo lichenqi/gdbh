@@ -48,7 +48,7 @@ public class SetNewPhoneActivity extends BaseActivity {
     @BindView(R.id.old_phone)
     EditText old_phone;
 
-    String member_id;
+    String member_id,old_phones;
     private TimeCount time = new TimeCount(60000, 1000);
     @Override
     public int getContainerView() {
@@ -62,6 +62,7 @@ public class SetNewPhoneActivity extends BaseActivity {
         setMiddleTitle("新手机号");
         new_phone.setText("新手机号码:");
         iv_back=(ImageView)findViewById(R.id.iv_back);
+        old_phones=getIntent().getStringExtra("old_phone");
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +75,11 @@ public class SetNewPhoneActivity extends BaseActivity {
     public void OnClick(View view){
         switch (view.getId()){
             case R.id.get_code:
-                if (!TextUtils.isEmpty(old_phone.getText().toString())){
+                if (old_phone.getText().equals(old_phones)&&!TextUtils.isEmpty(old_phone.getText().toString())){
+                    ToastUtils.showToast(SetNewPhoneActivity.this,"换绑手机号不能与原手机号相同");
+                }else if (TextUtils.isEmpty(old_phone.getText().toString())){
+                    ToastUtils.showToast(SetNewPhoneActivity.this,"请输入手机号");
+                }else {
                     getCodeData(old_phone.getText().toString());
                 }
                 break;

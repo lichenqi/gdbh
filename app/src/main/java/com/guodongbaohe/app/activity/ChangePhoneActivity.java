@@ -218,6 +218,7 @@ public class ChangePhoneActivity extends BaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 Log.i("注册", response.toString());
                                 Intent intent = new Intent(ChangePhoneActivity.this, SetNewPhoneActivity.class);
+                                intent.putExtra("old_phone",old_phone.getText().toString());
                                 startActivity(intent);
                                 finish();
                             } else {

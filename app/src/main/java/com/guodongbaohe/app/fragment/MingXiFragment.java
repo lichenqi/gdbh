@@ -203,33 +203,39 @@ public class MingXiFragment extends Fragment {
                 holder.status.setVisibility(View.VISIBLE);
                 String tk_status = list.get(position).getTk_status();
                 String collect = list.get(position).getCollect();/*是否已转余额字段*/
-                if (tk_status.equals("3")) {
-                    if (!TextUtils.isEmpty(collect)) {
-                        if (Double.valueOf(collect) > 0) {
-                            holder.status.setText("已转余额");
-                            holder.status.setTextColor(0xff17a2b8);
+                if (list.get(position).getFreeze().equals("1")) {
+                    holder.status.setText("订单已冻结");
+                    holder.status.setTextColor(0xffff0000);
+                    holder.jiesuan_time.setVisibility(View.GONE);
+                } else {
+                    if (tk_status.equals("3")) {
+                        if (!TextUtils.isEmpty(collect)) {
+                            if (Double.valueOf(collect) > 0) {
+                                holder.status.setText("已转余额");
+                                holder.status.setTextColor(0xff17a2b8);
+                            } else {
+                                holder.status.setText("订单结算");
+                                holder.status.setTextColor(0xff28a745);
+                            }
                         } else {
                             holder.status.setText("订单结算");
                             holder.status.setTextColor(0xff28a745);
                         }
-                    } else {
-                        holder.status.setText("订单结算");
-                        holder.status.setTextColor(0xff28a745);
+                        holder.jiesuan_time.setVisibility(View.VISIBLE);
+                        holder.jiesuan_time.setText("结算时间: " + list.get(position).getEarning_time());
+                    } else if (tk_status.equals("12")) {
+                        holder.status.setText("订单付款");
+                        holder.status.setTextColor(0xffdc3545);
+                        holder.jiesuan_time.setVisibility(View.GONE);
+                    } else if (tk_status.equals("13")) {
+                        holder.status.setText("订单失效");
+                        holder.status.setTextColor(0xff6c757d);
+                        holder.jiesuan_time.setVisibility(View.GONE);
+                    } else if (tk_status.equals("14")) {
+                        holder.status.setText("订单成功");
+                        holder.status.setTextColor(0xffdc3545);
+                        holder.jiesuan_time.setVisibility(View.GONE);
                     }
-                    holder.jiesuan_time.setVisibility(View.VISIBLE);
-                    holder.jiesuan_time.setText("结算时间: " + list.get(position).getEarning_time());
-                } else if (tk_status.equals("12")) {
-                    holder.status.setText("订单付款");
-                    holder.status.setTextColor(0xffdc3545);
-                    holder.jiesuan_time.setVisibility(View.GONE);
-                } else if (tk_status.equals("13")) {
-                    holder.status.setText("订单失效");
-                    holder.status.setTextColor(0xff6c757d);
-                    holder.jiesuan_time.setVisibility(View.GONE);
-                } else if (tk_status.equals("14")) {
-                    holder.status.setText("订单成功");
-                    holder.status.setTextColor(0xffdc3545);
-                    holder.jiesuan_time.setVisibility(View.GONE);
                 }
             } else if (type == 1) {
                 holder.title.setText("恭喜来自您团队成员 【" + list.get(position).getMember_name() + "】 的团队奖金到账啦");

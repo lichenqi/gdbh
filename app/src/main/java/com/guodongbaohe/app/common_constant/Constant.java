@@ -197,4 +197,10 @@ public class Constant {
 
     /*手机令牌*/
     public static final String GET_TOKEN="member/getToken";
+
+    /*修改绑定手机号*/
+    public static final String CHANGE_PHONE="member/modifyOldPhone";
+
+    /*绑定新手机号*/
+    public static final String SET_NEW_PHONE="member/modifyNewPhone";
 }

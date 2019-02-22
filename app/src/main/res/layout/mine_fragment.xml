@@ -594,6 +594,7 @@
                     <View style="@style/mine_view" />
 
                     <RelativeLayout
+                        android:visibility="gone"
                         android:id="@+id/gd_lingpai_rl"
                         style="@style/mine_relativeLayout">
 

@@ -335,6 +335,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activity.GetTokenActivity"/>
         <activity android:name=".activity.TestBannerActivity" />
+        <activity android:name=".activity.ChangePhoneActivity"/>
+        <activity android:name=".activity.SetNewPhoneActivity"/>
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

@@ -53,6 +53,7 @@ import com.umeng.message.PushAgent;
 import com.umeng.message.UTrack;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -98,6 +99,8 @@ public class PersonalActivity extends BaseActivity {
     Switch switch_push;
     @BindView(R.id.re_change_cdoe)
     RelativeLayout re_change_cdoe;
+    @BindView(R.id.change_phone)
+    RelativeLayout change_phone;
     /*相册选择code*/
     private static final int CHOOSEPHOTO_CODE = 1;
     /*拍照请求code*/
@@ -118,6 +121,7 @@ public class PersonalActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         alibcLogin = AlibcLogin.getInstance();
         setMiddleTitle("个人信息");
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
@@ -240,12 +244,13 @@ public class PersonalActivity extends BaseActivity {
         } else if (sex.equals("2")) {
             tv_sex.setText("女");
         }
+        phoneNum = PreferUtils.getString(getApplicationContext(), "phoneNum");
         tv_name.setText(userName);
         tv_what.setText(wchatname);
         tv_phone.setText(phoneNum);
     }
 
-    @OnClick({R.id.loginout, R.id.re_change_img, R.id.re_change_name, R.id.re_change_sex, R.id.re_change_wchat, R.id.re_change_cdoe})
+    @OnClick({R.id.loginout, R.id.re_change_img, R.id.re_change_name, R.id.re_change_sex, R.id.re_change_wchat, R.id.re_change_cdoe,R.id.change_phone})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.loginout:
@@ -269,6 +274,11 @@ public class PersonalActivity extends BaseActivity {
                 break;
             case R.id.re_change_cdoe:
                 intent = new Intent(getApplicationContext(), EditCodeActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.change_phone:
+                intent =new Intent(getApplicationContext(),ChangePhoneActivity.class);
+                intent.putExtra("phoneNum",phoneNum);
                 startActivity(intent);
                 break;
         }
@@ -555,6 +565,16 @@ public class PersonalActivity extends BaseActivity {
         }
     }
 
+    // 声明一个订阅方法，用于接收事件
+    @Subscribe
+    public void onEvent(String msg) {
+        switch (msg) {
+            case "phone_change":
+                initView();
+                break;
+
+        }
+    }
     /*上传头像到服务器*/
     private void upPhotoDataToServie(File file) {
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -605,6 +625,12 @@ public class PersonalActivity extends BaseActivity {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     Uri uritempFile;

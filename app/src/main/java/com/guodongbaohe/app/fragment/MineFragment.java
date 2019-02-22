@@ -602,6 +602,10 @@ public class MineFragment extends Fragment {
         initAliBaiApi();
         /*初始化渠道*/
         initQuDaoWebview();
+        String string=PreferUtils.getString(getContext(),"member_role");
+        if (!string.equals("0")){
+            gd_lingpai_rl.setVisibility(View.VISIBLE);
+        }
         super.onResume();
     }
 

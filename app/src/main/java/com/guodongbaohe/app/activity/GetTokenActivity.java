@@ -63,7 +63,6 @@ public class GetTokenActivity extends BaseActivity {
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         //启动定时器
-        timer.schedule(task, 0, 2 * 60 * 1000);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         timer.schedule(task, 0, 2*60*1000);
         iv_right.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +143,6 @@ public class GetTokenActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("手机令牌数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -165,7 +163,6 @@ public class GetTokenActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getContext(), Constant.NONET);
                     }
                 });

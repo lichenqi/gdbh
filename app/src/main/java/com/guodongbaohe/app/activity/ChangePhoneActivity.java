@@ -47,6 +47,7 @@ public class ChangePhoneActivity extends BaseActivity {
     ContainsEmojiEditText old_phone;
     String member_id;
     private TimeCount time = new TimeCount(60000, 1000);
+
     @Override
     public int getContainerView() {
         return R.layout.change_phone;
@@ -62,11 +63,11 @@ public class ChangePhoneActivity extends BaseActivity {
         yzm_code.setEnabled(true);
         yzm_code.setFocusable(true);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
-        if (!TextUtils.isEmpty(phoneNum)){
+        if (!TextUtils.isEmpty(phoneNum)) {
             old_phone.setText(phoneNum);
         }
         setMiddleTitle("修改手机号");
-        iv_back=(ImageView) findViewById(R.id.iv_back);
+        iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -74,26 +75,29 @@ public class ChangePhoneActivity extends BaseActivity {
             }
         });
     }
-    @OnClick({R.id.get_code,R.id.submit_btn})
-    public void onClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.get_code, R.id.submit_btn})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.get_code:
-                if (!TextUtils.isEmpty(old_phone.getText().toString())){
+                if (!TextUtils.isEmpty(old_phone.getText().toString())) {
                     getCodeData(old_phone.getText().toString());
-                    Log.i("旧手机号",old_phone.getText().toString());
+                    Log.i("旧手机号", old_phone.getText().toString());
                 }
                 break;
             case R.id.submit_btn:
-                if (!TextUtils.isEmpty(yzm_code.getText().toString())){
-                    registerData(old_phone.getText().toString(),yzm_code.getText().toString());
-                }else {
-                    ToastUtils.showToast(ChangePhoneActivity.this,"请输入验证码");
+                if (!TextUtils.isEmpty(yzm_code.getText().toString())) {
+                    registerData(old_phone.getText().toString(), yzm_code.getText().toString());
+                } else {
+                    ToastUtils.showToast(ChangePhoneActivity.this, "请输入验证码");
                 }
                 hintKeyBoard();
                 break;
         }
     }
+
     Dialog loadingDialog;
+
     private void getCodeData(String phone) {
         loadingDialog = DialogUtil.createLoadingDialog(ChangePhoneActivity.this, "正在获取验证码...");
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -170,6 +174,7 @@ public class ChangePhoneActivity extends BaseActivity {
             get_code.setTextColor(0xffffffff);
         }
     }
+
     @Override
     protected void onDestroy() {
         if (time != null) {
@@ -177,6 +182,7 @@ public class ChangePhoneActivity extends BaseActivity {
         }
         super.onDestroy();
     }
+
     private void registerData(String phone, String code) {
         loadingDialog = DialogUtil.createLoadingDialog(ChangePhoneActivity.this, "修改中...");
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -185,12 +191,12 @@ public class ChangePhoneActivity extends BaseActivity {
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("old_phone", phone);
         map.put("words", code);
-        map.put("member_id",member_id);
+        map.put("member_id", member_id);
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
         String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL+Constant.CHANGE_PHONE + "?" + param)
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.CHANGE_PHONE + "?" + param)
                 .tag(this)
                 .addHeader("x-userid", member_id)
                 .addHeader("x-appid", Constant.APPID)
@@ -210,11 +216,11 @@ public class ChangePhoneActivity extends BaseActivity {
                             jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 Log.i("注册", response.toString());
-                                Intent intent=new Intent(ChangePhoneActivity.this,SetNewPhoneActivity.class);
+                                Intent intent = new Intent(ChangePhoneActivity.this, SetNewPhoneActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }else {
-                                ToastUtils.showToast(ChangePhoneActivity.this,jsonObject.getString("result"));
+                            } else {
+                                ToastUtils.showToast(ChangePhoneActivity.this, jsonObject.getString("result"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -230,6 +236,7 @@ public class ChangePhoneActivity extends BaseActivity {
                     }
                 });
     }
+
     public void hintKeyBoard() {
         //拿到InputMethodManager
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

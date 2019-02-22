@@ -19,7 +19,6 @@ import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.util.ContainsEmojiEditText;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.ParamUtil;

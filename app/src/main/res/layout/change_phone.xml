@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="已绑号码："/>
-        <com.guodongbaohe.app.util.ContainsEmojiEditText
+        <EditText
             android:id="@+id/old_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="验证码："/>
-        <com.guodongbaohe.app.util.ContainsEmojiEditText
+        <EditText
             android:id="@+id/yzm_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,6 +56,7 @@
             android:background="@null"
             android:maxLength="6"
             android:textColor="@color/txblack"
+
             android:textSize="16sp" />
         <View
             android:layout_toLeftOf="@+id/get_code"

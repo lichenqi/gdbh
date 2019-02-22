@@ -98,7 +98,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/ll_quanhou"
                     android:textColor="@color/txgray"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
@@ -120,8 +120,7 @@
                     android:paddingRight="6dp"
                     android:paddingTop="2dp"
                     android:textColor="#ba2336"
-                    android:textSize="11sp"
-                    android:visibility="gone" />
+                    android:textSize="11sp" />
 
                 <RelativeLayout
                     android:layout_width="74dp"

@@ -61,7 +61,6 @@ import com.guodongbaohe.app.activity.YaoQingFriendActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.BeiAnBean;
 import com.guodongbaohe.app.bean.MineDataBean;
-import com.guodongbaohe.app.bean.TokenBean;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;

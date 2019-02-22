@@ -130,8 +130,7 @@
                     android:paddingRight="6dp"
                     android:paddingTop="2dp"
                     android:textColor="#ba2336"
-                    android:textSize="11sp"
-                    android:visibility="gone" />
+                    android:textSize="11sp" />
 
                 <RelativeLayout
                     android:layout_width="74dp"

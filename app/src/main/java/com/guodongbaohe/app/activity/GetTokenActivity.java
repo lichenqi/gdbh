@@ -1,7 +1,6 @@
 package com.guodongbaohe.app.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.DateUtils;
-import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -54,6 +52,7 @@ public class GetTokenActivity extends BaseActivity {
     TextView youxiaoqi;
     SimpleDateFormat format;
     private Timer timer = new Timer(true);
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +63,6 @@ public class GetTokenActivity extends BaseActivity {
         iv_right.setImageResource(R.mipmap.refish_h);
         //启动定时器
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        timer.schedule(task, 0, 2*60*1000);
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

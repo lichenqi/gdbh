@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -58,6 +59,7 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
         NetImageLoadUtil.loadImage(goods_thumb, context, holder.iv);
         String goods_short = list.get(position).getGoods_short();/*短标题*/
         String goods_name = list.get(position).getGoods_name();/*长标题*/
+        String sales_month = list.get(position).getSales_month();/*月销*/
         if (!TextUtils.isEmpty(goods_short)) {
             holder.title.setText(goods_short);
             holder.title.setMaxLines(2);
@@ -71,7 +73,6 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();
         String coupon_surplus = list.get(position).getCoupon_surplus();
-        holder.tv_sale_num.setText("月销" + NumUtil.getNum(list.get(position).getSales_month()) + "件");
         holder.tv_price.setText(attr_price);
         double d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
         bg3 = new BigDecimal(d_price);
@@ -96,23 +97,30 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
             String member_role = list.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 touristData(holder, 90);
+                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+                holder.tv_sale_num.getPaint().setFlags(0);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 touristData(holder, 70);
+                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+                holder.tv_sale_num.getPaint().setFlags(0);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*vip用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 touristData(holder, 40);
+                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+                holder.tv_sale_num.getPaint().setFlags(0);
             } else {
                 /*普通用户*/
-                holder.ninengzhuan.setVisibility(View.GONE);
+                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+                holder.tv_sale_num.setText("¥" + attr_prime);
+                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             }
         } else {
             /*游客*/
-            holder.ninengzhuan.setVisibility(View.GONE);
+            holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+            holder.tv_sale_num.setText("¥" + attr_prime);
+            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         if (onItemClick != null) {

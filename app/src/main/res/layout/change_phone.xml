@@ -1,82 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/xianhui"
     android:orientation="vertical">
+
     <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <TextView
             android:id="@+id/new_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已绑号码："/>
+            android:text="已绑号码：" />
+
         <EditText
             android:id="@+id/old_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/text_yzm"
-            android:inputType="number"
             android:background="@null"
+            android:inputType="number"
             android:maxLength="11"
             android:textColor="@color/txblack"
             android:textSize="16sp" />
 
     </LinearLayout>
+
     <RelativeLayout
-        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:padding="10dp"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:padding="10dp">
+
         <TextView
             android:id="@+id/text_yzm"
-            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="验证码："/>
+            android:layout_centerVertical="true"
+            android:text="验证码：" />
+
         <EditText
             android:id="@+id/yzm_code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:inputType="number"
-            android:layout_toRightOf="@+id/text_yzm"
             android:layout_toLeftOf="@+id/get_code"
+            android:layout_toRightOf="@+id/text_yzm"
             android:background="@null"
+            android:inputType="number"
             android:maxLength="6"
             android:textColor="@color/txblack"
 
             android:textSize="16sp" />
+
         <View
-            android:layout_toLeftOf="@+id/get_code"
-            android:layout_centerVertical="true"
             android:layout_width="1dp"
             android:layout_height="15dp"
-            android:background="@color/gray"
-            />
-        <TextView
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/get_code"
+            android:background="@color/gray" />
+
+        <TextView
             android:id="@+id/get_code"
-            android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/yellow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
             android:text="获取验证码"
-            />
+            android:textColor="@color/yellow" />
 
     </RelativeLayout>
+
     <TextView
         android:id="@+id/submit_btn"
         android:layout_width="match_parent"

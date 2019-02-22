@@ -185,6 +185,7 @@ public class ChangePhoneActivity extends BaseActivity {
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("old_phone", phone);
         map.put("words", code);
+        map.put("member_id",member_id);
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

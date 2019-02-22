@@ -198,15 +198,19 @@ public class SetNewPhoneActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         DialogUtil.closeDialog(loadingDialog);
-                        Log.i("设置新手机号", response.toString());
-                        PreferUtils.putString(getApplicationContext(), "phoneNum", old_phone.getText().toString());/*存储邀请码*/
-                        EventBus.getDefault().post("phone_change");
-                        finish();
-
-//                        Intent intent=new Intent(ChangePhoneActivity.this,SetNewPhoneActivity.class);
-//                        startActivity(intent);
+                        JSONObject jsonObject = null;
+                            try {
+                                jsonObject = new JSONObject(response.toString());
+                                if (jsonObject.getInt("status") >= 0) {
+                                    Log.i("设置新手机号", response.toString());
+                                    PreferUtils.putString(getApplicationContext(), "phoneNum", old_phone.getText().toString());/*存储邀请码*/
+                                    EventBus.getDefault().post("phone_change");
+                                    finish();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                     }
-
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         DialogUtil.closeDialog(loadingDialog);

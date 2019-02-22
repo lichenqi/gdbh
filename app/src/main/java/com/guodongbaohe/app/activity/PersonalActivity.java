@@ -101,6 +101,8 @@ public class PersonalActivity extends BaseActivity {
     RelativeLayout re_change_cdoe;
     @BindView(R.id.change_phone)
     RelativeLayout change_phone;
+    @BindView(R.id.tv_code)
+    TextView tv_code;
     /*相册选择code*/
     private static final int CHOOSEPHOTO_CODE = 1;
     /*拍照请求code*/
@@ -131,6 +133,7 @@ public class PersonalActivity extends BaseActivity {
         userName = PreferUtils.getString(getApplicationContext(), "userName");
         wchatname = PreferUtils.getString(getApplicationContext(), "wchatname");
         member_role = PreferUtils.getString(getApplicationContext(), "member_role");
+        tv_code.setText(PreferUtils.getString(getApplicationContext(), "invite_code"));
         initView();
         // android 7.0系统解决拍照的问题
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();

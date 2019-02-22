@@ -54,6 +54,7 @@
             android:layout_toRightOf="@+id/text_yzm"
             android:layout_toLeftOf="@+id/get_code"
             android:background="@null"
+            android:maxLength="6"
             android:textColor="@color/txblack"
             android:textSize="16sp" />
         <View

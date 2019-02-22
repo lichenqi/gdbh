@@ -35,7 +35,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -164,23 +163,7 @@ public class MineFragment extends Fragment {
     TextView tv_lingpai_num;
     @BindView(R.id.swiperefreshlayout)
     SwipeRefreshLayout swiperefreshlayout;
-    @BindView(R.id.ll_oppo)
-    LinearLayout ll_oppo;
     AlibcLogin alibcLogin;
-    @BindView(R.id.oppo_circleimageview)
-    CircleImageView oppo_circleimageview;
-    @BindView(R.id.oppo_name)
-    TextView oppo_name;
-    @BindView(R.id.oppo_gd_collect_jia)
-    RelativeLayout oppo_gd_collect_jia;
-    @BindView(R.id.oppo_re_xinshou_jiaocheng)
-    RelativeLayout oppo_re_xinshou_jiaocheng;
-    @BindView(R.id.oppo_re_question)
-    RelativeLayout oppo_re_question;
-    @BindView(R.id.oppo_re_aboutus)
-    RelativeLayout oppo_re_aboutus;
-    @BindView(R.id.oppo_re_clean_cache)
-    RelativeLayout oppo_re_clean_cache;
     /*官方微信*/
     @BindView(R.id.guanfangweixin)
     RelativeLayout guanfangweixin;
@@ -212,7 +195,6 @@ public class MineFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
-            String money_upgrade_switch = PreferUtils.getString(getContext(), "money_upgrade_switch");
             view = inflater.inflate(R.layout.mine_fragment, container, false);
             ButterKnife.bind(this, view);
             EventBus.getDefault().register(this);
@@ -225,15 +207,6 @@ public class MineFragment extends Fragment {
             getMineData();
             /*刷新控件*/
             initRefresh();
-            if (!TextUtils.isEmpty(money_upgrade_switch)) {
-                if (money_upgrade_switch.equals("yes")) {
-                    swiperefreshlayout.setVisibility(View.GONE);
-                    ll_oppo.setVisibility(View.VISIBLE);
-                } else {
-                    swiperefreshlayout.setVisibility(View.VISIBLE);
-                    ll_oppo.setVisibility(View.GONE);
-                }
-            }
         }
         return view;
     }
@@ -372,13 +345,6 @@ public class MineFragment extends Fragment {
         tv_ketiixan.setText("¥" + balance);
         tv_tuandui.setText("¥" + credits);
         tv_pwechat.setText(pwechat);
-
-        if (TextUtils.isEmpty(userImg)) {
-            oppo_circleimageview.setImageResource(R.mipmap.user_moren_logo);
-        } else {
-            Glide.with(getContext()).load(userImg).into(oppo_circleimageview);
-        }
-        oppo_name.setText(userName);
     }
 
     private void getCacheData() {
@@ -395,8 +361,7 @@ public class MineFragment extends Fragment {
     @OnClick({R.id.re_clean_cache, R.id.circleimageview, R.id.re_order, R.id.re_aboutus, R.id.re_my_department, R.id.re_tuandui,
             R.id.re_incomeing, R.id.re_invite_award, R.id.tv_fuzhi_anniu, R.id.re_user_bg, R.id.re_withdraw_deposit,
             R.id.re_wechat, R.id.iv_set, R.id.re_xinshou_jiaocheng, R.id.re_question, R.id.re_taobao_gwuche, R.id.re_taobao_order
-            , R.id.gd_collect_jia, R.id.guanfangweixin, R.id.re_version_update,
-            R.id.oppo_gd_collect_jia, R.id.oppo_re_xinshou_jiaocheng, R.id.oppo_re_question, R.id.oppo_re_aboutus, R.id.oppo_re_clean_cache,R.id.gd_lingpai_rl})
+            , R.id.gd_collect_jia, R.id.guanfangweixin, R.id.re_version_update, R.id.gd_lingpai_rl})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.re_clean_cache:
@@ -483,27 +448,6 @@ public class MineFragment extends Fragment {
                 intent = new Intent(getContext(), GCollectionActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.oppo_gd_collect_jia:
-                intent = new Intent(getContext(), GCollectionActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.oppo_re_xinshou_jiaocheng:
-                intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
-                intent.putExtra("url", PreferUtils.getString(getContext(), "course"));
-                startActivity(intent);
-                break;
-            case R.id.oppo_re_question:
-                intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
-                intent.putExtra("url", PreferUtils.getString(getContext(), "question"));
-                startActivity(intent);
-                break;
-            case R.id.oppo_re_aboutus:
-                intent = new Intent(getContext(), AboutUsActivity.class);
-                startActivity(intent);
-                break;
-            case R.id.oppo_re_clean_cache:
-                cleanCacheDialog();
-                break;
             case R.id.guanfangweixin:
                 intent = new Intent(getContext(), GGfwChatActivity.class);
                 startActivity(intent);
@@ -511,8 +455,8 @@ public class MineFragment extends Fragment {
             case R.id.re_version_update:
                 getVersionCodeData();
                 break;
-            case R.id.gd_lingpai_rl:   //手机令牌
-                intent=new Intent(getContext(),GetTokenActivity.class);
+            case R.id.gd_lingpai_rl://手机令牌
+                intent = new Intent(getContext(), GetTokenActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -601,8 +545,8 @@ public class MineFragment extends Fragment {
         initAliBaiApi();
         /*初始化渠道*/
         initQuDaoWebview();
-        String string=PreferUtils.getString(getContext(),"member_role");
-        if (!string.equals("0")){
+        String string = PreferUtils.getString(getContext(), "member_role");
+        if (!string.equals("0")) {
             gd_lingpai_rl.setVisibility(View.VISIBLE);
         }
         super.onResume();

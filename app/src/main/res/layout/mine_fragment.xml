@@ -591,17 +591,18 @@
                             style="@style/imageview_jiantou" />
 
                     </RelativeLayout>
+
                     <View style="@style/mine_view" />
 
                     <RelativeLayout
-                        android:visibility="gone"
                         android:id="@+id/gd_lingpai_rl"
-                        style="@style/mine_relativeLayout">
+                        style="@style/mine_relativeLayout"
+                        android:visibility="gone">
 
                         <ImageView
                             android:id="@+id/iv_lingpai"
                             style="@style/mine_imageview"
-                            android:src="@mipmap/gd_collect_jia" />
+                            android:src="@mipmap/key_token" />
 
                         <TextView
                             android:id="@+id/tv_lingpai_tv"
@@ -622,8 +623,7 @@
                             android:gravity="right"
                             android:maxLength="20"
                             android:maxLines="1"
-                            android:textColor="@color/txblack"
-                             />
+                            android:textColor="@color/txblack" />
 
                         <ImageView
                             android:id="@+id/lingpai"
@@ -753,7 +753,6 @@
 
                     </RelativeLayout>
 
-
                 </LinearLayout>
 
             </LinearLayout>
@@ -761,166 +760,6 @@
         </android.support.v4.widget.NestedScrollView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_oppo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blackbase"
-            android:padding="20dp">
-
-            <com.guodongbaohe.app.view.CircleImageView
-                android:id="@+id/oppo_circleimageview"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/user_moren_logo" />
-
-            <TextView
-                android:id="@+id/oppo_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="60dp"
-                android:ellipsize="end"
-                android:maxLength="15"
-                android:textColor="@color/white" />
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shouyi_beijing"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/oppo_gd_collect_jia"
-                style="@style/mine_relativeLayout"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/oppo_iv_collect"
-                    style="@style/mine_imageview"
-                    android:src="@mipmap/gd_collect_jia" />
-
-                <TextView
-                    android:id="@+id/oppo_tv_clooect"
-                    style="@style/mine_textview"
-                    android:layout_toRightOf="@+id/oppo_iv_collect"
-                    android:text="果冻收藏夹" />
-
-                <ImageView style="@style/imageview_jiantou" />
-
-            </RelativeLayout>
-
-            <View style="@style/mine_view" />
-
-            <RelativeLayout
-                android:id="@+id/oppo_re_xinshou_jiaocheng"
-                style="@style/mine_relativeLayout"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/oppo_iv_xinshuo"
-                    style="@style/mine_imageview"
-                    android:src="@mipmap/xinshuojiaoc" />
-
-                <TextView
-                    style="@style/mine_textview"
-                    android:layout_toRightOf="@+id/oppo_iv_xinshuo"
-                    android:text="新手教程" />
-
-                <ImageView style="@style/imageview_jiantou" />
-
-            </RelativeLayout>
-
-            <View style="@style/mine_view" />
-
-            <RelativeLayout
-                android:id="@+id/oppo_re_question"
-                style="@style/mine_relativeLayout"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/oppo_iv_question"
-                    style="@style/mine_imageview"
-                    android:src="@mipmap/common_question" />
-
-                <TextView
-                    style="@style/mine_textview"
-                    android:layout_toRightOf="@+id/oppo_iv_question"
-                    android:text="常见问题" />
-
-                <ImageView style="@style/imageview_jiantou" />
-
-            </RelativeLayout>
-
-            <View style="@style/mine_view" />
-
-            <RelativeLayout
-                android:id="@+id/oppo_re_aboutus"
-                style="@style/mine_relativeLayout"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/oppo_iv_aboutus"
-                    style="@style/mine_imageview"
-                    android:src="@mipmap/aboutus" />
-
-                <TextView
-                    style="@style/mine_textview"
-                    android:layout_toRightOf="@+id/oppo_iv_aboutus"
-                    android:text="关于我们" />
-
-                <ImageView style="@style/imageview_jiantou" />
-
-            </RelativeLayout>
-
-            <View style="@style/mine_view" />
-
-            <RelativeLayout
-                android:id="@+id/oppo_re_clean_cache"
-                style="@style/mine_relativeLayout"
-                android:padding="20dp">
-
-                <ImageView
-                    android:id="@+id/oppo_iv_cleancache"
-                    style="@style/mine_imageview"
-                    android:src="@mipmap/clean_cache" />
-
-                <TextView
-                    style="@style/mine_textview"
-                    android:layout_toRightOf="@+id/oppo_iv_cleancache"
-                    android:text="清理缓存" />
-
-                <TextView
-                    android:id="@+id/oppo_tv_cache_size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/opo_iv_cache"
-                    android:textColor="@color/gray"
-                    android:textSize="14sp" />
-
-                <ImageView
-                    android:id="@+id/opo_iv_cache"
-                    style="@style/imageview_jiantou" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <WebView
         android:id="@+id/qudao_id_webview"

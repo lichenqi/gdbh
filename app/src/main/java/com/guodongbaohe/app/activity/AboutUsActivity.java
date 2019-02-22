@@ -19,8 +19,7 @@ import com.guodongbaohe.app.util.WebViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-/*1227平均线盘*/
+/*关于我们*/
 public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.webview)
     WebView webview;

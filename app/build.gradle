@@ -7,7 +7,7 @@ android {
         config {
             keyAlias 'guodongbaohe'
             keyPassword '123456'
-            storeFile file('F:/guodongbaohe_key_store/guodongbaohe.jks')
+            storeFile file('D:\\jellybox\\key/guodongbaohe.jks')
             storePassword '123456'
         }
     }

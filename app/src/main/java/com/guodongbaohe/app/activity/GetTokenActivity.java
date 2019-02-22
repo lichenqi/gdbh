@@ -34,13 +34,8 @@ import com.guodongbaohe.app.view.VerifyCodeView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -58,28 +53,30 @@ public class GetTokenActivity extends BaseActivity {
     @BindView(R.id.youxiaoqi)
     TextView youxiaoqi;
     SimpleDateFormat format;
+    private Timer timer = new Timer(true);
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         setMiddleTitle("果冻令牌");
-        iv_right=(ImageView)findViewById(R.id.iv_right);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         //启动定时器
+        timer.schedule(task, 0, 2 * 60 * 1000);
+        format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         timer.schedule(task, 0, 2*60*1000);
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getTokenData();
-                ToastUtils.showToast(GetTokenActivity.this,"刷新成功！");
+                ToastUtils.showToast(GetTokenActivity.this, "刷新成功！");
             }
         });
         copy_lingpai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!TextUtils.isEmpty(vc_centerLine.getVcText().toString())){
-
+                if (!TextUtils.isEmpty(vc_centerLine.getVcText().toString())) {
                     CopyToClipboard(GetTokenActivity.this, vc_centerLine.getVcText().toString());
                     copy_lingpai.setText("复制成功");
                 }
@@ -87,28 +84,26 @@ public class GetTokenActivity extends BaseActivity {
             }
         });
         vc_centerLine.setEnabled(false);
-        vc_centerLine.setFocusable(false);
     }
-    private Handler handler  = new Handler(){
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if(msg.what== 1){
+            if (msg.what == 1) {
                 getTokenData();
             }
         }
     };
-    private Timer timer = new Timer(true);
 
     //任务
     private TimerTask task = new TimerTask() {
         public void run() {
             Message msg = new Message();
-            msg.what= 1;
+            msg.what = 1;
             handler.sendMessage(msg);
         }
     };
-
-
 
     @Override
     public int getContainerView() {
@@ -120,8 +115,10 @@ public class GetTokenActivity extends BaseActivity {
         getTokenData();
         super.onResume();
     }
-    int exp_time;
-    private void getTokenData(){
+
+    String exp_time;
+
+    private void getTokenData() {
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
@@ -147,28 +144,28 @@ public class GetTokenActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
+                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("手机令牌数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 TokenBean get_token = GsonUtil.GsonToBean(response.toString(), TokenBean.class);
-                                if (get_token==null)return;
-                                TokenBean.ResultBean bean=get_token.getResult();
-                                if (bean==null)return;
+                                if (get_token == null) return;
+                                TokenBean.ResultBean bean = get_token.getResult();
+                                if (bean == null) return;
                                 vc_centerLine.setVcText(bean.getCode());
-                                exp_time=bean.getExp_time();
-//                                String date=getDateToString(exp_time);
-                                String SSSSSS=DateUtils.getTimeToString(exp_time*1000);
-                                Log.i("时间格式1",SSSSSS);
-//                                String exptime=dateToStrLong(date);
+                                exp_time = bean.getExp_time();
+                                String SSSSSS = DateUtils.getTimeToString(Long.valueOf(exp_time) * 1000);
                                 youxiaoqi.setText(SSSSSS);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
+
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getContext(), Constant.NONET);
                     }
                 });
@@ -176,7 +173,6 @@ public class GetTokenActivity extends BaseActivity {
 
     public void CopyToClipboard(Context context, String text) {
         ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        //clip.getText(); // 粘贴
         clip.setText(text); // 复制
         if (!TextUtils.isEmpty(text)) {
             ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(text);//保存记录到数据库

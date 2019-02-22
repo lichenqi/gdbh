@@ -304,7 +304,7 @@ public class CreationShareActivity extends BaseActivity {
         IconAndTextGroupUtil.setTextView(getApplicationContext(), p_title, goods_name, attr_site);
         p_coupon_price.setText(StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
         p_one_price.setText("¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-        taobao_ling.setText("【淘口令】" + share_taokouling);
+        taobao_ling.setText("【淘口令】€" + share_taokouling.substring(1, share_taokouling.length() - 1) + "€");
         Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap(share_qrcode, DensityUtils.dip2px(getApplicationContext(), 100));
         iv_qr_code.setImageBitmap(mBitmap);
         Glide.with(getApplicationContext()).load(pics_list.get(0)).asBitmap().into(target);

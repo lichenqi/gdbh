@@ -160,15 +160,53 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
             case Constant.LOGIN_OUT:
                 /*用户退出*/
                 xrecycler.refresh();
+                userLevelChange();
+                userLevelHeadChange();
                 break;
             case Constant.LOGINSUCCESS:
                 /*登录成功*/
                 xrecycler.refresh();
+                userLevelChange();
+                userLevelHeadChange();
                 break;
             case Constant.USER_LEVEL_UPGRADE:
                 /*用户等级升级成功*/
                 xrecycler.refresh();
+                userLevelChange();
+                userLevelHeadChange();
                 break;
+        }
+    }
+
+    /*佣金和人气切换（初始布局）*/
+    private void userLevelChange() {
+        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+            String member_role = PreferUtils.getString(getApplicationContext(), "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                tv_renqi.setText("人气");
+            } else {
+                /*vip及以上*/
+                tv_renqi.setText("佣金");
+            }
+        } else {
+            tv_renqi.setText("人气");
+        }
+    }
+
+    /*佣金和人气切换（头部布局）*/
+    private void userLevelHeadChange() {
+        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+            String member_role = PreferUtils.getString(getApplicationContext(), "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                renqi.setText("人气");
+            } else {
+                /*vip及以上*/
+                renqi.setText("佣金");
+            }
+        } else {
+            renqi.setText("人气");
         }
     }
 
@@ -193,6 +231,7 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
         xrecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         XRecyclerViewUtil.setView(xrecycler);
         initView();
+        userLevelChange();
     }
 
     @OnClick({R.id.tv_newly, R.id.tv_sale, R.id.tv_price, R.id.tv_renqi, R.id.to_top})
@@ -362,6 +401,7 @@ public class NinePinkageActivity extends BaseActivity implements View.OnClickLis
                 setRenqiColor();
             }
         });
+        userLevelHeadChange();
     }
 
     private void setNewColor() {

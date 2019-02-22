@@ -78,6 +78,7 @@ public class NewSecondClassicActivity extends BaseActivity {
         super.onResume();
         /*获取剪切板内容*/
         getClipContent();
+        userLevelChange();
     }
 
     Dialog dialog;
@@ -367,4 +368,21 @@ public class NewSecondClassicActivity extends BaseActivity {
                     }
                 });
     }
+
+    /*佣金和人气切换（初始布局）*/
+    private void userLevelChange() {
+        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+            String member_role = PreferUtils.getString(getApplicationContext(), "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                tv_renqi.setText("人气");
+            } else {
+                /*vip及以上*/
+                tv_renqi.setText("佣金");
+            }
+        } else {
+            tv_renqi.setText("人气");
+        }
+    }
+
 }

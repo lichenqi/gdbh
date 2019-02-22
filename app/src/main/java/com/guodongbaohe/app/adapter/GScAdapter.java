@@ -1,8 +1,8 @@
 package com.guodongbaohe.app.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,10 +69,10 @@ public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder> {
         attr_price = myLive.getAttr_price();
         attr_prime = myLive.getAttr_prime();
         attr_ratio = myLive.getAttr_ratio();
+        String sales_month = myLive.getSales_month();
         holder.title.setText(myLive.getGoods_name());
         holder.tv_price.setText(myLive.getAttr_price());
         IconAndTextGroupUtil.setTextView(context, holder.dianpu_name, myLive.getSeller_shop(), myLive.getAttr_site());
-        holder.tv_sale_num.setText("月销" + NumUtil.getNum(myLive.getSales_month()));
         StringCleanZeroUtil.StringFormat(myLive.getAttr_price(), holder.tv_price);
         String coupon_surplus = myLive.getCoupon_surplus();
         double d_price = Double.valueOf(myLive.getAttr_prime()) - Double.valueOf(myLive.getAttr_price());
@@ -96,18 +96,24 @@ public class GScAdapter extends RecyclerView.Adapter<GScAdapter.ViewHolder> {
 
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
             /*总裁用户*/
-            holder.ninengzhuan.setVisibility(View.VISIBLE);
             YouMakeMoney(holder, 90);
+            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+            holder.tv_sale_num.getPaint().setFlags(0);
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
-            holder.ninengzhuan.setVisibility(View.VISIBLE);
             YouMakeMoney(holder, 70);
+            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+            holder.tv_sale_num.getPaint().setFlags(0);
         } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
-            holder.ninengzhuan.setVisibility(View.VISIBLE);
             YouMakeMoney(holder, 40);
+            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+            holder.tv_sale_num.getPaint().setFlags(0);
         } else {
-            holder.ninengzhuan.setVisibility(View.GONE);
+            /*普通用户*/
+            holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+            holder.tv_sale_num.setText("¥" + attr_prime);
+            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         if (mEditMode == MYLIVE_MODE_CHECK) {

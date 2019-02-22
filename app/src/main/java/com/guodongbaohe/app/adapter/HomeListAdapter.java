@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -33,7 +34,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
     private List<HomeListBean.ListData> list;
     private OnItemClick onItemClick;
     BigDecimal bg3;
-    String attr_prime, attr_ratio, attr_price, tax_rate;
+    String attr_prime, attr_ratio, attr_price, tax_rate, sales_month;
     double app_v;
 
     public void setOnClickListener(OnItemClick onItemClick) {
@@ -56,6 +57,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
     public void onBindViewHolder(@NonNull final HomeListHolder holder, int position) {
         tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
         app_v = 1 - Double.valueOf(tax_rate);
+        sales_month = list.get(position).getSales_month();/*月销*/
         attr_prime = list.get(position).getAttr_prime();/*原价*/
         attr_price = list.get(position).getAttr_price();/*券后价*/
         attr_ratio = list.get(position).getAttr_ratio();/*比例*/
@@ -71,12 +73,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
             holder.title.setMaxLines(1);
         }
         StringCleanZeroUtil.StringFormat(attr_price, holder.tv_price);
-        String attr_site = list.get(position).getAttr_site();
-        if (attr_site.equals("tmall")) {
-            holder.tv_sale_num.setText("月销" + NumUtil.getNum(list.get(position).getSales_month()));
-        } else {
-            holder.tv_sale_num.setText("月销" + NumUtil.getNum(list.get(position).getSales_month()));
-        }
 
         /*黄色优惠券显示文案布局*/
         String coupon_surplus = list.get(position).getCoupon_surplus();
@@ -108,23 +104,30 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
             String member_role = list.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁角色*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 NiNengZhuanViewData(holder, 90);
+                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+                holder.tv_sale_num.getPaint().setFlags(0);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人角色*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 NiNengZhuanViewData(holder, 70);
+                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+                holder.tv_sale_num.getPaint().setFlags(0);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*Vip角色*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 NiNengZhuanViewData(holder, 40);
+                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+                holder.tv_sale_num.getPaint().setFlags(0);
             } else if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 /*普通用户角色*/
-                holder.ninengzhuan.setVisibility(View.GONE);
+                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+                holder.tv_sale_num.setText("¥" + attr_prime);
+                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             }
         } else {
             /*游客*/
-            holder.ninengzhuan.setVisibility(View.GONE);
+            holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+            holder.tv_sale_num.setText("¥" + attr_prime);
+            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
         if (onItemClick != null) {

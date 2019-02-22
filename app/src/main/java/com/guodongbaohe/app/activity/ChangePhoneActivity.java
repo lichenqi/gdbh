@@ -203,11 +203,23 @@ public class ChangePhoneActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
-                        Log.i("注册", response.toString());
-                        Intent intent=new Intent(ChangePhoneActivity.this,SetNewPhoneActivity.class);
-                        startActivity(intent);
-                        finish();
+                        JSONObject jsonObject = null;
+                        try {
+                            DialogUtil.closeDialog(loadingDialog);
+                            jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                Log.i("注册", response.toString());
+                                Intent intent=new Intent(ChangePhoneActivity.this,SetNewPhoneActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else {
+                                ToastUtils.showToast(ChangePhoneActivity.this,jsonObject.getString("result"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
                     }
 
                     @Override

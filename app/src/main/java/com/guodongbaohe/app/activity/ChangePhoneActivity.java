@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,11 +41,11 @@ public class ChangePhoneActivity extends BaseActivity {
     @BindView(R.id.submit_btn)
     TextView submit_btn;
     @BindView(R.id.yzm_code)
-    ContainsEmojiEditText yzm_code;
+    EditText yzm_code;
     @BindView(R.id.get_code)
     TextView get_code;
     @BindView(R.id.old_phone)
-    ContainsEmojiEditText old_phone;
+    EditText old_phone;
     String member_id;
     private TimeCount time = new TimeCount(60000, 1000);
 

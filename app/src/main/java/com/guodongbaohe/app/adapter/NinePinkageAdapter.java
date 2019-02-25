@@ -55,6 +55,7 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();
+        String seller_shop = list.get(position).getSeller_shop();
         String goods_thumb = list.get(position).getGoods_thumb();
         NetImageLoadUtil.loadImage(goods_thumb, context, holder.iv);
         IconAndTextGroupUtil.setTextView(context, holder.title, list.get(position).getGoods_name(), list.get(position).getAttr_site());
@@ -86,23 +87,22 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
             String member_role = list.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 90);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 70);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*vip用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 40);
             } else {
                 /*普通用户*/
-                holder.ninengzhuan.setVisibility(View.GONE);
+                holder.ninengzhuan.setText(seller_shop);
+                holder.ninengzhuan.setTextSize(12);
             }
         } else {
             /*游客*/
-            holder.ninengzhuan.setVisibility(View.GONE);
+            holder.ninengzhuan.setText(seller_shop);
+            holder.ninengzhuan.setTextSize(12);
         }
 
         if (onItemClick != null) {
@@ -127,6 +127,7 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String ninengzhuan_money = "你能赚  ¥" + money;
         holder.ninengzhuan.setText(ninengzhuan_money);
+        holder.ninengzhuan.setTextSize(15);
     }
 
     public class NineHolder extends RecyclerView.ViewHolder {

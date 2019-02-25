@@ -24,7 +24,6 @@ import com.guodongbaohe.app.util.VersionUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import butterknife.BindView;
@@ -55,8 +54,8 @@ public class EditAlipayDataActivity extends BaseActivity {
         alipay_num = intent.getStringExtra("alipay_num");
         realname = intent.getStringExtra("realname");
         if (!TextUtils.isEmpty(realname)) {
-             et_name.setText(realname);
-             et_name.setSelection(realname.length());
+            et_name.setText(realname);
+            et_name.setSelection(realname.length());
         } else {
             et_name.setHint("请输入真实姓名");
         }
@@ -82,11 +81,10 @@ public class EditAlipayDataActivity extends BaseActivity {
                     ToastUtils.showToast(getApplicationContext(), "支付宝账号不能为空");
                     return;
                 }
-                HashMap<String, String> map = new HashMap<>();
-                map.put("realname", name);
-                map.put("alipay", num);
+                JSONObject jsonObject = new JSONObject();
                 try {
-                    JSONObject jsonObject = new JSONObject(map.toString());
+                    jsonObject.put("realname", name);
+                    jsonObject.put("alipay", num);
                     saveData(jsonObject.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

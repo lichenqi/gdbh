@@ -17,7 +17,98 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="恭喜您升级成功"
+        android:text="支付成功"
+        android:textSize="25dp"
         android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/return_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/yellow_bg_base"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="返回首页"
+        android:textSize="18dp"
+        android:textColor="@color/black" />
+    <LinearLayout
+        android:layout_marginTop="30dp"
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="添加我的专属大客户经理"
+            android:textColor="@color/white"
+            android:textSize="20dp"/>
+        <TextView
+            android:layout_marginTop="2dp"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="领取精品课程和更多专享活动"
+            android:textColor="@color/gray"
+            android:textSize="18dp"/>
+
+        <LinearLayout
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/base_white_bg"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:padding="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/wchat_app"/>
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="微信号："/>
+            <TextView
+                android:id="@+id/wchat_edit"
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:background="@null"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/copy_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/yellow_bg_base"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="复制微信号"
+            android:textSize="18dp"
+            android:textColor="@color/black" />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="打开微信——粘贴微信号——添加好友"
+            android:textSize="14dp"
+            android:textColor="@color/gray"/>
+    </LinearLayout>
 
 </LinearLayout>

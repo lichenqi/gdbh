@@ -175,6 +175,11 @@ public class MainActivity extends BigBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        String flag_main=PreferUtils.getString(getApplicationContext(),"flag_main");
+        if (TextUtils.equals(flag_main,"1")){
+            ll_home.performClick();
+            PreferUtils.putString(getApplicationContext(),"flag_main","0");
+        }
         /*获取剪切板内容*/
         if (flag_frist == 1) {
             getClipContent();

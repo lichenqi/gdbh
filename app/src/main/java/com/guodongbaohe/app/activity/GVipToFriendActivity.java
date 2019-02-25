@@ -50,9 +50,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GVipToFriendActivity extends BaseActivity {
-    String url,getUrl;
+    String url, getUrl;
     ConfigurationBean.PageBean list_data;
-    ImageView iv_back;
+    ImageView iv_back, iv_right;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.webview)
@@ -68,13 +68,16 @@ public class GVipToFriendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
-        getUrl=PreferUtils.getString(this,"http_list_data");
-        if (!TextUtils.isEmpty(getUrl)){
-            Gson gson=new Gson();
-            list_data=gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>(){}.getType());
-            url=list_data.getPartner().getUrl();
-            Log.i("升级合伙人",url);
+        getUrl = PreferUtils.getString(this, "http_list_data");
+        if (!TextUtils.isEmpty(getUrl)) {
+            Gson gson = new Gson();
+            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType());
+            url = list_data.getPartner().getUrl();
         }
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
@@ -85,7 +88,6 @@ public class GVipToFriendActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
-                Log.i("网页地址", url);
                 return true;
             }
 
@@ -123,6 +125,19 @@ public class GVipToFriendActivity extends BaseActivity {
         });
         webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     int i = 0;
@@ -131,7 +146,6 @@ public class GVipToFriendActivity extends BaseActivity {
 
         @JavascriptInterface
         public void pay() {
-            Log.i("商品id", i + "");
             payData();
         }
     }

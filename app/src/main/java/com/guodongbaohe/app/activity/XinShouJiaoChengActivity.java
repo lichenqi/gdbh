@@ -81,7 +81,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    ImageView iv_back;
+    ImageView iv_back, iv_right;
     private View customView;
     private FrameLayout fullscreenContainer;
     private WebChromeClient.CustomViewCallback customViewCallback;
@@ -97,6 +97,9 @@ public class XinShouJiaoChengActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         instance = this;
         Intent intent = getIntent();
         String url = intent.getStringExtra("url");
@@ -193,8 +196,21 @@ public class XinShouJiaoChengActivity extends BaseActivity {
                 }
             }
         });
-        webview.loadUrl(url,WebViewUtil.getWebViewHead(getApplicationContext()));
+        webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     Dialog loadingDialog;
@@ -234,19 +250,12 @@ public class XinShouJiaoChengActivity extends BaseActivity {
     }
 
     @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN
-                && event.getRepeatCount() == 0) {
-            if (customView != null) {
-                Log.i("ceshilog", "111111343");
-                hideCustomView();
-            } else if (customView == null && webview.canGoBack()) {
-                Log.i("ceshilog", "1122222");
-                webview.goBack();
-            }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && webview.canGoBack()) {
+            webview.goBack();
+            return true;
         }
-        return super.dispatchKeyEvent(event);
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

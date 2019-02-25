@@ -27,7 +27,7 @@ public class TaoBaoWebViewActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    ImageView iv_back;
+    ImageView iv_back, iv_right;
     String url;
 
     @Override
@@ -41,6 +41,9 @@ public class TaoBaoWebViewActivity extends BaseActivity {
         ButterKnife.bind(this);
         url = getIntent().getStringExtra("url");
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);
@@ -91,6 +94,19 @@ public class TaoBaoWebViewActivity extends BaseActivity {
             }
         });
         webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     @Override

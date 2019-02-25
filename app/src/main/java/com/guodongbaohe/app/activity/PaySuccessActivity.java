@@ -45,6 +45,7 @@ public class PaySuccessActivity extends BaseActivity {
     @BindView(R.id.return_btn)
     TextView return_btn;
     ImageView iv_right;
+
     @Override
     public int getContainerView() {
         return R.layout.paysuccessactivity;
@@ -56,20 +57,19 @@ public class PaySuccessActivity extends BaseActivity {
         ButterKnife.bind(this);
         setMiddleTitle("升级成功");
         EventBus.getDefault().post(Constant.USER_LEVEL_UPGRADE);
-
         copy_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CopyToClipboard(PaySuccessActivity.this, wchat_edit.getText().toString());
-                ToastUtils.showToast(PaySuccessActivity.this,"复制成功");
+                ToastUtils.showToast(PaySuccessActivity.this, "复制成功");
             }
         });
         return_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(PaySuccessActivity.this,MainActivity.class);
+                Intent intent = new Intent(PaySuccessActivity.this, MainActivity.class);
                 startActivity(intent);
-                PreferUtils.putString(getApplicationContext(),"flag_main","1");
+                PreferUtils.putString(getApplicationContext(), "flag_main", "1");
                 finish();
             }
         });
@@ -77,6 +77,7 @@ public class PaySuccessActivity extends BaseActivity {
         /*升级成功之后  重新保存用户等级状态*/
         getUserData();
     }
+
     public void getDataWchat() {
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
@@ -128,6 +129,7 @@ public class PaySuccessActivity extends BaseActivity {
                     }
                 });
     }
+
     public void CopyToClipboard(Context context, String text) {
         ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         clip.setText(text); // 复制
@@ -135,6 +137,7 @@ public class PaySuccessActivity extends BaseActivity {
             ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(text);//保存记录到数据库
         }
     }
+
     private void getUserData() {
         long timelineStr = System.currentTimeMillis() / 1000;
         HashMap<String, String> map = new HashMap<>();

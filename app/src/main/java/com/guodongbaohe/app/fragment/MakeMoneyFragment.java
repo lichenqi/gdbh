@@ -409,7 +409,7 @@ public class MakeMoneyFragment extends Fragment {
         tv_one.setText("购物省钱");
         tv_one_bili.setText("双倍返利");
         tv_two.setText("分享赚钱");
-        tv_two_bili.setText("佣金82%");
+        tv_two_bili.setText("佣金70%");
         tv_three.setText("果冻商学院");
         tv_three_bili.setText("官方培训课程");
         tv_four.setText("团队佣金");
@@ -447,7 +447,7 @@ public class MakeMoneyFragment extends Fragment {
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
-        tv_two_bili.setText("佣金50%");
+        tv_two_bili.setText("佣金70%");
         tv_three.setText("赚钱教程");
         tv_three_bili.setText("免费获取");
         tv_four.setText("团队佣金");
@@ -462,20 +462,20 @@ public class MakeMoneyFragment extends Fragment {
     /*普通用户角色*/
     private void touristData() {
         update_label.setText("升级成为VIP享受以下特权");
-        identity_label.setText("邀请一位好友成为VIP");
+        identity_label.setText("您已达到升级VIP的资格");
         tv_one.setText("购物省钱");
-        tv_one_bili.setText("海量隐藏优惠券");
+        tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
-        tv_two_bili.setText("提升25%");
-        tv_three.setText("赚钱教程");
+        tv_two_bili.setText("佣金40%");
+        tv_three.setText("培训教程");
         tv_three_bili.setText("免费获取");
-        tv_four.setText("团队佣金");
-        tv_four_bili.setText("提升25%");
+        tv_four.setText("智慧大脑");
+        tv_four_bili.setText("自动发群软件");
         tv_five.setText("购物返利");
-        tv_five_bili.setText("提升25%");
+        tv_five_bili.setText("返40%");
         tv_six.setText("Vip身份");
-        tv_six_bili.setText("享一年特权");
-        tv_open_vip.setText("邀请1位好友,立即升级 >");
+        tv_six_bili.setText("专项VIP权益");
+        tv_open_vip.setText("立即升级 >");
     }
 
     MakeMoneyBean bean;

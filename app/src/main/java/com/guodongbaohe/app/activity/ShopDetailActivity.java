@@ -40,7 +40,6 @@ import com.alibaba.baichuan.android.trade.model.OpenType;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
@@ -599,12 +598,12 @@ public class ShopDetailActivity extends BigBaseActivity {
                 setDataBiLi(40);
             } else {
                 /*普通用户角色*/
-                tv_share_money.setText("立即分享");
+                tv_share_money.setText("升级VIP");
                 tv_buy.setText("领券购买");
             }
         } else {
             /*游客*/
-            tv_share_money.setText("立即分享");
+            tv_share_money.setText("升级VIP");
             tv_buy.setText("领券购买");
         }
     }
@@ -799,10 +798,10 @@ public class ShopDetailActivity extends BigBaseActivity {
                     return;
                 }
                 if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    if (is_pop_window.equals("yes") && son_count.equals("0") && member_role.equals("0")) {
+                    if (is_pop_window.equals("yes") && Constant.COMMON_USER_LEVEL.contains(member_role)) {
                         /*普通用户*/
                         ShowPtongToVipDialog();
-                    } else if (is_pop_window_vip.equals("yes") && Double.valueOf(son_count) > 0 && member_role.equals("0")) {
+                    } else if (is_pop_window_vip.equals("yes") && Constant.VIP_USER_LEVEL.contains(member_role)) {
                         /*Vip会员*/
                         VipToHeHourenBuyDialog();
                     } else {
@@ -825,9 +824,10 @@ public class ShopDetailActivity extends BigBaseActivity {
                     return;
                 }
                 if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    if (is_pop_window.equals("yes") && son_count.equals("0") && member_role.equals("0")) {
-                        /*普通用户*/
-                        shareMakeMoneyDialog();
+                    if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                        /*普通用户到升级vip界面*/
+                        intent = new Intent(getApplicationContext(), CommonUserToVIPActivity.class);
+                        startActivity(intent);
                     } else {
                         /*先调用高佣金接口*/
                         shareGaoYongJinData();
@@ -839,10 +839,10 @@ public class ShopDetailActivity extends BigBaseActivity {
                 break;
             case R.id.ll_youhuiquan_show:/*总裁优惠券显示*/
                 if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    if (is_pop_window.equals("yes") && son_count.equals("0") && member_role.equals("0")) {
+                    if (is_pop_window.equals("yes") && Constant.COMMON_USER_LEVEL.contains(member_role)) {
                         /*普通用户*/
                         ShowPtongToVipDialog();
-                    } else if (is_pop_window_vip.equals("yes") && Double.valueOf(son_count) > 0 && member_role.equals("0")) {
+                    } else if (is_pop_window_vip.equals("yes") && Constant.VIP_USER_LEVEL.contains(member_role)) {
                         /*Vip会员*/
                         VipToHeHourenBuyDialog();
                     } else {

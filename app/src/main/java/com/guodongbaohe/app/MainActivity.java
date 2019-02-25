@@ -175,10 +175,10 @@ public class MainActivity extends BigBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String flag_main=PreferUtils.getString(getApplicationContext(),"flag_main");
-        if (TextUtils.equals(flag_main,"1")){
+        String flag_main = PreferUtils.getString(getApplicationContext(), "flag_main");
+        if (TextUtils.equals(flag_main, "1")) {
             ll_home.performClick();
-            PreferUtils.putString(getApplicationContext(),"flag_main","0");
+            PreferUtils.putString(getApplicationContext(), "flag_main", "0");
         }
         /*获取剪切板内容*/
         if (flag_frist == 1) {
@@ -483,7 +483,9 @@ public class MainActivity extends BigBaseActivity {
             }
         }
     }
+
     ConfigurationBean.PageBean http_list;
+
     private void getPeiZhiData() {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.APPPEIZHIDATA)
                 .tag(this)
@@ -507,9 +509,9 @@ public class MainActivity extends BigBaseActivity {
                                 ConfigurationBean bean = GsonUtil.GsonToBean(response.toString(), ConfigurationBean.class);
                                 if (bean == null) return;
                                 /*H5地址*/
-                                http_list=bean.getPage();
-                                Gson gson=new Gson();
-                                String http_list_data=gson.toJson(http_list); //保存h5地址信息
+                                http_list = bean.getPage();
+                                Gson gson = new Gson();
+                                String http_list_data = gson.toJson(http_list); //保存h5地址信息
                                 PreferUtils.putString(getApplicationContext(), "http_list_data", http_list_data);
                                 /*邀请说明*/
                                 String invite_friends = bean.getResult().getInvite_friends();

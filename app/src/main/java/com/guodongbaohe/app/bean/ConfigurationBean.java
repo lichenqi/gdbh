@@ -504,6 +504,16 @@ public class ConfigurationBean {
         private AboutBean about;
         private ProtocolBean protocol;
         private RuleBean rule;
+        private CommonToVipBean vip;
+
+        public CommonToVipBean getVip() {
+            return vip;
+        }
+
+        public void setVip(CommonToVipBean vip) {
+            this.vip = vip;
+        }
+
 
         public SaveBean getSave() {
             return save;
@@ -811,4 +821,26 @@ public class ConfigurationBean {
             }
         }
     }
+
+    public class CommonToVipBean {
+        private String title;
+        private String url;
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+    }
+
 }

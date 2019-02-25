@@ -333,11 +333,14 @@
         <activity
             android:name=".activity.BaiChuanActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.GetTokenActivity"/>
+        <activity android:name=".activity.GetTokenActivity" />
         <activity android:name=".activity.TestBannerActivity" />
-        <activity android:name=".activity.ChangePhoneActivity"/>
-        <activity android:name=".activity.SetNewPhoneActivity"/>
-        <activity android:name=".activity.TextXmlActivity"/>
+        <activity android:name=".activity.ChangePhoneActivity" />
+        <activity android:name=".activity.SetNewPhoneActivity" />
+        <activity android:name=".activity.TextXmlActivity" />
+        <activity
+            android:name=".activity.CommonUserToVIPActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

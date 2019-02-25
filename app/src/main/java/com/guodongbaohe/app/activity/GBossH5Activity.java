@@ -3,7 +3,6 @@ package com.guodongbaohe.app.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -22,10 +21,6 @@ import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.WebViewUtil;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -34,8 +29,8 @@ public class GBossH5Activity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    String url,getUrl;
-    ImageView iv_back;
+    String url, getUrl;
+    ImageView iv_back, iv_right;
     ConfigurationBean.PageBean list_data;
 
     @Override
@@ -48,12 +43,15 @@ public class GBossH5Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        getUrl=PreferUtils.getString(this,"http_list_data");
-        if (!TextUtils.isEmpty(getUrl)){
-            Gson gson=new Gson();
-            list_data=gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>(){}.getType());
-            url=list_data.getBoss().getUrl();
-            Log.i("总裁h5",url);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
+        getUrl = PreferUtils.getString(this, "http_list_data");
+        if (!TextUtils.isEmpty(getUrl)) {
+            Gson gson = new Gson();
+            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType());
+            url = list_data.getBoss().getUrl();
         }
 
         WebSettings settings = webview.getSettings();
@@ -101,6 +99,19 @@ public class GBossH5Activity extends BaseActivity {
             }
         });
         webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     @Override

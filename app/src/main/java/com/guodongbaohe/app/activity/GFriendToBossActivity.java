@@ -44,20 +44,20 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GFriendToBossActivity extends BaseActivity {
-    ImageView iv_back;
+    ImageView iv_back, iv_right;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    String url,getUrl;
+    String url, getUrl;
     ConfigurationBean.PageBean list_data;
+
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -67,15 +67,17 @@ public class GFriendToBossActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-//        url = "http://app.mopland.com/help/president";
-        getUrl=PreferUtils.getString(this,"http_list_data");
-        if (!TextUtils.isEmpty(getUrl)){
-            Gson gson=new Gson();
-            list_data=gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>(){}.getType());
-            url=list_data.getPresident().getUrl();
-            Log.i("升级总裁",url);
+        getUrl = PreferUtils.getString(this, "http_list_data");
+        if (!TextUtils.isEmpty(getUrl)) {
+            Gson gson = new Gson();
+            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType());
+            url = list_data.getPresident().getUrl();
         }
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         Intent intent = getIntent();
         son_count = intent.getStringExtra("son_count");
@@ -88,7 +90,6 @@ public class GFriendToBossActivity extends BaseActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
-                Log.i("网页地址", url);
                 return true;
             }
 
@@ -126,14 +127,25 @@ public class GFriendToBossActivity extends BaseActivity {
         });
         webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
+        initRightListener();
+    }
 
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     public class DemoJavascriptInterface {
 
         @JavascriptInterface
         public void pay() {
-//            Log.i("商品id", i+"");
             payData();
         }
     }

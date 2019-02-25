@@ -26,6 +26,15 @@ public class MingXiBean {
         private String tk_status;
         private String earning_time;
         private String collect;
+        private String freeze;
+
+        public String getFreeze() {
+            return freeze;
+        }
+
+        public void setFreeze(String freeze) {
+            this.freeze = freeze;
+        }
 
         public String getCollect() {
             return collect;

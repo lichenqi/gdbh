@@ -58,6 +58,7 @@ public class BaseH5Activity extends BaseActivity {
     WebView webview;
     String url;
     ImageView iv_back;
+    ImageView iv_right;
     private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
 
     @Override
@@ -70,6 +71,9 @@ public class BaseH5Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
         alibcShowParams = new AlibcShowParams(OpenType.Native, true);
@@ -125,6 +129,19 @@ public class BaseH5Activity extends BaseActivity {
         });
         webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     public class DemoJavascriptInterface {

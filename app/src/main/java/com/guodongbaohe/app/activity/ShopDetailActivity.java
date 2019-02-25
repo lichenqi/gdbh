@@ -1061,7 +1061,8 @@ public class ShopDetailActivity extends BigBaseActivity {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv);
+//            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv);
+            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).into(iv);
             container.addView(view);
             return view;
         }

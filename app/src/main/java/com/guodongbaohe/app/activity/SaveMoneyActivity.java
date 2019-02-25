@@ -39,7 +39,7 @@ public class SaveMoneyActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    ImageView iv_back;
+    ImageView iv_back, iv_right;
     private String share_url, share_title, share_content, share_img;
 
     @Override
@@ -52,6 +52,9 @@ public class SaveMoneyActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);
@@ -94,6 +97,19 @@ public class SaveMoneyActivity extends BaseActivity {
         });
         webview.loadUrl("http://x.mopland.com/help/save", WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     public class DemoJavascriptInterface {

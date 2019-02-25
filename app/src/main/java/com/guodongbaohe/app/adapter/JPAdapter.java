@@ -57,6 +57,7 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
         attr_price = list_related.get(position).getAttr_price();
         attr_prime = list_related.get(position).getAttr_prime();
         attr_ratio = list_related.get(position).getAttr_ratio();
+        String seller_shop = list_related.get(position).getSeller_shop();
         holder.tv_sale_num.setText(NumUtil.getNum(list_related.get(position).getSales_month()) + "人已购");
         StringCleanZeroUtil.StringFormat(attr_price, holder.price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, holder.old_price);
@@ -84,23 +85,20 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
             String member_role = list_related.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 90);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*和火人用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 70);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*Vip用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
                 YouMakeMoney(holder, 40);
             } else {
                 /*普通用户*/
-                holder.ninengzhuan.setVisibility(View.GONE);
+                holder.ninengzhuan.setText(seller_shop);
             }
         } else {
             /*游客*/
-            holder.ninengzhuan.setVisibility(View.GONE);
+            holder.ninengzhuan.setText(seller_shop);
         }
 
         if (onItemClick != null) {

@@ -84,15 +84,20 @@ public class SetNewPhoneActivity extends BaseActivity {
                 }
                 break;
             case R.id.submit_btn:
-                if (!TextUtils.isEmpty(yzm_code.getText().toString())){
-                    registerData(old_phone.getText().toString(),yzm_code.getText().toString());
+                if (flag==1){
+                    if (!TextUtils.isEmpty(yzm_code.getText().toString())){
+                        registerData(old_phone.getText().toString(),yzm_code.getText().toString());
+                    }else {
+                        ToastUtils.showToast(SetNewPhoneActivity.this,"请输入验证码");
+                    }
                 }else {
-                    ToastUtils.showToast(SetNewPhoneActivity.this,"请输入验证码");
+                    ToastUtils.showToast(SetNewPhoneActivity.this,"请获取短信验证码");
                 }
                 break;
         }
     }
     Dialog loadingDialog;
+    int flag=0;
     private void getCodeData(String phone) {
         loadingDialog = DialogUtil.createLoadingDialog(SetNewPhoneActivity.this, "正在获取验证码...");
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -124,6 +129,7 @@ public class SetNewPhoneActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
                             if (aReturn >= 0) {
+                                flag=1;
                                 ToastUtils.showToast(getApplicationContext(), "短息验证码已发送至您的手机");
                                 time.start();
                             } else {

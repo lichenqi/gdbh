@@ -14,12 +14,7 @@ import android.widget.ProgressBar;
 
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
-import com.guodongbaohe.app.common_constant.Constant;
-import com.guodongbaohe.app.util.ParamUtil;
-import com.guodongbaohe.app.util.PreferUtils;
-import com.guodongbaohe.app.util.VersionUtil;
-
-import java.util.LinkedHashMap;
+import com.guodongbaohe.app.util.WebViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +25,7 @@ public class ShareDetailActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
-    ImageView iv_back;
+    ImageView iv_back, iv_right;
 
     @Override
     public int getContainerView() {
@@ -42,6 +37,9 @@ public class ShareDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.webview_reload);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
         WebSettings settings = webview.getSettings();
@@ -53,7 +51,7 @@ public class ShareDetailActivity extends BaseActivity {
         webview.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                view.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
                 return true;
             }
         });
@@ -84,16 +82,20 @@ public class ShareDetailActivity extends BaseActivity {
                 }
             }
         });
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"));
-        map.put("x-appid", Constant.APPID);
-        map.put("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID));
-        map.put("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE));
-        map.put("x-agent", VersionUtil.getVersionCode(getApplicationContext()));
-        map.put("x-platform", Constant.ANDROID);
-        map.put("x-devtype", Constant.IMEI);
-        map.put("x-token", ParamUtil.GroupMap(getApplicationContext(), PreferUtils.getString(getApplicationContext(), "member_id")));
-        webview.loadUrl(url, map);
+        webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
+        initRightListener();
+    }
+
+    /*webview刷新*/
+    private void initRightListener() {
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (webview != null) {
+                    webview.reload();
+                }
+            }
+        });
     }
 
     @Override

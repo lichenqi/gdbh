@@ -250,7 +250,6 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
                 });
     }
 
-
     private void initView() {
         xrecycler.setHasFixedSize(true);
         xrecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));

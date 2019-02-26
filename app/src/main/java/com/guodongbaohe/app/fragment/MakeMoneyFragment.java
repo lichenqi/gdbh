@@ -20,10 +20,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.activity.CommonUserToVIPActivity;
 import com.guodongbaohe.app.activity.GBossH5Activity;
 import com.guodongbaohe.app.activity.GFriendToBossActivity;
 import com.guodongbaohe.app.activity.GVipToFriendActivity;
-import com.guodongbaohe.app.activity.YaoQingFriendActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.MakeMoneyBean;
 import com.guodongbaohe.app.common_constant.Constant;
@@ -242,7 +242,6 @@ public class MakeMoneyFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_open_vip:
-                String upgrade_invite_num = PreferUtils.getString(getContext(), "upgrade_invite_num");
                 if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                     /*总裁*/
                     intent = new Intent(getContext(), GBossH5Activity.class);
@@ -251,18 +250,14 @@ public class MakeMoneyFragment extends Fragment {
                     /*合伙人升级总裁*/
                     intent = new Intent(getContext(), GFriendToBossActivity.class);
                     startActivity(intent);
+                } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                    /*vip级别要升级到合伙人*/
+                    intent = new Intent(getContext(), GVipToFriendActivity.class);
+                    startActivity(intent);
                 } else {
-                    if (Integer.valueOf(son_count) > 0 && Integer.valueOf(son_count) < Integer.valueOf(upgrade_invite_num)) {
-                        /*vip级别要升级到合伙人*/
-                        intent = new Intent(getContext(), GVipToFriendActivity.class);
-                        startActivity(intent);
-                    } else if (Integer.valueOf(son_count) >= Integer.valueOf(upgrade_invite_num)) {
-                        intent = new Intent(getContext(), GVipToFriendActivity.class);
-                        startActivity(intent);
-                    } else {
-                        intent = new Intent(getContext(), YaoQingFriendActivity.class);
-                        startActivity(intent);
-                    }
+                    /*普通用户*/
+                    intent = new Intent(getContext(), CommonUserToVIPActivity.class);
+                    startActivity(intent);
                 }
                 break;
         }

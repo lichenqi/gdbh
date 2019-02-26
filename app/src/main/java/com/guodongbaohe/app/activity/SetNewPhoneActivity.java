@@ -75,7 +75,7 @@ public class SetNewPhoneActivity extends BaseActivity {
     public void OnClick(View view){
         switch (view.getId()){
             case R.id.get_code:
-                if (old_phone.getText().equals(old_phones)&&!TextUtils.isEmpty(old_phone.getText().toString())){
+                if (TextUtils.equals(old_phones,old_phone.getText().toString())&&!TextUtils.isEmpty(old_phone.getText().toString())){
                     ToastUtils.showToast(SetNewPhoneActivity.this,"换绑手机号不能与原手机号相同");
                 }else if (TextUtils.isEmpty(old_phone.getText().toString())){
                     ToastUtils.showToast(SetNewPhoneActivity.this,"请输入手机号");

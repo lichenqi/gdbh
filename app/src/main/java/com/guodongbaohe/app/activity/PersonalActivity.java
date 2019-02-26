@@ -251,6 +251,7 @@ public class PersonalActivity extends BaseActivity {
         tv_name.setText(userName);
         tv_what.setText(wchatname);
         tv_phone.setText(phoneNum);
+
     }
 
     @OnClick({R.id.loginout, R.id.re_change_img, R.id.re_change_name, R.id.re_change_sex, R.id.re_change_wchat, R.id.re_change_cdoe,R.id.change_phone})
@@ -574,6 +575,9 @@ public class PersonalActivity extends BaseActivity {
         switch (msg) {
             case "phone_change":
                 initView();
+                break;
+            case Constant.EDITUSERINFO:
+                tv_code.setText(PreferUtils.getString(getApplicationContext(), "invite_code"));
                 break;
 
         }

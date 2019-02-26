@@ -148,7 +148,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="返的多，赚的多"
+                    android:text="海量商品 专享折扣"
                     android:textColor="@color/txblack"
                     android:textSize="12sp" />
             </LinearLayout>

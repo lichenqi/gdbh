@@ -60,8 +60,13 @@ public class PaySuccessActivity extends BaseActivity {
         copy_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CopyToClipboard(PaySuccessActivity.this, wchat_edit.getText().toString());
-                ToastUtils.showToast(PaySuccessActivity.this, "复制成功");
+                if (!TextUtils.equals("暂无官方微信",wchat_edit.getText().toString())){
+                    CopyToClipboard(PaySuccessActivity.this, wchat_edit.getText().toString());
+                    ToastUtils.showToast(PaySuccessActivity.this, "复制成功");
+                }else {
+                    ToastUtils.showToast(PaySuccessActivity.this, "暂无官方微信");
+                }
+
             }
         });
         return_btn.setOnClickListener(new View.OnClickListener() {

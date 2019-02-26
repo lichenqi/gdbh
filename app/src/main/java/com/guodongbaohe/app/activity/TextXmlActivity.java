@@ -15,6 +15,7 @@ import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
+import com.guodongbaohe.app.bean.GuanKeFuBean;
 import com.guodongbaohe.app.bean.WchatBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -44,6 +45,13 @@ public class TextXmlActivity extends BaseActivity {
     TextView wchat_edit;
     @BindView(R.id.return_btn)
     TextView return_btn;
+
+    @BindView(R.id.text_one)
+            TextView text_one;
+    @BindView(R.id.text_two)
+            TextView text_two;
+    @BindView(R.id.text_three)
+            TextView text_three;
     ImageView iv_right;
     @Override
     public int getContainerView() {
@@ -59,8 +67,13 @@ public class TextXmlActivity extends BaseActivity {
         copy_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CopyToClipboard(TextXmlActivity.this, wchat_edit.getText().toString());
-                ToastUtils.showToast(TextXmlActivity.this,"复制成功");
+                if (!TextUtils.equals("暂无官方微信",wchat_edit.getText().toString())){
+                    CopyToClipboard(TextXmlActivity.this, wchat_edit.getText().toString());
+                    ToastUtils.showToast(TextXmlActivity.this,"复制成功");
+                }else {
+                    ToastUtils.showToast(TextXmlActivity.this, "暂无官方微信");
+                }
+
             }
         });
         return_btn.setOnClickListener(new View.OnClickListener() {
@@ -125,16 +138,7 @@ public class TextXmlActivity extends BaseActivity {
                 });
     }
     public void getDataWchat() {
-        long timelineStr = System.currentTimeMillis() / 1000;
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-        map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
-        String param = ParamUtil.getQianMingMapParam(map);
-        String token = EncryptUtil.encrypt(param + Constant.NETKEY);
-        map.put(Constant.TOKEN, token);
-        String mapParam = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GF_WCHAT + "?" + mapParam)
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WEIXIN_KEFU )
                 .tag(this)
                 .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
                 .addHeader("x-appid", Constant.APPID)
@@ -153,9 +157,12 @@ public class TextXmlActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
-                                WchatBean bean = GsonUtil.GsonToBean(response.toString(), WchatBean.class);
-                                if (!TextUtils.isEmpty(bean.getResult().getWechat())) {
+                                GuanKeFuBean bean = GsonUtil.GsonToBean(response.toString(), GuanKeFuBean.class);
+                                if (bean==null)return;
+                                if (!TextUtils.isEmpty(bean.getResult().toString())) {
                                     wchat_edit.setText(bean.getResult().getWechat());
+                                    text_one.setText(bean.getResult().getTitle());
+                                    text_two.setText(bean.getResult().getSub());
                                 } else {
                                     wchat_edit.setText("暂无官方微信");
                                 }

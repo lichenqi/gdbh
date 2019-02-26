@@ -56,6 +56,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/text_one"
             android:layout_marginTop="20dp"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -64,6 +65,7 @@
             android:textColor="@color/white"
             android:textSize="20dp"/>
         <TextView
+            android:id="@+id/text_two"
             android:layout_marginTop="2dp"
             android:gravity="center_horizontal"
             android:layout_width="match_parent"
@@ -71,6 +73,15 @@
             android:text="领取精品课程和更多专享活动"
             android:textColor="@color/gray"
             android:textSize="18dp"/>
+        <TextView
+            android:id="@+id/text_three"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray"
+            android:textSize="18dp"
+            />
 
         <LinearLayout
             android:layout_gravity="center_horizontal"

@@ -434,8 +434,8 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.iv_set:
-                intent=new Intent(getContext(),TextXmlActivity.class);
-//                intent = new Intent(getContext(), PersonalActivity.class);
+//                intent=new Intent(getContext(),TextXmlActivity.class);
+                intent = new Intent(getContext(), PersonalActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_taobao_gwuche:

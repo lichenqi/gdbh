@@ -84,16 +84,16 @@ public class PaySuccessActivity extends BaseActivity {
     }
 
     public void getDataWchat() {
-        long timelineStr = System.currentTimeMillis() / 1000;
-        LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-        map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
-        String param = ParamUtil.getQianMingMapParam(map);
-        String token = EncryptUtil.encrypt(param + Constant.NETKEY);
-        map.put(Constant.TOKEN, token);
-        String mapParam = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GF_WCHAT + "?" + mapParam)
+//        long timelineStr = System.currentTimeMillis() / 1000;
+//        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+//        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
+//        map.put(Constant.PLATFORM, Constant.ANDROID);
+//        map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
+//        String param = ParamUtil.getQianMingMapParam(map);
+//        String token = EncryptUtil.encrypt(param + Constant.NETKEY);
+//        map.put(Constant.TOKEN, token);
+//        String mapParam = ParamUtil.getMapParam(map);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WEIXIN_KEFU )
                 .tag(this)
                 .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
                 .addHeader("x-appid", Constant.APPID)

@@ -18,6 +18,7 @@ import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.util.NetPicsToBitmap;
 import com.guodongbaohe.app.util.PreferUtils;
+import com.guodongbaohe.app.util.QRCodeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +101,7 @@ public class TransparencyPicsActivity extends BigBaseActivity {
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             if (position == 0) {
                 Bitmap bitmap = NetPicsToBitmap.convertStringToIcon(all_list.get(0));
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(QRCodeUtil.compressImage(bitmap));
             } else {
                 Glide.with(getApplicationContext()).load(all_list.get(position)).placeholder(R.drawable.loading_img).into(imageView);
             }

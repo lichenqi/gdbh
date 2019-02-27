@@ -15,6 +15,7 @@ import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
+import com.guodongbaohe.app.bean.GuanKeFuBean;
 import com.guodongbaohe.app.bean.WchatBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -43,8 +44,14 @@ public class PaySuccessActivity extends BaseActivity {
     TextView wchat_edit;
     @BindView(R.id.return_btn)
     TextView return_btn;
-    ImageView iv_right;
 
+    @BindView(R.id.text_one)
+    TextView text_one;
+    @BindView(R.id.text_two)
+    TextView text_two;
+    @BindView(R.id.text_three)
+    TextView text_three;
+    ImageView iv_right;
     @Override
     public int getContainerView() {
         return R.layout.paysuccessactivity;
@@ -61,7 +68,7 @@ public class PaySuccessActivity extends BaseActivity {
             public void onClick(View view) {
                 if (!TextUtils.equals("暂无官方微信",wchat_edit.getText().toString())){
                     CopyToClipboard(PaySuccessActivity.this, wchat_edit.getText().toString());
-                    ToastUtils.showToast(PaySuccessActivity.this, "复制成功");
+                    ToastUtils.showToast(PaySuccessActivity.this,"复制成功");
                 }else {
                     ToastUtils.showToast(PaySuccessActivity.this, "暂无官方微信");
                 }
@@ -71,77 +78,15 @@ public class PaySuccessActivity extends BaseActivity {
         return_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PaySuccessActivity.this, MainActivity.class);
+                Intent intent=new Intent(PaySuccessActivity.this,MainActivity.class);
                 startActivity(intent);
-                PreferUtils.putString(getApplicationContext(), "flag_main", "1");
+                PreferUtils.putString(getApplicationContext(),"flag_main","1");
                 finish();
             }
         });
         getDataWchat();
-        /*升级成功之后  重新保存用户等级状态*/
         getUserData();
     }
-
-    public void getDataWchat() {
-//        long timelineStr = System.currentTimeMillis() / 1000;
-//        LinkedHashMap<String, String> map = new LinkedHashMap<>();
-//        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-//        map.put(Constant.PLATFORM, Constant.ANDROID);
-//        map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
-//        String param = ParamUtil.getQianMingMapParam(map);
-//        String token = EncryptUtil.encrypt(param + Constant.NETKEY);
-//        map.put(Constant.TOKEN, token);
-//        String mapParam = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WEIXIN_KEFU )
-                .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), PreferUtils.getString(getApplicationContext(), "member_id")))
-                .enqueue(new JsonResponseHandler() {
-
-                    @Override
-                    public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("账号信息", response.toString());
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                WchatBean bean = GsonUtil.GsonToBean(response.toString(), WchatBean.class);
-                                if (!TextUtils.isEmpty(bean.getResult().getWechat())) {
-                                    wchat_edit.setText(bean.getResult().getWechat());
-                                } else {
-                                    wchat_edit.setText("暂无官方微信");
-                                }
-
-                            } else {
-                                ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                    }
-                });
-    }
-
-    public void CopyToClipboard(Context context, String text) {
-        ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-        clip.setText(text); // 复制
-        if (!TextUtils.isEmpty(text)) {
-            ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(text);//保存记录到数据库
-        }
-    }
-
     private void getUserData() {
         long timelineStr = System.currentTimeMillis() / 1000;
         HashMap<String, String> map = new HashMap<>();
@@ -190,5 +135,57 @@ public class PaySuccessActivity extends BaseActivity {
                     public void onFailure(int statusCode, String error_msg) {
                     }
                 });
+    }
+    public void getDataWchat() {
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WEIXIN_KEFU )
+                .tag(this)
+                .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), PreferUtils.getString(getApplicationContext(), "member_id")))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        Log.i("账号信息", response.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                GuanKeFuBean bean = GsonUtil.GsonToBean(response.toString(), GuanKeFuBean.class);
+                                if (bean==null)return;
+                                if (!TextUtils.isEmpty(bean.getResult().toString())) {
+                                    wchat_edit.setText(bean.getResult().getWechat());
+                                    text_one.setText(bean.getResult().getTitle());
+                                    text_two.setText(bean.getResult().getSub());
+                                } else {
+                                    wchat_edit.setText("暂无官方微信");
+                                }
+
+                            } else {
+                                ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                    }
+                });
+    }
+    public void CopyToClipboard(Context context, String text) {
+        ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        clip.setText(text); // 复制
+        if (!TextUtils.isEmpty(text)) {
+            ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(text);//保存记录到数据库
+        }
     }
 }

@@ -32,7 +32,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

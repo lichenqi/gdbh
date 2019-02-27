@@ -333,11 +333,21 @@
         <activity
             android:name=".activity.BaiChuanActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.GetTokenActivity" />
-        <activity android:name=".activity.TestBannerActivity" />
-        <activity android:name=".activity.ChangePhoneActivity" />
-        <activity android:name=".activity.SetNewPhoneActivity" />
-        <activity android:name=".activity.TextXmlActivity" />
+        <activity
+            android:name=".activity.GetTokenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TestBannerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ChangePhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SetNewPhoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TextXmlActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CommonUserToVIPActivity"
             android:screenOrientation="portrait" />

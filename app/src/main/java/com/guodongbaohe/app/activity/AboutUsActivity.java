@@ -19,7 +19,7 @@ import com.guodongbaohe.app.util.WebViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-/*关于我们*/
+/*关于 我们*/
 public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.webview)
     WebView webview;

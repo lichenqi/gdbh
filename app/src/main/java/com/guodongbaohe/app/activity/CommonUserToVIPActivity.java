@@ -85,9 +85,11 @@ public class CommonUserToVIPActivity extends BaseActivity {
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(true);
         webview.setWebViewClient(new WebViewClient() {
+
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
+                Log.i("测试升级地址",url);
                 return true;
             }
 
@@ -163,6 +165,7 @@ public class CommonUserToVIPActivity extends BaseActivity {
         map.put("member_id", member_id);
         map.put("method", "alipay");
         map.put("is_new", "ture");
+        map.put("newest","yes");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

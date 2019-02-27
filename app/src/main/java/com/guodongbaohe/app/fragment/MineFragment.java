@@ -43,6 +43,7 @@ import com.alibaba.baichuan.android.trade.adapter.login.AlibcLogin;
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.AboutUsActivity;
+import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.GCollectionActivity;
 import com.guodongbaohe.app.activity.GGfwChatActivity;
 import com.guodongbaohe.app.activity.GetTokenActivity;
@@ -434,7 +435,8 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.iv_set:
-//                intent=new Intent(getContext(),TextXmlActivity.class);
+//                intent=new Intent(getContext(),BaseH5Activity.class);
+//                intent.putExtra("url","http://app.mopland.com/help/vip");
                 intent = new Intent(getContext(), PersonalActivity.class);
                 startActivity(intent);
                 break;

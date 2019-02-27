@@ -400,7 +400,7 @@ public class MakeMoneyFragment extends Fragment {
         } else {
             identity_label.setText("您的合伙人期限已过期");
         }
-        update_label.setText("合伙人专属特权");
+        update_label.setText("我的合伙人专属特权");
         tv_one.setText("购物省钱");
         tv_one_bili.setText("双倍返利");
         tv_two.setText("分享赚钱");
@@ -437,18 +437,18 @@ public class MakeMoneyFragment extends Fragment {
 
     /*Vip角色*/
     private void haveSonData() {
-        update_label.setText("VIP专属特权");
+        update_label.setText("我的VIP专属特权");
         identity_label.setText("您已达到升级合伙人的资格");
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
-        tv_two_bili.setText("佣金70%");
+        tv_two_bili.setText("佣金40%");
         tv_three.setText("赚钱教程");
         tv_three_bili.setText("免费获取");
-        tv_four.setText("团队佣金");
-        tv_four_bili.setText("提成5%");
+        tv_four.setText("智慧大脑");
+        tv_four_bili.setText("自动发群软件");
         tv_five.setText("购物返利");
-        tv_five_bili.setText("提升25%");
+        tv_five_bili.setText("返40%");
         tv_six.setText("VIP身份");
         tv_six_bili.setText("专属VIP权限");
         tv_open_vip.setText("升级成为合伙人 >");

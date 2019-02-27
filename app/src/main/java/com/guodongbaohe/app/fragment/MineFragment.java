@@ -54,7 +54,6 @@ import com.guodongbaohe.app.activity.MyTeamActivity;
 import com.guodongbaohe.app.activity.PersonalActivity;
 import com.guodongbaohe.app.activity.TaoBaoH5Activity;
 import com.guodongbaohe.app.activity.TaobaoShoppingCartActivity;
-import com.guodongbaohe.app.activity.TextXmlActivity;
 import com.guodongbaohe.app.activity.TuanDuiJinTieActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.activity.YaoQingFriendActivity;
@@ -434,7 +433,6 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.iv_set:
-//                intent=new Intent(getContext(),TextXmlActivity.class);
                 intent = new Intent(getContext(), PersonalActivity.class);
                 startActivity(intent);
                 break;

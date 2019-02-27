@@ -3,6 +3,7 @@ package com.guodongbaohe.app.fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +15,10 @@ import android.widget.ImageView;
 
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.adapter.OrderAdaptr;
 import com.guodongbaohe.app.bean.OrderBean;
+import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
@@ -103,6 +106,14 @@ public class AllOrderFragment extends android.support.v4.app.Fragment {
                 ToastUtils.showToast(getContext(), "订单号复制成功");
             }
         });
+        adaptr.setonshopdetailclicklistener(new OnItemClick() {
+            @Override
+            public void OnItemClickListener(View view, int position) {
+                /*调用商品详情信息接口*/
+                String num_iid = list.get(position - 1).getNum_iid();
+                getShopBasicData(num_iid);
+            }
+        });
     }
 
     private void getData() {
@@ -178,4 +189,70 @@ public class AllOrderFragment extends android.support.v4.app.Fragment {
                     }
                 });
     }
+
+    /*商品详情头部信息*/
+    private void getShopBasicData(String shopId) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put("goods_id", shopId);
+        String param = ParamUtil.getMapParam(map);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
+                                if (bean == null) return;
+                                ShopBasicBean.ShopBasicData result = bean.getResult();
+                                Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                                intent.putExtra("goods_id", result.getGoods_id());
+                                intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
+                                intent.putExtra("cate_category", result.getCate_category());/*类目id*/
+                                intent.putExtra("attr_price", result.getAttr_price());
+                                intent.putExtra("attr_prime", result.getAttr_prime());
+                                intent.putExtra("attr_ratio", result.getAttr_ratio());
+                                intent.putExtra("sales_month", result.getSales_month());
+                                intent.putExtra("goods_name", result.getGoods_name());/*长标题*/
+                                intent.putExtra("goods_short", result.getGoods_short());/*短标题*/
+                                intent.putExtra("seller_shop", result.getSeller_shop());/*店铺姓名*/
+                                intent.putExtra("goods_thumb", result.getGoods_thumb());/*单图*/
+                                intent.putExtra("goods_gallery", result.getGoods_gallery());/*多图*/
+                                intent.putExtra("coupon_begin", result.getCoupon_begin());/*开始时间*/
+                                intent.putExtra("coupon_final", result.getCoupon_final());/*结束时间*/
+                                intent.putExtra("coupon_surplus", result.getCoupon_surplus());/*是否有券*/
+                                intent.putExtra("coupon_explain", result.getGoods_slogan());/*推荐理由*/
+                                intent.putExtra("attr_site", result.getAttr_site());/*天猫或者淘宝*/
+                                intent.putExtra("coupon_total", result.getCoupon_total());
+                                intent.putExtra("coupon_id", result.getCoupon_id());
+                                intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                                intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
+                                startActivity(intent);
+                            } else {
+                                String result = jsonObject.getString("result");
+                                ToastUtils.showToast(getContext(), result);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast(getContext(), Constant.NONET);
+                    }
+                });
+    }
+
+
 }

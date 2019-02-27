@@ -128,6 +128,25 @@ public class ConfigurationBean {
         private String about_us;
         private String agreement;
         private String online_switch_android;
+        private String upgrade_partner_vips;/*vip要升级合伙人需要的人数*/
+        private String upgrade_boss_partners;/*合伙人升级总裁需要的人数*/
+
+        public String getUpgrade_boss_partners() {
+            return upgrade_boss_partners;
+        }
+
+        public String getUpgrade_partner_vips() {
+            return upgrade_partner_vips;
+        }
+
+        public void setUpgrade_partner_vips(String upgrade_partner_vips) {
+            this.upgrade_partner_vips = upgrade_partner_vips;
+        }
+
+
+        public void setUpgrade_boss_partners(String upgrade_boss_partners) {
+            this.upgrade_boss_partners = upgrade_boss_partners;
+        }
 
         public String getUpgrade_vip_invite() {
             return upgrade_vip_invite;

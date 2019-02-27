@@ -273,6 +273,10 @@ public class StartActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "is_pop_window_vip", bean.getResult().getIs_pop_window_vip());
                                 /*Android启动引导登录*/
                                 PreferUtils.putString(getApplicationContext(), "start_guide_to_login", bean.getResult().getStart_guide_to_login());
+                                /*vip要升级合伙人需要的人数*/
+                                PreferUtils.putString(getApplicationContext(), "upgrade_partner_vips", bean.getResult().getUpgrade_partner_vips());
+                                /*合伙人升级总裁需要的人数*/
+                                PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }

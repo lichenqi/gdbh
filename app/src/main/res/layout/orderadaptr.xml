@@ -45,14 +45,13 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/login_logo" />
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:layout_marginLeft="5dp"
             android:orientation="vertical">
 
@@ -60,11 +59,12 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -124,6 +124,17 @@
                     android:textSize="11sp" />
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/end_time"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/txblack"
+                android:textSize="12sp"
+                android:visibility="gone" />
 
         </LinearLayout>
 

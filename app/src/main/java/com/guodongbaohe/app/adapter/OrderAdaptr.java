@@ -28,10 +28,14 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
     BigDecimal bg3;
     String pub_share_pre_fee;
     double app_v;
-    private OnItemClick onItemClick;
+    private OnItemClick onItemClick, onShopDetailClick;
 
     public void setonfuzhiclicklistener(OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
+    }
+
+    public void setonshopdetailclicklistener(OnItemClick onShopDetailClick) {
+        this.onShopDetailClick = onShopDetailClick;
     }
 
     public OrderAdaptr(Context context, List<OrderBean.OrderData> list, String member_role, String son_count) {
@@ -56,23 +60,29 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
         String freeze = list.get(position).getFreeze();
         holder.title.setText(list.get(position).getItem_title());
         holder.order_no.setText("订单号:" + list.get(position).getTrade_id());
-        holder.order_price.setText("商品付款¥" + list.get(position).getAlipay_total_price());
+        holder.order_price.setText("商品付款 ¥" + list.get(position).getAlipay_total_price());
         if (freeze.equals("1")) {
             holder.taonbao.setText("订单已冻结");
             holder.taonbao.setTextColor(0xffff0000);
+            holder.end_time.setVisibility(View.GONE);
         } else {
             if (tk_status.equals("13")) {
                 holder.taonbao.setText("订单失效");
                 holder.taonbao.setTextColor(0xfff40000);
+                holder.end_time.setVisibility(View.GONE);
             } else if (tk_status.equals("3")) {
                 holder.taonbao.setTextColor(0xff008080);
                 holder.taonbao.setText("订单结算");
+                holder.end_time.setVisibility(View.VISIBLE);
+                holder.end_time.setText("结算时间:" + list.get(position).getEarning_time());
             } else if (tk_status.equals("12")) {
                 holder.taonbao.setTextColor(0xff000000);
                 holder.taonbao.setText("订单付款");
+                holder.end_time.setVisibility(View.GONE);
             } else if (tk_status.equals("14")) {
                 holder.taonbao.setTextColor(0xff000000);
                 holder.taonbao.setText("订单成功");
+                holder.end_time.setVisibility(View.GONE);
             }
         }
         holder.time.setText("下单时间:" + list.get(position).getCreate_time());
@@ -82,6 +92,15 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
                 @Override
                 public void onClick(View v) {
                     onItemClick.OnItemClickListener(holder.tv_order_no_fuzhi, holder.getAdapterPosition());
+                }
+            });
+        }
+
+        if (onShopDetailClick != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onShopDetailClick.OnItemClickListener(holder.itemView, holder.getAdapterPosition());
                 }
             });
         }
@@ -109,6 +128,8 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
         TextView makemoney;
         @BindView(R.id.tv_order_no_fuzhi)
         TextView tv_order_no_fuzhi;
+        @BindView(R.id.end_time)
+        TextView end_time;
 
         public OrderHolder(View itemView) {
             super(itemView);

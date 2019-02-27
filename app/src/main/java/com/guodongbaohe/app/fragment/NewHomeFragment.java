@@ -65,6 +65,8 @@ public class NewHomeFragment extends Fragment {
     TabLayoutAdapter adapter;
     Bundle bundle;
     List<CommonBean.CommonResult> titleList;
+        String regex = "^[a-zA-Z0-9]{6}$";
+//    String regex = "^((\\d{6})|([a-zA-Z0-9]{6}))$";
 
     @Override
     public void onDestroy() {
@@ -95,6 +97,9 @@ public class NewHomeFragment extends Fragment {
             view = inflater.inflate(R.layout.newhomefragment, container, false);
             ButterKnife.bind(this, view);
             initDataView();
+            String color = "000000";
+            boolean matches = regex.matches(color);
+            Log.i("正则匹配", matches + "");
         }
         return view;
     }

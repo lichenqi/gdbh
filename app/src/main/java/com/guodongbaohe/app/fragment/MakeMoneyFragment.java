@@ -149,6 +149,7 @@ public class MakeMoneyFragment extends Fragment {
     /*合伙人显示*/
     @BindView(R.id.tv_hehren_view)
     TextView tv_hehren_view;
+    String upgrade_partner_vips, upgrade_boss_partners;
 
     @Override
     public void onDestroy() {
@@ -183,6 +184,10 @@ public class MakeMoneyFragment extends Fragment {
             view = inflater.inflate(R.layout.makemoneyfragment, container, false);
             ButterKnife.bind(this, view);
             EventBus.getDefault().register(this);
+            /*vip要升级合伙人需要的人数*/
+            upgrade_partner_vips = PreferUtils.getString(getContext(), "upgrade_partner_vips");
+            /*合伙人升级总裁需要的人数*/
+            upgrade_boss_partners = PreferUtils.getString(getContext(), "upgrade_boss_partners");
             /*用户信息接口*/
             getUserData();
             /*滑动标题渐变*/
@@ -227,16 +232,18 @@ public class MakeMoneyFragment extends Fragment {
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             user_level.setText("合伙人");
             tv_hehren_view.setVisibility(View.VISIBLE);
+            tv_hehren_view.setText("发展" + upgrade_boss_partners + "个合伙人，获得升级总裁权限");
         } else {
-            tv_hehren_view.setVisibility(View.INVISIBLE);
             if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 user_level.setText("普通会员");
+                tv_hehren_view.setVisibility(View.INVISIBLE);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 user_level.setText("VIP");
+                tv_hehren_view.setVisibility(View.VISIBLE);
+                tv_hehren_view.setText("发展" + upgrade_partner_vips + "个合伙人，获得升级总裁权限");
             }
         }
     }
-
 
     @OnClick({R.id.tv_open_vip})
     public void onClick(View view) {

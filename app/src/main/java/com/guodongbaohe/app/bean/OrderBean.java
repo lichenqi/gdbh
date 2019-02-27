@@ -53,6 +53,16 @@ public class OrderBean {
         private String total_commission_rate;
         private String trade_id;
         private String freeze;
+        private String money;
+        private String earning_time;
+
+        public String getEarning_time() {
+            return earning_time;
+        }
+
+        public void setEarning_time(String earning_time) {
+            this.earning_time = earning_time;
+        }
 
         public String getFreeze() {
             return freeze;
@@ -69,8 +79,6 @@ public class OrderBean {
         public void setMoney(String money) {
             this.money = money;
         }
-
-        private String money;
 
         public String getAdzone_id() {
             return adzone_id;

@@ -479,7 +479,7 @@ public class MineFragment extends Fragment {
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
                 .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-agent", VersionUtil.getH5VersionCode(getContext()))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
                 .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
@@ -654,7 +654,7 @@ public class MineFragment extends Fragment {
                                 title = result.getTitle();
                                 download = result.getDownload();
                                 String version = result.getVersion();
-                                Integer localCode = Integer.valueOf(VersionUtil.getVersionCode(getContext()).replace(".", "").trim());
+                                Integer localCode = Integer.valueOf(VersionUtil.getAndroidNumVersion(getContext()).replace(".", "").trim());
                                 if (Integer.valueOf(version) > localCode) {
                                     versionUpdataDialog();
                                 } else {

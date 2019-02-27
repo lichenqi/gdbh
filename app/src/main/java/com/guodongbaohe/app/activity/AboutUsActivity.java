@@ -40,7 +40,7 @@ public class AboutUsActivity extends BaseActivity {
         String about_us = PreferUtils.getString(getApplicationContext(), "about_us");
         ButterKnife.bind(this);
         setMiddleTitle("关于我们");
-        String versionCode = VersionUtil.getVersionCode(getApplicationContext());
+        String versionCode = VersionUtil.getAndroidNumVersion(getApplicationContext());
         version.setText("版本号: V" + versionCode);
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);

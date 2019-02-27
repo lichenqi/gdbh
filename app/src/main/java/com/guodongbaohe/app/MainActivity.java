@@ -161,7 +161,7 @@ public class MainActivity extends BigBaseActivity {
         /*获取app配置信息*/
         getPeiZhiData();
         /*版本升级接口*/
-        local_version = VersionUtil.getVersionCode(getApplicationContext());
+        local_version = VersionUtil.getAndroidNumVersion(getApplicationContext());
         getVersionCodeData();
 
         /*android登录开关按钮*/

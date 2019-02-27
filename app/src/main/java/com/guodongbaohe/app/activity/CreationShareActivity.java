@@ -24,7 +24,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -321,6 +320,14 @@ public class CreationShareActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_change_rq_code:
+                if (NetUtil.getNetWorkState(CreationShareActivity.this) < 0) {
+                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+                    return;
+                }
+                if (chooseImagsNumList == null) {
+                    ToastUtils.showToast(getApplicationContext(), "请稍等，图片正在加载...");
+                    return;
+                }
                 Intent intent = new Intent(getApplicationContext(), ChangeQRCodePicActivity.class);
                 intent.putExtra("goods_id", goods_id);
                 intent.putExtra("title", goods_name);

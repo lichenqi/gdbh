@@ -14,7 +14,7 @@ public class WebViewUtil {
         map.put("x-appid", Constant.APPID);
         map.put("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID));
         map.put("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE));
-        map.put("x-agent", VersionUtil.getVersionCode(context));
+        map.put("x-agent", VersionUtil.getH5VersionCode(context));
         map.put("x-platform", Constant.ANDROID);
         map.put("x-devtype", Constant.IMEI);
         map.put("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")));

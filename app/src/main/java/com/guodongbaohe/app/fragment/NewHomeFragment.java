@@ -30,7 +30,6 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
-import com.guodongbaohe.app.util.PhoneUtils;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.SpUtil;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -66,7 +65,6 @@ public class NewHomeFragment extends Fragment {
     TabLayoutAdapter adapter;
     Bundle bundle;
     List<CommonBean.CommonResult> titleList;
-    String regex = "[A-Za-z0-9]{6}";
 
     @Override
     public void onDestroy() {
@@ -97,13 +95,9 @@ public class NewHomeFragment extends Fragment {
             view = inflater.inflate(R.layout.newhomefragment, container, false);
             ButterKnife.bind(this, view);
             initDataView();
-            String color = "#00k000";
-            boolean matches = PhoneUtils.isColor(color);
-            Log.i("正则匹配", matches + "");
         }
         return view;
     }
-
 
     @OnClick({R.id.iv_chat})
     public void OnClick(View view) {
@@ -157,7 +151,15 @@ public class NewHomeFragment extends Fragment {
                     if (position == 0) {
                         EventBus.getDefault().post("timeStart");
                         String currentColor = PreferUtils.getString(getContext(), "currentColor");
-                        setColor(currentColor);
+                        if (!TextUtils.isEmpty(currentColor)) {
+                            if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
+                                setColor(currentColor);
+                            } else {
+                                setColor("#000000");
+                            }
+                        } else {
+                            setColor("#000000");
+                        }
                     } else {
                         EventBus.getDefault().post("timeStop");
                         String s = "#000000";

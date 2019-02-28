@@ -571,7 +571,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             public void onGlobalLayout() {
                 xrecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 int height = xrecycler.getHeight();
-                Log.i("这个高度", height + "");
             }
         });
         xrecycler.setHasFixedSize(true);
@@ -652,7 +651,13 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     to_top.setVisibility(View.GONE);
                     String currentColor = PreferUtils.getString(getContext(), "currentColor");
                     if (!TextUtils.isEmpty(currentColor)) {
-                        setColorChange(Color.parseColor(currentColor));
+                        if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
+                            setColorChange(Color.parseColor(currentColor));
+                        } else {
+                            setColorChange(Color.parseColor("#000000"));
+                        }
+                    } else {
+                        setColorChange(Color.parseColor("#000000"));
                     }
                 }
             }
@@ -889,10 +894,19 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         String s = "#" + banner_result.get(position % banner_result.size()).getTitle();
+        int i;
         if (!TextUtils.isEmpty(s)) {
-            PreferUtils.putString(getContext(), "currentColor", s);
+            if (s.length() == 7 && s.substring(0, 1).equals("#")) {
+                PreferUtils.putString(getContext(), "currentColor", s);
+                i = Color.parseColor(s);
+            } else {
+                PreferUtils.putString(getContext(), "currentColor", "#000000");
+                i = Color.parseColor("#000000");
+            }
+        } else {
+            PreferUtils.putString(getContext(), "currentColor", "#000000");
+            i = Color.parseColor("#000000");
         }
-        int i = Color.parseColor(s);
         if (!TextUtils.isEmpty(i + "")) {
             view_color.setBackgroundColor(i);
             ll_parent.setBackgroundColor(i);

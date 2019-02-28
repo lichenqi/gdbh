@@ -151,7 +151,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*vip用户*/
                 holder.ninengzhuan.setVisibility(View.VISIBLE);
-                touristData(holder, 70);
+                touristData(holder, 40);
             } else {
                 /*普通用户*/
                 holder.ninengzhuan.setVisibility(View.GONE);

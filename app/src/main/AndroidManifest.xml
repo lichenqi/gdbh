@@ -351,6 +351,9 @@
         <activity
             android:name=".activity.CommonUserToVIPActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TaoBaoFromUrlToDetailActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

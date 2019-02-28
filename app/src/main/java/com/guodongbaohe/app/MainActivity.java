@@ -214,7 +214,7 @@ public class MainActivity extends BigBaseActivity {
             if (data == null) return;
             ClipData.Item item = data.getItemAt(0);
             if (item == null) return;
-            String content = item.coerceToText(getApplicationContext()).toString().trim();
+            String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
             if (TextUtils.isEmpty(content)) return;
             showSearchDialog(content);
         }

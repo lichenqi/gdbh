@@ -53,7 +53,7 @@ public class ShopRangingClassicActivity extends BaseActivity {
             ClipData data = cm.getPrimaryClip();
             if (data == null) return;
             ClipData.Item item = data.getItemAt(0);
-            final String content = item.coerceToText(getApplicationContext()).toString().trim();
+            final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
             if (TextUtils.isEmpty(content)) return;
             boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
             if (!isFirstClip) {

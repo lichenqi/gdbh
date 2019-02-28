@@ -99,17 +99,17 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
                 /*总裁用户*/
                 touristData(holder, 90);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-                holder.tv_sale_num.getPaint().setFlags(0);
+                holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
                 touristData(holder, 70);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-                holder.tv_sale_num.getPaint().setFlags(0);
+                holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*vip用户*/
                 touristData(holder, 40);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-                holder.tv_sale_num.getPaint().setFlags(0);
+                holder.tv_sale_num.getPaint().setFlags(1);
             } else {
                 /*普通用户*/
                 holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));

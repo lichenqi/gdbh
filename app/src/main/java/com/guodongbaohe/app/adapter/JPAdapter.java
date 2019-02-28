@@ -14,6 +14,7 @@ import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.RouteBean;
 import com.guodongbaohe.app.common_constant.Constant;
+import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.StringCleanZeroUtil;
@@ -53,7 +54,7 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
         app_v = 1 - Double.valueOf(tax_rate);
         String goods_thumb = list_related.get(position).getGoods_thumb();
         Glide.with(context).load(goods_thumb).placeholder(R.drawable.loading_img).into(holder.iv);
-        holder.title.setText(list_related.get(position).getGoods_name());
+        IconAndTextGroupUtil.setTextView(context, holder.title, list_related.get(position).getGoods_name(), list_related.get(position).getAttr_site());
         attr_price = list_related.get(position).getAttr_price();
         attr_prime = list_related.get(position).getAttr_prime();
         attr_ratio = list_related.get(position).getAttr_ratio();

@@ -30,6 +30,7 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
+import com.guodongbaohe.app.util.PhoneUtils;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.SpUtil;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -65,8 +66,7 @@ public class NewHomeFragment extends Fragment {
     TabLayoutAdapter adapter;
     Bundle bundle;
     List<CommonBean.CommonResult> titleList;
-        String regex = "^[a-zA-Z0-9]{6}$";
-//    String regex = "^((\\d{6})|([a-zA-Z0-9]{6}))$";
+    String regex = "[A-Za-z0-9]{6}";
 
     @Override
     public void onDestroy() {
@@ -97,8 +97,8 @@ public class NewHomeFragment extends Fragment {
             view = inflater.inflate(R.layout.newhomefragment, container, false);
             ButterKnife.bind(this, view);
             initDataView();
-            String color = "000000";
-            boolean matches = regex.matches(color);
+            String color = "#00k000";
+            boolean matches = PhoneUtils.isColor(color);
             Log.i("正则匹配", matches + "");
         }
         return view;

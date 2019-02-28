@@ -238,8 +238,8 @@ public class MyApplication extends MultiDexApplication {
 
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
-        boolean is_start=isNotificationEnabled(context);
-        PreferUtils.putBoolean(context,"is_start",is_start);
+        boolean is_start = isNotificationEnabled(context);
+        PreferUtils.putBoolean(context, "is_start", is_start);
     }
 
     public static synchronized MyApplication getInstance() {
@@ -263,6 +263,7 @@ public class MyApplication extends MultiDexApplication {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public boolean isNotificationEnabled(Context context) {
 

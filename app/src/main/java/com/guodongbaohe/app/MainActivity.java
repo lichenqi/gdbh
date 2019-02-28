@@ -170,11 +170,13 @@ public class MainActivity extends BigBaseActivity {
                 startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
             }
         }
-        boolean is_start=PreferUtils.getBoolean(getApplicationContext(),"is_start");
-        if (!is_start){
+
+        boolean is_start = PreferUtils.getBoolean(getApplicationContext(), "is_start");
+        if (!is_start) {
             StartTzDialog();
         }
     }
+
     private void toSetting() {
         Intent localIntent = new Intent();
         localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -611,23 +613,6 @@ public class MainActivity extends BigBaseActivity {
                 });
     }
 
-    long exitTime = 0;
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                ToastUtils.showToast(getApplicationContext(), "再按一次退出程序");
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-                System.exit(0);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     Dialog dialog;
 
     private void showSearchDialog(final String content) {
@@ -778,6 +763,11 @@ public class MainActivity extends BigBaseActivity {
         tv_one.setText(title);
         tv_two.setText(desc);
         RelativeLayout cancel = (RelativeLayout) dialog.findViewById(R.id.cancel);
+        if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {
+            cancel.setVisibility(View.GONE);
+        } else {
+            cancel.setVisibility(View.VISIBLE);
+        }
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -800,7 +790,13 @@ public class MainActivity extends BigBaseActivity {
                 }
             }
         });
-        dialog.setCanceledOnTouchOutside(false);
+        if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
+        } else {
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(true);
+        }
         dialog.show();
     }
 
@@ -985,4 +981,22 @@ public class MainActivity extends BigBaseActivity {
                     }
                 });
     }
+
+    long exitTime = 0;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                ToastUtils.showToast(getApplicationContext(), "再按一次退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

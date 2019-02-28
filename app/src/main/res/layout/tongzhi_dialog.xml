@@ -12,54 +12,60 @@
         android:orientation="vertical">
 
         <TextView
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:padding="10dp"
             android:text="开启消息推送通知"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
+
         <TextView
-            android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:paddingBottom="10dp"
             android:text="接收服务提醒"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-       <!-- <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@color/white" />-->
+        <!-- <View
+             android:layout_width="match_parent"
+             android:layout_height="2dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginRight="10dp"
+             android:background="@color/white" />-->
 
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/all_two"
-        android:layout_below="@+id/ll_parent"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_parent"
+        android:background="@color/white"
         android:orientation="vertical">
+
         <LinearLayout
-            android:paddingLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/wchat_app"/>
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/wchat_app" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/tv_one"
                     android:layout_width="match_parent"
@@ -69,34 +75,39 @@
                     android:text="商品优惠推送"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
                 <TextView
                     android:id="@+id/tv_two"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
                     android:layout_marginLeft="15dp"
-                    android:textColor="@color/black"
+                    android:paddingBottom="5dp"
                     android:text="优惠抢购快人一步！"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
 
 
         </LinearLayout>
+
         <LinearLayout
-            android:paddingLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/wchat_app"/>
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/wchat_app" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -105,32 +116,37 @@
                     android:text="团购收益通知"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
                     android:layout_marginLeft="15dp"
-                    android:textColor="@color/black"
+                    android:paddingBottom="5dp"
                     android:text="实时掌握收益动态！"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
-            android:paddingLeft="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingLeft="20dp">
+
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/wchat_app"/>
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/wchat_app" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -139,13 +155,14 @@
                     android:text="收藏夹降价提醒"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="5dp"
                     android:layout_marginLeft="15dp"
-                    android:textColor="@color/black"
+                    android:paddingBottom="5dp"
                     android:text="心仪好货不在错过！"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -169,14 +186,14 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
     <LinearLayout
-        android:layout_below="@+id/all_two"
         android:id="@+id/cancel"
-        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/all_two"
         android:layout_centerHorizontal="true"
-        >
+        android:layout_marginTop="30dp">
 
         <ImageView
             android:layout_width="35dp"

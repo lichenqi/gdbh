@@ -240,7 +240,7 @@ public class MakeMoneyFragment extends Fragment {
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 user_level.setText("VIP");
                 tv_hehren_view.setVisibility(View.VISIBLE);
-                tv_hehren_view.setText("发展" + upgrade_partner_vips + "个合伙人，获得升级总裁权限");
+                tv_hehren_view.setText("发展" + upgrade_partner_vips + "个VIP，获得升级合伙人权限");
             }
         }
     }
@@ -400,26 +400,26 @@ public class MakeMoneyFragment extends Fragment {
         long currentTimeMillis = System.currentTimeMillis();
         long youxiaotime = Long.valueOf(validity) * 1000;
         if (validity.equals("0")) {
-            identity_label.setText("您的合伙人期限永久有效");
+            identity_label.setText("您的身份永不过期");
         } else if (youxiaotime > currentTimeMillis) {
             String timeToString = DateUtils.getTimeYearType(youxiaotime);
-            identity_label.setText("您的合伙人有效期至 " + timeToString);
+            identity_label.setText("您的身份有效期至 " + timeToString);
         } else {
-            identity_label.setText("您的合伙人期限已过期");
+            identity_label.setText("您的身份期限已过期");
         }
         update_label.setText("我的合伙人专属特权");
         tv_one.setText("购物省钱");
-        tv_one_bili.setText("双倍返利");
-        tv_two.setText("分享赚钱");
+        tv_one_bili.setText("海量优惠券");
+        tv_two.setText("商品佣金");
         tv_two_bili.setText("佣金70%");
-        tv_three.setText("果冻商学院");
-        tv_three_bili.setText("官方培训课程");
-        tv_four.setText("团队佣金");
-        tv_four_bili.setText("提32%-25%");
+        tv_three.setText("官方培训");
+        tv_three_bili.setText("定期开课");
+        tv_four.setText("智慧大脑");
+        tv_four_bili.setText("自动群发软件");
         tv_five.setText("团队奖金");
-        tv_five_bili.setText("奖30%-10%");
-        tv_six.setText("一键锁粉特权");
-        tv_six_bili.setText("推广更容易");
+        tv_five_bili.setText("最高30%");
+        tv_six.setText("合伙人身份");
+        tv_six_bili.setText("永不过期");
         tv_open_vip.setText("升级成为总裁 >");
     }
 
@@ -428,36 +428,36 @@ public class MakeMoneyFragment extends Fragment {
         update_label.setText("总裁享受最高特权");
         identity_label.setText("您的身份永不过期");
         tv_one.setText("购物省钱");
-        tv_one_bili.setText("佣金90%");
-        tv_two.setText("分享赚90%");
-        tv_two_bili.setText("最高比例");
-        tv_three.setText("总裁特训班");
+        tv_one_bili.setText("海量优惠券");
+        tv_two.setText("商品佣金");
+        tv_two_bili.setText("佣金90%");
+        tv_three.setText("官方培训");
         tv_three_bili.setText("定期开课");
-        tv_four.setText("团队收益");
-        tv_four_bili.setText("最高收益");
-        tv_five.setText("多倍奖金");
-        tv_five_bili.setText("最高奖励");
+        tv_four.setText("智慧大脑");
+        tv_four_bili.setText("自动群发软件");
+        tv_five.setText("团队奖金");
+        tv_five_bili.setText("最高40%");
         tv_six.setText("总裁身份");
-        tv_six_bili.setText("永久最高特权");
+        tv_six_bili.setText("永不过期");
         tv_open_vip.setText("您已是总裁!");
     }
 
     /*Vip角色*/
     private void haveSonData() {
         update_label.setText("我的VIP专属特权");
-        identity_label.setText("您已达到升级合伙人的资格");
+        identity_label.setText("您的身份永不过期");
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
         tv_two_bili.setText("佣金40%");
-        tv_three.setText("赚钱教程");
-        tv_three_bili.setText("免费获取");
+        tv_three.setText("官方培训");
+        tv_three_bili.setText("定期开课");
         tv_four.setText("智慧大脑");
-        tv_four_bili.setText("自动发群软件");
-        tv_five.setText("购物返利");
-        tv_five_bili.setText("返40%");
+        tv_four_bili.setText("自动群发软件");
+        tv_five.setText("团队奖金");
+        tv_five_bili.setText("奖20%");
         tv_six.setText("VIP身份");
-        tv_six_bili.setText("专属VIP权限");
+        tv_six_bili.setText("永不过期");
         tv_open_vip.setText("升级成为合伙人 >");
     }
 

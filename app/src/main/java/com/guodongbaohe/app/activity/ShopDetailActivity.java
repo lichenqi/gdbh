@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -1006,11 +1005,8 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     @Override
                                     public void onFailure(int i, String s) {
                                         /*阿里百川进淘宝失败*/
-                                        Intent intent = new Intent();
-                                        intent.setAction("Android.intent.action.VIEW");
-                                        Uri uri = Uri.parse(coupon_url); // 商品地址
-                                        intent.setData(uri);
-                                        intent.setClassName("com.taobao.taobao", "com.taobao.tao.detail.activity.DetailActivity");
+                                        intent = new Intent(getApplicationContext(), TaoBaoFromUrlToDetailActivity.class);
+                                        intent.putExtra("coupon_url", coupon_url);
                                         startActivity(intent);
                                     }
                                 });

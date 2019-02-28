@@ -36,7 +36,7 @@ public class TaoBaoH5Activity extends BaseActivity {
     WebView webview;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    ImageView iv_back;
+    ImageView iv_back,iv_right;
     @BindView(R.id.notice)
     RelativeLayout notice;
     private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
@@ -52,6 +52,9 @@ public class TaoBaoH5Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
+        iv_right=(ImageView)findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.refish_h);
         alibcShowParams = new AlibcShowParams(OpenType.H5, true);
         /*t淘宝订单*/
         setMiddleTitle("淘宝订单");
@@ -86,6 +89,12 @@ public class TaoBaoH5Activity extends BaseActivity {
                 } else {
                     finish();
                 }
+            }
+        });
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webview.reload();
             }
         });
     }

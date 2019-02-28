@@ -8,6 +8,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,7 +28,7 @@ public class AboutUsActivity extends BaseActivity {
     TextView version;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-
+    ImageView iv_right;
     @Override
     public int getContainerView() {
         return R.layout.aboutusactivity;
@@ -40,6 +41,9 @@ public class AboutUsActivity extends BaseActivity {
         String about_us = PreferUtils.getString(getApplicationContext(), "about_us");
         ButterKnife.bind(this);
         setMiddleTitle("关于我们");
+        iv_right=(ImageView)findViewById(R.id.iv_right);
+        setRightIVVisible();
+        iv_right.setImageResource(R.mipmap.refish_h);
         String versionCode = VersionUtil.getAndroidNumVersion(getApplicationContext());
         version.setText("版本号: V" + versionCode);
         WebSettings settings = webview.getSettings();
@@ -66,5 +70,11 @@ public class AboutUsActivity extends BaseActivity {
             }
         });
         webview.loadUrl(about_us, WebViewUtil.getWebViewHead(getApplicationContext()));
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                webview.reload();
+            }
+        });
     }
 }

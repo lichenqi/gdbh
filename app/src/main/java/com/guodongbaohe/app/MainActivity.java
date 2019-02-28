@@ -676,7 +676,7 @@ public class MainActivity extends BigBaseActivity {
         }
     }
 
-    String download, title, desc;
+    String download, title, desc, is_update;
 
     /*版本升级接口*/
     private void getVersionCodeData() {
@@ -701,6 +701,7 @@ public class MainActivity extends BigBaseActivity {
                                 VersionBean versionBean = GsonUtil.GsonToBean(response.toString(), VersionBean.class);
                                 if (versionBean == null) return;
                                 VersionBean.VersionData result = versionBean.getResult();
+                                is_update = result.getIs_update();/*是否强制更新标识 no 代表随意；yes 代表强制更新*/
                                 desc = result.getDesc();
                                 title = result.getTitle();
                                 download = result.getDownload();

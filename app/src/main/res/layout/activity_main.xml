@@ -58,7 +58,7 @@
             <TextView
                 android:id="@+id/tv_circle"
                 style="@style/MyTextView"
-                android:text="搜索赚" />
+                android:text="搜索" />
         </LinearLayout>
 
         <LinearLayout

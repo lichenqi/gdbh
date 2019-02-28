@@ -62,7 +62,7 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
         holder.tv_sale_num.setText(NumUtil.getNum(list.get(position).getSales_month()) + "人已购");
         StringCleanZeroUtil.StringFormat(attr_price, holder.price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, holder.old_price);
-        holder.old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        holder.old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
 
         /*优惠券和折扣和抢购价显示*/
         String coupon_surplus = list.get(position).getCoupon_surplus();

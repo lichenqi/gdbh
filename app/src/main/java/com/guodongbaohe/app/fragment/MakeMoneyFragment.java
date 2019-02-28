@@ -436,7 +436,7 @@ public class MakeMoneyFragment extends Fragment {
         tv_four.setText("智慧大脑");
         tv_four_bili.setText("自动群发软件");
         tv_five.setText("团队奖金");
-        tv_five_bili.setText("最高45%");
+        tv_five_bili.setText("最高40%");
         tv_six.setText("总裁身份");
         tv_six_bili.setText("永不过期");
         tv_open_vip.setText("您已是总裁!");

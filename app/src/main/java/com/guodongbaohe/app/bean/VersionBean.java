@@ -17,6 +17,15 @@ public class VersionBean {
         private String log;
         private String title;
         private String version;
+        private String is_update;
+
+        public String getIs_update() {
+            return is_update;
+        }
+
+        public void setIs_update(String is_update) {
+            this.is_update = is_update;
+        }
 
         public String getDesc() {
             return desc;

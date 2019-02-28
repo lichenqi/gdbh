@@ -97,7 +97,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/ll_quanhou"
-                    android:textColor="@color/txgray"
+                    android:textColor="@color/txblack"
                     android:textSize="12sp" />
 
             </RelativeLayout>

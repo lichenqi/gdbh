@@ -463,20 +463,20 @@ public class MakeMoneyFragment extends Fragment {
 
     /*普通用户角色*/
     private void touristData() {
-        update_label.setText("升级成为VIP享受以下特权");
-        identity_label.setText("您已达到升级VIP的资格");
+        update_label.setText("VIP享受以下特权");
+        identity_label.setText("立即升级,开始赚钱");
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
         tv_two_bili.setText("佣金40%");
-        tv_three.setText("培训教程");
-        tv_three_bili.setText("免费获取");
+        tv_three.setText("官方培训");
+        tv_three_bili.setText("定期开课");
         tv_four.setText("智慧大脑");
-        tv_four_bili.setText("自动发群软件");
-        tv_five.setText("购物返利");
-        tv_five_bili.setText("返40%");
-        tv_six.setText("Vip身份");
-        tv_six_bili.setText("专项VIP权益");
+        tv_four_bili.setText("自动群发软件");
+        tv_five.setText("团队奖金");
+        tv_five_bili.setText("奖20%");
+        tv_six.setText("VIP身份");
+        tv_six_bili.setText("永不过期");
         tv_open_vip.setText("立即升级 >");
     }
 

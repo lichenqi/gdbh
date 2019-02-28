@@ -106,17 +106,17 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
                 /*总裁角色*/
                 NiNengZhuanViewData(holder, 90);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
-                holder.tv_sale_num.getPaint().setFlags(0);
+                holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人角色*/
                 NiNengZhuanViewData(holder, 70);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
-                holder.tv_sale_num.getPaint().setFlags(0);
+                holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*Vip角色*/
                 NiNengZhuanViewData(holder, 40);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
-                holder.tv_sale_num.getPaint().setFlags(0);
+                holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 /*普通用户角色*/
                 holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));

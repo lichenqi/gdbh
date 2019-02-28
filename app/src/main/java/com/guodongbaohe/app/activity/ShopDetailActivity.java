@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,8 +36,10 @@ import android.widget.TextView;
 
 import com.alibaba.baichuan.android.trade.AlibcTrade;
 import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
+import com.alibaba.baichuan.android.trade.callback.AlibcTradeCallback;
 import com.alibaba.baichuan.android.trade.model.AlibcShowParams;
 import com.alibaba.baichuan.android.trade.model.OpenType;
+import com.alibaba.baichuan.android.trade.model.TradeResult;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
 import com.bumptech.glide.Glide;
@@ -54,7 +57,6 @@ import com.guodongbaohe.app.bean.ShopIsCollectBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.port.DemoTradeCallback;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
@@ -995,7 +997,23 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 HashMap<String, String> exParams = new HashMap<>();
                                 exParams.put("isv_code", "appisvcode");
                                 exParams.put("alibaba", "阿里巴巴");
-                                AlibcTrade.show(ShopDetailActivity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback());
+                                AlibcTrade.show(ShopDetailActivity.this, page, alibcShowParams, null, exParams, new AlibcTradeCallback() {
+                                    @Override
+                                    public void onTradeSuccess(TradeResult tradeResult) {
+                                        /*阿里百川进淘宝成功*/
+                                    }
+
+                                    @Override
+                                    public void onFailure(int i, String s) {
+                                        /*阿里百川进淘宝失败*/
+                                        Intent intent = new Intent();
+                                        intent.setAction("Android.intent.action.VIEW");
+                                        Uri uri = Uri.parse(coupon_url); // 商品地址
+                                        intent.setData(uri);
+                                        intent.setClassName("com.taobao.taobao", "com.taobao.tao.detail.activity.DetailActivity");
+                                        startActivity(intent);
+                                    }
+                                });
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);

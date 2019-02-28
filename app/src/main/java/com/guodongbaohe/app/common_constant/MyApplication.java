@@ -32,6 +32,7 @@ import com.guodongbaohe.app.activity.TiXianRecordActivity;
 import com.guodongbaohe.app.cliputil.ClipboardUtil;
 import com.guodongbaohe.app.myokhttputils.MyOkHttp;
 import com.guodongbaohe.app.service.CrashHandler;
+import com.guodongbaohe.app.service.NotificationPermissions;
 import com.guodongbaohe.app.util.AppUtils;
 import com.guodongbaohe.app.util.NetUtil;
 import com.guodongbaohe.app.util.PreferUtils;
@@ -240,8 +241,8 @@ public class MyApplication extends MultiDexApplication {
 
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
-//        boolean is_start=isNotificationEnabled(context);
-        boolean is_start=isEnabled();
+        boolean is_start= NotificationPermissions.isNotificationEnable(context);
+//        boolean is_start=isNotificationEnabled();
         PreferUtils.putBoolean(context,"is_start",is_start);
     }
 
@@ -266,22 +267,4 @@ public class MyApplication extends MultiDexApplication {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
-    // 判断是否打开了通知监听权限
-    private boolean isEnabled() {
-        String pkgName = getPackageName();
-        final String flat = Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners");
-        if (!TextUtils.isEmpty(flat)) {
-            final String[] names = flat.split(":");
-            for (int i = 0; i < names.length; i++) {
-                final ComponentName cn = ComponentName.unflattenFromString(names[i]);
-                if (cn != null) {
-                    if (TextUtils.equals(pkgName, cn.getPackageName())) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
 }

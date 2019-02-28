@@ -113,7 +113,7 @@ public class ShopCartAdapter extends RecyclerView.Adapter<ShopCartAdapter.ShopCa
             /*普通用户*/
             holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
             holder.tv_sale_num.setText("¥" + attr_prime);
-            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         }
 
         if (onItemClick != null) {

@@ -546,7 +546,7 @@ public class MineFragment extends Fragment {
         /*初始化渠道*/
         initQuDaoWebview();
         String string = PreferUtils.getString(getContext(), "member_role");
-        if (!string.equals("0")) {
+        if (TextUtils.equals(string,Constant.BOSS_USER_LEVEL)) {
             gd_lingpai_rl.setVisibility(View.VISIBLE);
         }
         super.onResume();

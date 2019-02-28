@@ -170,6 +170,23 @@ public class MainActivity extends BigBaseActivity {
                 startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
             }
         }
+        boolean is_start=PreferUtils.getBoolean(getApplicationContext(),"is_start");
+        if (!is_start){
+            StartTzDialog();
+        }
+    }
+    private void toSetting() {
+        Intent localIntent = new Intent();
+        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (Build.VERSION.SDK_INT >= 9) {
+            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+            localIntent.setData(Uri.fromParts("package", getPackageName(), null));
+        } else if (Build.VERSION.SDK_INT <= 8) {
+            localIntent.setAction(Intent.ACTION_VIEW);
+            localIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
+            localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
+        }
+        startActivity(localIntent);
     }
 
     @Override
@@ -720,6 +737,32 @@ public class MainActivity extends BigBaseActivity {
 
                     }
                 });
+    }
+
+
+    /*开启通知弹窗*/
+    private void StartTzDialog() {
+        final Dialog dialog = new Dialog(MainActivity.this, R.style.activitydialog);
+        dialog.setContentView(R.layout.tongzhi_dialog);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER | Gravity.CENTER);
+        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+        LinearLayout cancel = (LinearLayout) dialog.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                toSetting();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
     }
 
     /*版本升级弹窗*/

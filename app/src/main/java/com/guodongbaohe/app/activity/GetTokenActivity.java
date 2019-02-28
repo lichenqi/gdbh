@@ -75,12 +75,14 @@ public class GetTokenActivity extends BaseActivity {
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(vc_centerLine.getVcText().toString())) {
                     CopyToClipboard(GetTokenActivity.this, vc_centerLine.getVcText().toString());
+                    ToastUtils.showToast(GetTokenActivity.this,"复制成功");
                     copy_lingpai.setText("复制成功");
                 }
 
             }
         });
         vc_centerLine.setEnabled(false);
+        vc_centerLine.setFocusable(false);
     }
 
     @SuppressLint("HandlerLeak")

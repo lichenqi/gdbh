@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
@@ -69,7 +72,8 @@ public class FirstUserLoginActivity extends BigBaseActivity {
         phone = intent.getStringExtra("phone");
         invite_code = intent.getStringExtra("invite_code");
     }
-
+    String url, getUrl;
+    ConfigurationBean.PageBean list_data;
     @OnClick({R.id.iv_back, R.id.tv_get_code, R.id.login, R.id.iv_xieyi, R.id.ll_xieyi})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -100,6 +104,13 @@ public class FirstUserLoginActivity extends BigBaseActivity {
                 isXieyi = !isXieyi;
                 break;
             case R.id.ll_xieyi:
+                getUrl = PreferUtils.getString(this, "http_list_data");
+                if (!TextUtils.isEmpty(getUrl)) {
+                    Gson gson = new Gson();
+                    list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+                    }.getType());
+                    url = list_data.getProtocol().getUrl();
+                }
                 Intent intent = new Intent(getApplicationContext(), XinShouJiaoChengActivity.class);
                 intent.putExtra("url", PreferUtils.getString(getApplicationContext(), "agreement"));
                 startActivity(intent);

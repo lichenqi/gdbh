@@ -35,8 +35,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.popupwindow_util.FloatWindowService;
 import com.guodongbaohe.app.receiver.IRequestPermissions;
 import com.guodongbaohe.app.receiver.IRequestPermissionsResult;
@@ -44,6 +47,7 @@ import com.guodongbaohe.app.receiver.RequestPermissions;
 import com.guodongbaohe.app.receiver.RequestPermissionsResultSetApp;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.PermissionUtils;
+import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.WebViewUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -86,7 +90,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
     private FrameLayout fullscreenContainer;
     private WebChromeClient.CustomViewCallback customViewCallback;
     protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
+    String url;
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;

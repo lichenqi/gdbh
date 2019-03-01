@@ -3,6 +3,7 @@ package com.guodongbaohe.app.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -12,8 +13,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.util.WebViewUtil;
@@ -29,6 +33,8 @@ public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     ImageView iv_right;
+    String url, getUrl;
+    ConfigurationBean.PageBean list_data;
     @Override
     public int getContainerView() {
         return R.layout.aboutusactivity;
@@ -38,8 +44,16 @@ public class AboutUsActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String about_us = PreferUtils.getString(getApplicationContext(), "about_us");
         ButterKnife.bind(this);
+//        String about_us = PreferUtils.getString(getApplicationContext(), "about_us");
+        getUrl = PreferUtils.getString(this, "http_list_data");
+        if (!TextUtils.isEmpty(getUrl)) {
+            Gson gson = new Gson();
+            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType());
+            url = list_data.getAbout().getUrl();
+        }
+
         setMiddleTitle("关于我们");
         iv_right=(ImageView)findViewById(R.id.iv_right);
         setRightIVVisible();
@@ -69,7 +83,7 @@ public class AboutUsActivity extends BaseActivity {
                 }
             }
         });
-        webview.loadUrl(about_us, WebViewUtil.getWebViewHead(getApplicationContext()));
+        webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

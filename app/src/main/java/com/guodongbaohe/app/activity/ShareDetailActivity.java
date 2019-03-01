@@ -3,6 +3,7 @@ package com.guodongbaohe.app.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -12,21 +13,26 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
+import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.WebViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ShareDetailActivity extends BaseActivity {
-    String url;
+//    String url;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.webview)
     WebView webview;
     ImageView iv_back, iv_right;
-
+    String url, getUrl;
+    ConfigurationBean.PageBean list_data;
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -40,8 +46,13 @@ public class ShareDetailActivity extends BaseActivity {
         iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.webview_reload);
-        Intent intent = getIntent();
-        url = intent.getStringExtra("url");
+        getUrl = PreferUtils.getString(this, "http_list_data");
+        if (!TextUtils.isEmpty(getUrl)) {
+            Gson gson = new Gson();
+            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType());
+            url = list_data.getRule().getUrl();
+        }
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);

@@ -171,10 +171,10 @@ public class MainActivity extends BigBaseActivity {
             }
         }
 
-        boolean is_start = PreferUtils.getBoolean(getApplicationContext(), "is_start");
-        if (!is_start) {
-            StartTzDialog();
-        }
+//        boolean is_start = PreferUtils.getBoolean(getApplicationContext(), "is_start");
+//        if (!is_start) {
+//            StartTzDialog();
+//        }
     }
 
     private void toSetting() {

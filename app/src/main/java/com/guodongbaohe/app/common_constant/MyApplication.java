@@ -240,10 +240,10 @@ public class MyApplication extends MultiDexApplication {
             }
 
         };
-        mPushAgent.setNotificationClickHandler(notificationClickHandler);
-        boolean is_start= NotificationPermissions.isNotificationEnable(context);
-//        boolean is_start=isNotificationEnabled();
-        PreferUtils.putBoolean(context,"is_start",is_start);
+//        mPushAgent.setNotificationClickHandler(notificationClickHandler);
+//        boolean is_start= NotificationPermissions.isNotificationEnable(context);
+////        boolean is_start=isNotificationEnabled();
+//        PreferUtils.putBoolean(context,"is_start",is_start);
     }
 
     public static synchronized MyApplication getInstance() {

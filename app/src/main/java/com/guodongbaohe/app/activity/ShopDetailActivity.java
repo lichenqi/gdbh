@@ -250,16 +250,8 @@ public class ShopDetailActivity extends BigBaseActivity {
         initBannerView();
         /*复制标题操作*/
         initEditView();
-        if (!TextUtils.isEmpty(money_upgrade_switch)) {
-            if (money_upgrade_switch.equals("yes")) {
-                tv_yao_zhuanqian.setText("海量商品，专享折扣");
-                tv_lijiyaoqing.setVisibility(View.GONE);
-            } else {
-                tv_lijiyaoqing.setVisibility(View.VISIBLE);
-                if (!TextUtils.isEmpty(short_title)) {
-                    tv_yao_zhuanqian.setText(short_title);
-                }
-            }
+        if (!TextUtils.isEmpty(short_title)) {
+            tv_yao_zhuanqian.setText(short_title);
         }
     }
 
@@ -793,33 +785,12 @@ public class ShopDetailActivity extends BigBaseActivity {
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.tv_buy:/*购买返*/
-                if (NetUtil.getNetWorkState(ShopDetailActivity.this) < 0) {
-                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
-                    return;
-                }
-                if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    if (is_pop_window.equals("yes") && Constant.COMMON_USER_LEVEL.contains(member_role)) {
-                        /*普通用户*/
-                        ShowPtongToVipDialog();
-                    } else if (is_pop_window_vip.equals("yes") && Constant.VIP_USER_LEVEL.contains(member_role)) {
-                        /*Vip会员*/
-                        VipToHeHourenBuyDialog();
-                    } else {
-                        /*清空剪切板内容*/
-                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        if (cm.hasPrimaryClip()) {
-                            cm.setPrimaryClip(ClipData.newPlainText(null, ""));
-                        }
-                        /*调用高佣金接口*/
-                        getGaoYongJinData();
-                    }
-                } else {
-                    intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
-                    startActivity(intent);
-                }
+            case R.id.tv_buy:
+                /*购买返按钮*/
+                 toTaoBaoCouponActivity();
                 break;
-            case R.id.tv_share_money:/*分享赚*/
+            case R.id.tv_share_money:
+                /*分享赚按钮*/
                 if (NetUtil.getNetWorkState(ShopDetailActivity.this) < 0) {
                     ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
                     return;
@@ -838,27 +809,9 @@ public class ShopDetailActivity extends BigBaseActivity {
                     startActivity(intent);
                 }
                 break;
-            case R.id.ll_youhuiquan_show:/*总裁优惠券显示*/
-                if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    if (is_pop_window.equals("yes") && Constant.COMMON_USER_LEVEL.contains(member_role)) {
-                        /*普通用户*/
-                        ShowPtongToVipDialog();
-                    } else if (is_pop_window_vip.equals("yes") && Constant.VIP_USER_LEVEL.contains(member_role)) {
-                        /*Vip会员*/
-                        VipToHeHourenBuyDialog();
-                    } else {
-                        /*清空剪切板内容*/
-                        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                        if (cm.hasPrimaryClip()) {
-                            cm.setPrimaryClip(ClipData.newPlainText(null, ""));
-                        }
-                        /*调用高佣金接口*/
-                        getGaoYongJinData();
-                    }
-                } else {
-                    intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
-                    startActivity(intent);
-                }
+            case R.id.ll_youhuiquan_show:
+                /*优惠券布局按钮*/
+                toTaoBaoCouponActivity();
                 break;
             case R.id.to_home:
                 intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -888,15 +841,11 @@ public class ShopDetailActivity extends BigBaseActivity {
                 finish();
                 break;
             case R.id.re_yao_zhuanqian:
-                if (!TextUtils.isEmpty(money_upgrade_switch)) {
-                    if (money_upgrade_switch.equals("no")) {
-                        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                            intent = new Intent(getApplicationContext(), YaoQingFriendActivity.class);
-                            startActivity(intent);
-                        } else {
-                            startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
-                        }
-                    }
+                if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+                    intent = new Intent(getApplicationContext(), YaoQingFriendActivity.class);
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
                 }
                 break;
             case R.id.to_top:
@@ -1678,4 +1627,33 @@ public class ShopDetailActivity extends BigBaseActivity {
 
         }
     }
+
+    /*优惠券立即领取按钮和购买返按钮*/
+    private void toTaoBaoCouponActivity() {
+        if (NetUtil.getNetWorkState(ShopDetailActivity.this) < 0) {
+            ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+            return;
+        }
+        if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
+            if (is_pop_window.equals("yes") && Constant.COMMON_USER_LEVEL.contains(member_role)) {
+                /*普通用户*/
+                ShowPtongToVipDialog();
+            } else if (is_pop_window_vip.equals("yes") && Constant.VIP_USER_LEVEL.contains(member_role)) {
+                /*Vip会员*/
+                VipToHeHourenBuyDialog();
+            } else {
+                /*清空剪切板内容*/
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm.hasPrimaryClip()) {
+                    cm.setPrimaryClip(ClipData.newPlainText(null, ""));
+                }
+                /*调用高佣金接口*/
+                getGaoYongJinData();
+            }
+        } else {
+            intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
+            startActivity(intent);
+        }
+    }
+
 }

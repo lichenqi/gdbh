@@ -32,7 +32,7 @@ public class Constant {
     public static final String BASE_URL = "https://jellybox.mopland.com/";
 
     /*测试服务*/
-    public static final String BASE_LOCAL_URL="";
+    public static final String BASE_LOCAL_URL = "";
     /*订单图像字段*/
     public static final String ORDER_PHOTO = "assets/thumb/";
     //首页轮播图
@@ -197,16 +197,12 @@ public class Constant {
     public static final String SHOPPING_CART_LIST_DATA = "goods/coupon";
     /*收藏改变*/
     public static final String COLLECT_CHANGE = "collect_change";
-
     /*手机令牌*/
-    public static final String GET_TOKEN="member/getToken";
-
+    public static final String GET_TOKEN = "member/getToken";
     /*修改绑定手机号*/
-    public static final String CHANGE_PHONE="member/modifyOldPhone";
-
+    public static final String CHANGE_PHONE = "member/modifyOldPhone";
     /*绑定新手机号*/
-    public static final String SET_NEW_PHONE="member/modifyNewPhone";
-
+    public static final String SET_NEW_PHONE = "member/modifyNewPhone";
     /*官方微信客服*/
-    public static final String WEIXIN_KEFU="assets/upgradeCourse";
+    public static final String WEIXIN_KEFU = "assets/upgradeCourse";
 }

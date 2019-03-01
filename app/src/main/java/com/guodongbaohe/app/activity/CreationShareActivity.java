@@ -54,6 +54,7 @@ import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetPicsToBitmap;
 import com.guodongbaohe.app.util.NetUtil;
+import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.QRCodeUtil;
 import com.guodongbaohe.app.util.ShareManager;

@@ -45,7 +45,6 @@ public class AboutUsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
-//        String about_us = PreferUtils.getString(getApplicationContext(), "about_us");
         getUrl = PreferUtils.getString(this, "http_list_data");
         if (!TextUtils.isEmpty(getUrl)) {
             Gson gson = new Gson();
@@ -53,7 +52,6 @@ public class AboutUsActivity extends BaseActivity {
             }.getType());
             url = list_data.getAbout().getUrl();
         }
-
         setMiddleTitle("关于我们");
         iv_right=(ImageView)findViewById(R.id.iv_right);
         setRightIVVisible();

@@ -11,9 +11,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.MineShouYiBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -124,7 +127,8 @@ public class MyIncomeingActivity extends BaseActivity {
     }
 
     Intent intent;
-
+    String url, getUrl;
+    ConfigurationBean.PageBean list_data;
     @OnClick({R.id.tv_tixian_button, R.id.re_tixian_record, R.id.re_question})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -140,8 +144,15 @@ public class MyIncomeingActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.re_question:
+                getUrl = PreferUtils.getString(this, "http_list_data");
+                if (!TextUtils.isEmpty(getUrl)) {
+                    Gson gson = new Gson();
+                    list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+                    }.getType());
+                    url = list_data.getQuestion().getUrl();
+                }
                 intent = new Intent(getApplicationContext(), XinShouJiaoChengActivity.class);
-                intent.putExtra("url", "http://app.mopland.com/question/index");
+                intent.putExtra("url", url);
                 startActivity(intent);
                 break;
         }

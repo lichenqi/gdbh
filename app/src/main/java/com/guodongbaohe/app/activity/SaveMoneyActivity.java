@@ -2,6 +2,7 @@ package com.guodongbaohe.app.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.dialogfragment.BaseNiceDialog;
 import com.guodongbaohe.app.dialogfragment.NiceDialog;
 import com.guodongbaohe.app.dialogfragment.ViewConvertListener;
 import com.guodongbaohe.app.dialogfragment.ViewHolder;
+import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.WebViewUtil;
 
 import java.util.HashMap;
@@ -41,7 +46,8 @@ public class SaveMoneyActivity extends BaseActivity {
     WebView webview;
     ImageView iv_back, iv_right;
     private String share_url, share_title, share_content, share_img;
-
+    String url, getUrl;
+    ConfigurationBean.PageBean list_data;
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -51,6 +57,13 @@ public class SaveMoneyActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        getUrl = PreferUtils.getString(this, "http_list_data");
+        if (!TextUtils.isEmpty(getUrl)) {
+            Gson gson = new Gson();
+            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType());
+            url = list_data.getSave().getUrl();
+        }
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
@@ -95,7 +108,7 @@ public class SaveMoneyActivity extends BaseActivity {
                 }
             }
         });
-        webview.loadUrl("http://x.mopland.com/help/save", WebViewUtil.getWebViewHead(getApplicationContext()));
+        webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
         initRightListener();
     }

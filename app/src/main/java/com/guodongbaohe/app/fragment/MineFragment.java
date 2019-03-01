@@ -41,6 +41,8 @@ import android.widget.Toast;
 
 import com.alibaba.baichuan.android.trade.adapter.login.AlibcLogin;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.AboutUsActivity;
 import com.guodongbaohe.app.activity.GCollectionActivity;
@@ -59,6 +61,7 @@ import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.activity.YaoQingFriendActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.BeiAnBean;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.MineDataBean;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
@@ -357,7 +360,8 @@ public class MineFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
+    String url, getUrl;
+    ConfigurationBean.PageBean list_data;
     @OnClick({R.id.re_clean_cache, R.id.circleimageview, R.id.re_order, R.id.re_aboutus, R.id.re_my_department, R.id.re_tuandui,
             R.id.re_incomeing, R.id.re_invite_award, R.id.tv_fuzhi_anniu, R.id.re_user_bg, R.id.re_withdraw_deposit,
             R.id.re_wechat, R.id.iv_set, R.id.re_xinshou_jiaocheng, R.id.re_question, R.id.re_taobao_gwuche, R.id.re_taobao_order
@@ -376,13 +380,27 @@ public class MineFragment extends Fragment {
                 startActivity(intent);
                 break;
             case R.id.re_xinshou_jiaocheng:
+                getUrl = PreferUtils.getString(getContext(), "http_list_data");
+                if (!TextUtils.isEmpty(getUrl)) {
+                    Gson gson = new Gson();
+                    list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+                    }.getType());
+                    url = list_data.getCourse().getUrl();
+                }
                 intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
-                intent.putExtra("url", PreferUtils.getString(getContext(), "course"));
+                intent.putExtra("url", url);
                 startActivity(intent);
                 break;
             case R.id.re_question:
+                getUrl = PreferUtils.getString(getContext(), "http_list_data");
+                if (!TextUtils.isEmpty(getUrl)) {
+                    Gson gson = new Gson();
+                    list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+                    }.getType());
+                    url = list_data.getQuestion().getUrl();
+                }
                 intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
-                intent.putExtra("url", PreferUtils.getString(getContext(), "question"));
+                intent.putExtra("url", url);
                 startActivity(intent);
                 break;
             case R.id.re_aboutus:

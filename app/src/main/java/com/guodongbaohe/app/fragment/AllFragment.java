@@ -120,7 +120,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     String cate_id;
     private TabLayout tablayout;
     private RelativeLayout re_search_title;
-    String notice_url, money_upgrade_switch;
+    String notice_url;
     Context context;
     public static int item_grid_num = 8;//每一页中GridView中item的数量
     public static int number_columns = 4;//gridview一行展示的数目
@@ -155,7 +155,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             getListData();
             String notice_title = PreferUtils.getString(getContext(), "notice_title");
             notice_url = PreferUtils.getString(getContext(), "notice_url");
-            money_upgrade_switch = PreferUtils.getString(getContext(), "money_upgrade_switch");
             if (TextUtils.isEmpty(notice_title)) {
                 re_notice.setVisibility(View.INVISIBLE);
             } else {
@@ -535,17 +534,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     String member_name = userList.get(i).getMember_name();
                                     String order_time = userList.get(i).getOrder_time();
                                     String money = userList.get(i).getMoney();
-                                    if (!TextUtils.isEmpty(money_upgrade_switch)) {
-                                        if (money_upgrade_switch.equals("yes")) {
-                                            name.setText("");
-                                            time.setText("欢迎来到");
-                                            tmoney.setText("果冻宝盒");
-                                        } else {
-                                            name.setText(member_name);
-                                            time.setText("在" + order_time + "分钟前赚了");
-                                            tmoney.setText(money + "元");
-                                        }
-                                    }
+                                    name.setText(member_name);
+                                    time.setText("在" + order_time + "分钟前赚了");
+                                    tmoney.setText(money + "元");
                                     views.add(view);
                                 }
                                 upmarqueeview.setViews(views);
@@ -967,7 +958,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+        if (timer != null) {
+            timer.cancel();
+        }
         EventBus.getDefault().unregister(this);
     }
 

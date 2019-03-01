@@ -171,10 +171,12 @@ public class MainActivity extends BigBaseActivity {
             }
         }
 
+        /*android手机通知功能屏蔽*/
 //        boolean is_start = PreferUtils.getBoolean(getApplicationContext(), "is_start");
 //        if (!is_start) {
 //            StartTzDialog();
 //        }
+
     }
 
     private void toSetting() {

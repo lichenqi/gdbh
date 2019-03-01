@@ -52,7 +52,7 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     WebView webview;
     @BindView(R.id.notice)
     RelativeLayout notice;
-    ImageView iv_back,iv_right;
+    ImageView iv_back, iv_right;
     private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
     AlibcBasePage page;
     private String script = "https://static.mopland.com/js/tbcart.js";
@@ -69,7 +69,7 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
         ButterKnife.bind(this);
         setMiddleTitle("淘宝购物车");
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        iv_right=(ImageView)findViewById(R.id.iv_right);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         alibcShowParams = new AlibcShowParams(OpenType.H5, true);
@@ -153,6 +153,7 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
             super.onPageFinished(view, url);
             if (!TextUtils.isEmpty(js)) {
                 webview.loadUrl("javascript:" + js);
+                Log.i("购物车地址", url);
             }
         }
 

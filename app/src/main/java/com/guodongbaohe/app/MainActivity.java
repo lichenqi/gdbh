@@ -725,7 +725,6 @@ public class MainActivity extends BigBaseActivity {
                 });
     }
 
-
     /*开启通知弹窗*/
     private void StartTzDialog() {
         final Dialog dialog = new Dialog(MainActivity.this, R.style.activitydialog);

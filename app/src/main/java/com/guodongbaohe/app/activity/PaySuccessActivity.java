@@ -16,7 +16,6 @@ import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.GuanKeFuBean;
-import com.guodongbaohe.app.bean.WchatBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
@@ -44,7 +43,6 @@ public class PaySuccessActivity extends BaseActivity {
     TextView wchat_edit;
     @BindView(R.id.return_btn)
     TextView return_btn;
-
     @BindView(R.id.text_one)
     TextView text_one;
     @BindView(R.id.text_two)
@@ -52,6 +50,7 @@ public class PaySuccessActivity extends BaseActivity {
     @BindView(R.id.text_three)
     TextView text_three;
     ImageView iv_right;
+
     @Override
     public int getContainerView() {
         return R.layout.paysuccessactivity;
@@ -66,10 +65,10 @@ public class PaySuccessActivity extends BaseActivity {
         copy_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!TextUtils.equals("暂无官方微信",wchat_edit.getText().toString())){
+                if (!TextUtils.equals("暂无官方微信", wchat_edit.getText().toString())) {
                     CopyToClipboard(PaySuccessActivity.this, wchat_edit.getText().toString());
-                    ToastUtils.showToast(PaySuccessActivity.this,"复制成功");
-                }else {
+                    ToastUtils.showToast(PaySuccessActivity.this, "复制成功");
+                } else {
                     ToastUtils.showToast(PaySuccessActivity.this, "暂无官方微信");
                 }
 
@@ -78,15 +77,16 @@ public class PaySuccessActivity extends BaseActivity {
         return_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(PaySuccessActivity.this,MainActivity.class);
+                Intent intent = new Intent(PaySuccessActivity.this, MainActivity.class);
                 startActivity(intent);
-                PreferUtils.putString(getApplicationContext(),"flag_main","1");
+                PreferUtils.putString(getApplicationContext(), "flag_main", "1");
                 finish();
             }
         });
         getDataWchat();
         getUserData();
     }
+
     private void getUserData() {
         long timelineStr = System.currentTimeMillis() / 1000;
         HashMap<String, String> map = new HashMap<>();
@@ -136,8 +136,9 @@ public class PaySuccessActivity extends BaseActivity {
                     }
                 });
     }
+
     public void getDataWchat() {
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WEIXIN_KEFU )
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WEIXIN_KEFU)
                 .tag(this)
                 .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
                 .addHeader("x-appid", Constant.APPID)
@@ -157,7 +158,7 @@ public class PaySuccessActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 GuanKeFuBean bean = GsonUtil.GsonToBean(response.toString(), GuanKeFuBean.class);
-                                if (bean==null)return;
+                                if (bean == null) return;
                                 if (!TextUtils.isEmpty(bean.getResult().toString())) {
                                     wchat_edit.setText(bean.getResult().getWechat());
                                     text_one.setText(bean.getResult().getTitle());
@@ -181,6 +182,7 @@ public class PaySuccessActivity extends BaseActivity {
                     }
                 });
     }
+
     public void CopyToClipboard(Context context, String text) {
         ClipboardManager clip = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         clip.setText(text); // 复制

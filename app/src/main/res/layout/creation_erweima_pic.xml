@@ -68,34 +68,7 @@
         </RelativeLayout>
 
     </RelativeLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp">
 
-        <TextView
-            android:id="@+id/tv_old_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="10"
-            android:textColor="@color/txblack"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_sale_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_old_price"
-            android:text="54656"
-            android:textColor="@color/txblack"
-            android:textSize="12sp" />
-
-    </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="350dp"

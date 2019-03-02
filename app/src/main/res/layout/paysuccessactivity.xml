@@ -73,15 +73,6 @@
             android:text="领取精品课程和更多专享活动"
             android:textColor="@color/gray"
             android:textSize="18dp"/>
-        <TextView
-            android:id="@+id/text_three"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="2dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/gray"
-            android:textSize="18dp"
-            />
 
         <LinearLayout
             android:layout_gravity="center_horizontal"

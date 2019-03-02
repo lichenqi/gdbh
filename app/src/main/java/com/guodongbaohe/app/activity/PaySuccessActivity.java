@@ -47,8 +47,6 @@ public class PaySuccessActivity extends BaseActivity {
     TextView text_one;
     @BindView(R.id.text_two)
     TextView text_two;
-    @BindView(R.id.text_three)
-    TextView text_three;
     ImageView iv_right;
 
     @Override

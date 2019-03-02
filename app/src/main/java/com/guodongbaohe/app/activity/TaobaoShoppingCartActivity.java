@@ -36,6 +36,7 @@ import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.PreferUtils;
+import com.guodongbaohe.app.util.ToastUtils;
 
 import java.util.HashMap;
 
@@ -55,7 +56,7 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     ImageView iv_back, iv_right;
     private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
     AlibcBasePage page;
-    private String script = "https://static.mopland.com/js/tbcart.js";
+    private String script = "https://static.mopland.com/js/tbcart.js?v=";
     private String js;
 
     @Override
@@ -67,6 +68,8 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        long currentTimeMillis = System.currentTimeMillis();
+        script = script + currentTimeMillis;
         setMiddleTitle("淘宝购物车");
         iv_back = (ImageView) findViewById(R.id.iv_back);
         iv_right = (ImageView) findViewById(R.id.iv_right);
@@ -165,22 +168,21 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
 
         @JavascriptInterface
         public void coupon(String[] msg) {
+            Log.i("订单数据初始化", msg[0] + "");
             shop_ids = "";
             for (int i = 0; i < msg.length; i++) {
                 shop_ids += msg[i] + ",";
             }
             shop_ids = shop_ids.substring(0, shop_ids.length() - 1);
-            Log.i("订单数据", shop_ids + "李晨奇");
+            Log.i("订单数据", shop_ids);
             if (!TextUtils.isEmpty(shop_ids)) {
                 PreferUtils.putString(getApplicationContext(), "shop_ids", shop_ids);
             }
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (!TextUtils.isEmpty(shop_ids)) {
-                        //耗时操作
-                        mHandler.sendEmptyMessage(0);
-                    }
+                    //耗时操作
+                    mHandler.sendEmptyMessage(0);
                 }
             }).start();
             webview.reload();
@@ -208,9 +210,13 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_youhui:
-                loadingDialog = DialogUtil.createLoadingDialog(TaobaoShoppingCartActivity.this, "正在查询");
-                Intent intent = new Intent(getApplicationContext(), SaveMoneyShopCartActivity.class);
-                startActivity(intent);
+                if (TextUtils.isEmpty(shop_ids)) {
+                    ToastUtils.showToast(getApplicationContext(), "未查询到有效商品");
+                } else {
+                    loadingDialog = DialogUtil.createLoadingDialog(TaobaoShoppingCartActivity.this, "正在查询");
+                    Intent intent = new Intent(getApplicationContext(), SaveMoneyShopCartActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.notice:
                 break;

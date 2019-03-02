@@ -135,6 +135,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
+                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("数据看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -199,6 +200,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

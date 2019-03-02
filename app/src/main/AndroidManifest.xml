@@ -347,9 +347,7 @@
         <activity
             android:name=".activity.SetNewPhoneActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".activity.TextXmlActivity"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".activity.CommonUserToVIPActivity"
             android:screenOrientation="portrait" />

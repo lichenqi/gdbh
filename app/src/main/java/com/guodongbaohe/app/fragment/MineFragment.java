@@ -53,6 +53,7 @@ import com.guodongbaohe.app.activity.MoneyTiXianActivity;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
 import com.guodongbaohe.app.activity.MyOrderActivity;
 import com.guodongbaohe.app.activity.MyTeamActivity;
+import com.guodongbaohe.app.activity.PaySuccessActivity;
 import com.guodongbaohe.app.activity.PersonalActivity;
 import com.guodongbaohe.app.activity.TaoBaoH5Activity;
 import com.guodongbaohe.app.activity.TaobaoShoppingCartActivity;
@@ -452,6 +453,7 @@ public class MineFragment extends Fragment {
                 break;
             case R.id.iv_set:
                 intent = new Intent(getContext(), PersonalActivity.class);
+//                intent=new Intent(getContext(),PaySuccessActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_taobao_gwuche:

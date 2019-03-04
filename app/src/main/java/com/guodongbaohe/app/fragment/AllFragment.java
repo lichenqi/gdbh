@@ -296,7 +296,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     case "hhr":
                         if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                             intent = new Intent(getContext(), GShenJiActivity.class);
-                            intent.putExtra("url", mokuaiList.get(position).getUrl());
+                            intent.putExtra("url", mokuaiList.get(position).getExtend());
                             startActivity(intent);
                         } else {
                             startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));

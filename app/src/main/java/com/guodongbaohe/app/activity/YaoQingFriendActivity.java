@@ -93,7 +93,7 @@ public class YaoQingFriendActivity extends BaseActivity {
     ImageView share_iv;
     private int currentPosition = 0;
     ImageView share_qrcode;
-    private String copyContent = "免费下载“果冻宝盒”即可尊享超百万隐藏优惠券+自购分享返佣最高达90%";
+    private String copyContent = "全网隐藏优惠券，邀请好友一起省钱！";
 
     @Override
     public int getContainerView() {

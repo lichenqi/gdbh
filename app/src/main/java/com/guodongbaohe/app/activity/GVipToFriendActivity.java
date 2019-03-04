@@ -163,6 +163,7 @@ public class GVipToFriendActivity extends BaseActivity {
         map.put("member_id", member_id);
         map.put("method", "alipay");
         map.put("is_new", "ture");
+        map.put("newest","yes");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

@@ -697,7 +697,20 @@
                             android:layout_toRightOf="@+id/iv_aboutus"
                             android:text="关于我们" />
 
-                        <ImageView style="@style/imageview_jiantou" />
+                        <TextView
+                            android:id="@+id/tv_version_display"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@+id/iv_wemen"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_wemen"
+                            style="@style/imageview_jiantou" />
 
                     </RelativeLayout>
 

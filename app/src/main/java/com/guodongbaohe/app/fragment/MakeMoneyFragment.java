@@ -29,7 +29,6 @@ import com.guodongbaohe.app.bean.MakeMoneyBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.util.DateUtils;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -397,27 +396,18 @@ public class MakeMoneyFragment extends Fragment {
 
     /*合伙人角色*/
     private void memberRoleFirst() {
-        long currentTimeMillis = System.currentTimeMillis();
-        long youxiaotime = Long.valueOf(validity) * 1000;
-        if (validity.equals("0")) {
-            identity_label.setText("您的身份永不过期");
-        } else if (youxiaotime > currentTimeMillis) {
-            String timeToString = DateUtils.getTimeYearType(youxiaotime);
-            identity_label.setText("您的身份有效期至 " + timeToString);
-        } else {
-            identity_label.setText("您的身份期限已过期");
-        }
         update_label.setText("我的合伙人专属特权");
+        identity_label.setText("您的身份永不过期");
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("商品佣金");
-        tv_two_bili.setText("佣金70%");
+        tv_two_bili.setText("获得佣金");
         tv_three.setText("官方培训");
         tv_three_bili.setText("定期开课");
         tv_four.setText("智慧大脑");
         tv_four_bili.setText("自动群发软件");
         tv_five.setText("团队奖金");
-        tv_five_bili.setText("最高30%");
+        tv_five_bili.setText("最高35%");
         tv_six.setText("合伙人身份");
         tv_six_bili.setText("永不过期");
         tv_open_vip.setText("升级成为总裁 >");
@@ -430,13 +420,13 @@ public class MakeMoneyFragment extends Fragment {
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("商品佣金");
-        tv_two_bili.setText("佣金90%");
+        tv_two_bili.setText("获得佣金");
         tv_three.setText("官方培训");
         tv_three_bili.setText("定期开课");
         tv_four.setText("智慧大脑");
         tv_four_bili.setText("自动群发软件");
         tv_five.setText("团队奖金");
-        tv_five_bili.setText("最高40%");
+        tv_five_bili.setText("最高45%");
         tv_six.setText("总裁身份");
         tv_six_bili.setText("永不过期");
         tv_open_vip.setText("您已是总裁!");
@@ -449,13 +439,13 @@ public class MakeMoneyFragment extends Fragment {
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
-        tv_two_bili.setText("佣金40%");
+        tv_two_bili.setText("获得佣金");
         tv_three.setText("官方培训");
         tv_three_bili.setText("定期开课");
         tv_four.setText("智慧大脑");
         tv_four_bili.setText("自动群发软件");
         tv_five.setText("团队奖金");
-        tv_five_bili.setText("奖20%");
+        tv_five_bili.setText("奖25%");
         tv_six.setText("VIP身份");
         tv_six_bili.setText("永不过期");
         tv_open_vip.setText("升级成为合伙人 >");
@@ -468,13 +458,13 @@ public class MakeMoneyFragment extends Fragment {
         tv_one.setText("购物省钱");
         tv_one_bili.setText("海量优惠券");
         tv_two.setText("分享赚钱");
-        tv_two_bili.setText("佣金40%");
+        tv_two_bili.setText("获得佣金");
         tv_three.setText("官方培训");
         tv_three_bili.setText("定期开课");
         tv_four.setText("智慧大脑");
         tv_four_bili.setText("自动群发软件");
         tv_five.setText("团队奖金");
-        tv_five_bili.setText("奖20%");
+        tv_five_bili.setText("奖25%");
         tv_six.setText("VIP身份");
         tv_six_bili.setText("永不过期");
         tv_open_vip.setText("立即升级 >");
@@ -582,7 +572,7 @@ public class MakeMoneyFragment extends Fragment {
                                     String today_boss = result.getToday_boss();
                                     String month_partner = result.getMonth_partner();
                                     String today_partner = result.getToday_partner();
-                                    if (son_count.equals("0")) {
+                                    if (Constant.COMMON_USER_LEVEL.contains(member_role)) {/*普通看vip数据*/
                                         tv_left_one.setText("今日有多少人成为VIP");
                                         tv_left_two.setText(day_counts + "人");
                                         tv_left_three.setText("他们都升级成为了VIP");
@@ -590,7 +580,7 @@ public class MakeMoneyFragment extends Fragment {
                                         tv_right_one.setText("本月有多少人成为VIP");
                                         tv_right_two.setText(month_counts + "人");
                                         tv_right_three.setText("他们都升级成为了VIP");
-                                    } else {
+                                    } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {/*vip看合伙人数据*/
                                         tv_left_one.setText("今日有多少人成为合伙人");
                                         tv_left_two.setText(today_partner + "人");
                                         tv_left_three.setText("他们都升级成为了合伙人");

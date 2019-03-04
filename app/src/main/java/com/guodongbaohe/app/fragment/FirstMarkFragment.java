@@ -161,7 +161,7 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
                 partner.setTextColor(0xff000000);
                 vip.setTextColor(0xff000000);
                 tv_choose.setTextColor(0xfff6c15b);
-                choose_filter = "2,7";
+                choose_filter = "7";
                 pageNum = 1;
                 getFirstMarketData();
             }
@@ -179,7 +179,7 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
                 partner.setTextColor(0xfff6c15b);
                 vip.setTextColor(0xff000000);
                 tv_choose.setTextColor(0xfff6c15b);
-                choose_filter = "1,5";
+                choose_filter = "5";
                 pageNum = 1;
                 getFirstMarketData();
             }

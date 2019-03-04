@@ -937,6 +937,7 @@ public class MainActivity extends BigBaseActivity {
                                     window.setGravity(Gravity.CENTER | Gravity.CENTER);
                                     final ImageView sure = (ImageView) dialogs.findViewById(R.id.shouye_dialog);
                                     ImageView cancel = (ImageView) dialogs.findViewById(R.id.close_dialog_im);
+                                    LinearLayout close_dialog_lv=(LinearLayout)dialogs.findViewById(R.id.close_dialog_lv);
                                     if (sure == null || cancel == null) return;
                                     Glide.with(MainActivity.this).load(four_iv_list.get(0).getImage()).into(sure);
                                     Glide.with(MainActivity.this).load(R.mipmap.close_dialog).into(cancel);
@@ -950,7 +951,7 @@ public class MainActivity extends BigBaseActivity {
                                             dialogs.dismiss();
                                         }
                                     });
-                                    cancel.setOnClickListener(new View.OnClickListener() {
+                                    close_dialog_lv.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
                                             dialogs.dismiss();

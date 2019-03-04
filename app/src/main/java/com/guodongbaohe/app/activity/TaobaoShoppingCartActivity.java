@@ -168,13 +168,14 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
 
         @JavascriptInterface
         public void coupon(String[] msg) {
-            Log.i("订单数据初始化", msg[0] + "");
             shop_ids = "";
-            for (int i = 0; i < msg.length; i++) {
-                shop_ids += msg[i] + ",";
+            if (msg.length > 0) {
+                for (int i = 0; i < msg.length; i++) {
+                    shop_ids += msg[i] + ",";
+                }
+                shop_ids = shop_ids.substring(0, shop_ids.length() - 1);
             }
-            shop_ids = shop_ids.substring(0, shop_ids.length() - 1);
-            Log.i("订单数据", shop_ids);
+            Log.i("订单数据", shop_ids + "初始化");
             if (!TextUtils.isEmpty(shop_ids)) {
                 PreferUtils.putString(getApplicationContext(), "shop_ids", shop_ids);
             }
@@ -210,8 +211,8 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_youhui:
-                if (TextUtils.isEmpty(shop_ids)) {
-                    ToastUtils.showToast(getApplicationContext(), "未查询到有效商品");
+                if (TextUtils.isEmpty(PreferUtils.getString(getApplicationContext(), "shop_ids"))) {
+                    ToastUtils.showToast(getApplicationContext(), "没有查到有效商品");
                 } else {
                     loadingDialog = DialogUtil.createLoadingDialog(TaobaoShoppingCartActivity.this, "正在查询");
                     Intent intent = new Intent(getApplicationContext(), SaveMoneyShopCartActivity.class);

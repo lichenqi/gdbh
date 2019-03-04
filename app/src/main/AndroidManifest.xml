@@ -23,8 +23,8 @@
         android:roundIcon="@mipmap/login_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:name"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:name">
         <activity
             android:name=".activity.StartActivity"
             android:theme="@style/StartActivityTheme">
@@ -347,7 +347,6 @@
         <activity
             android:name=".activity.SetNewPhoneActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activity.CommonUserToVIPActivity"
             android:screenOrientation="portrait" />

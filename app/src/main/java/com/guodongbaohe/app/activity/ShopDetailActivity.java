@@ -787,7 +787,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 break;
             case R.id.tv_buy:
                 /*购买返按钮*/
-                 toTaoBaoCouponActivity();
+                toTaoBaoCouponActivity();
                 break;
             case R.id.tv_share_money:
                 /*分享赚按钮*/

@@ -3,6 +3,7 @@ package com.guodongbaohe.app.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,7 @@ public class SaveMoneyActivity extends BaseActivity {
     private String share_url, share_title, share_content, share_img;
     String url, getUrl;
     ConfigurationBean.PageBean list_data;
+
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -129,6 +131,7 @@ public class SaveMoneyActivity extends BaseActivity {
 
         @JavascriptInterface
         public void invitation(String url, String title, String content, String img) {
+            Log.i("分享内容", url + "  " + title + "   " + content + "   " + img);
             share_url = url;
             share_title = title;
             share_content = content;
@@ -205,6 +208,7 @@ public class SaveMoneyActivity extends BaseActivity {
 
             @Override
             public void onError(Platform platform, int i, Throwable throwable) {
+                Log.i("微信好友分享回调", i + "  " + throwable);
             }
 
             @Override

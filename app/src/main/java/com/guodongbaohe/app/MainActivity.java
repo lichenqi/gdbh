@@ -58,6 +58,7 @@ import com.guodongbaohe.app.fragment.NewRangingListFragment;
 import com.guodongbaohe.app.fragment.SendCircleFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
+import com.guodongbaohe.app.util.DateUtils;
 import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.EmjoyAndTeShuUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
@@ -74,7 +75,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -126,7 +130,9 @@ public class MainActivity extends BigBaseActivity {
     int num;
     String local_version, start_guide_to_login;
     int flag_frist = 0;
-
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
+    Date date = new Date(System.currentTimeMillis());//获取当前时间
+    String ddate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,8 +161,15 @@ public class MainActivity extends BigBaseActivity {
         /*获取用户信息*/
         if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
             getConfigurationData();
-            /*首页广告弹窗*/
-            getDialogData();
+            /*首页广告弹窗 2小时一次*/
+            if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this,"ddate"))){
+                getDialogData();
+            }else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date),PreferUtils.getString(MainActivity.this,"ddate")))
+            {
+                getDialogData();
+            }
+
+
         }
         /*获取app配置信息*/
         getPeiZhiData();
@@ -931,6 +944,10 @@ public class MainActivity extends BigBaseActivity {
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
                                 if (four_iv_list.size() > 0) {
+                                    long currentTime = System.currentTimeMillis() + 120 * 60 * 1000;
+                                     ddate=simpleDateFormat.format(currentTime);
+                                     Log.i("2小时后",ddate);
+                                    PreferUtils.putString(MainActivity.this,"ddate",ddate);
                                     dialogs = new Dialog(MainActivity.this, R.style.transparentFrameWindowStyle);
                                     dialogs.setContentView(R.layout.g_newyears);
                                     Window window = dialogs.getWindow();

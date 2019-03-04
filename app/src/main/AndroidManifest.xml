@@ -354,6 +354,7 @@
             android:name=".activity.TaoBaoFromUrlToDetailActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.GShenJiActivity"/>
+        <activity android:name=".activity.CeShiTianMaoActivity"/>
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

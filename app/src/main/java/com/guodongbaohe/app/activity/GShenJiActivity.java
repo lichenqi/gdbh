@@ -22,8 +22,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.alipay.PayResult;
 import com.guodongbaohe.app.base_activity.BaseActivity;
@@ -72,8 +70,8 @@ public class GShenJiActivity extends BaseActivity {
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.webview_reload);
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
-        Intent intent=getIntent();
-        url=intent.getStringExtra("url");
+        Intent intent = getIntent();
+        url = intent.getStringExtra("url");
         WebSettings settings = webview.getSettings();
         webview.setVerticalScrollBarEnabled(false);
         settings.setJavaScriptEnabled(true);
@@ -158,6 +156,7 @@ public class GShenJiActivity extends BaseActivity {
         map.put("member_id", member_id);
         map.put("method", "alipay");
         map.put("is_new", "ture");
+        map.put("newest","yes");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

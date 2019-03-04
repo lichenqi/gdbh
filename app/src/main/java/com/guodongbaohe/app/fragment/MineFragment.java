@@ -53,7 +53,6 @@ import com.guodongbaohe.app.activity.MoneyTiXianActivity;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
 import com.guodongbaohe.app.activity.MyOrderActivity;
 import com.guodongbaohe.app.activity.MyTeamActivity;
-import com.guodongbaohe.app.activity.PaySuccessActivity;
 import com.guodongbaohe.app.activity.PersonalActivity;
 import com.guodongbaohe.app.activity.TaoBaoH5Activity;
 import com.guodongbaohe.app.activity.TaobaoShoppingCartActivity;
@@ -174,6 +173,9 @@ public class MineFragment extends Fragment {
     /*版本更新*/
     @BindView(R.id.re_version_update)
     RelativeLayout re_version_update;
+    /*版本号显示*/
+    @BindView(R.id.tv_version_display)
+    TextView tv_version_display;
     private final int VERSIONCODE_RESULT = 100;
     @BindView(R.id.qudao_id_webview)
     WebView qudao_id_webview;
@@ -211,8 +213,15 @@ public class MineFragment extends Fragment {
             getMineData();
             /*刷新控件*/
             initRefresh();
+            /*版本号*/
+            initVersionView();
         }
         return view;
+    }
+
+    private void initVersionView() {
+        String androidNumVersion = VersionUtil.getAndroidNumVersion(getContext());
+        tv_version_display.setText(androidNumVersion);
     }
 
     private void initRefresh() {
@@ -361,8 +370,10 @@ public class MineFragment extends Fragment {
             e.printStackTrace();
         }
     }
+
     String url, getUrl;
     ConfigurationBean.PageBean list_data;
+
     @OnClick({R.id.re_clean_cache, R.id.circleimageview, R.id.re_order, R.id.re_aboutus, R.id.re_my_department, R.id.re_tuandui,
             R.id.re_incomeing, R.id.re_invite_award, R.id.tv_fuzhi_anniu, R.id.re_user_bg, R.id.re_withdraw_deposit,
             R.id.re_wechat, R.id.iv_set, R.id.re_xinshou_jiaocheng, R.id.re_question, R.id.re_taobao_gwuche, R.id.re_taobao_order

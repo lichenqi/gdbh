@@ -85,7 +85,7 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
     @BindView(R.id.iv_scale)
     ImageView iv_scale;
     PopupWindow popupWindow;
-    TextView all, boss, partner;
+    TextView all, boss, partner, vip;
     /*筛选条件 0:全部；1：合伙人；2：总裁*/
     private String choose_filter = "";
     /*排序条件*/
@@ -122,6 +122,7 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
             all = (TextView) shaixuanview.findViewById(R.id.all);
             boss = (TextView) shaixuanview.findViewById(R.id.boss);
             partner = (TextView) shaixuanview.findViewById(R.id.partner);
+            vip = (TextView) shaixuanview.findViewById(R.id.vip);
             iniChooseListener();
         }
         return view;
@@ -129,6 +130,7 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
 
     /*筛选点击*/
     private void iniChooseListener() {
+        /*全部按钮*/
         all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,12 +141,14 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
                 all.setTextColor(0xfff6c15b);
                 boss.setTextColor(0xff000000);
                 partner.setTextColor(0xff000000);
+                vip.setTextColor(0xff000000);
                 tv_choose.setTextColor(0xff000000);
                 choose_filter = "";
                 pageNum = 1;
                 getFirstMarketData();
             }
         });
+        /*总裁按钮*/
         boss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,12 +159,14 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
                 all.setTextColor(0xff000000);
                 boss.setTextColor(0xfff6c15b);
                 partner.setTextColor(0xff000000);
+                vip.setTextColor(0xff000000);
                 tv_choose.setTextColor(0xfff6c15b);
-                choose_filter = "2";
+                choose_filter = "7";
                 pageNum = 1;
                 getFirstMarketData();
             }
         });
+        /*合伙人按钮*/
         partner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,8 +177,27 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
                 all.setTextColor(0xff000000);
                 boss.setTextColor(0xff000000);
                 partner.setTextColor(0xfff6c15b);
+                vip.setTextColor(0xff000000);
                 tv_choose.setTextColor(0xfff6c15b);
-                choose_filter = "1";
+                choose_filter = "5";
+                pageNum = 1;
+                getFirstMarketData();
+            }
+        });
+        /*vip按钮*/
+        vip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (popupWindow != null) {
+                    popupWindow.dismiss();
+                    backgroundAlpha(1f);
+                }
+                all.setTextColor(0xff000000);
+                boss.setTextColor(0xff000000);
+                partner.setTextColor(0xff000000);
+                vip.setTextColor(0xfff6c15b);
+                tv_choose.setTextColor(0xfff6c15b);
+                choose_filter = "3";
                 pageNum = 1;
                 getFirstMarketData();
             }
@@ -343,7 +368,7 @@ public class FirstMarkFragment extends android.support.v4.app.Fragment {
         re_wchat_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!TextUtils.isEmpty(wechat_name)){
+                if (!TextUtils.isEmpty(wechat_name)) {
                     cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                     mClipData = ClipData.newPlainText("Label", wechat_name);
                     cm.setPrimaryClip(mClipData);

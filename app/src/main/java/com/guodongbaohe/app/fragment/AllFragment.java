@@ -37,9 +37,7 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
-import com.guodongbaohe.app.activity.CeShiTianMaoActivity;
 import com.guodongbaohe.app.activity.GShenJiActivity;
-import com.guodongbaohe.app.activity.GVipToFriendActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.NinePinkageActivity;
@@ -277,8 +275,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                             intent = new Intent(getContext(), PinZheMakeMoneyActivity.class);
                             intent.putExtra("url", "https://mo.m.taobao.com/optimus/jhspt2c?pid=");
-//                            intent=new Intent(getContext(),CeShiTianMaoActivity.class);
-//                            intent.putExtra("url","https://chaoshi.tmall.com/");
                             startActivity(intent);
                         } else {
                             startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
@@ -300,12 +296,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     case "hhr":
                         if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                             intent = new Intent(getContext(), GShenJiActivity.class);
-                            intent.putExtra("url",mokuaiList.get(position).getExtend());
+                            intent.putExtra("url", mokuaiList.get(position).getExtend());
                             startActivity(intent);
                         } else {
                             startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
                         }
-
                         break;
                 }
             }

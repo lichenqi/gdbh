@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
+import com.guodongbaohe.app.activity.GShenJiActivity;
 import com.guodongbaohe.app.activity.GVipToFriendActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
@@ -295,11 +296,13 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         break;
                     case "hhr":
                         if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                            intent = new Intent(getContext(), GVipToFriendActivity.class);
+                            intent = new Intent(getContext(), GShenJiActivity.class);
+                            intent.putExtra("url",mokuaiList.get(position).getUrl());
                             startActivity(intent);
                         } else {
                             startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
                         }
+
                         break;
                 }
             }

@@ -53,6 +53,22 @@
             android:textColor="@color/black"
             android:textSize="12sp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/line_eee" />
+
+        <TextView
+            android:id="@+id/vip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:text="VIP"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
 </RelativeLayout>

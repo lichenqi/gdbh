@@ -23,7 +23,6 @@ public class QianZaiAdapter extends RecyclerView.Adapter<QianZaiAdapter.QianZaiH
     private Context context;
     private List<QianZaiYingHuBean.QianZaiYingData> list;
 
-
     public QianZaiAdapter(Context context, List<QianZaiYingHuBean.QianZaiYingData> list, String userName) {
         this.context = context;
         this.userName = userName;

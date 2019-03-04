@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.DepartmentBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.view.CircleImageView;
 
 import java.util.List;
@@ -52,16 +53,14 @@ public class DepartmentAdapter extends RecyclerView.Adapter<DepartmentAdapter.De
         holder.name.setText(list.get(position).getMember_name());
         String member_role = list.get(position).getMember_role();
         String counts = list.get(position).getFans();
-        if (member_role.equals("2")) {
+        if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
             holder.level.setText("总裁");
-        } else if (member_role.equals("1")) {
+        } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             holder.level.setText("合伙人");
+        } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            holder.level.setText("VIP");
         } else {
-            if (counts.equals("0")) {
-                holder.level.setText("普通会员");
-            } else {
-                holder.level.setText("VIP");
-            }
+            holder.level.setText("普通会员");
         }
         holder.num.setText("邀请人数" + counts + "人");
         holder.yaoqingren.setText("邀请人: " + list.get(position).getParent_name());

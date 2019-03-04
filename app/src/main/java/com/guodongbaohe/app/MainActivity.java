@@ -176,7 +176,7 @@ public class MainActivity extends BigBaseActivity {
         /*版本升级接口*/
         local_version = VersionUtil.getAndroidNumVersion(getApplicationContext());
         getVersionCodeData();
-
+        
         /*android登录开关按钮*/
         if (!TextUtils.isEmpty(start_guide_to_login)) {
             if (start_guide_to_login.equals("yes") && !PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
@@ -717,6 +717,9 @@ public class MainActivity extends BigBaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 VersionBean versionBean = GsonUtil.GsonToBean(response.toString(), VersionBean.class);
                                 if (versionBean == null) return;
+                                Calendar c=Calendar.getInstance();
+                                c.add( Calendar. DATE, 1); //向前走一天
+
                                 VersionBean.VersionData result = versionBean.getResult();
                                 is_update = result.getIs_update();/*是否强制更新标识 no 代表随意；yes 代表强制更新*/
                                 desc = result.getDesc();
@@ -725,8 +728,14 @@ public class MainActivity extends BigBaseActivity {
                                 String version = result.getVersion();
                                 Integer localCode = Integer.valueOf(local_version.replace(".", "").trim());
                                 if (Integer.valueOf(version) > localCode) {
-                                    versionUpdataDialog();
+                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this,"Tdata"))){
+                                        versionUpdataDialog();
+                                    }else if(DateUtils.isDateOneBigger(simpleDateFormat.format(date),PreferUtils.getString(MainActivity.this,"Tdata"))){
+                                        versionUpdataDialog();
+                                     }
+
                                 }
+                                PreferUtils.putString(MainActivity.this,"Tdata",simpleDateFormat.format(c.getTime()));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -944,7 +953,7 @@ public class MainActivity extends BigBaseActivity {
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
                                 if (four_iv_list.size() > 0) {
-                                    long currentTime = System.currentTimeMillis() + 120 * 60 * 1000;
+                                    long currentTime = System.currentTimeMillis() + 120* 60 * 1000;
                                      ddate=simpleDateFormat.format(currentTime);
                                      Log.i("2小时后",ddate);
                                     PreferUtils.putString(MainActivity.this,"ddate",ddate);

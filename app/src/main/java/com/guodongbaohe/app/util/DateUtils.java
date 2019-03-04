@@ -158,7 +158,7 @@ public class DateUtils {
      */
     public static boolean isDateOneBigger(String str1, String str2) {
         boolean isBigger = false;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date dt1 = null;
         Date dt2 = null;
         try {
@@ -167,9 +167,9 @@ public class DateUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (dt1.getTime() > dt2.getTime()) {
+        if (dt1.getTime()*1000 > dt2.getTime()*1000) {
             isBigger = true;
-        } else if (dt1.getTime() < dt2.getTime()) {
+        } else if (dt1.getTime()*1000 < dt2.getTime()*1000) {
             isBigger = false;
         }
         return isBigger;

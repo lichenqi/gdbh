@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,10 +23,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -54,16 +51,10 @@ import com.guodongbaohe.app.bean.BannerDataBean;
 import com.guodongbaohe.app.bean.BuyUserBean;
 import com.guodongbaohe.app.bean.FiveMoKuaiBean;
 import com.guodongbaohe.app.bean.HomeListBean;
-import com.guodongbaohe.app.bean.NewBanDataBean;
-import com.guodongbaohe.app.bean.NewBannerBean;
 import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.bean.XinShouJiaoBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
-import com.guodongbaohe.app.gridview.DecoratorViewPager;
-import com.guodongbaohe.app.gridview.GViewPagerAdapter;
-import com.guodongbaohe.app.gridview.GridViewAdapter;
-import com.guodongbaohe.app.gridview.MultiGridView;
 import com.guodongbaohe.app.itemdecoration.CarItemDecoration;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.DensityUtils;
@@ -116,14 +107,20 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     List<HomeListBean.ListData> list = new ArrayList<>();
     HomeListAdapter adapter;
     private boolean isLoop = true;
+    private boolean isXinLoop = true;
     int height;
     String cate_id;
     private TabLayout tablayout;
     private RelativeLayout re_search_title;
     String notice_url;
     Context context;
-    public static int item_grid_num = 8;//每一页中GridView中item的数量
-    public static int number_columns = 4;//gridview一行展示的数目
+    ViewPager viewpager, viewpager_xin;
+    LinearLayout llpoint, llpoint_xin;
+    private ImageView[] indicators;
+    private ImageView[] indicators_xin;
+    View view_color;
+    UPMarqueeView upmarqueeview;
+    Intent intent;
 
     public AllFragment() {
 
@@ -231,15 +228,13 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 });
     }
 
-    Intent intent;
-
     private void initClassicRecycler() {
         RecyclerView recyclerview = (RecyclerView) headView.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
         recyclerview.addItemDecoration(new CarItemDecoration(DensityUtils.dip2px(getActivity().getApplicationContext(), 15)));
         GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
         recyclerview.setLayoutManager(manager);
-        HomeClassicAdapter adapter = new HomeClassicAdapter(getContext(), mokuaiList);
+        final HomeClassicAdapter adapter = new HomeClassicAdapter(getContext(), mokuaiList);
         recyclerview.setAdapter(adapter);
         adapter.setOnClickListener(new OnItemClick() {
             @Override
@@ -289,11 +284,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         }
                         break;
                     case "tgsc":
-//                        intent = new Intent(getContext(), BaseH5Activity.class);
-                        intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
-//                        intent.putExtra("url", mokuaiList.get(position).getExtend());
-                        intent.putExtra("url", "https://jellybox.mopland.com/assets/address/1551086262816");
-//                        intent.putExtra("url","https://s.click.taobao.com/t?e=m%3D2%26s%3DpI50EZkOe1UcQipKwQzePCperVdZeJviyK8Cckff7TVRAdhuF14FMWWMBWo6oJFsRitN3%2FurF3xYUJm1tnisq3Z4szDnvaIgC9mtZRFGiYPnN0JXE39YD8s50d4MJzKPF%2F5%2B8Cm5%2FJScCKkR8Mb49%2FQI0v6NBh6LjB7r%2B0aDb9GM3h%2FwNLE3G%2BReR15rySBjKYFnllaKQ3s0HEcfBN0xr5k1mZIYZi3Iaf1u4DBkgALO54LQ%2FVw1LyZIkTPQmFErsd%2B%2Ff4Fhw9bd4efXitbU8KfxDyX8yd7QYsAef9vhFgjbICUMyH%2FCZmYMBhR2FIUJI%2FFq98YfTt1gUXTX%2FcVpYRwVqRgKrcV2p4HY4SsnMaQsbyNDcu5KXMep0FvifgjLq9xn3NLHPzqw%2BXPC2o0C%2B8K%2By3whhuZ6Rjb3KIZam12834P3RHv9StA7WhQyyPzxQsW5NdCHGR1bkmJRZdb7g3guc8vT8P%2F71zsYtget%2BEjQ%2BRfrF8N2aOAutnpntOwAxg5p7bh%2BFbQ%3D&pvid=25632290");
+                        intent = new Intent(getContext(), BaseH5Activity.class);
+                        intent.putExtra("url", mokuaiList.get(position).getExtend());
                         startActivity(intent);
                         break;
                     case "hhr":
@@ -350,6 +342,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 }
                                 setIndicatorXin(0);
                                 viewpager_xin.setAdapter(new XinShouJiaoAdapter());
+                                if (xin_list.size() > 1) {
+                                    initXinTimer();
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -560,19 +555,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     View headView;
 
     private void initRecyclerview() {
-        ViewTreeObserver viewTreeObserver = xrecycler.getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                xrecycler.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                int height = xrecycler.getHeight();
-            }
-        });
         xrecycler.setHasFixedSize(true);
         xrecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         XRecyclerViewUtil.setView(xrecycler);
         headView = LayoutInflater.from(getContext()).inflate(R.layout.home_head_view, null);
         xrecycler.addHeaderView(headView);
+        initbannerview();
         adapter = new HomeListAdapter(getContext(), list);
         xrecycler.setAdapter(adapter);
         xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -598,7 +586,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 getListData();
             }
         });
-        initbannerview();
         adapter.setOnClickListener(new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
@@ -693,17 +680,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 break;
         }
     }
-
-    ViewPager viewpager, viewpager_xin;
-    LinearLayout llpoint, llpoint_xin;
-    private ImageView[] indicators;
-    private ImageView[] indicators_xin;
-    View view_color;
-    UPMarqueeView upmarqueeview;
-
-    private DecoratorViewPager view_pager;
-    private LinearLayout llpoint_grid;
-    private GViewPagerAdapter adapters;
 
     private void initbannerview() {
         view_color = headView.findViewById(R.id.view_color);
@@ -858,7 +834,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
         @Override
         public int getCount() {
-            return xin_list == null ? 0 : xin_list.size();
+            return xin_list == null ? 0 : Integer.MAX_VALUE;
         }
 
         @Override
@@ -876,14 +852,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.xinshoujiao, container, false);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            Glide.with(getContext()).load(xin_list.get(position).getImage()).into(iv);
+            Glide.with(getContext()).load(xin_list.get(position % xin_list.size()).getImage()).into(iv);
             container.addView(view);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                        String url = xin_list.get(position).getUrl();
-                        String type = xin_list.get(position).getType();
+                        String url = xin_list.get(position % xin_list.size()).getUrl();
+                        String type = xin_list.get(position % xin_list.size()).getType();
                         if (!TextUtils.isEmpty(type)) {
                             switch (type) {
                                 case "xinshou":
@@ -968,7 +944,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     public void onPageScrollStateChanged(int state) {
     }
 
-    private Timer timer;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -981,7 +956,20 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         }
     };
 
-    TimerTask task;
+    @SuppressLint("HandlerLeak")
+    private Handler xinHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int currentItem = viewpager_xin.getCurrentItem();
+            currentItem++;
+            viewpager_xin.setCurrentItem(currentItem);
+        }
+    };
+
+
+    TimerTask task, xinTask;
+    private Timer timer, xinTimer;
 
     private void initTimer() {
         timer = new Timer();
@@ -994,7 +982,22 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             }
         };
         if (isLoop) {
-            timer.schedule(task, 3000, 5000);
+            timer.schedule(task, 5000, 9000);
+        }
+    }
+
+    private void initXinTimer() {
+        xinTimer = new Timer();
+        xinTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (isXinLoop) {
+                    xinHandler.sendEmptyMessage(0);
+                }
+            }
+        };
+        if (isXinLoop) {
+            xinTimer.schedule(xinTask, 4000, 8000);
         }
     }
 
@@ -1003,6 +1006,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         super.onDestroy();
         if (timer != null) {
             timer.cancel();
+        }
+        if (xinTimer != null) {
+            xinTimer.cancel();
         }
         EventBus.getDefault().unregister(this);
     }
@@ -1088,99 +1094,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         ToastUtils.showToast(getContext(), Constant.NONET);
                     }
                 });
-    }
-
-    /*新版分类接口*/
-    List<NewBannerBean.ResultBean> resultBeans;
-    NewBannerBean newclassicbeans;
-
-    private void getNewClassicData() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("type", "navig_app_page");
-        String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.BANNER + "?" + param)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
-                .enqueue(new JsonResponseHandler() {
-
-                    @Override
-                    public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("新版数据类型", response.toString());
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                newclassicbeans = GsonUtil.GsonToBean(response.toString(), NewBannerBean.class);
-                                if (newclassicbeans == null) return;
-                                resultBeans = newclassicbeans.getResult();
-                                initDatas();
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, String error_msg) {
-                    }
-                });
-    }
-
-
-    private List<NewBanDataBean> dataList = new ArrayList<>();
-    private List<GridView> gridList = new ArrayList<>();
-    private ImageView[] indicator_grid;
-    MultiGridView gridView;
-
-    private void initDatas() {
-        if (dataList.size() > 0) {
-            dataList.clear();
-        }
-        if (gridList.size() > 0) {
-            gridList.clear();
-        }
-        //初始化数据
-        for (int i = 0; i < resultBeans.size(); i++) {
-            NewBanDataBean bean = new NewBanDataBean();
-            bean.title = resultBeans.get(i).getTitle();
-            bean.image = resultBeans.get(i).getImage();
-            bean.url = resultBeans.get(i).getUrl();
-            bean.extend = resultBeans.get(i).getExtend();
-            dataList.add(bean);
-        }
-        //计算viewpager一共显示几页
-        int pageSize = dataList.size() % item_grid_num == 0 ? dataList.size() / item_grid_num : dataList.size() / item_grid_num + 1;
-        indicator_grid = new ImageView[pageSize];
-        for (int i = 0; i < pageSize; i++) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_grid_viewpager, null);
-            ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
-            indicator_grid[i] = iv;
-            llpoint_grid.addView(view);
-        }
-        setIndicator_grid(0);
-        for (int i = 0; i < pageSize; i++) {
-            gridView = new MultiGridView(getActivity().getApplicationContext());
-            GridViewAdapter adapter = new GridViewAdapter(dataList, i);
-            gridView.setNumColumns(number_columns);
-            gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));// 去掉默认点击背景
-            gridView.setAdapter(adapter);
-            gridList.add(gridView);
-        }
-        adapters.add(gridList);
-    }
-
-    private void setIndicator_grid(int selectedPosition) {
-        for (int i = 0; i < indicator_grid.length; i++) {
-            indicator_grid[i].setBackgroundResource(R.mipmap.grid_unselect);
-        }
-        indicator_grid[selectedPosition % indicator_grid.length].setBackgroundResource(R.mipmap.grid_select);
     }
 
 }

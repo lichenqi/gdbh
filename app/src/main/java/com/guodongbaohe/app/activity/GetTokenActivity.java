@@ -62,7 +62,7 @@ public class GetTokenActivity extends BaseActivity {
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         //启动定时器
-        timer.schedule(task,0,1000);
+        timer.schedule(task, 0, 1000);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +76,7 @@ public class GetTokenActivity extends BaseActivity {
             public void onClick(View view) {
                 if (!TextUtils.isEmpty(vc_centerLine.getVcText().toString())) {
                     CopyToClipboard(GetTokenActivity.this, vc_centerLine.getVcText().toString());
-                    ToastUtils.showToast(GetTokenActivity.this,"复制成功");
+                    ToastUtils.showToast(GetTokenActivity.this, "复制成功");
                     copy_lingpai.setText("复制成功");
                 }
 

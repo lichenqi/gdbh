@@ -133,6 +133,7 @@ public class MainActivity extends BigBaseActivity {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
     Date date = new Date(System.currentTimeMillis());//获取当前时间
     String ddate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,33 +163,24 @@ public class MainActivity extends BigBaseActivity {
         if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
             getConfigurationData();
             /*首页广告弹窗 2小时一次*/
-            if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this,"ddate"))){
+            if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "ddate"))) {
                 getDialogData();
-            }else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date),PreferUtils.getString(MainActivity.this,"ddate")))
-            {
+            } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "ddate"))) {
                 getDialogData();
             }
-
-
         }
         /*获取app配置信息*/
         getPeiZhiData();
         /*版本升级接口*/
         local_version = VersionUtil.getAndroidNumVersion(getApplicationContext());
         getVersionCodeData();
-        
+
         /*android登录开关按钮*/
         if (!TextUtils.isEmpty(start_guide_to_login)) {
             if (start_guide_to_login.equals("yes") && !PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
                 startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
             }
         }
-
-        /*android手机通知功能屏蔽*/
-//        boolean is_start = PreferUtils.getBoolean(getApplicationContext(), "is_start");
-//        if (!is_start) {
-//            StartTzDialog();
-//        }
 
     }
 
@@ -330,7 +322,15 @@ public class MainActivity extends BigBaseActivity {
             case R.id.ll_home:/*首页*/
                 EventBus.getDefault().post("toFirst");
                 String currentColor = PreferUtils.getString(getApplicationContext(), "currentColor");
-                home_color = Color.parseColor(currentColor);
+                if (!TextUtils.isEmpty(currentColor)) {
+                    if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
+                        home_color = Color.parseColor(currentColor);
+                    } else {
+                        home_color = Color.parseColor("#000000");
+                    }
+                } else {
+                    home_color = Color.parseColor("#000000");
+                }
                 setStatusColor(0);
                 setBackSize();
                 curIndex = 0;
@@ -717,9 +717,8 @@ public class MainActivity extends BigBaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 VersionBean versionBean = GsonUtil.GsonToBean(response.toString(), VersionBean.class);
                                 if (versionBean == null) return;
-                                Calendar c=Calendar.getInstance();
-                                c.add( Calendar. DATE, 1); //向前走一天
-
+                                Calendar c = Calendar.getInstance();
+                                c.add(Calendar.DATE, 1); //向前走一天
                                 VersionBean.VersionData result = versionBean.getResult();
                                 is_update = result.getIs_update();/*是否强制更新标识 no 代表随意；yes 代表强制更新*/
                                 desc = result.getDesc();
@@ -728,14 +727,13 @@ public class MainActivity extends BigBaseActivity {
                                 String version = result.getVersion();
                                 Integer localCode = Integer.valueOf(local_version.replace(".", "").trim());
                                 if (Integer.valueOf(version) > localCode) {
-                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this,"Tdata"))){
+                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
                                         versionUpdataDialog();
-                                    }else if(DateUtils.isDateOneBigger(simpleDateFormat.format(date),PreferUtils.getString(MainActivity.this,"Tdata"))){
+                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
                                         versionUpdataDialog();
-                                     }
-
+                                    }
                                 }
-                                PreferUtils.putString(MainActivity.this,"Tdata",simpleDateFormat.format(c.getTime()));
+                                PreferUtils.putString(MainActivity.this, "Tdata", simpleDateFormat.format(c.getTime()));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -953,17 +951,17 @@ public class MainActivity extends BigBaseActivity {
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
                                 if (four_iv_list.size() > 0) {
-                                    long currentTime = System.currentTimeMillis() + 120* 60 * 1000;
-                                     ddate=simpleDateFormat.format(currentTime);
-                                     Log.i("2小时后",ddate);
-                                    PreferUtils.putString(MainActivity.this,"ddate",ddate);
+                                    long currentTime = System.currentTimeMillis() + 120 * 60 * 1000;
+                                    ddate = simpleDateFormat.format(currentTime);
+                                    Log.i("2小时后", ddate);
+                                    PreferUtils.putString(MainActivity.this, "ddate", ddate);
                                     dialogs = new Dialog(MainActivity.this, R.style.transparentFrameWindowStyle);
                                     dialogs.setContentView(R.layout.g_newyears);
                                     Window window = dialogs.getWindow();
                                     window.setGravity(Gravity.CENTER | Gravity.CENTER);
                                     final ImageView sure = (ImageView) dialogs.findViewById(R.id.shouye_dialog);
                                     ImageView cancel = (ImageView) dialogs.findViewById(R.id.close_dialog_im);
-                                    LinearLayout close_dialog_lv=(LinearLayout)dialogs.findViewById(R.id.close_dialog_lv);
+                                    LinearLayout close_dialog_lv = (LinearLayout) dialogs.findViewById(R.id.close_dialog_lv);
                                     if (sure == null || cancel == null) return;
                                     Glide.with(MainActivity.this).load(four_iv_list.get(0).getImage()).into(sure);
                                     Glide.with(MainActivity.this).load(R.mipmap.close_dialog).into(cancel);

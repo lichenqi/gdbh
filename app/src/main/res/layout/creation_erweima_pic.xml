@@ -80,7 +80,7 @@
             android:id="@+id/p_iv"
             android:layout_width="match_parent"
             android:layout_height="350dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="fitCenter" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

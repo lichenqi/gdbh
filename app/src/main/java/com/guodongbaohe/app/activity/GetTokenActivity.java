@@ -62,6 +62,7 @@ public class GetTokenActivity extends BaseActivity {
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         //启动定时器
+        timer.schedule(task,0,1000);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +174,17 @@ public class GetTokenActivity extends BaseActivity {
         clip.setText(text); // 复制
         if (!TextUtils.isEmpty(text)) {
             ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(text);//保存记录到数据库
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timer != null) {
+            timer.cancel();
+            if (task != null) {
+                task.cancel();  //将原任务从队列中移除
+            }
         }
     }
 }

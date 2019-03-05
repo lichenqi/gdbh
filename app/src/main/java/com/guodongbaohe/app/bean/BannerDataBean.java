@@ -18,6 +18,24 @@ public class BannerDataBean {
         private String sort;
         private String title;
         private String url;
+        private String extend;
+        private String type;
+
+        public String getExtend() {
+            return extend;
+        }
+
+        public void setExtend(String extend) {
+            this.extend = extend;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public String getImage() {
             return image;

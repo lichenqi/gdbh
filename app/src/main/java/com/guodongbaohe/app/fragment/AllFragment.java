@@ -45,7 +45,7 @@ import com.guodongbaohe.app.activity.PinZheMakeMoneyActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.ShopRangingClassicActivity;
 import com.guodongbaohe.app.activity.SuperMakeActivity;
-import com.guodongbaohe.app.activity.TaoBaoWebViewActivity;
+import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.activity.YaoQingFriendActivity;
 import com.guodongbaohe.app.adapter.HomeClassicAdapter;
@@ -289,8 +289,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         }
                         break;
                     case "tgsc":
-                        intent = new Intent(getContext(), BaseH5Activity.class);
-                        intent.putExtra("url", mokuaiList.get(position).getExtend());
+//                        intent = new Intent(getContext(), BaseH5Activity.class);
+                        intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+//                        intent.putExtra("url", mokuaiList.get(position).getExtend());
+                        intent.putExtra("url", "https://jellybox.mopland.com/assets/address/1551086262816");
+//                        intent.putExtra("url","https://s.click.taobao.com/t?e=m%3D2%26s%3DpI50EZkOe1UcQipKwQzePCperVdZeJviyK8Cckff7TVRAdhuF14FMWWMBWo6oJFsRitN3%2FurF3xYUJm1tnisq3Z4szDnvaIgC9mtZRFGiYPnN0JXE39YD8s50d4MJzKPF%2F5%2B8Cm5%2FJScCKkR8Mb49%2FQI0v6NBh6LjB7r%2B0aDb9GM3h%2FwNLE3G%2BReR15rySBjKYFnllaKQ3s0HEcfBN0xr5k1mZIYZi3Iaf1u4DBkgALO54LQ%2FVw1LyZIkTPQmFErsd%2B%2Ff4Fhw9bd4efXitbU8KfxDyX8yd7QYsAef9vhFgjbICUMyH%2FCZmYMBhR2FIUJI%2FFq98YfTt1gUXTX%2FcVpYRwVqRgKrcV2p4HY4SsnMaQsbyNDcu5KXMep0FvifgjLq9xn3NLHPzqw%2BXPC2o0C%2B8K%2By3whhuZ6Rjb3KIZam12834P3RHv9StA7WhQyyPzxQsW5NdCHGR1bkmJRZdb7g3guc8vT8P%2F71zsYtget%2BEjQ%2BRfrF8N2aOAutnpntOwAxg5p7bh%2BFbQ%3D&pvid=25632290");
                         startActivity(intent);
                         break;
                     case "hhr":
@@ -808,20 +811,37 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 public void onClick(View v) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                         String url = banner_result.get(position % banner_result.size()).getUrl();
-                        if (!TextUtils.isEmpty(url)) {
-                            if (url.contains("http")) {
-                                /*普通链接地址*/
-                                intent = new Intent(getContext(), BaseH5Activity.class);
-                                intent.putExtra("url", url);
-                                startActivity(intent);
-                            } else if (url.contains("taobao")) {
-                                /*淘宝天猫链接地址*/
-                                intent = new Intent(getContext(), TaoBaoWebViewActivity.class);
-                                intent.putExtra("url", url);
-                                startActivity(intent);
-                            } else {
-                                /*实例商品到商品详情*/
-                                getShopBasicData(url);
+                        String type = banner_result.get(position % banner_result.size()).getType();
+                        if (!TextUtils.isEmpty(type)) {
+                            switch (type) {
+                                case "normal":
+                                    /*普通链接地址*/
+                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "tmall":
+                                    /*淘宝天猫会场地址*/
+                                    intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "local_goods":
+                                    /*本地商品进商品详情*/
+                                    getShopBasicData(url);
+                                    break;
+                                case "xinshou":
+                                    /*新手教程主题*/
+                                    intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "app_theme":
+                                    /*app主题*/
+                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
                             }
                         }
                     } else {
@@ -863,15 +883,37 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 public void onClick(View v) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                         String url = xin_list.get(position).getUrl();
-                        if (!TextUtils.isEmpty(url)) {
-                            if (xin_list.get(position).getTitle().equals("新手快速赚钱必看教程")) {
-                                intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
-                                intent.putExtra("url", url);
-                                startActivity(intent);
-                            } else {
-                                intent = new Intent(getContext(), BaseH5Activity.class);
-                                intent.putExtra("url", url);
-                                startActivity(intent);
+                        String type = xin_list.get(position).getType();
+                        if (!TextUtils.isEmpty(type)) {
+                            switch (type) {
+                                case "xinshou":
+                                    /*新手教程界面*/
+                                    intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "tmall":
+                                    /*淘宝天猫会场*/
+                                    intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "normal":
+                                    /*普通链接*/
+                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "app_theme":
+                                    /*app主题*/
+                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
+                                case "local_goods":
+                                    /*实例商品到商品详情*/
+                                    getShopBasicData(url);
+                                    break;
                             }
                         }
                     } else {

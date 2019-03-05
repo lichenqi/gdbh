@@ -145,7 +145,7 @@ public class TaoBaoWebViewActivity extends BaseActivity {
         map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
         map.put("method", "alipay");
         map.put("is_new", "ture");
-        map.put("newest","yes");
+        map.put("newest", "yes");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);

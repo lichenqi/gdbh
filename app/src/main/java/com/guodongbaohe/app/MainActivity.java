@@ -176,7 +176,6 @@ public class MainActivity extends BigBaseActivity {
         /*版本升级接口*/
         local_version = VersionUtil.getAndroidNumVersion(getApplicationContext());
         getVersionCodeData();
-        
         /*android登录开关按钮*/
         if (!TextUtils.isEmpty(start_guide_to_login)) {
             if (start_guide_to_login.equals("yes") && !PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {

@@ -410,7 +410,9 @@ public class YaoQingFriendActivity extends BaseActivity {
             e.printStackTrace();
         }
         ToastUtils.showToast(getApplicationContext(), "图片已保存至手机相册");
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
+        if (!TextUtils.isEmpty(file.getAbsolutePath())){
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
+        }
     }
 
     /*微信好友分享*/

@@ -324,7 +324,9 @@ public abstract class OnekeyShareThemeImpl implements PlatformActionListener, Ca
 				viewToShare.compress(CompressFormat.JPEG, 100, fos);
 				fos.flush();
 				fos.close();
-				shareParamsMap.put("imagePath", ss.getAbsolutePath());
+				if (!TextUtils.isEmpty(ss.getAbsolutePath())){
+					shareParamsMap.put("imagePath", ss.getAbsolutePath());
+				}
 			}
 		} catch (Throwable t) {
 			t.printStackTrace();

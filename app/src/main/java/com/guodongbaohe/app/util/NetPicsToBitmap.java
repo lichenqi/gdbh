@@ -114,8 +114,9 @@ public class NetPicsToBitmap {
      * @return
      */
     public static String convertIconToString(Bitmap bitmap) {
+       Bitmap bitmap1= QRCodeUtil.compressImage(bitmap);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();// outputstream
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap1.compress(Bitmap.CompressFormat.PNG, 100, baos);
         byte[] appicon = baos.toByteArray();// 转为byte数组
         return Base64.encodeToString(appicon, Base64.DEFAULT);
     }

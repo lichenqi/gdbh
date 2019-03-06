@@ -738,14 +738,17 @@ public class MainActivity extends BigBaseActivity {
                                 download = result.getDownload();
                                 String version = result.getVersion();
                                 Integer localCode = Integer.valueOf(local_version.replace(".", "").trim());
-                                if (Integer.valueOf(version) > localCode) {
-                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
-                                        versionUpdataDialog();
-                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
-                                        versionUpdataDialog();
-                                    }
-                                }
+//                                if (Integer.valueOf(version) > localCode) {
+//                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
+//                                        versionUpdataDialog();
+//                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
+//                                        versionUpdataDialog();
+//                                    }
+//                                }
+                                versionUpdataDialog();
                                 PreferUtils.putString(MainActivity.this, "Tdata", simpleDateFormat.format(c.getTime()));
+                            }else {
+                                getDialogData();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -821,6 +824,12 @@ public class MainActivity extends BigBaseActivity {
                     ToastUtils.showToast(getApplicationContext(), "可在通知栏查看下载进度");
                     downLoadApk();
                 }
+            }
+        });
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                getDialogData();
             }
         });
         if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {

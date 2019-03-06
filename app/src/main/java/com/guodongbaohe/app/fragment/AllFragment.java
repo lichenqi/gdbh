@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
+import com.guodongbaohe.app.activity.CeShiTianMaoActivity;
 import com.guodongbaohe.app.activity.GShenJiActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
@@ -273,8 +274,10 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     case "pzz":
                         /*拼着赚*/
                         if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                            intent = new Intent(getContext(), PinZheMakeMoneyActivity.class);
-                            intent.putExtra("url", "https://mo.m.taobao.com/optimus/jhspt2c?pid=");
+                            intent=new Intent(getContext(),CeShiTianMaoActivity.class);
+                            intent.putExtra("url","https://chaoshi.tmall.com/");
+//                            intent = new Intent(getContext(), PinZheMakeMoneyActivity.class);
+//                            intent.putExtra("url", "https://mo.m.taobao.com/optimus/jhspt2c?pid=");
                             startActivity(intent);
                         } else {
                             startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));

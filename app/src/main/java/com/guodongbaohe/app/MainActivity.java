@@ -557,7 +557,8 @@ public class MainActivity extends BigBaseActivity {
                                 /*H5地址*/
                                 http_list = bean.getPage();
                                 Gson gson = new Gson();
-                                String http_list_data = gson.toJson(http_list); //保存h5地址信息
+                                String http_list_data = gson.toJson(http_list);
+                                //保存h5地址信息
                                 PreferUtils.putString(getApplicationContext(), "http_list_data", http_list_data);
                                 /*邀请说明*/
                                 String invite_friends = bean.getResult().getInvite_friends();

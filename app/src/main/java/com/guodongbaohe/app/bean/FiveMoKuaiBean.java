@@ -19,6 +19,15 @@ public class FiveMoKuaiBean {
         private String sort;
         private String title;
         private String url;
+        private String type;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
 
         public String getExtend() {
             return extend;

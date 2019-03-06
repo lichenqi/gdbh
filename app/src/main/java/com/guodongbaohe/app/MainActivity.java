@@ -739,14 +739,13 @@ public class MainActivity extends BigBaseActivity {
                                 download = result.getDownload();
                                 String version = result.getVersion();
                                 Integer localCode = Integer.valueOf(local_version.replace(".", "").trim());
-//                                if (Integer.valueOf(version) > localCode) {
-//                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
-//                                        versionUpdataDialog();
-//                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
-//                                        versionUpdataDialog();
-//                                    }
-//                                }
-                                versionUpdataDialog();
+                                if (Integer.valueOf(version) > localCode) {
+                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
+                                        versionUpdataDialog();
+                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
+                                        versionUpdataDialog();
+                                    }
+                                }
                                 PreferUtils.putString(MainActivity.this, "Tdata", simpleDateFormat.format(c.getTime()));
                             }else {
                                 getDialogData();

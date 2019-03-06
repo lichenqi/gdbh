@@ -3,6 +3,7 @@ package com.guodongbaohe.app.activity;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.SslErrorHandler;
@@ -36,7 +37,7 @@ public class TaoBaoH5Activity extends BaseActivity {
     WebView webview;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-    ImageView iv_back,iv_right;
+    ImageView iv_back, iv_right;
     @BindView(R.id.notice)
     RelativeLayout notice;
     private AlibcShowParams alibcShowParams;//页面打开方式，默认，H5，Native
@@ -52,7 +53,7 @@ public class TaoBaoH5Activity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         iv_back = (ImageView) findViewById(R.id.iv_back);
-        iv_right=(ImageView)findViewById(R.id.iv_right);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         alibcShowParams = new AlibcShowParams(OpenType.H5, true);
@@ -131,6 +132,7 @@ public class TaoBaoH5Activity extends BaseActivity {
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            Log.i("淘宝地址", url);
             super.onPageFinished(view, url);
         }
     }

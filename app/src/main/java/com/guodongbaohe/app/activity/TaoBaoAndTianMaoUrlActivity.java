@@ -460,6 +460,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                                     /*用户角色显示*/
                                     initUserDataView();
                                 } else {
+                                    ToastUtils.showToast(getApplicationContext(), "该商品暂无优惠券");
                                     ll_yijian_view.setVisibility(View.VISIBLE);
                                     ll_action.setVisibility(View.GONE);
                                 }

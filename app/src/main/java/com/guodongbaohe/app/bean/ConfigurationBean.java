@@ -2,10 +2,11 @@ package com.guodongbaohe.app.bean;
 
 public class ConfigurationBean {
 
+
     /**
      * status : 0
-     * result : {"upgrade_vip_invite":"1","upgrade_partner_invite":"199","upgrade_invite_num":"5","upgrade_partner":"299","upgrade_partner_nocost":"50","upgrade_boss":"888","upgrade_boss_invite":"20","upgrade_boss_nocost":"50","upgrade_boss_hold":"100","tax_rate":"0.12","min_withdraw_card":"20000","min_withdraw_alipay":"5","min_withdraw_credit":"1","is_update":"1","online_switch":"no","taobao_switch":"yes","android_verify_version":"1.0.0","android_verify_version_other":"4.1.1","android_online_switch":"no","money_upgrade_switch":"no","start_guide_to_login":"no","is_show_coupon":"no","is_show_ratio":"no","is_pop_window":"no","is_pop_window_vip":"no","is_show_money_vip":"no","is_show_money_partner":"no","is_force_update":"no","short_title":"邀请好友下载APP，好友买东西，你也能赚钱","share_friends_title":"免费下载\u201c果冻宝盒\u201d即可尊享超百万隐藏优惠券+自购分享返佣最高达90%http://a.app.qq.com/o/simple.jsp?pkgname=com.guodongbaohe.app","android_version":"135","android_server_name":"gdbh135.apk","version_title":"1,优化用户体验","version_desc":"2,新增修改邀请码功能(合伙人及以上)","ios_version":"1.4.0","ios_title":"更新提示：/n1.更新新年LOGO/n2.解决淘宝授权问题/n3.合伙人及以上可自定义邀请码","order_new":"http://app.mopland.com/course/detail?id=11&type=xinshou","share_goods":"http://app.mopland.com/help/rule","question":"http://app.mopland.com/question/index","course":"http://app.mopland.com/course/index","invite_friends":"http://app.mopland.com/share/invite","about_us":"http://app.mopland.com/about/index","agreement":"http://app.mopland.com/help/protocol","online_switch_android":"no"}
-     * page : {"save":{"title":"省钱教程","url":"http://x.mopland.com/help/save"},"partner":{"title":"升级合伙人","url":"http://app.mopland.com/help/member"},"president":{"title":"升级总裁","url":"http://app.mopland.com/help/president"},"boss":{"title":"总裁权益","url":"http://app.mopland.com/help/presidentone"},"course":{"title":"新手教程","url":"http://x.mopland.com/course/index"},"question":{"title":"常见问题","url":"http://x.mopland.com/question/index"},"about":{"title":"关于我们","url":"http://x.mopland.com/about/index"},"protocol":{"title":"用户协议","url":"http://x.mopland.com/help/protocol"},"rule":{"title":"分享商品","url":"http://x.mopland.com/help/rule"}}
+     * result : {"upgrade_vip_invite":"1","upgrade_partner_invite":"199","upgrade_invite_num":"5","upgrade_partner":"299","upgrade_partner_nocost":"50","upgrade_boss":"888","upgrade_boss_invite":"20","upgrade_boss_nocost":"50","upgrade_boss_hold":"100","upgrade_vip_cost":"199","upgrade_partner_vips":"10","upgrade_partner_money":"300","upgrade_boss_partners":"15","upgrade_boss_money":"3000","tax_rate":"0.12","min_withdraw_card":"20000","min_withdraw_alipay":"1","min_withdraw_credit":"1","is_update":"1","online_switch":"yes","taobao_switch":"yes","android_verify_version":"1.0.0","android_verify_version_other":"4.1.1","android_online_switch":"no","money_upgrade_switch":"no","start_guide_to_login":"no","is_update_android":"no","is_show_coupon":"no","is_show_ratio":"no","is_pop_window":"no","is_pop_window_vip":"no","is_show_money_vip":"no","is_show_money_partner":"no","is_force_update":"no","short_title":"全网隐藏优惠券，邀请好友一起省钱","share_friends_title":"全网隐藏优惠券，邀请好友一起省钱！","upgrade_tips_title":"添加客服微信","upgrade_tips_subtitle":"领取软件+教学课程","app_token_desc":"说明：果冻令牌可用于登录智慧大脑自动群发软件","android_version":"160","android_server_name":"gdbh160.apk","version_title":"1,优化用户体验","version_desc":"2,设置界面新增修改手机号功能","ios_version":"1.5.0","ios_title":"更新提示：/n1.淘宝购物车增加一键查券，购物更省钱/n2.App进行改版升级，会员推广收益翻倍/n3.增加换绑手机号/n4.细节优化，提升体验","order_new":"http://app.mopland.com/course/detail?id=11&type=xinshou","share_goods":"http://app.mopland.com/help/rule","question":"http://app.mopland.com/question/index","course":"http://app.mopland.com/course/index","invite_friends":"http://app.mopland.com/share/invite","about_us":"http://app.mopland.com/about/index","agreement":"http://app.mopland.com/help/protocol","online_switch_android":"no"}
+     * page : {"save":{"title":"省钱教程","url":"http://app.mopland.com/help/save"},"vip":{"title":"vip权益","url":"http://app.mopland.com/help/vip"},"vip_pay":{"title":"升级vip","url":"http://app.mopland.com/help/payvip"},"partner":{"title":"升级合伙人","url":"http://app.mopland.com/help/member"},"president":{"title":"升级总裁","url":"http://app.mopland.com/help/president"},"boss":{"title":"总裁权益","url":"http://app.mopland.com/help/presidentone"},"course":{"title":"新手教程","url":"http://app.mopland.com/course/index"},"question":{"title":"常见问题","url":"http://app.mopland.com/question/index"},"about":{"title":"关于我们","url":"http://app.mopland.com/about/index"},"protocol":{"title":"用户协议","url":"http://app.mopland.com/help/protocol"},"rule":{"title":"分享商品","url":"http://app.mopland.com/help/rule"}}
      */
 
     private int status;
@@ -47,18 +48,24 @@ public class ConfigurationBean {
          * upgrade_boss_invite : 20
          * upgrade_boss_nocost : 50
          * upgrade_boss_hold : 100
+         * upgrade_vip_cost : 199
+         * upgrade_partner_vips : 10
+         * upgrade_partner_money : 300
+         * upgrade_boss_partners : 15
+         * upgrade_boss_money : 3000
          * tax_rate : 0.12
          * min_withdraw_card : 20000
-         * min_withdraw_alipay : 5
+         * min_withdraw_alipay : 1
          * min_withdraw_credit : 1
          * is_update : 1
-         * online_switch : no
+         * online_switch : yes
          * taobao_switch : yes
          * android_verify_version : 1.0.0
          * android_verify_version_other : 4.1.1
          * android_online_switch : no
          * money_upgrade_switch : no
          * start_guide_to_login : no
+         * is_update_android : no
          * is_show_coupon : no
          * is_show_ratio : no
          * is_pop_window : no
@@ -66,14 +73,17 @@ public class ConfigurationBean {
          * is_show_money_vip : no
          * is_show_money_partner : no
          * is_force_update : no
-         * short_title : 邀请好友下载APP，好友买东西，你也能赚钱
-         * share_friends_title : 免费下载“果冻宝盒”即可尊享超百万隐藏优惠券+自购分享返佣最高达90%http://a.app.qq.com/o/simple.jsp?pkgname=com.guodongbaohe.app
-         * android_version : 135
-         * android_server_name : gdbh135.apk
+         * short_title : 全网隐藏优惠券，邀请好友一起省钱
+         * share_friends_title : 全网隐藏优惠券，邀请好友一起省钱！
+         * upgrade_tips_title : 添加客服微信
+         * upgrade_tips_subtitle : 领取软件+教学课程
+         * app_token_desc : 说明：果冻令牌可用于登录智慧大脑自动群发软件
+         * android_version : 160
+         * android_server_name : gdbh160.apk
          * version_title : 1,优化用户体验
-         * version_desc : 2,新增修改邀请码功能(合伙人及以上)
-         * ios_version : 1.4.0
-         * ios_title : 更新提示：/n1.更新新年LOGO/n2.解决淘宝授权问题/n3.合伙人及以上可自定义邀请码
+         * version_desc : 2,设置界面新增修改手机号功能
+         * ios_version : 1.5.0
+         * ios_title : 更新提示：/n1.淘宝购物车增加一键查券，购物更省钱/n2.App进行改版升级，会员推广收益翻倍/n3.增加换绑手机号/n4.细节优化，提升体验
          * order_new : http://app.mopland.com/course/detail?id=11&type=xinshou
          * share_goods : http://app.mopland.com/help/rule
          * question : http://app.mopland.com/question/index
@@ -93,6 +103,11 @@ public class ConfigurationBean {
         private String upgrade_boss_invite;
         private String upgrade_boss_nocost;
         private String upgrade_boss_hold;
+        private String upgrade_vip_cost;
+        private String upgrade_partner_vips;
+        private String upgrade_partner_money;
+        private String upgrade_boss_partners;
+        private String upgrade_boss_money;
         private String tax_rate;
         private String min_withdraw_card;
         private String min_withdraw_alipay;
@@ -105,6 +120,7 @@ public class ConfigurationBean {
         private String android_online_switch;
         private String money_upgrade_switch;
         private String start_guide_to_login;
+        private String is_update_android;
         private String is_show_coupon;
         private String is_show_ratio;
         private String is_pop_window;
@@ -114,6 +130,9 @@ public class ConfigurationBean {
         private String is_force_update;
         private String short_title;
         private String share_friends_title;
+        private String upgrade_tips_title;
+        private String upgrade_tips_subtitle;
+        private String app_token_desc;
         private String android_version;
         private String android_server_name;
         private String version_title;
@@ -128,25 +147,6 @@ public class ConfigurationBean {
         private String about_us;
         private String agreement;
         private String online_switch_android;
-        private String upgrade_partner_vips;/*vip要升级合伙人需要的人数*/
-        private String upgrade_boss_partners;/*合伙人升级总裁需要的人数*/
-
-        public String getUpgrade_boss_partners() {
-            return upgrade_boss_partners;
-        }
-
-        public String getUpgrade_partner_vips() {
-            return upgrade_partner_vips;
-        }
-
-        public void setUpgrade_partner_vips(String upgrade_partner_vips) {
-            this.upgrade_partner_vips = upgrade_partner_vips;
-        }
-
-
-        public void setUpgrade_boss_partners(String upgrade_boss_partners) {
-            this.upgrade_boss_partners = upgrade_boss_partners;
-        }
 
         public String getUpgrade_vip_invite() {
             return upgrade_vip_invite;
@@ -218,6 +218,46 @@ public class ConfigurationBean {
 
         public void setUpgrade_boss_hold(String upgrade_boss_hold) {
             this.upgrade_boss_hold = upgrade_boss_hold;
+        }
+
+        public String getUpgrade_vip_cost() {
+            return upgrade_vip_cost;
+        }
+
+        public void setUpgrade_vip_cost(String upgrade_vip_cost) {
+            this.upgrade_vip_cost = upgrade_vip_cost;
+        }
+
+        public String getUpgrade_partner_vips() {
+            return upgrade_partner_vips;
+        }
+
+        public void setUpgrade_partner_vips(String upgrade_partner_vips) {
+            this.upgrade_partner_vips = upgrade_partner_vips;
+        }
+
+        public String getUpgrade_partner_money() {
+            return upgrade_partner_money;
+        }
+
+        public void setUpgrade_partner_money(String upgrade_partner_money) {
+            this.upgrade_partner_money = upgrade_partner_money;
+        }
+
+        public String getUpgrade_boss_partners() {
+            return upgrade_boss_partners;
+        }
+
+        public void setUpgrade_boss_partners(String upgrade_boss_partners) {
+            this.upgrade_boss_partners = upgrade_boss_partners;
+        }
+
+        public String getUpgrade_boss_money() {
+            return upgrade_boss_money;
+        }
+
+        public void setUpgrade_boss_money(String upgrade_boss_money) {
+            this.upgrade_boss_money = upgrade_boss_money;
         }
 
         public String getTax_rate() {
@@ -316,6 +356,14 @@ public class ConfigurationBean {
             this.start_guide_to_login = start_guide_to_login;
         }
 
+        public String getIs_update_android() {
+            return is_update_android;
+        }
+
+        public void setIs_update_android(String is_update_android) {
+            this.is_update_android = is_update_android;
+        }
+
         public String getIs_show_coupon() {
             return is_show_coupon;
         }
@@ -386,6 +434,30 @@ public class ConfigurationBean {
 
         public void setShare_friends_title(String share_friends_title) {
             this.share_friends_title = share_friends_title;
+        }
+
+        public String getUpgrade_tips_title() {
+            return upgrade_tips_title;
+        }
+
+        public void setUpgrade_tips_title(String upgrade_tips_title) {
+            this.upgrade_tips_title = upgrade_tips_title;
+        }
+
+        public String getUpgrade_tips_subtitle() {
+            return upgrade_tips_subtitle;
+        }
+
+        public void setUpgrade_tips_subtitle(String upgrade_tips_subtitle) {
+            this.upgrade_tips_subtitle = upgrade_tips_subtitle;
+        }
+
+        public String getApp_token_desc() {
+            return app_token_desc;
+        }
+
+        public void setApp_token_desc(String app_token_desc) {
+            this.app_token_desc = app_token_desc;
         }
 
         public String getAndroid_version() {
@@ -503,18 +575,22 @@ public class ConfigurationBean {
 
     public static class PageBean {
         /**
-         * save : {"title":"省钱教程","url":"http://x.mopland.com/help/save"}
+         * save : {"title":"省钱教程","url":"http://app.mopland.com/help/save"}
+         * vip : {"title":"vip权益","url":"http://app.mopland.com/help/vip"}
+         * vip_pay : {"title":"升级vip","url":"http://app.mopland.com/help/payvip"}
          * partner : {"title":"升级合伙人","url":"http://app.mopland.com/help/member"}
          * president : {"title":"升级总裁","url":"http://app.mopland.com/help/president"}
          * boss : {"title":"总裁权益","url":"http://app.mopland.com/help/presidentone"}
-         * course : {"title":"新手教程","url":"http://x.mopland.com/course/index"}
-         * question : {"title":"常见问题","url":"http://x.mopland.com/question/index"}
-         * about : {"title":"关于我们","url":"http://x.mopland.com/about/index"}
-         * protocol : {"title":"用户协议","url":"http://x.mopland.com/help/protocol"}
-         * rule : {"title":"分享商品","url":"http://x.mopland.com/help/rule"}
+         * course : {"title":"新手教程","url":"http://app.mopland.com/course/index"}
+         * question : {"title":"常见问题","url":"http://app.mopland.com/question/index"}
+         * about : {"title":"关于我们","url":"http://app.mopland.com/about/index"}
+         * protocol : {"title":"用户协议","url":"http://app.mopland.com/help/protocol"}
+         * rule : {"title":"分享商品","url":"http://app.mopland.com/help/rule"}
          */
 
         private SaveBean save;
+        private VipBean vip;
+        private VipPayBean vip_pay;
         private PartnerBean partner;
         private PresidentBean president;
         private BossBean boss;
@@ -523,16 +599,6 @@ public class ConfigurationBean {
         private AboutBean about;
         private ProtocolBean protocol;
         private RuleBean rule;
-        private CommonToVipBean vip;
-
-        public CommonToVipBean getVip() {
-            return vip;
-        }
-
-        public void setVip(CommonToVipBean vip) {
-            this.vip = vip;
-        }
-
 
         public SaveBean getSave() {
             return save;
@@ -540,6 +606,22 @@ public class ConfigurationBean {
 
         public void setSave(SaveBean save) {
             this.save = save;
+        }
+
+        public VipBean getVip() {
+            return vip;
+        }
+
+        public void setVip(VipBean vip) {
+            this.vip = vip;
+        }
+
+        public VipPayBean getVip_pay() {
+            return vip_pay;
+        }
+
+        public void setVip_pay(VipPayBean vip_pay) {
+            this.vip_pay = vip_pay;
         }
 
         public PartnerBean getPartner() {
@@ -609,7 +691,59 @@ public class ConfigurationBean {
         public static class SaveBean {
             /**
              * title : 省钱教程
-             * url : http://x.mopland.com/help/save
+             * url : http://app.mopland.com/help/save
+             */
+
+            private String title;
+            private String url;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
+
+        public static class VipBean {
+            /**
+             * title : vip权益
+             * url : http://app.mopland.com/help/vip
+             */
+
+            private String title;
+            private String url;
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+        }
+
+        public static class VipPayBean {
+            /**
+             * title : 升级vip
+             * url : http://app.mopland.com/help/payvip
              */
 
             private String title;
@@ -713,7 +847,7 @@ public class ConfigurationBean {
         public static class CourseBean {
             /**
              * title : 新手教程
-             * url : http://x.mopland.com/course/index
+             * url : http://app.mopland.com/course/index
              */
 
             private String title;
@@ -739,7 +873,7 @@ public class ConfigurationBean {
         public static class QuestionBean {
             /**
              * title : 常见问题
-             * url : http://x.mopland.com/question/index
+             * url : http://app.mopland.com/question/index
              */
 
             private String title;
@@ -765,7 +899,7 @@ public class ConfigurationBean {
         public static class AboutBean {
             /**
              * title : 关于我们
-             * url : http://x.mopland.com/about/index
+             * url : http://app.mopland.com/about/index
              */
 
             private String title;
@@ -791,7 +925,7 @@ public class ConfigurationBean {
         public static class ProtocolBean {
             /**
              * title : 用户协议
-             * url : http://x.mopland.com/help/protocol
+             * url : http://app.mopland.com/help/protocol
              */
 
             private String title;
@@ -817,7 +951,7 @@ public class ConfigurationBean {
         public static class RuleBean {
             /**
              * title : 分享商品
-             * url : http://x.mopland.com/help/rule
+             * url : http://app.mopland.com/help/rule
              */
 
             private String title;
@@ -840,26 +974,4 @@ public class ConfigurationBean {
             }
         }
     }
-
-    public class CommonToVipBean {
-        private String title;
-        private String url;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-    }
-
 }

@@ -626,6 +626,8 @@ public class MainActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "upgrade_partner_vips", bean.getResult().getUpgrade_partner_vips());
                                 /*合伙人升级总裁需要的人数*/
                                 PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
+                                /*果冻令牌说明*/
+                                PreferUtils.putString(getApplicationContext(),"app_token_desc",bean.getResult().getApp_token_desc());
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }
@@ -739,14 +741,15 @@ public class MainActivity extends BigBaseActivity {
                                 download = result.getDownload();
                                 String version = result.getVersion();
                                 Integer localCode = Integer.valueOf(local_version.replace(".", "").trim());
-//                                if (Integer.valueOf(version) > localCode) {
+                                if (Integer.valueOf(version) > localCode) {
 //                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
 //                                        versionUpdataDialog();
 //                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
 //                                        versionUpdataDialog();
 //                                    }
-//                                }
-                                versionUpdataDialog();
+                                    versionUpdataDialog();
+                                }
+
                                 PreferUtils.putString(MainActivity.this, "Tdata", simpleDateFormat.format(c.getTime()));
                             }else {
                                 getDialogData();

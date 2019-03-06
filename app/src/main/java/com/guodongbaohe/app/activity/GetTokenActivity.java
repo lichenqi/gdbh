@@ -51,6 +51,8 @@ public class GetTokenActivity extends BaseActivity {
     @BindView(R.id.youxiaoqi)
     TextView youxiaoqi;
     SimpleDateFormat format;
+    @BindView(R.id.shuoming)
+    TextView shuoming;
     private Timer timer = new Timer(true);
 
     @Override
@@ -61,6 +63,7 @@ public class GetTokenActivity extends BaseActivity {
         iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
+        shuoming.setText(PreferUtils.getString(GetTokenActivity.this,"app_token_desc"));
         //启动定时器
         timer.schedule(task, 0, 1000);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

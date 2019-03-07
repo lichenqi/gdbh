@@ -288,6 +288,7 @@
 
         <activity
             android:name=".activity.YaoQingFriendActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ShareDetailActivity"

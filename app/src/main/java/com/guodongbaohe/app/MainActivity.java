@@ -56,7 +56,6 @@ import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
-import com.guodongbaohe.app.fragment.LieBiaoFenLeiFragment;
 import com.guodongbaohe.app.fragment.MakeMoneyFragment;
 import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
@@ -409,8 +408,7 @@ public class MainActivity extends BigBaseActivity {
                     currentFragment = new NewHomeFragment();
                     break;
                 case 1:
-//                    currentFragment = new NewRangingListFragment();
-                    currentFragment=new LieBiaoFenLeiFragment();
+                    currentFragment = new NewRangingListFragment();
                     break;
                 case 2:
                     currentFragment = new MakeMoneyFragment();
@@ -623,7 +621,7 @@ public class MainActivity extends BigBaseActivity {
                                 /*合伙人升级总裁需要的人数*/
                                 PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
                                 /*令牌说明*/
-                                PreferUtils.putString(getApplicationContext(),"app_token_desc",bean.getResult().getApp_token_desc());
+                                PreferUtils.putString(getApplicationContext(), "app_token_desc", bean.getResult().getApp_token_desc());
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }

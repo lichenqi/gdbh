@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.DateUtils;
+import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -54,7 +56,8 @@ public class GetTokenActivity extends BaseActivity {
     @BindView(R.id.shuoming)
     TextView shuoming;
     private Timer timer = new Timer(true);
-
+    Dialog dialog;
+     int flag=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,17 +66,23 @@ public class GetTokenActivity extends BaseActivity {
         iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
+
         shuoming.setText(PreferUtils.getString(GetTokenActivity.this,"app_token_desc"));
         //启动定时器
-        timer.schedule(task, 0, 1000);
+        timer.schedule(task, 0, 2*60*1000);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                 dialog=DialogUtil.createLoadingDialog(GetTokenActivity.this,"加载...");
                 getTokenData();
-                ToastUtils.showToast(GetTokenActivity.this, "刷新成功！");
+                if (flag==1){
+                    ToastUtils.showToast(GetTokenActivity.this, "刷新成功！");
+                }
+
             }
         });
+
         copy_lingpai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,7 +103,7 @@ public class GetTokenActivity extends BaseActivity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == 1) {
-                getTokenData();
+                iv_right.performClick();
             }
         }
     };
@@ -159,6 +168,8 @@ public class GetTokenActivity extends BaseActivity {
                                 exp_time = bean.getExp_time();
                                 String SSSSSS = DateUtils.getTimeToString(Long.valueOf(exp_time) * 1000);
                                 youxiaoqi.setText(SSSSSS);
+                                flag=1;
+                                DialogUtil.closeDialog(dialog);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -168,6 +179,7 @@ public class GetTokenActivity extends BaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getContext(), Constant.NONET);
+                        DialogUtil.closeDialog(dialog);
                     }
                 });
     }

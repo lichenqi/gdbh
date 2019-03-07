@@ -56,14 +56,42 @@
 
     </RelativeLayout>
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout"
+    <RelativeLayout
+        android:id="@+id/re_tablayout_parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabIndicatorColor="#DCB575"
-        app:tabMode="scrollable"
-        app:tabSelectedTextColor="#DCB575"
-        app:tabTextColor="@color/white" />
+        android:layout_height="40dp">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/re_choice"
+            app:tabIndicatorColor="#DCB575"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="#DCB575"
+            app:tabTextColor="@color/white" />
+
+        <RelativeLayout
+            android:id="@+id/re_choice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:id="@+id/iv_choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@drawable/home_choice_white_down" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

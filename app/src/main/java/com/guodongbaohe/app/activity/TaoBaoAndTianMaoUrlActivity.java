@@ -32,8 +32,8 @@ import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
+import com.guodongbaohe.app.bean.AllNetBean;
 import com.guodongbaohe.app.bean.GaoYongJinBean;
-import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
@@ -53,6 +53,7 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -227,12 +228,12 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         if (!TextUtils.isEmpty(shop_id)) {
             map.put("goods_id", shop_id);
         }
-        if (!TextUtils.isEmpty(result.getCoupon_id())) {
-            map.put("coupon_id", result.getCoupon_id());
+        if (!TextUtils.isEmpty(allNetData.getCoupon_id())) {
+            map.put("coupon_id", allNetData.getCoupon_id());
         }
         map.put(Constant.SHOP_REFERER, "activity");
-        if (!TextUtils.isEmpty(result.getSource())) {
-            map.put(Constant.GAOYONGJIN_SOURCE, result.getSource());
+        if (!TextUtils.isEmpty(allNetData.getSource())) {
+            map.put(Constant.GAOYONGJIN_SOURCE, allNetData.getSource());
         }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
@@ -291,11 +292,11 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
         map.put("url", coupon_click_url);
-        map.put("goods_id", result.getGoods_id());
-        map.put("attr_prime", result.getAttr_prime());
-        map.put("attr_price", result.getAttr_price());
-        map.put("text", result.getGoods_name());
-        map.put("logo", result.getGoods_thumb());
+        map.put("goods_id", allNetData.getGoods_id());
+        map.put("attr_prime", allNetData.getAttr_prime());
+        map.put("attr_price", allNetData.getAttr_price());
+        map.put("text", allNetData.getGoods_name());
+        map.put("logo", allNetData.getGoods_thumb());
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -348,8 +349,8 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         map.put(Constant.PLATFORM, Constant.ANDROID);
         map.put("type", "goods");
         map.put("words", share_taokouling);
-        map.put("attr_prime", result.getAttr_prime());
-        map.put("attr_price", result.getAttr_price());
+        map.put("attr_prime", allNetData.getAttr_prime());
+        map.put("attr_price", allNetData.getAttr_price());
         map.put("platform", "android");
         map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
@@ -379,19 +380,19 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                                 /*二维码结果*/
                                 String meresult = jsonObject.getString("result");
                                 intent = new Intent(getApplicationContext(), CreationShareActivity.class);
-                                intent.putExtra("goods_thumb", result.getGoods_thumb());
-                                intent.putExtra("goods_gallery", result.getGoods_gallery());
-                                intent.putExtra("goods_name", result.getGoods_name());
-                                intent.putExtra("promo_slogan", result.getCoupon_explain());
-                                intent.putExtra("attr_price", result.getAttr_price());
-                                intent.putExtra("attr_prime", result.getAttr_prime());
-                                intent.putExtra("attr_site", result.getAttr_site());
-                                intent.putExtra("good_short", result.getGoods_short());
-                                intent.putExtra("attr_ratio", result.getAttr_ratio());
-                                intent.putExtra("goods_id", result.getGoods_id());
+                                intent.putExtra("goods_thumb", allNetData.getGoods_thumb());
+                                intent.putExtra("goods_gallery", allNetData.getGoods_gallery());
+                                intent.putExtra("goods_name", allNetData.getGoods_name());
+                                intent.putExtra("promo_slogan", allNetData.getCoupon_explain());
+                                intent.putExtra("attr_price", allNetData.getAttr_price());
+                                intent.putExtra("attr_prime", allNetData.getAttr_prime());
+                                intent.putExtra("attr_site", allNetData.getAttr_site());
+                                intent.putExtra("good_short", allNetData.getGoods_short());
+                                intent.putExtra("attr_ratio", allNetData.getAttr_ratio());
+                                intent.putExtra("goods_id", allNetData.getGoods_id());
                                 intent.putExtra("share_taokouling", share_taokouling);
                                 intent.putExtra("share_qrcode", meresult);
-                                intent.putExtra("coupon_surplus", result.getCoupon_surplus());
+                                intent.putExtra("coupon_surplus", allNetData.getCoupon_surplus());
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");
@@ -411,55 +412,71 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
     }
 
 
-    ShopBasicBean.ShopBasicData result;
+    List<AllNetBean.AllNetData> list_taobao;
+    AllNetBean.AllNetData allNetData;
 
     /*商品详情头部信息*/
     private void getShopBasicData() {
+        long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
+        map.put(Constant.PLATFORM, Constant.ANDROID);
+        map.put("member_id", PreferUtils.getString(getApplicationContext(), "member_id"));
         if (!TextUtils.isEmpty(shop_id)) {
             map.put("goods_id", shop_id);
         }
-        String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
+        String param = ParamUtil.getQianMingMapParam(map);
+        String token = EncryptUtil.encrypt(param + Constant.NETKEY);
+        map.put(Constant.TOKEN, token);
+        String mapParam = ParamUtil.getMapParam(map);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOPPING_CART_LIST_DATA + "?" + mapParam)
                 .tag(this)
+                .addHeader("x-userid", PreferUtils.getString(getApplicationContext(), "member_id"))
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
                 .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
                 .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), PreferUtils.getString(getApplicationContext(), "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        Log.i("商品信息", response.toString());
+                        DialogUtil.closeDialog(loadingDialog);
+                        Log.i("天猫数据看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                ll_yijian_view.setVisibility(View.GONE);
-                                ll_action.setVisibility(View.VISIBLE);
-                                ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
+                            int status = jsonObject.getInt("status");
+                            if (status >= 0) {
+                                AllNetBean bean = GsonUtil.GsonToBean(response.toString(), AllNetBean.class);
                                 if (bean == null) return;
-                                result = bean.getResult();
-                                /*用户角色显示*/
-                                initUserDataView();
+                                list_taobao = bean.getResult();
+                                if (list_taobao.size() > 0) {
+                                    allNetData = list_taobao.get(0);
+                                    ll_yijian_view.setVisibility(View.GONE);
+                                    ll_action.setVisibility(View.VISIBLE);
+                                    /*用户角色显示*/
+                                    initUserDataView();
+                                } else {
+                                    ToastUtils.showToast(getApplicationContext(), "该商品暂无优惠券");
+                                    ll_yijian_view.setVisibility(View.VISIBLE);
+                                    ll_action.setVisibility(View.GONE);
+                                }
                             } else {
-                                ll_yijian_view.setVisibility(View.VISIBLE);
-                                ll_action.setVisibility(View.GONE);
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ll_yijian_view.setVisibility(View.VISIBLE);
-                        ll_action.setVisibility(View.GONE);
+                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -488,8 +505,8 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
     }
 
     private void setDataBiLi(int num) {
-        String attr_price = result.getAttr_price();
-        String attr_ratio = result.getAttr_ratio();
+        String attr_price = allNetData.getAttr_price();
+        String attr_ratio = allNetData.getAttr_ratio();
         double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
         BigDecimal bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -506,12 +523,12 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         if (!TextUtils.isEmpty(shop_id)) {
             map.put("goods_id", shop_id);
         }
-        if (!TextUtils.isEmpty(result.getCoupon_id())) {
-            map.put("coupon_id", result.getCoupon_id());
+        if (!TextUtils.isEmpty(allNetData.getCoupon_id())) {
+            map.put("coupon_id", allNetData.getCoupon_id());
         }
         map.put(Constant.SHOP_REFERER, "activity");
-        if (!TextUtils.isEmpty(result.getSource())) {
-            map.put(Constant.GAOYONGJIN_SOURCE, result.getSource());
+        if (!TextUtils.isEmpty(allNetData.getSource())) {
+            map.put(Constant.GAOYONGJIN_SOURCE, allNetData.getSource());
         }
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);

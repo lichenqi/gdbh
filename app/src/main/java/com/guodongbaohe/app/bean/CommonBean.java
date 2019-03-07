@@ -23,6 +23,15 @@ public class CommonBean {
         private String slogan;
         private String stats;
         private String label;
+        private boolean isChoose;
+
+        public boolean isChoose() {
+            return isChoose;
+        }
+
+        public void setChoose(boolean choose) {
+            isChoose = choose;
+        }
 
         public String getLabel() {
             return label;
@@ -31,7 +40,6 @@ public class CommonBean {
         public void setLabel(String label) {
             this.label = label;
         }
-
 
         public List<CommonSecond> getChild() {
             return child;

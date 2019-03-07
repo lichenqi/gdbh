@@ -101,7 +101,7 @@ public class TransparencyPicsActivity extends BigBaseActivity {
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
             if (position == 0) {
                 Bitmap bitmap = NetPicsToBitmap.convertStringToIcon(all_list.get(0));
-                imageView.setImageBitmap(QRCodeUtil.compressImage(bitmap));
+                imageView.setImageBitmap(bitmap);
             } else {
                 Glide.with(getApplicationContext()).load(all_list.get(position)).placeholder(R.drawable.loading_img).into(imageView);
             }

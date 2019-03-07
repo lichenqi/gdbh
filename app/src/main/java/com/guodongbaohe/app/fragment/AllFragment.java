@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -39,7 +38,6 @@ import com.guodongbaohe.app.activity.GShenJiActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.NinePinkageActivity;
-import com.guodongbaohe.app.activity.PinZheMakeMoneyActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.ShopRangingClassicActivity;
 import com.guodongbaohe.app.activity.SuperMakeActivity;
@@ -111,7 +109,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     private boolean isXinLoop = true;
     int height;
     String cate_id;
-    private TabLayout tablayout;
+    private RelativeLayout re_tablayout_parent;
     private RelativeLayout re_search_title;
     String notice_url;
     Context context;
@@ -127,8 +125,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
     }
 
-    public AllFragment(TabLayout tablayout, RelativeLayout re_search_title) {
-        this.tablayout = tablayout;
+    public AllFragment(RelativeLayout re_tablayout_parent, RelativeLayout re_search_title) {
+        this.re_tablayout_parent = re_tablayout_parent;
         this.re_search_title = re_search_title;
     }
 
@@ -269,8 +267,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     case "pzz":
                         /*拼着赚*/
                         if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                            intent=new Intent(getContext(),CeShiTianMaoActivity.class);
-                            intent.putExtra("url","https://chaoshi.tmall.com/");
+                            intent = new Intent(getContext(), CeShiTianMaoActivity.class);
+                            intent.putExtra("url", "https://chaoshi.tmall.com/");
 //                            intent = new Intent(getContext(), PinZheMakeMoneyActivity.class);
 //                            intent.putExtra("url", "https://mo.m.taobao.com/optimus/jhspt2c?pid=");
                             startActivity(intent);
@@ -923,8 +921,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         if (!TextUtils.isEmpty(i + "")) {
             view_color.setBackgroundColor(i);
             ll_parent.setBackgroundColor(i);
-            if (tablayout != null) {
-                tablayout.setBackgroundColor(i);
+            if (re_tablayout_parent != null) {
+                re_tablayout_parent.setBackgroundColor(i);
             }
             if (re_search_title != null) {
                 re_search_title.setBackgroundColor(i);
@@ -1020,8 +1018,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         if (!TextUtils.isEmpty(colorChange + "")) {
             view_color.setBackgroundColor(colorChange);
             ll_parent.setBackgroundColor(colorChange);
-            if (tablayout != null) {
-                tablayout.setBackgroundColor(colorChange);
+            if (re_tablayout_parent != null) {
+                re_tablayout_parent.setBackgroundColor(colorChange);
             }
             if (re_search_title != null) {
                 re_search_title.setBackgroundColor(colorChange);

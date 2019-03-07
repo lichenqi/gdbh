@@ -30,7 +30,6 @@ public class Constant {
     public static final String TOKEN = "token";
     //服务器地址
     public static final String BASE_URL = "https://jellybox.mopland.com/";
-
     /*测试服务*/
     public static final String BASE_LOCAL_URL = "";
     /*订单图像字段*/

@@ -204,7 +204,7 @@ public class MyApplication extends MultiDexApplication {
                             startActivity(intent);
                             break;
                         case "withdraw":/*提现记录*/
-                            intent = new Intent(getApplicationContext(), TiXianRecordActivity.class);
+                            intent = new Intent(context, TiXianRecordActivity.class);
                             startActivity(intent);
                             break;
                         case "goods":/*商品详细*/
@@ -215,7 +215,7 @@ public class MyApplication extends MultiDexApplication {
                             }
                             break;
                         case "share_friend":/*邀请好友*/
-                            intent = new Intent(getApplicationContext(), YaoQingFriendActivity.class);
+                            intent = new Intent(context, YaoQingFriendActivity.class);
                             startActivity(intent);
                             break;
                     }
@@ -306,7 +306,7 @@ public class MyApplication extends MultiDexApplication {
                                 ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
                                 if (bean == null) return;
                                 ShopBasicBean.ShopBasicData result = bean.getResult();
-                                Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                                Intent intent = new Intent(context, ShopDetailActivity.class);
                                 intent.putExtra("goods_id", result.getGoods_id());
                                 intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
                                 intent.putExtra("cate_category", result.getCate_category());/*类目id*/
@@ -328,6 +328,7 @@ public class MyApplication extends MultiDexApplication {
                                 intent.putExtra("coupon_id", result.getCoupon_id());
                                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
                                 intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");

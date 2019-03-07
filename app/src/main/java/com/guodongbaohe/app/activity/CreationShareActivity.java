@@ -54,7 +54,6 @@ import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetPicsToBitmap;
 import com.guodongbaohe.app.util.NetUtil;
-import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.QRCodeUtil;
 import com.guodongbaohe.app.util.ShareManager;
@@ -305,7 +304,7 @@ public class CreationShareActivity extends BaseActivity {
         IconAndTextGroupUtil.setTextView(getApplicationContext(), p_title, goods_name, attr_site);
         p_coupon_price.setText(StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
         p_one_price.setText("¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-        taobao_ling.setText("【淘口令】€" + share_taokouling.substring(1, share_taokouling.length() - 1) + "€");
+        taobao_ling.setText("复制这条信息€" + share_taokouling.substring(1, share_taokouling.length() - 1) + "€");
         Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap(share_qrcode, DensityUtils.dip2px(getApplicationContext(), 100));
         iv_qr_code.setImageBitmap(mBitmap);
         Glide.with(getApplicationContext()).load(pics_list.get(0)).asBitmap().into(target);

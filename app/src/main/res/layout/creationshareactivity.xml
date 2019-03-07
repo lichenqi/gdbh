@@ -184,7 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="复制这条信息，打开【手机淘宝】即可查看"
+            android:text="打开【手机Taobao】即可查看"
             android:textColor="@color/black"
             android:textSize="14sp" />
 

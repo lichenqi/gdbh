@@ -24,6 +24,15 @@ public class CommonBean {
         private String stats;
         private String label;
         private boolean isChoose;
+        private String thumb;
+
+        public String getThumb() {
+            return thumb;
+        }
+
+        public void setThumb(String thumb) {
+            this.thumb = thumb;
+        }
 
         public boolean isChoose() {
             return isChoose;

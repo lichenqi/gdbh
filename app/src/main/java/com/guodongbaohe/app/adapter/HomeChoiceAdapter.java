@@ -41,7 +41,7 @@ public class HomeChoiceAdapter extends RecyclerView.Adapter<HomeChoiceAdapter.Ho
     @Override
     public void onBindViewHolder(final HomeChoiceHolder holder, int position) {
         holder.title.setText(titleList.get(position).getName());
-        Glide.with(context).load("https://assets.mopland.com/image/2018/1127/5bfcfa0796e1e.png").into(holder.iv);
+        Glide.with(context).load(titleList.get(position).getThumb()).into(holder.iv);
         if (onItemClick != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

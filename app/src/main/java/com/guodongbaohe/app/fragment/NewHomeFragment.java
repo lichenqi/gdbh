@@ -77,6 +77,8 @@ public class NewHomeFragment extends Fragment {
     Bundle bundle;
     List<CommonBean.CommonResult> titleList;
     PopupWindow popupWindow;
+    RecyclerView recyclerview;
+    HomeChoiceAdapter homeChoiceAdapter;
 
     @Override
     public void onDestroy() {
@@ -110,12 +112,160 @@ public class NewHomeFragment extends Fragment {
             view = inflater.inflate(R.layout.newhomefragment, container, false);
             ButterKnife.bind(this, view);
             initDataView();
+            /*显示折叠搜索框*/
             initChoicePopupwindowView();
         }
         return view;
     }
 
-    RecyclerView recyclerview;
+    private void initDataView() {
+        titleList = SpUtil.getList(getContext(), "head_title_list");
+        if (titleList == null) {
+            getClassicHeadTitle();
+        } else {
+            /*tablayout头部赋值操作*/
+            setTabLayoutDataView();
+        }
+    }
+
+    /*tablayout头部赋值操作*/
+    private void setTabLayoutDataView() {
+        fragments = new ArrayList<>();
+        AllFragment allFragment = new AllFragment(re_tablayout_parent, re_search_title);
+        bundle = new Bundle();
+        bundle.putString("cate_id", titleList.get(0).getCate_id());
+        allFragment.setArguments(bundle);
+        fragments.add(allFragment);
+        for (int i = 1; i < titleList.size(); i++) {
+            NewOtherFragment otherFragment = new NewOtherFragment();
+            bundle = new Bundle();
+            bundle.putInt("which_position", i);
+            bundle.putString("cate_id", titleList.get(i).getCate_id());
+            bundle.putString("label", titleList.get(i).getLabel());
+            otherFragment.setArguments(bundle);
+            fragments.add(otherFragment);
+        }
+        adapter = new TabLayoutAdapter(fragments, getChildFragmentManager());
+        viewpager.setAdapter(adapter);
+        tablayout.setupWithViewPager(viewpager);
+        viewpager.setCurrentItem(0);
+        viewpager.setOffscreenPageLimit(0);
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (CommonBean.CommonResult bean : titleList) {
+                    bean.setChoose(false);
+                }
+                titleList.get(position).setChoose(true);
+                homeChoiceAdapter.notifyDataSetChanged();
+                if (position == 0) {
+                    EventBus.getDefault().post("timeStart");
+                    String currentColor = PreferUtils.getString(getContext(), "currentColor");
+                    if (!TextUtils.isEmpty(currentColor)) {
+                        if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
+                            setColor(currentColor);
+                        } else {
+                            setColor("#000000");
+                        }
+                    } else {
+                        setColor("#000000");
+                    }
+                } else {
+                    EventBus.getDefault().post("timeStop");
+                    String s = "#000000";
+                    setColor(s);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private class TabLayoutAdapter extends FragmentPagerAdapter {
+        private List<Fragment> fragments;
+
+        public TabLayoutAdapter(List<Fragment> fragments, FragmentManager fm) {
+            super(fm);
+            this.fragments = fragments;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragments.get(position);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titleList.get(position).getName();
+        }
+
+        @Override
+        public int getCount() {
+            return titleList == null ? 0 : titleList.size();
+        }
+    }
+
+    /*tablayout的头部数据*/
+    private void getClassicHeadTitle() {
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url(Constant.BASE_URL + Constant.GOODS_CATES)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            Log.i("数据啊", response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                CommonBean bean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
+                                titleList = bean.getResult();
+                                SpUtil.putList(getContext(), "head_title_list", titleList);
+                                /*tablayout头部赋值操作*/
+                                setTabLayoutDataView();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast(getContext(), Constant.NONET);
+                    }
+                });
+    }
+
+    /*顶部搜索框和导航狂颜色赋值操作*/
+    private void setColor(String color) {
+        if (!TextUtils.isEmpty(color)) {
+            int i = Color.parseColor(color);
+            re_tablayout_parent.setBackgroundColor(i);
+            re_search_title.setBackgroundColor(i);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Window window = getActivity().getWindow();
+                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                /*状态栏*/
+                window.setStatusBarColor(i);
+            }
+        }
+    }
 
     /*显示折叠搜索框*/
     private void initChoicePopupwindowView() {
@@ -153,9 +303,11 @@ public class NewHomeFragment extends Fragment {
         }
     }
 
+    /*折叠recyclerview赋值操作*/
     private void initRecyclerviewAdapter() {
-        final HomeChoiceAdapter homeChoiceAdapter = new HomeChoiceAdapter(getContext(), titleList);
+        homeChoiceAdapter = new HomeChoiceAdapter(getContext(), titleList);
         recyclerview.setAdapter(homeChoiceAdapter);
+        titleList.get(0).setChoose(true);
         homeChoiceAdapter.setOnClickListener(new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
@@ -171,189 +323,7 @@ public class NewHomeFragment extends Fragment {
         });
     }
 
-    @OnClick({R.id.iv_chat, R.id.re_choice})
-    public void OnClick(View view) {
-        switch (view.getId()) {
-            case R.id.iv_chat:
-                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                    Intent intent = new Intent(getContext(), ShouRuMingXiActivity.class);
-                    intent.putExtra("type", "0");
-                    intent.putExtra(Constant.TOMAINTYPE, "");
-                    startActivity(intent);
-                } else {
-                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
-                }
-                break;
-            case R.id.re_choice:/*点击折叠按钮*/
-                popupWindow.showAsDropDown(re_search_title);
-                backgroundAlpha(0.5f);
-                break;
-        }
-    }
-
-    private void initDataView() {
-        titleList = SpUtil.getList(getContext(), "head_title_list");
-        if (titleList == null) {
-            getClassicHeadTitle();
-        } else {
-            fragments = new ArrayList<>();
-            AllFragment allFragment = new AllFragment(re_tablayout_parent, re_search_title);
-            bundle = new Bundle();
-            bundle.putString("cate_id", titleList.get(0).getCate_id());
-            allFragment.setArguments(bundle);
-            fragments.add(allFragment);
-            for (int i = 1; i < titleList.size(); i++) {
-                NewOtherFragment otherFragment = new NewOtherFragment();
-                bundle = new Bundle();
-                bundle.putInt("which_position", i);
-                bundle.putString("cate_id", titleList.get(i).getCate_id());
-                bundle.putString("label", titleList.get(i).getLabel());
-                otherFragment.setArguments(bundle);
-                fragments.add(otherFragment);
-            }
-            adapter = new TabLayoutAdapter(fragments, getChildFragmentManager());
-            viewpager.setAdapter(adapter);
-            tablayout.setupWithViewPager(viewpager);
-            viewpager.setCurrentItem(0);
-            viewpager.setOffscreenPageLimit(0);
-            viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-                @Override
-                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-                }
-
-                @Override
-                public void onPageSelected(int position) {
-                    if (position == 0) {
-                        EventBus.getDefault().post("timeStart");
-                        String currentColor = PreferUtils.getString(getContext(), "currentColor");
-                        if (!TextUtils.isEmpty(currentColor)) {
-                            if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
-                                setColor(currentColor);
-                            } else {
-                                setColor("#000000");
-                            }
-                        } else {
-                            setColor("#000000");
-                        }
-                    } else {
-                        EventBus.getDefault().post("timeStop");
-                        String s = "#000000";
-                        setColor(s);
-                    }
-                }
-
-                @Override
-                public void onPageScrollStateChanged(int state) {
-
-                }
-            });
-        }
-    }
-
-    private class TabLayoutAdapter extends FragmentPagerAdapter {
-        private List<Fragment> fragments;
-
-        public TabLayoutAdapter(List<Fragment> fragments, FragmentManager fm) {
-            super(fm);
-            this.fragments = fragments;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragments.get(position);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titleList.get(position).getName();
-        }
-
-        @Override
-        public int getCount() {
-            return titleList == null ? 0 : titleList.size();
-        }
-    }
-
-    @OnClick({R.id.re_search})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.re_search:
-                startActivity(new Intent(getContext(), SearchActivity.class));
-                break;
-        }
-    }
-
-    private void getClassicHeadTitle() {
-        MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.GOODS_CATES)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
-                .enqueue(new JsonResponseHandler() {
-
-                    @Override
-                    public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            Log.i("数据啊", response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                CommonBean bean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
-                                titleList = bean.getResult();
-                                SpUtil.putList(getContext(), "head_title_list", titleList);
-                                fragments = new ArrayList<>();
-                                AllFragment allFragment = new AllFragment(re_tablayout_parent, re_search_title);
-                                bundle = new Bundle();
-                                bundle.putString("cate_id", titleList.get(0).getCate_id());
-                                allFragment.setArguments(bundle);
-                                fragments.add(allFragment);
-                                for (int i = 1; i < titleList.size(); i++) {
-                                    NewOtherFragment otherFragment = new NewOtherFragment();
-                                    bundle = new Bundle();
-                                    bundle.putInt("which_position", i);
-                                    bundle.putString("cate_id", titleList.get(i).getCate_id());
-                                    bundle.putString("label", titleList.get(i).getLabel());
-                                    otherFragment.setArguments(bundle);
-                                    fragments.add(otherFragment);
-                                }
-                                adapter = new TabLayoutAdapter(fragments, getChildFragmentManager());
-                                viewpager.setAdapter(adapter);
-                                tablayout.setupWithViewPager(viewpager);
-                                viewpager.setCurrentItem(0);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
-                    }
-                });
-    }
-
-    private void setColor(String color) {
-        if (!TextUtils.isEmpty(color)) {
-            int i = Color.parseColor(color);
-            re_tablayout_parent.setBackgroundColor(i);
-            re_search_title.setBackgroundColor(i);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getActivity().getWindow();
-                window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                /*状态栏*/
-                window.setStatusBarColor(i);
-            }
-        }
-    }
-
-    /*获取分类数据*/
+    /*获取折叠分类数据*/
     private void getChoiceDataTitle() {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.GOODS_CATES)
@@ -391,14 +361,33 @@ public class NewHomeFragment extends Fragment {
                 });
     }
 
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
+    @OnClick({R.id.iv_chat, R.id.re_choice, R.id.re_search})
+    public void OnClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_chat:
+                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    Intent intent = new Intent(getContext(), ShouRuMingXiActivity.class);
+                    intent.putExtra("type", "0");
+                    intent.putExtra(Constant.TOMAINTYPE, "");
+                    startActivity(intent);
+                } else {
+                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                }
+                break;
+            case R.id.re_choice:/*点击折叠按钮*/
+                popupWindow.showAsDropDown(re_search_title);
+                backgroundAlpha(0.5f);
+                break;
+            case R.id.re_search:
+                startActivity(new Intent(getContext(), SearchActivity.class));
+                break;
+        }
+    }
+
+    /*设置添加屏幕的背景透明度*/
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
+        lp.alpha = bgAlpha;
         getActivity().getWindow().setAttributes(lp);
     }
 

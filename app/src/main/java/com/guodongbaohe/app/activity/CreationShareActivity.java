@@ -90,17 +90,21 @@ import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
 public class CreationShareActivity extends BaseActivity {
+    /*分享说明布局*/
     @BindView(R.id.order_shuoming)
     RelativeLayout order_shuoming;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerview;
     /*二维码选择按钮*/
     @BindView(R.id.ll_change_rq_code)
     LinearLayout ll_change_rq_code;
-    String goods_thumb, goods_gallery, goods_name, promo_slogan, attr_price, attr_prime, member_id, coupon_url, taokouling, content, attr_site, good_short, attr_ratio;
-    private List<String> pics_list;
-    ImagesBitmapAdapter adapter;
-    private List<String> all_list;
+    /*图片控件*/
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
+    /*淘口令内容*/
+    @BindView(R.id.tv_tkl_content)
+    TextView tv_tkl_content;
+    /*复制评论按钮*/
+    @BindView(R.id.tkl_copy_comment)
+    TextView tkl_copy_comment;
     /*商品标题*/
     @BindView(R.id.shop_title)
     TextView shop_title;
@@ -110,58 +114,70 @@ public class CreationShareActivity extends BaseActivity {
     /*券后价*/
     @BindView(R.id.shop_coupon_price)
     TextView shop_coupon_price;
-    /*你能返*/
+    /*你能返布局*/
     @BindView(R.id.rebate)
     TextView rebate;
+    /*第一条下划线*/
+    @BindView(R.id.tv_view_line_one)
+    TextView tv_view_line_one;
+    /*下单地址*/
+    @BindView(R.id.tv_order_addrress)
+    TextView tv_order_addrress;
+    /*第二条下划线*/
+    @BindView(R.id.tv_view_line_two)
+    TextView tv_view_line_two;
     /*推荐理由*/
     @BindView(R.id.recommend_result)
     TextView recommend_result;
-    /*淘口令*/
+    /*第三条下划线*/
+    @BindView(R.id.tv_view_line_three)
+    TextView tv_view_line_three;
+    /*纯淘口令*/
     @BindView(R.id.taobao_ling)
     TextView taobao_ling;
-    /*返利佣金*/
+    /*纯淘宝文案*/
+    @BindView(R.id.tv_taobao)
+    TextView tv_taobao;
+    /*复制分享文案按钮*/
+    @BindView(R.id.copy)
+    TextView copy;
+    /*商品佣金布局*/
     @BindView(R.id.re_show_fanli)
     RelativeLayout re_show_fanli;
     @BindView(R.id.iv_tao_show)
     ImageView iv_tao_show;
-    /*推荐理由显示*/
+    /*购买地址布局*/
+    @BindView(R.id.re_goumaidizi)
+    RelativeLayout re_goumaidizi;
+    @BindView(R.id.iv_dizi_show)
+    ImageView iv_dizi_show;
+    /*推荐理由布局*/
     @BindView(R.id.re_show_comment_result)
     RelativeLayout re_show_comment_result;
     @BindView(R.id.iv_result_show)
     ImageView iv_result_show;
-    /*淘口令显示*/
+    /*淘口令布局*/
     @BindView(R.id.re_show_tkl_result)
     RelativeLayout re_show_tkl_result;
     @BindView(R.id.iv_tkl_show)
     ImageView iv_tkl_show;
-    /*分享赚*/
+    /*分享赚大按钮*/
     @BindView(R.id.share_money)
     TextView share_money;
-    String member_role, son_count, goods_id, share_taokouling, share_qrcode, coupon_surplus;
+    private String goods_thumb, goods_gallery, goods_name, promo_slogan, attr_price, attr_prime, member_id, coupon_url,
+            taokouling, content, attr_site, good_short, attr_ratio;
+    private List<String> pics_list;
+    ImagesBitmapAdapter adapter;
+    private List<String> all_list;
+    String member_role, goods_id, share_taokouling, share_qrcode, coupon_surplus;
     BigDecimal bg3;
     private boolean isShowTuijian = true;
     private boolean isShowFanli = true;
     private boolean isShowTaokouling = true;
     private boolean isShowXiaDanDizi = true;
-    @BindView(R.id.copy)
-    TextView copy;
     double app_v;
     Dialog loadingDialog;
-    @BindView(R.id.tv_taobao)
-    TextView tv_taobao;
-    @BindView(R.id.taobao_view_line)
-    TextView taobao_view_line;
-    @BindView(R.id.tv_tuijian_view_line)
-    TextView tv_tuijian_view_line;
     double v;
-    @BindView(R.id.tv_xaidandizi_view_line)
-    TextView tv_xaidandizi_view_line;
-    @BindView(R.id.tv_xaidandizi)
-    TextView tv_xaidandizi;
-    @BindView(R.id.re_goumaidizi)
-    RelativeLayout re_goumaidizi;
-    @BindView(R.id.iv_dizi_show)
-    ImageView iv_dizi_show;
 
     @Override
     protected void onDestroy() {
@@ -178,9 +194,9 @@ public class CreationShareActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
+        setMiddleTitle("创建分享");
         EventBus.getDefault().register(this);
         member_role = PreferUtils.getString(getApplicationContext(), "member_role");
-        son_count = PreferUtils.getString(getApplicationContext(), "son_count");
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         String tax_rate = PreferUtils.getString(getApplicationContext(), "tax_rate");
         app_v = 1 - Double.valueOf(tax_rate);
@@ -200,7 +216,6 @@ public class CreationShareActivity extends BaseActivity {
         share_qrcode = intent.getStringExtra("share_qrcode");
         coupon_surplus = intent.getStringExtra("coupon_surplus");
         v = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
-        setMiddleTitle("创建分享");
         recyclerview.setHasFixedSize(true);
         recyclerview.setNestedScrollingEnabled(false);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -210,13 +225,13 @@ public class CreationShareActivity extends BaseActivity {
         initViewData();
     }
 
+    /*布局显示*/
     private void initViewData() {
         if (TextUtils.isEmpty(good_short)) {
             shop_title.setText(goods_name);
         } else {
             shop_title.setText(good_short);
         }
-
         shop_original_price.setText("【原价】¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
         if (Double.valueOf(coupon_surplus) > 0) {
             shop_coupon_price.setText("【券后价】¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
@@ -227,7 +242,6 @@ public class CreationShareActivity extends BaseActivity {
                 shop_coupon_price.setText("【特惠价】¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
             }
         }
-
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
             /*总裁用户*/
             rebateData(90);
@@ -237,22 +251,22 @@ public class CreationShareActivity extends BaseActivity {
         } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*vip用户*/
             rebateData(40);
-        } else {
-            rebate.setText("【下载果冻宝盒购买】你能返¥0");
-            share_money.setText("立即分享");
         }
-
+        /*推荐理由和线条显示*/
         if (TextUtils.isEmpty(promo_slogan)) {
-            tv_tuijian_view_line.setVisibility(View.GONE);
+            tv_view_line_two.setVisibility(View.GONE);
             recommend_result.setVisibility(View.GONE);
         } else {
-            tv_tuijian_view_line.setVisibility(View.VISIBLE);
+            tv_view_line_two.setVisibility(View.VISIBLE);
             recommend_result.setVisibility(View.VISIBLE);
             recommend_result.setText("【推荐理由】" + promo_slogan);
         }
-        tv_xaidandizi.setText("【下单地址】" + share_qrcode);
+        tv_order_addrress.setText("【下单地址】" + share_qrcode);
+        taobao_ling.setText("复制这条信息€" + share_taokouling.substring(1, share_taokouling.length() - 1) + "€");
+        tv_tkl_content.setText("复制这条信息€" + share_taokouling.substring(1, share_taokouling.length() - 1) + "€,打开【手机Taobao】即可查看");
     }
 
+    /*用户级别显示你能返佣金数*/
     private void rebateData(int num) {
         double ninengfan = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
         bg3 = new BigDecimal(ninengfan);
@@ -265,6 +279,7 @@ public class CreationShareActivity extends BaseActivity {
     View view;
     ImageView iv_qr_code;
 
+    /*二维码合成图布局*/
     private void initRecyclerview() {
         pics_list = new ArrayList<>();
         if (TextUtils.isEmpty(goods_gallery)) {
@@ -304,7 +319,6 @@ public class CreationShareActivity extends BaseActivity {
         IconAndTextGroupUtil.setTextView(getApplicationContext(), p_title, goods_name, attr_site);
         p_coupon_price.setText(StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
         p_one_price.setText("¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-        taobao_ling.setText("复制这条信息€" + share_taokouling.substring(1, share_taokouling.length() - 1) + "€");
         Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap(share_qrcode, DensityUtils.dip2px(getApplicationContext(), 100));
         iv_qr_code.setImageBitmap(mBitmap);
         Glide.with(getApplicationContext()).load(pics_list.get(0)).asBitmap().into(target);
@@ -316,7 +330,7 @@ public class CreationShareActivity extends BaseActivity {
     private int ainteger;
 
     @OnClick({R.id.ll_change_rq_code, R.id.re_show_fanli, R.id.re_show_comment_result, R.id.re_show_tkl_result,
-            R.id.share_money, R.id.copy, R.id.order_shuoming, R.id.re_goumaidizi})
+            R.id.share_money, R.id.copy, R.id.order_shuoming, R.id.re_goumaidizi, R.id.tkl_copy_comment})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_change_rq_code:
@@ -353,12 +367,12 @@ public class CreationShareActivity extends BaseActivity {
             case R.id.re_goumaidizi:
                 if (isShowXiaDanDizi) {
                     iv_dizi_show.setImageResource(R.mipmap.buxianshiyjin);
-                    tv_xaidandizi.setVisibility(View.GONE);
-                    tv_xaidandizi_view_line.setVisibility(View.GONE);
+                    tv_order_addrress.setVisibility(View.GONE);
+                    tv_view_line_one.setVisibility(View.GONE);
                 } else {
                     iv_dizi_show.setImageResource(R.mipmap.xainshiyjin);
-                    tv_xaidandizi.setVisibility(View.VISIBLE);
-                    tv_xaidandizi_view_line.setVisibility(View.VISIBLE);
+                    tv_order_addrress.setVisibility(View.VISIBLE);
+                    tv_view_line_one.setVisibility(View.VISIBLE);
                 }
                 isShowXiaDanDizi = !isShowXiaDanDizi;
                 break;
@@ -370,25 +384,25 @@ public class CreationShareActivity extends BaseActivity {
                 if (isShowTuijian) {
                     iv_result_show.setImageResource(R.mipmap.buxianshiyjin);
                     recommend_result.setVisibility(View.GONE);
-                    tv_tuijian_view_line.setVisibility(View.GONE);
+                    tv_view_line_two.setVisibility(View.GONE);
                 } else {
                     iv_result_show.setImageResource(R.mipmap.xainshiyjin);
                     recommend_result.setVisibility(View.VISIBLE);
-                    tv_tuijian_view_line.setVisibility(View.VISIBLE);
+                    tv_view_line_two.setVisibility(View.VISIBLE);
                 }
                 isShowTuijian = !isShowTuijian;
                 break;
             case R.id.re_show_tkl_result:
                 if (isShowTaokouling) {
-                    iv_tkl_show.setImageResource(R.mipmap.buxianshiyjin);
-                    taobao_ling.setVisibility(View.GONE);
-                    tv_taobao.setVisibility(View.GONE);
-                    taobao_view_line.setVisibility(View.GONE);
-                } else {
                     iv_tkl_show.setImageResource(R.mipmap.xainshiyjin);
                     taobao_ling.setVisibility(View.VISIBLE);
                     tv_taobao.setVisibility(View.VISIBLE);
-                    taobao_view_line.setVisibility(View.VISIBLE);
+                    tv_view_line_three.setVisibility(View.VISIBLE);
+                } else {
+                    iv_tkl_show.setImageResource(R.mipmap.buxianshiyjin);
+                    taobao_ling.setVisibility(View.GONE);
+                    tv_taobao.setVisibility(View.GONE);
+                    tv_view_line_three.setVisibility(View.GONE);
                 }
                 isShowTaokouling = !isShowTaokouling;
                 break;
@@ -443,6 +457,16 @@ public class CreationShareActivity extends BaseActivity {
                 intent.putExtra("url", PreferUtils.getString(getApplicationContext(), "share_goods"));
                 startActivity(intent);
                 break;
+            case R.id.tkl_copy_comment:
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm.hasPrimaryClip()) {
+                    cm.getPrimaryClip().getItemAt(0).getText();
+                }
+                ClipData mClipData = ClipData.newPlainText("Label", tv_tkl_content.getText().toString().trim());
+                cm.setPrimaryClip(mClipData);
+                ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(tv_tkl_content.getText().toString().trim());//保存记录到数据库
+                ToastUtils.showToast(getApplicationContext(), "评论复制成功");
+                break;
         }
     }
 
@@ -459,9 +483,9 @@ public class CreationShareActivity extends BaseActivity {
             copy_fanli = rebate.getText().toString().trim();
         }
         if (isShowXiaDanDizi) {
-            xiadandizi = tv_xaidandizi.getText().toString().trim();
+            xiadandizi = tv_order_addrress.getText().toString().trim();
         }
-        if (isShowTaokouling) {
+        if (!isShowTaokouling) {
             copy_taokouling = taobao_ling.getText().toString().trim();
             taobaoziti = tv_taobao.getText().toString().trim();
         }
@@ -478,7 +502,7 @@ public class CreationShareActivity extends BaseActivity {
         if (isShowTuijian) {
             copy_cotent = copy_cotent + copy_tuijian_liyou + "\n";
         }
-        if (isShowTaokouling) {
+        if (!isShowTaokouling) {
             copy_cotent = copy_cotent + copy_taokouling + "\n" + taobaoziti;
         }
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);

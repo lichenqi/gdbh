@@ -81,128 +81,163 @@
             android:overScrollMode="never"
             android:scrollbars="none" />
 
-        <TextView
-            android:id="@+id/shop_title"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:ellipsize="end"
-            android:lineSpacingExtra="2dp"
-            android:maxLines="2"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:background="@drawable/create_share_copy_bg"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
 
-        <TextView
-            android:id="@+id/shop_original_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_tkl_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/shop_coupon_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tkl_copy_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv_tkl_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/fuzhifenxiangwenan"
+                android:paddingBottom="5dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="5dp"
+                android:text="复制评论"
+                android:textColor="#6f4207"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/rebate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="2dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:visibility="gone" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_xaidandizi_view_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="-------------"
-            android:textColor="@color/black"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/tv_xaidandizi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="2dp"
-            android:lineSpacingExtra="3dp"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/tv_tuijian_view_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="-------------"
-            android:textColor="@color/black"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/recommend_result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="2dp"
-            android:lineSpacingExtra="3dp"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:visibility="visible" />
-
-        <TextView
-            android:id="@+id/taobao_view_line"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="-------------"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/taobao_ling"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_taobao"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="打开【手机Taobao】即可查看"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/copy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/fuzhifenxiangwenan"
-            android:paddingBottom="4dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp"
-            android:text="复制分享文案"
-            android:textColor="#6f4207"
-            android:textSize="12sp" />
+            android:background="@drawable/create_share_copy_bg"
+            android:orientation="vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/shop_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="2"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/shop_original_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/shop_coupon_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/rebate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_view_line_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---------"
+                android:textColor="@color/black"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_order_addrress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_view_line_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---------"
+                android:textColor="@color/black"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/recommend_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_view_line_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="---------"
+                android:textColor="@color/black"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/taobao_ling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_taobao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="打开【手机Taobao】即可查看"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/copy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/fuzhifenxiangwenan"
+                android:paddingBottom="5dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="5dp"
+                android:text="复制分享文案"
+                android:textColor="#6f4207"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -303,7 +338,7 @@
                     android:layout_height="16dp"
                     android:layout_centerVertical="true"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/xainshiyjin" />
+                    android:src="@mipmap/buxianshiyjin" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -315,6 +350,7 @@
                     android:textSize="12sp" />
 
             </RelativeLayout>
+
         </RelativeLayout>
 
         <TextView

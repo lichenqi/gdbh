@@ -285,6 +285,8 @@ public class StartActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "upgrade_partner_vips", bean.getResult().getUpgrade_partner_vips());
                                 /*合伙人升级总裁需要的人数*/
                                 PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
+                                /*令牌说明*/
+                                PreferUtils.putString(getApplicationContext(), "app_token_desc", bean.getResult().getApp_token_desc());
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }

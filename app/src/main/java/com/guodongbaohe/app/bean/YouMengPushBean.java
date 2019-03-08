@@ -13,6 +13,9 @@ public class YouMengPushBean {
     private PushExtraData extra;
 
     public class PushExtraData {
+        private String target;
+        private String content;
+
         public String getTarget() {
             return target;
         }
@@ -21,6 +24,13 @@ public class YouMengPushBean {
             this.target = target;
         }
 
-        private String target;
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
     }
 }

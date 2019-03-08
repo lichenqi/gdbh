@@ -23,8 +23,9 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/re_viewpager_parent"
                     android:layout_width="match_parent"
-                    android:layout_height="350dp">
+                    android:layout_height="400dp">
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/viewpager"

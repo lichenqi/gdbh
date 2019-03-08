@@ -1,15 +1,9 @@
 package com.guodongbaohe.app.common_constant;
 
-import android.app.AppOpsManager;
 import android.app.Notification;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.os.Build;
 import android.os.Handler;
-import android.provider.Settings;
-import android.support.annotation.RequiresApi;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -27,15 +21,22 @@ import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
 import com.guodongbaohe.app.activity.MyOrderActivity;
 import com.guodongbaohe.app.activity.MyTeamActivity;
+import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.ShouRuMingXiActivity;
 import com.guodongbaohe.app.activity.TiXianRecordActivity;
+import com.guodongbaohe.app.activity.YaoQingFriendActivity;
+import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.cliputil.ClipboardUtil;
 import com.guodongbaohe.app.myokhttputils.MyOkHttp;
+import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.service.CrashHandler;
-import com.guodongbaohe.app.service.NotificationPermissions;
 import com.guodongbaohe.app.util.AppUtils;
+import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.NetUtil;
+import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
+import com.guodongbaohe.app.util.ToastUtils;
+import com.guodongbaohe.app.util.VersionUtil;
 import com.mob.MobSDK;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -48,10 +49,11 @@ import com.umeng.message.entity.UMessage;
 import org.android.agoo.huawei.HuaWeiRegister;
 import org.android.agoo.mezu.MeizuRegister;
 import org.android.agoo.xiaomi.MiPushRegistar;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.litepal.LitePal;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -202,7 +204,18 @@ public class MyApplication extends MultiDexApplication {
                             startActivity(intent);
                             break;
                         case "withdraw":/*提现记录*/
-                            intent = new Intent(getApplicationContext(), TiXianRecordActivity.class);
+                            intent = new Intent(context, TiXianRecordActivity.class);
+                            startActivity(intent);
+                            break;
+                        case "goods":/*商品详细*/
+                            String content = extra.get("content");
+                            if (!TextUtils.isEmpty(content)) {/*商品id*/
+                                /*本地商品进商品详情*/
+                                getShopBasicData(content);
+                            }
+                            break;
+                        case "share_friend":/*邀请好友*/
+                            intent = new Intent(context, YaoQingFriendActivity.class);
                             startActivity(intent);
                             break;
                     }
@@ -266,5 +279,70 @@ public class MyApplication extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    /*商品详情头部信息*/
+    private void getShopBasicData(String shopId) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put("goods_id", shopId);
+        String param = ParamUtil.getMapParam(map);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
+                                if (bean == null) return;
+                                ShopBasicBean.ShopBasicData result = bean.getResult();
+                                Intent intent = new Intent(context, ShopDetailActivity.class);
+                                intent.putExtra("goods_id", result.getGoods_id());
+                                intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
+                                intent.putExtra("cate_category", result.getCate_category());/*类目id*/
+                                intent.putExtra("attr_price", result.getAttr_price());
+                                intent.putExtra("attr_prime", result.getAttr_prime());
+                                intent.putExtra("attr_ratio", result.getAttr_ratio());
+                                intent.putExtra("sales_month", result.getSales_month());
+                                intent.putExtra("goods_name", result.getGoods_name());/*长标题*/
+                                intent.putExtra("goods_short", result.getGoods_short());/*短标题*/
+                                intent.putExtra("seller_shop", result.getSeller_shop());/*店铺姓名*/
+                                intent.putExtra("goods_thumb", result.getGoods_thumb());/*单图*/
+                                intent.putExtra("goods_gallery", result.getGoods_gallery());/*多图*/
+                                intent.putExtra("coupon_begin", result.getCoupon_begin());/*开始时间*/
+                                intent.putExtra("coupon_final", result.getCoupon_final());/*结束时间*/
+                                intent.putExtra("coupon_surplus", result.getCoupon_surplus());/*是否有券*/
+                                intent.putExtra("coupon_explain", result.getGoods_slogan());/*推荐理由*/
+                                intent.putExtra("attr_site", result.getAttr_site());/*天猫或者淘宝*/
+                                intent.putExtra("coupon_total", result.getCoupon_total());
+                                intent.putExtra("coupon_id", result.getCoupon_id());
+                                intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                                intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            } else {
+                                String result = jsonObject.getString("result");
+                                ToastUtils.showToast(getContext(), result);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast(getContext(), Constant.NONET);
+                    }
+                });
     }
 }

@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -42,6 +43,10 @@ import com.alibaba.baichuan.android.trade.model.TradeResult;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
@@ -191,6 +196,8 @@ public class ShopDetailActivity extends BigBaseActivity {
     LinearLayout ll_most_bottom;
     @BindView(R.id.tv_lijiyaoqing)
     TextView tv_lijiyaoqing;
+    @BindView(R.id.re_viewpager_parent)
+    RelativeLayout re_viewpager_parent;
     /*开关字段*/
     private String is_pop_window, upgrade_vip_invite, money_upgrade_switch, is_show_money_vip, is_pop_window_vip;
     private boolean isShopCollect = false;
@@ -202,7 +209,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().post(this);
         loadingDialog = DialogUtil.createLoadingDialog(ShopDetailActivity.this, "加载...");
-        widthPixels = getResources().getDisplayMetrics().widthPixels;
+        this.widthPixels = getResources().getDisplayMetrics().widthPixels;
         Intent intent = getIntent();
         goods_id = intent.getStringExtra("goods_id");
         cate_route = intent.getStringExtra("cate_route");
@@ -1023,9 +1030,26 @@ public class ShopDetailActivity extends BigBaseActivity {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
-            ImageView iv = (ImageView) view.findViewById(R.id.iv);
-//            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE).into(iv);
-            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).into(iv);
+            final ImageView iv = (ImageView) view.findViewById(R.id.iv);
+            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).asBitmap().placeholder(R.drawable.loading_img)
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+                        @Override
+                        public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                            //原始图片宽高
+                            int imageWidth = resource.getWidth();
+                            int imageHeight = resource.getHeight();
+                            Log.i("图片高度", imageHeight + "");
+                            //按比例收缩图片
+                            float ratio = (float) ((imageWidth * 1.0) / (widthPixels * 1.0));
+                            int height = (int) (imageHeight * 1.0 / ratio);
+                            ViewGroup.LayoutParams params = iv.getLayoutParams();
+                            params.width = widthPixels;
+                            params.height = height;
+                            iv.setImageBitmap(resource);
+                        }
+                    });
             container.addView(view);
             return view;
         }

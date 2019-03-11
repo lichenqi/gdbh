@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.bean.YouMengPushBean;
 import com.guodongbaohe.app.common_constant.Constant;
@@ -89,6 +90,11 @@ public class MipushTestActivity extends UmengNotifyClickActivity {
                 break;
             case "share_friend":/*邀请好友*/
                 intent = new Intent(getApplicationContext(), YaoQingFriendActivity.class);
+                startActivity(intent);
+                finish();
+                break;
+            default:/*其他到主界面*/
+                intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
                 break;

@@ -21,7 +21,6 @@ public class GViewPagerAdapter extends PagerAdapter {
             gridList.clear();
         }
         this.gridList=datas;
-//        gridList.addAll(datas);
         notifyDataSetChanged();
     }
 

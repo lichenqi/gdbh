@@ -6,12 +6,15 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class DecoratorViewPager extends ViewPager {
+
     public DecoratorViewPager(Context context) {
         super(context);
     }
+
     public DecoratorViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

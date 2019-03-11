@@ -59,7 +59,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/*这个类专门对淘宝天猫地址加载  不要改动了*/
+/*这个类专门对淘宝天猫地址加载  比如天猫国际  天猫超市   不要改动了*/
 public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -89,7 +89,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
     RelativeLayout re_buy;
     @BindView(R.id.tv_buy)
     TextView tv_buy;
-    String url;
+    String url, title;
     String shop_id;
     Dialog loadingDialog;
     String member_role, tax_rate;
@@ -105,6 +105,8 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         alibcShowParams = new AlibcShowParams(OpenType.Native, true);
         Intent intent = getIntent();
         url = intent.getStringExtra("url");
+        title = intent.getStringExtra("title");
+        tv_title.setText(title);
         member_role = PreferUtils.getString(getApplicationContext(), "member_role");
         tax_rate = PreferUtils.getString(getApplicationContext(), "tax_rate");
         app_v = 1 - Double.valueOf(tax_rate);
@@ -133,7 +135,10 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Log.i("淘宝地址", url);
-                if (url.contains("https://detail.m.tmall.com/item.htm?") || url.contains("https://detail.m.taobao.com/item.htm?")) {
+                if (url.contains("https://detail.m.tmall.com/item.htm?")
+                        || url.contains("https://detail.m.taobao.com/item.htm?")
+                        || url.contains("https://detail.m.tmall.hk/item.htm?")
+                        || url.contains("https://detail.m.taobao.hk/item.htm?")) {
                     tv_notice.setVisibility(View.VISIBLE);
                     ll_yijian_view.setVisibility(View.VISIBLE);
                     //将String类型的地址转变为URI类型
@@ -162,7 +167,6 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
 
             @Override
             public void onReceivedTitle(WebView view, String title) {
-                tv_title.setText(title);
                 super.onReceivedTitle(view, title);
             }
 

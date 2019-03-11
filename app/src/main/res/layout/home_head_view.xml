@@ -45,19 +45,35 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <RelativeLayout
+        android:id="@+id/layout_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_pager"
-        android:layout_marginBottom="15dp"
-        android:scrollbars="none" />
+        android:layout_marginTop="15dp"
+        android:descendantFocusability="blocksDescendants">
+
+        <com.guodongbaohe.app.gridview.DecoratorViewPager
+            android:id="@+id/screen_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/screen_point"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/screen_viewpager"
+            android:gravity="center"
+            android:orientation="horizontal" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/ll_ma"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recyclerview"
+        android:layout_below="@+id/layout_stats"
         android:background="@color/homelistitem"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"

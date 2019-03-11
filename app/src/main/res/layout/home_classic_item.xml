@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/iv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop" />
 
@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
         android:layout_marginTop="4dp"
         android:textColor="@color/txblack"
         android:textSize="12sp" />

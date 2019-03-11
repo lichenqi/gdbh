@@ -12,11 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:lineSpacingExtra="4dp"
         android:maxLines="2"
-        android:text="平均品位额二级二级vj[evj额【v[ow[【平框为空【 酷我 开车【 吃【皮卡车看开车【 查看【 看"
         android:textColor="@color/black" />
 
     <RelativeLayout
@@ -71,7 +70,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="300dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
@@ -79,7 +78,7 @@
         <ImageView
             android:id="@+id/p_iv"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="match_parent"
             android:scaleType="fitCenter" />
 
         <RelativeLayout
@@ -100,7 +99,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="¥35"
                 android:textColor="@color/white"
                 android:textSize="35sp"
                 android:textStyle="bold" />
@@ -113,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
@@ -151,6 +149,7 @@
                     android:text="海量商品 专享折扣"
                     android:textColor="@color/txblack"
                     android:textSize="12sp" />
+
             </LinearLayout>
 
         </LinearLayout>

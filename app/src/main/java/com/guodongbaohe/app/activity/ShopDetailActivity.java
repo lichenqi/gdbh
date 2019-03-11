@@ -43,7 +43,6 @@ import com.alibaba.baichuan.android.trade.model.TradeResult;
 import com.alibaba.baichuan.android.trade.page.AlibcBasePage;
 import com.alibaba.baichuan.android.trade.page.AlibcPage;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
@@ -1032,8 +1031,6 @@ public class ShopDetailActivity extends BigBaseActivity {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
             final ImageView iv = (ImageView) view.findViewById(R.id.iv);
             Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).asBitmap().placeholder(R.drawable.loading_img)
-                    .skipMemoryCache(true)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

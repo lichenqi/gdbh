@@ -327,16 +327,7 @@ public class MainActivity extends BigBaseActivity {
         switch (view.getId()) {
             case R.id.ll_home:/*首页*/
                 EventBus.getDefault().post("toFirst");
-                String currentColor = PreferUtils.getString(getApplicationContext(), "currentColor");
-                if (!TextUtils.isEmpty(currentColor)) {
-                    if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
-                        home_color = Color.parseColor(currentColor);
-                    } else {
-                        home_color = Color.parseColor("#000000");
-                    }
-                } else {
-                    home_color = Color.parseColor("#000000");
-                }
+                setHomeClickColor();
                 setStatusColor(0);
                 setBackSize();
                 curIndex = 0;
@@ -380,6 +371,35 @@ public class MainActivity extends BigBaseActivity {
                     startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
                 }
                 break;
+        }
+    }
+
+    /*点击首页按钮设置颜色变化*/
+    String currentColor;
+
+    private void setHomeClickColor() {
+        currentColor = PreferUtils.getString(getApplicationContext(), "currentColor");
+        String scrollToWhere = PreferUtils.getString(getApplicationContext(), "scrollToWhere");
+        if (!TextUtils.isEmpty(scrollToWhere)) {
+            if (scrollToWhere.equals("bottom")) {
+                home_color = Color.parseColor("#000000");
+            } else {
+                setColorChangeCommon();
+            }
+        } else {
+            setColorChangeCommon();
+        }
+    }
+
+    private void setColorChangeCommon() {
+        if (!TextUtils.isEmpty(currentColor)) {
+            if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
+                home_color = Color.parseColor(currentColor);
+            } else {
+                home_color = Color.parseColor("#000000");
+            }
+        } else {
+            home_color = Color.parseColor("#000000");
         }
     }
 

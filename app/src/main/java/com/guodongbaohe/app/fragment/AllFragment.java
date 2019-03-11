@@ -630,7 +630,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     to_top.setVisibility(View.VISIBLE);
                     int black_color = Color.parseColor("#000000");
                     setColorChange(black_color);
+                    PreferUtils.putString(getContext(), "scrollToWhere", "bottom");
                 } else {
+                    PreferUtils.putString(getContext(), "scrollToWhere", "top");
                     to_top.setVisibility(View.GONE);
                     String currentColor = PreferUtils.getString(getContext(), "currentColor");
                     if (!TextUtils.isEmpty(currentColor)) {

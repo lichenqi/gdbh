@@ -364,8 +364,9 @@
         <activity
             android:name=".activity.TaoBaoAndTianMaoUrlActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.VideoPlayActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.VideoPlayActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

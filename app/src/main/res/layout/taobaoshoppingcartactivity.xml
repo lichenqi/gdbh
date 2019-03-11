@@ -84,7 +84,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/dpdjwpodj"
-            android:text="购物车功能仅能提供方便查看商品，请点击查询购物车优惠按钮下单"
+            android:text="请先点击顶部“查询购物车优惠”再下单"
             android:textColor="#6f350c"
             android:textSize="14sp" />
 

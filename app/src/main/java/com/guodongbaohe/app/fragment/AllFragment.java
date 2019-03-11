@@ -34,25 +34,30 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
+import com.guodongbaohe.app.activity.CeShiTianMaoActivity;
+import com.guodongbaohe.app.activity.GShenJiActivity;
+import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
+import com.guodongbaohe.app.activity.NinePinkageActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
+import com.guodongbaohe.app.activity.ShopRangingClassicActivity;
+import com.guodongbaohe.app.activity.SuperMakeActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
+import com.guodongbaohe.app.activity.YaoQingFriendActivity;
+import com.guodongbaohe.app.adapter.HomeClassicAdapter;
 import com.guodongbaohe.app.adapter.HomeListAdapter;
 import com.guodongbaohe.app.bean.BannerDataBean;
 import com.guodongbaohe.app.bean.BuyUserBean;
+import com.guodongbaohe.app.bean.FiveMoKuaiBean;
 import com.guodongbaohe.app.bean.HomeListBean;
-import com.guodongbaohe.app.bean.NewBanDataBean;
-import com.guodongbaohe.app.bean.NewBannerBean;
 import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.bean.XinShouJiaoBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
-import com.guodongbaohe.app.gridview.DecoratorViewPager;
-import com.guodongbaohe.app.gridview.GViewPagerAdapter;
-import com.guodongbaohe.app.gridview.GridViewAdapter;
-import com.guodongbaohe.app.gridview.MultiGridView;
+import com.guodongbaohe.app.itemdecoration.CarItemDecoration;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -116,8 +121,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     View view_color;
     UPMarqueeView upmarqueeview;
     Intent intent;
-    public static int item_grid_num = 10;//每一页中GridView中item的数量
-    public static int number_columns = 5;//gridview一行展示的数目
 
     public AllFragment() {
 
@@ -562,10 +565,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         }
     }
 
-    DecoratorViewPager screen_viewpager;
-    LinearLayout screen_point;
-    private GViewPagerAdapter adapters;
-
     private void initbannerview() {
         view_color = headView.findViewById(R.id.view_color);
         viewpager = (ViewPager) headView.findViewById(R.id.viewpager);
@@ -573,11 +572,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         upmarqueeview = (UPMarqueeView) headView.findViewById(R.id.upmarqueeview);
         viewpager_xin = (ViewPager) headView.findViewById(R.id.viewpager_xin);
         llpoint_xin = (LinearLayout) headView.findViewById(R.id.llpoint_xin);
-        screen_viewpager = (DecoratorViewPager) headView.findViewById(R.id.screen_viewpager);
-        screen_point = (LinearLayout) headView.findViewById(R.id.screen_point);
         getBannerData();
         getBuyData();
-        getNewClassicData();
+        getFiveMoKuaiData();
         getXinShuoData();
         viewpager.addOnPageChangeListener(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -589,8 +586,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         initTimer();
         setOnTouchView();
         initViewPagerXin();
-        adapters = new GViewPagerAdapter();
-        screen_viewpager.setAdapter(adapters);
     }
 
     private void initViewPagerXin() {
@@ -603,22 +598,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             @Override
             public void onPageSelected(int position) {
                 setIndicatorXin(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        screen_viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setIndicator_grid(position);
             }
 
             @Override
@@ -774,7 +753,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     startActivity(intent);
                                     break;
                                 case "tmall":
-                                    /*淘宝天猫会场活动*/
+                                    /*淘宝天猫会场*/
                                     intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                                     intent.putExtra("url", url);
                                     startActivity(intent);

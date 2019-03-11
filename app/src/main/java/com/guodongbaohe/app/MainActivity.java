@@ -56,6 +56,7 @@ import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.fragment.LieBiaoFenLeiFragment;
 import com.guodongbaohe.app.fragment.MakeMoneyFragment;
 import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
@@ -428,7 +429,8 @@ public class MainActivity extends BigBaseActivity {
                     currentFragment = new NewHomeFragment();
                     break;
                 case 1:
-                    currentFragment = new NewRangingListFragment();
+//                    currentFragment = new NewRangingListFragment();
+                    currentFragment=new LieBiaoFenLeiFragment();
                     break;
                 case 2:
                     currentFragment = new MakeMoneyFragment();

@@ -242,6 +242,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 switch (url) {
                     case "jkj":
                         /*9.9包邮*/
+//                        intent=new Intent(getContext(),CeShiTianMaoActivity.class);
+//                        intent.putExtra("url","http://test.tgbaohe.net/index");
                         intent = new Intent(getContext(), NinePinkageActivity.class);
                         intent.putExtra("title", mokuaiList.get(position).getTitle());
                         startActivity(intent);

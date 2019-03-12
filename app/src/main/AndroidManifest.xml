@@ -367,6 +367,9 @@
         <activity
             android:name=".activity.VideoPlayActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CreateShare_New_Activity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

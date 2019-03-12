@@ -17,6 +17,7 @@ import com.franmontiel.persistentcookiejar.ClearableCookieJar;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
 import com.guodongbaohe.app.activity.MyOrderActivity;
@@ -173,6 +174,7 @@ public class MyApplication extends MultiDexApplication {
             public void launchApp(Context context, UMessage msg) {
                 Intent intent;
                 Map<String, String> extra = msg.extra;
+                Log.i("消息推送", extra.toString());
                 String target = extra.get("target");
                 if (!TextUtils.isEmpty(target)) {
                     switch (target) {
@@ -216,6 +218,10 @@ public class MyApplication extends MultiDexApplication {
                             break;
                         case "share_friend":/*邀请好友*/
                             intent = new Intent(context, YaoQingFriendActivity.class);
+                            startActivity(intent);
+                            break;
+                        default:/*其他到主界面*/
+                            intent = new Intent(context, MainActivity.class);
                             startActivity(intent);
                             break;
                     }

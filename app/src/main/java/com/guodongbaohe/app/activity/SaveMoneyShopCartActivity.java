@@ -210,6 +210,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
     String coupon_url;
 
     private void getGaoYongJinData(String goods_id, String coupon_id, String source) {
+        loadingDialog = DialogUtil.createLoadingDialog(SaveMoneyShopCartActivity.this, "加载中...");
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
@@ -262,9 +263,11 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                                 exParams.put("isv_code", "appisvcode");
                                 exParams.put("alibaba", "阿里巴巴");
                                 AlibcTrade.show(SaveMoneyShopCartActivity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback());
+                                DialogUtil.closeDialog(loadingDialog);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
+                                DialogUtil.closeDialog(loadingDialog);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -274,6 +277,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        DialogUtil.closeDialog(loadingDialog);
                     }
                 });
     }

@@ -2,8 +2,56 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/jianbian_zqian"
     android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/re_search_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp">
 
+    <RelativeLayout
+        android:id="@+id/re_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/iv_chat"
+        android:background="@drawable/home_search"
+        android:paddingBottom="6dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="6dp">
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/huise_search" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="搜索商品名或粘贴宝贝标题"
+            android:textColor="@color/txblack"
+            android:textSize="13sp" />
+
+    </RelativeLayout>
+        <ImageView
+            android:id="@+id/iv_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingBottom="10dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/home_chat" />
+
+    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,6 +76,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rec_right"
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

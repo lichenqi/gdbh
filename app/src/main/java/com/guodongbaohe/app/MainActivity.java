@@ -430,7 +430,7 @@ public class MainActivity extends BigBaseActivity {
                     break;
                 case 1:
 //                    currentFragment = new NewRangingListFragment();
-                    currentFragment=new LieBiaoFenLeiFragment();
+                    currentFragment= new LieBiaoFenLeiFragment();
                     break;
                 case 2:
                     currentFragment = new MakeMoneyFragment();

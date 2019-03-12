@@ -1,8 +1,11 @@
 package com.guodongbaohe.app.adapter;
 
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -49,16 +52,14 @@ public class ScrollLeftAdapter extends BaseQuickAdapter<String, BaseViewHolder> 
                 tv.get(i).setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 tv.get(i).setFocusable(true);
                 tv.get(i).setFocusableInTouchMode(true);
-                tv.get(i).setMarqueeRepeatLimit(-1);
             } else {
-                tv.get(i).setBackgroundColor(0xffffffff);
-                tv.get(i).setTextColor(ContextCompat.getColor(mContext, R.color.black));
+//                tv.get(i).setBackgroundColor(R.color.left_color);
+                tv.get(i).setTextColor(ContextCompat.getColor(mContext, R.color.left_words));
 
                 //失去焦点则停止滚动
                 tv.get(i).setEllipsize(TextUtils.TruncateAt.END);
                 tv.get(i).setFocusable(false);
                 tv.get(i).setFocusableInTouchMode(false);
-                tv.get(i).setMarqueeRepeatLimit(0);
             }
         }
     }

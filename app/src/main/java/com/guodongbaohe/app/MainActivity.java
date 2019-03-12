@@ -474,7 +474,7 @@ public class MainActivity extends BigBaseActivity {
                     window.setStatusBarColor(home_color);
                     break;
                 case 1:
-                    window.setStatusBarColor(0xffF39C2F);
+                    window.setStatusBarColor(0xff1a1a1a);
                     break;
                 case 2:
                     window.setBackgroundDrawableResource(R.drawable.jianbian_zqian);
@@ -1008,8 +1008,9 @@ public class MainActivity extends BigBaseActivity {
                                     sure.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            String url = four_iv_list.get(0).getUrl();
-                                            String type = four_iv_list.get(0).getType();
+                                            String url = four_iv_list.get(0).getUrl();/*跳转地址*/
+                                            String type = four_iv_list.get(0).getType();/*跳转类型*/
+                                            String extend = four_iv_list.get(0).getExtend();/*标题*/
                                             if (!TextUtils.isEmpty(type)) {
                                                 switch (type) {
                                                     case "normal":
@@ -1022,6 +1023,7 @@ public class MainActivity extends BigBaseActivity {
                                                         /*淘宝天猫会场地址*/
                                                         intent = new Intent(MainActivity.this, TaoBaoAndTianMaoUrlActivity.class);
                                                         intent.putExtra("url", url);
+                                                        intent.putExtra("title", extend);
                                                         startActivity(intent);
                                                         break;
                                                     case "local_goods":

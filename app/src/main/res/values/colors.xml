@@ -25,4 +25,6 @@
     <color name="paihangbang">#EFA818</color>
     <color name="quancolor">#926000</color>
     <color name="quanbeijing">#FFEECC</color>
+    <color name="left_color">#FAFAFA</color>
+    <color name="left_words">#888888</color>
 </resources>

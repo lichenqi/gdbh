@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,10 +15,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.activity.SearchActivity;
 import com.guodongbaohe.app.adapter.ScrollLeftAdapter;
 import com.guodongbaohe.app.adapter.ScrollRightAdapter;
 import com.guodongbaohe.app.bean.CommonBean;
@@ -27,11 +30,18 @@ import com.guodongbaohe.app.util.SpUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LieBiaoFenLeiFragment extends Fragment {
 
     private View view;
+    /*搜索布局*/
+    @BindView(R.id.re_search_title)
+    RelativeLayout re_search_title;
+    /*搜索点击布局*/
+    @BindView(R.id.re_search)
+    RelativeLayout re_search;
     private RecyclerView recLeft;
     private RecyclerView recRight;
     private TextView rightTitle;
@@ -69,6 +79,12 @@ public class LieBiaoFenLeiFragment extends Fragment {
 
             initLeft();
             initRight();
+            re_search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(getContext(), SearchActivity.class));
+                }
+            });
         }
         return view;
     }
@@ -166,7 +182,6 @@ public class LieBiaoFenLeiFragment extends Fragment {
         if (leftAdapter == null) {
             leftAdapter = new ScrollLeftAdapter(R.layout.scroll_left, null);
             recLeft.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-            recLeft.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
             recLeft.setAdapter(leftAdapter);
         } else {
             leftAdapter.notifyDataSetChanged();

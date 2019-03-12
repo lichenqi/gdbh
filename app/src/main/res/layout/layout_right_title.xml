@@ -3,8 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:orientation="vertical">
-
+    android:orientation="horizontal">
+    <View
+        android:layout_width="2dp"
+        android:layout_gravity="center_vertical"
+        android:layout_height="10dp"
+        android:layout_marginLeft="5dp"
+        android:background="@color/red"/>
     <TextView
         android:id="@+id/right_title"
         android:layout_width="match_parent"

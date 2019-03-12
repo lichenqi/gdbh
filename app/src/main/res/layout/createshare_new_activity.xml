@@ -1,13 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/order_shuoming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff9ed"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="您的奖励预计为: 15.73元"
+                    android:textColor="#f6c15b"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/iv"
+                    android:text="规则"
+                    android:textColor="#f6c15b"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/red_jiantou" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="选择图片"
+                android:textColor="@color/black" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+            <TextView
+                android:id="@+id/tv_buide_poster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/fuzhifenxiangwenan"
+                android:paddingBottom="5dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="5dp"
+                android:text="生成海报"
+                android:textColor="#6f4207"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -27,105 +108,65 @@
 
             <RelativeLayout
                 android:id="@+id/re_wchat_friend"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                style="@style/create_style_of_re">
 
                 <ImageView
                     android:id="@+id/iv_wchat_friend"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerCrop"
+                    style="@style/create_style_of_iv"
                     android:src="@mipmap/wchat_friend" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/create_style_of_text"
                     android:layout_below="@+id/iv_wchat_friend"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="3dp"
-                    android:text="微信"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:text="微信" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/re_wchat_circle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                style="@style/create_style_of_re">
 
                 <ImageView
                     android:id="@+id/iv_wchat_circle"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerCrop"
+                    style="@style/create_style_of_iv"
                     android:src="@mipmap/wchat_circle" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/create_style_of_text"
                     android:layout_below="@+id/iv_wchat_circle"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="3dp"
-                    android:text="朋友圈"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:text="朋友圈" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/re_qq_friend"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                style="@style/create_style_of_re">
 
                 <ImageView
                     android:id="@+id/iv_qq_friend"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerCrop"
+                    style="@style/create_style_of_iv"
                     android:src="@mipmap/qq_friend" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/create_style_of_text"
                     android:layout_below="@+id/iv_qq_friend"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="3dp"
-                    android:text="QQ"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:text="QQ" />
 
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/re_qq_space"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                style="@style/create_style_of_re">
 
                 <ImageView
                     android:id="@+id/iv_qq_area"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="centerCrop"
+                    style="@style/create_style_of_iv"
                     android:src="@mipmap/save_img" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/create_style_of_text"
                     android:layout_below="@+id/iv_qq_area"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="3dp"
-                    android:text="保存图片"
-                    android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:text="保存图片" />
 
             </RelativeLayout>
 
@@ -133,4 +174,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

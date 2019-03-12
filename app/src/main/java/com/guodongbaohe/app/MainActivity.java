@@ -56,6 +56,7 @@ import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.fragment.LieBiaoFenLeiFragment;
 import com.guodongbaohe.app.fragment.MakeMoneyFragment;
 import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
@@ -428,8 +429,8 @@ public class MainActivity extends BigBaseActivity {
                     currentFragment = new NewHomeFragment();
                     break;
                 case 1:
-                    currentFragment = new NewRangingListFragment();
-//                    currentFragment = new LieBiaoFenLeiFragment();
+//                    currentFragment = new NewRangingListFragment();
+                    currentFragment=new LieBiaoFenLeiFragment();
                     break;
                 case 2:
                     currentFragment = new MakeMoneyFragment();
@@ -1007,9 +1008,8 @@ public class MainActivity extends BigBaseActivity {
                                     sure.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {
-                                            String url = four_iv_list.get(0).getUrl();/*跳转地址*/
-                                            String type = four_iv_list.get(0).getType();/*跳转类型*/
-                                            String extend = four_iv_list.get(0).getExtend();/*标题*/
+                                            String url = four_iv_list.get(0).getUrl();
+                                            String type = four_iv_list.get(0).getType();
                                             if (!TextUtils.isEmpty(type)) {
                                                 switch (type) {
                                                     case "normal":
@@ -1022,7 +1022,6 @@ public class MainActivity extends BigBaseActivity {
                                                         /*淘宝天猫会场地址*/
                                                         intent = new Intent(MainActivity.this, TaoBaoAndTianMaoUrlActivity.class);
                                                         intent.putExtra("url", url);
-                                                        intent.putExtra("title", extend);
                                                         startActivity(intent);
                                                         break;
                                                     case "local_goods":

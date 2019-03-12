@@ -10,6 +10,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,9 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.adapter.ScrollLeftAdapter;
 import com.guodongbaohe.app.adapter.ScrollRightAdapter;
+import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.bean.ScrollBean;
-import com.guodongbaohe.app.util.PreferUtils;
-
-import org.greenrobot.eventbus.EventBus;
+import com.guodongbaohe.app.util.SpUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
 
     private List<String> left;
     private List<ScrollBean> right;
+     List<CommonBean.CommonSecond> right_data;
     private ScrollLeftAdapter leftAdapter;
     private ScrollRightAdapter rightAdapter;
     //右侧title在数据中所对应的position集合
@@ -141,7 +142,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
                     if (right.get(first).isHeader) {
                         rightTitle.setText(right.get(first).header);
                     } else {
-                        rightTitle.setText(right.get(first).t.getType());
+//                        rightTitle.setText(right.get(first).t.getType());
                     }
                 }
 
@@ -187,97 +188,115 @@ public class LieBiaoFenLeiFragment extends Fragment {
             }
         });
     }
-
+    List<CommonBean.CommonResult> titleList;
     //获取数据(若请求服务端数据,请求到的列表需有序排列)
     private void initData() {
+        titleList=SpUtil.getList(getContext(),"head_title_list");
+        right_data=new ArrayList<>();
         left = new ArrayList<>();
-        left.add("第一组");
-        left.add("第二组略略略略略略略");
-        left.add("第三组哈哈哈哈哈哈哈哈哈哈hahahahahahaha");
-        left.add("第四组哈哈哈哈哈嗝~");
-        left.add("第五组");
-        left.add("第六组哎呀我去");
-        left.add("第七组");
+        for (int i=0;i<titleList.size();i++){
+                if (i!=0){
+                    left.add(titleList.get(i).getName());
+                    right_data.addAll(titleList.get(i).getChild());
+
+                }
+        }
 
         right = new ArrayList<>();
+for (int i=0;i<titleList.size();i++){
+    if (i!=0){
+        right.add(new ScrollBean(true,titleList.get(i).getName()));
+        for (int j=0;j<titleList.get(i).getChild().size();j++){
+            right.add(new ScrollBean(new ScrollBean.ScrollItemBean(titleList.get(i).getChild().get(j).getName(), titleList.get(i).getChild().get(j).getThumb())));
+        }
+    }
+}
+//        for (int i=0;i<left.size();i++){
+//                right.add(new ScrollBean(true, left.get(i)));
+//                for (int j=0;j<right_data.size();j++){
+//                    right.add(new ScrollBean(new ScrollBean.ScrollItemBean(right_data.get(i).getName(), right_data.get(j).getThumb())));
+//                }
+//        }
 
-        right.add(new ScrollBean(true, left.get(0)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111111", left.get(0))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111112", left.get(0))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111113", left.get(0))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111114", left.get(0))));
-
-        right.add(new ScrollBean(true, left.get(1)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
-
-        right.add(new ScrollBean(true, left.get(2)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
-
-        right.add(new ScrollBean(true, left.get(3)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
-
-        right.add(new ScrollBean(true, left.get(4)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
-
-        right.add(new ScrollBean(true, left.get(5)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
-
-        right.add(new ScrollBean(true, left.get(6)));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
-        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
+//        right.add(new ScrollBean(true, left.get(0)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111111", left.get(0))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111112", left.get(0))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111113", left.get(0))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("1111114", left.get(0))));
+//
+//        right.add(new ScrollBean(true, left.get(1)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("2222222", left.get(1))));
+//
+//        right.add(new ScrollBean(true, left.get(2)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("3333333", left.get(2))));
+//
+//        right.add(new ScrollBean(true, left.get(3)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("4444444", left.get(3))));
+//
+//        right.add(new ScrollBean(true, left.get(4)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("5555555", left.get(4))));
+//
+//        right.add(new ScrollBean(true, left.get(5)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("6666666", left.get(5))));
+//
+//        right.add(new ScrollBean(true, left.get(6)));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
+//        right.add(new ScrollBean(new ScrollBean.ScrollItemBean("7777777", left.get(6))));
 
         for (int i = 0; i < right.size(); i++) {
             if (right.get(i).isHeader) {
                 //遍历右侧列表,判断如果是header,则将此header在右侧列表中所在的position添加到集合中
                 tPosition.add(i);
+                Log.i("list+++++",i+"");
             }
         }
+
     }
 
     /**

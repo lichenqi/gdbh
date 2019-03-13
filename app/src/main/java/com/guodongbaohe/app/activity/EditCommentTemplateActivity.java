@@ -49,6 +49,10 @@ public class EditCommentTemplateActivity extends BaseActivity {
     EditText et_line_seven;
     @BindView(R.id.et_taobao_eight)
     EditText et_taobao_eight;
+    @BindView(R.id.et_tuijian_nine)
+    EditText et_tuijian_nine;
+    @BindView(R.id.et_line_ten)
+    EditText et_line_ten;
     /*恢复按钮*/
     @BindView(R.id.tv_huifu)
     TextView tv_huifu;
@@ -59,7 +63,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
     private boolean isSave = false;
     ImageView iv_back;
     String content_line_one, content_title_two, content_sale_price_three, content_coupon_four, content_line_five,
-            content_order_six, content_line_seven, content_taobao_eight;
+            content_order_six, content_line_seven, content_taobao_eight, content_tuijian_nine, content_line_ten;
     Dialog loadingDialog;
     String title_sign = "{标题}";
     String shop_old_price_sign = "{商品原价}";
@@ -90,7 +94,9 @@ public class EditCommentTemplateActivity extends BaseActivity {
         content_order_six = PreferUtils.getString(getApplicationContext(), "content_order_six");
         content_line_seven = PreferUtils.getString(getApplicationContext(), "content_line_seven");
         content_taobao_eight = PreferUtils.getString(getApplicationContext(), "content_taobao_eight");
-        if (TextUtils.isEmpty(content_line_one)) {
+        content_tuijian_nine = PreferUtils.getString(getApplicationContext(), "content_tuijian_nine");
+        content_line_ten = PreferUtils.getString(getApplicationContext(), "content_line_ten");
+        if (TextUtils.isEmpty(content_title_two)) {
             /*代表一次都没有保存过*/
             /*执行网络请求*/
             getTemplateData(0);/*获取模板数据*/
@@ -103,6 +109,8 @@ public class EditCommentTemplateActivity extends BaseActivity {
             et_order_six.setText(content_order_six);
             et_line_seven.setText(content_line_seven);
             et_taobao_eight.setText(content_taobao_eight);
+            et_tuijian_nine.setText(content_tuijian_nine);
+            et_line_ten.setText(content_line_ten);
         }
     }
 
@@ -121,6 +129,8 @@ public class EditCommentTemplateActivity extends BaseActivity {
                 String content_order_six = et_order_six.getText().toString().trim();
                 String content_line_seven = et_line_seven.getText().toString().trim();
                 String content_taobao_eight = et_taobao_eight.getText().toString().trim();
+                String content_tuijian_nine = et_tuijian_nine.getText().toString().trim();
+                String content_line_ten = et_line_ten.getText().toString().trim();
                 if (!content_title_two.contains(title_sign)) {
                     ToastUtils.showToast(getApplicationContext(), "缺少必填内容{标题}");
                     return;
@@ -142,6 +152,8 @@ public class EditCommentTemplateActivity extends BaseActivity {
                 PreferUtils.putString(getApplicationContext(), "content_order_six", content_order_six);
                 PreferUtils.putString(getApplicationContext(), "content_line_seven", content_line_seven);
                 PreferUtils.putString(getApplicationContext(), "content_taobao_eight", content_taobao_eight);
+                PreferUtils.putString(getApplicationContext(), "content_tuijian_nine", content_tuijian_nine);
+                PreferUtils.putString(getApplicationContext(), "content_line_ten", content_line_ten);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -188,6 +200,8 @@ public class EditCommentTemplateActivity extends BaseActivity {
                                 et_line_five.setText("----------");
                                 et_order_six.setText("{下单链接}");
                                 et_line_seven.setText("----------");
+                                et_tuijian_nine.setText("{推荐理由}");
+                                et_line_ten.setText("----------");
                                 et_taobao_eight.setText(comment);
                                 /*获取数据之后保存下来*/
                                 PreferUtils.putString(getApplicationContext(), "content_line_one", et_line_one.getText().toString().trim());
@@ -198,6 +212,8 @@ public class EditCommentTemplateActivity extends BaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "content_order_six", et_order_six.getText().toString().trim());
                                 PreferUtils.putString(getApplicationContext(), "content_line_seven", et_line_seven.getText().toString().trim());
                                 PreferUtils.putString(getApplicationContext(), "content_taobao_eight", et_taobao_eight.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_tuijian_nine", et_tuijian_nine.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_line_ten", et_line_ten.getText().toString().trim());
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);

@@ -28,7 +28,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:text="您的奖励预计为: 15.73元"
                     android:textColor="#f6c15b"
                     android:textSize="12sp" />
 
@@ -51,15 +50,6 @@
                     android:src="@mipmap/red_jiantou" />
 
             </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="选择图片"
-                android:textColor="@color/black" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview"
@@ -100,9 +90,8 @@
                     android:id="@+id/tv_view_line_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="---------"
                     android:textColor="@color/black"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/shop_title"
@@ -135,37 +124,49 @@
                     android:id="@+id/tv_view_line_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="---------"
                     android:textColor="@color/black"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_order_addrress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="2dp"
-                    android:text="下单链接"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/tv_view_line_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="---------"
                     android:textColor="@color/black"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tuijian_liyou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_view_line_four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/taobao_ling"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="复制此条评论"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/edit_comment_template"
@@ -199,6 +200,7 @@
                 android:textColor="#6f4207" />
 
             <RelativeLayout
+                android:id="@+id/re_plun"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -206,14 +208,14 @@
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_tkl_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="2dp"
-                    android:text="复制这条信息"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 

@@ -47,7 +47,6 @@ public class ShareManager {
                         File netFile = Tools.saveImageToSdCard(context, stringList.get(i));/*网络路劲转File都ok*/
                         files.add(netFile);
                     }
-//                    Bitmap bitmap1 = NetPicsToBitmap.stringToBitmap(stringList.get(0));
                 } else {
                     for (int i = 0; i < stringList.size(); i++) {
                         File file = Tools.saveImageToSdCard(context, stringList.get(i));/*网络路劲转File都ok*/

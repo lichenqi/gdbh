@@ -383,7 +383,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 /*二维码结果*/
                                 String meresult = jsonObject.getString("result");
-                                intent = new Intent(getApplicationContext(), CreationShareActivity.class);
+                                intent = new Intent(getApplicationContext(), CreateShare_New_Activity.class);
                                 intent.putExtra("goods_thumb", allNetData.getGoods_thumb());
                                 intent.putExtra("goods_gallery", allNetData.getGoods_gallery());
                                 intent.putExtra("goods_name", allNetData.getGoods_name());

@@ -81,6 +81,24 @@
                 android:textSize="14sp" />
 
             <EditText
+                android:id="@+id/et_tuijian_nine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@null"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_line_ten"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@null"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
                 android:id="@+id/et_taobao_eight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -223,7 +241,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="{宣传语}表示商品推荐语，可为空"
+            android:text="{推荐理由}表示推荐理由,可为空"
             android:textColor="@color/black" />
 
         <TextView
@@ -232,7 +250,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="{下单链接}表示下单链接"
+            android:text="{下单链接}表示下单链接,可为空"
             android:textColor="@color/black" />
 
     </LinearLayout>

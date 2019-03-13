@@ -422,7 +422,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         setVerticalCenterIconSpan(goods_name);
         StringCleanZeroUtil.StringFormat(attr_price, tv_price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, tv_old_price);
-        tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+        tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
         setSellShopName(seller_shop);
     }
 
@@ -1239,8 +1239,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 /*二维码结果*/
                                 String result = jsonObject.getString("result");
-//                                intent = new Intent(getApplicationContext(), CreationShareActivity.class);
-                                intent=new Intent(getApplicationContext(),CreateShare_New_Activity.class);
+                                intent = new Intent(getApplicationContext(), CreateShare_New_Activity.class);
                                 intent.putExtra("goods_thumb", goods_thumb);
                                 intent.putExtra("goods_gallery", goods_gallery);
                                 intent.putExtra("goods_name", goods_name);

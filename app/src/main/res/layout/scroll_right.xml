@@ -4,10 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <ImageView
+
         android:id="@+id/right_image"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:src="@mipmap/ic_launcher"/>
     <TextView
         android:id="@+id/right_text"

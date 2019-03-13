@@ -39,6 +39,7 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.mob.MobSDK;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -72,6 +73,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         context = getApplicationContext();
         mInstance = this;
+        initLeakCanary();
         //持久化存储cookie
         ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplicationContext()));
         //log拦截器
@@ -350,5 +352,12 @@ public class MyApplication extends MultiDexApplication {
                         ToastUtils.showToast(getContext(), Constant.NONET);
                     }
                 });
+    }
+    //内存泄漏检测工具
+    private void initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 }

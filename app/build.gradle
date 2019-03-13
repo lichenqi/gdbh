@@ -7,7 +7,7 @@ android {
         config {
             keyAlias 'guodongbaohe'
             keyPassword '123456'
-            storeFile file('F:/guodongbaohe_key_store/guodongbaohe.jks')
+            storeFile file('D:\\jellybox\\key/guodongbaohe.jks')
             storePassword '123456'
         }
     }
@@ -133,6 +133,10 @@ dependencies {
     /*dex分包处理*/
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    /*内存溢出工具*/
+    debugCompile   'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testCompile    'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
 }
 
 repositories {

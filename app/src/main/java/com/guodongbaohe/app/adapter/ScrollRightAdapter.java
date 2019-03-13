@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.adapter;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Message;
@@ -11,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.activity.NewSecondClassicActivity;
 import com.guodongbaohe.app.bean.ScrollBean;
 import com.guodongbaohe.app.util.NetPicsToBitmap;
 
@@ -48,7 +50,11 @@ public class ScrollRightAdapter extends BaseSectionQuickAdapter<ScrollBean, Base
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext,t.getText(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, NewSecondClassicActivity.class);
+                intent.putExtra("name", t.getText());
+                intent.putExtra("cate_id", t.getId());
+                intent.putExtra("parent_id", t.getP_id());
+                mContext.startActivity(intent);
             }
         });
     }

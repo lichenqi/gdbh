@@ -220,7 +220,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
         if (i!=0){
             right.add(new ScrollBean(true,titleList.get(i).getName()));
             for (int j=0;j<titleList.get(i).getChild().size();j++){
-                right.add(new ScrollBean(new ScrollBean.ScrollItemBean(titleList.get(i).getChild().get(j).getName(), titleList.get(i).getChild().get(j).getThumb())));
+                right.add(new ScrollBean(new ScrollBean.ScrollItemBean(titleList.get(i).getChild().get(j).getName(), titleList.get(i).getChild().get(j).getThumb(),titleList.get(i).getChild().get(j).getCate_id(),titleList.get(i).getCate_id())));
                 }
             }
         }

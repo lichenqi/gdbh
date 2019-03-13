@@ -93,7 +93,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
         if (TextUtils.isEmpty(content_line_one)) {
             /*代表一次都没有保存过*/
             /*执行网络请求*/
-            getTemplateData();/*获取模板数据*/
+            getTemplateData(0);/*获取模板数据*/
         } else {
             et_line_one.setText(content_line_one);
             et_title_two.setText(content_title_two);
@@ -109,9 +109,10 @@ public class EditCommentTemplateActivity extends BaseActivity {
     @OnClick({R.id.tv_huifu, R.id.tv_save})
     public void OnClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_huifu:
+            case R.id.tv_huifu:/*恢复按钮*/
+                getTemplateData(1);
                 break;
-            case R.id.tv_save:
+            case R.id.tv_save:/*保存按钮*/
                 String content_line_one = et_line_one.getText().toString().trim();
                 String content_title_two = et_title_two.getText().toString().trim();
                 String content_sale_price_three = et_sale_price_three.getText().toString().trim();
@@ -147,14 +148,17 @@ public class EditCommentTemplateActivity extends BaseActivity {
                         DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getApplicationContext(), "保存成功");
                     }
-                }, 1100);
+                }, 1000);
                 isSave = true;
                 break;
         }
     }
 
     /*获取模板数据*/
-    private void getTemplateData() {
+    private void getTemplateData(int mode) {
+        if (mode == 1) {
+            loadingDialog = DialogUtil.createLoadingDialog(EditCommentTemplateActivity.this, "恢复中...");
+        }
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHARE_MOBAN)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
@@ -169,6 +173,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
+                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("打印模板看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -184,6 +189,15 @@ public class EditCommentTemplateActivity extends BaseActivity {
                                 et_order_six.setText("{下单链接}");
                                 et_line_seven.setText("----------");
                                 et_taobao_eight.setText(comment);
+                                /*获取数据之后保存下来*/
+                                PreferUtils.putString(getApplicationContext(), "content_line_one", et_line_one.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_title_two", et_title_two.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_sale_price_three", et_sale_price_three.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_coupon_four", et_coupon_price_four.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_line_five", et_line_five.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_order_six", et_order_six.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_line_seven", et_line_seven.getText().toString().trim());
+                                PreferUtils.putString(getApplicationContext(), "content_taobao_eight", et_taobao_eight.getText().toString().trim());
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -195,6 +209,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

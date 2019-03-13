@@ -353,6 +353,7 @@ public class MyApplication extends MultiDexApplication {
                     }
                 });
     }
+
     //内存泄漏检测工具
     private void initLeakCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {

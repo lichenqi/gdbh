@@ -1239,7 +1239,8 @@ public class ShopDetailActivity extends BigBaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 /*二维码结果*/
                                 String result = jsonObject.getString("result");
-                                intent = new Intent(getApplicationContext(), CreationShareActivity.class);
+//                                intent = new Intent(getApplicationContext(), CreationShareActivity.class);
+                                intent=new Intent(getApplicationContext(),CreateShare_New_Activity.class);
                                 intent.putExtra("goods_thumb", goods_thumb);
                                 intent.putExtra("goods_gallery", goods_gallery);
                                 intent.putExtra("goods_name", goods_name);

@@ -1,6 +1,8 @@
 package com.guodongbaohe.app.bean;
 
-public class ChooseImagsNum {
+import java.io.Serializable;
+
+public class ChooseImagsNum implements Serializable {
     private String url;
     private boolean isChecked;
 

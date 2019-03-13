@@ -204,4 +204,6 @@ public class Constant {
     public static final String SET_NEW_PHONE = "member/modifyNewPhone";
     /*官方微信客服*/
     public static final String WEIXIN_KEFU = "assets/upgradeCourse";
+    /*分享模板*/
+    public static final String SHARE_MOBAN = "share/template";
 }

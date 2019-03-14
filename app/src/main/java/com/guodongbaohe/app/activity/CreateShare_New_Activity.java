@@ -912,7 +912,7 @@ public class CreateShare_New_Activity extends BaseActivity {
     private void layoutView(View v, int width, int height) {
         v.layout(0, 0, width, height);
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec(10000, View.MeasureSpec.AT_MOST);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(12000, View.MeasureSpec.AT_MOST);
         v.measure(measuredWidth, measuredHeight);
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         viewSaveToImage(v);

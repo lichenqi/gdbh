@@ -1283,6 +1283,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             bean.image = screenList.get(i).getImage();
             bean.url = screenList.get(i).getUrl();
             bean.extend = screenList.get(i).getExtend();
+            bean.type=screenList.get(i).getType();
             dataList.add(bean);
         }
         //计算viewpager一共显示几页

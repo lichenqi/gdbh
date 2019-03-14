@@ -7,4 +7,5 @@ public class NewBanDataBean implements Serializable {
     public String image;
     public String url;
     public String extend;
+    public String type;
 }

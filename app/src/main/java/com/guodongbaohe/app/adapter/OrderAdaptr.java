@@ -87,6 +87,12 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
         }
         holder.time.setText("下单时间:" + list.get(position).getCreate_time());
         holder.makemoney.setText("你能赚¥" + list.get(position).getMoney());
+        if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+            /*普通用户不显示你能赚*/
+            holder.makemoney.setVisibility(View.GONE);
+        } else {
+            holder.makemoney.setVisibility(View.VISIBLE);
+        }
         if (onItemClick != null) {
             holder.tv_order_no_fuzhi.setOnClickListener(new View.OnClickListener() {
                 @Override

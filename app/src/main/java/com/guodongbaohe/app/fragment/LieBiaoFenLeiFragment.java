@@ -47,7 +47,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
 
     private List<String> left;
     private List<ScrollBean> right;
-     List<CommonBean.CommonSecond> right_data;
+    List<CommonBean.CommonSecond> right_data;
     private ScrollLeftAdapter leftAdapter;
     private ScrollRightAdapter rightAdapter;
     //右侧title在数据中所对应的position集合
@@ -58,6 +58,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
     //记录右侧当前可见的第一个item的position
     private int first = 0;
     private GridLayoutManager rightManager;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -69,10 +70,10 @@ public class LieBiaoFenLeiFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.liebiaofenlei, container, false);
             ButterKnife.bind(this, view);
-            mContext=view.getContext();
+            mContext = view.getContext();
             recLeft = (RecyclerView) view.findViewById(R.id.rec_left);
             recRight = (RecyclerView) view.findViewById(R.id.rec_right);
-            rightTitle = (TextView)view. findViewById(R.id.right_title);
+            rightTitle = (TextView) view.findViewById(R.id.right_title);
 
             initData();
 
@@ -87,6 +88,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
         }
         return view;
     }
+
     private void initRight() {
 
         rightManager = new GridLayoutManager(mContext, 3);
@@ -202,25 +204,27 @@ public class LieBiaoFenLeiFragment extends Fragment {
             }
         });
     }
+
     List<CommonBean.CommonResult> titleList;
+
     //获取数据(若请求服务端数据,请求到的列表需有序排列)
     private void initData() {
-        titleList=SpUtil.getList(getContext(),"head_title_list");
-        right_data=new ArrayList<>();
+        titleList = SpUtil.getList(getContext(), "head_title_list");
+        right_data = new ArrayList<>();
         left = new ArrayList<>();
-        for (int i=0;i<titleList.size();i++){
-                if (i!=0){
-                    left.add(titleList.get(i).getName());
-                    right_data.addAll(titleList.get(i).getChild());
-                }
+        for (int i = 0; i < titleList.size(); i++) {
+            if (i != 0) {
+                left.add(titleList.get(i).getName());
+                right_data.addAll(titleList.get(i).getChild());
+            }
         }
 
         right = new ArrayList<>();
-        for (int i=0;i<titleList.size();i++){
-        if (i!=0){
-            right.add(new ScrollBean(true,titleList.get(i).getName()));
-            for (int j=0;j<titleList.get(i).getChild().size();j++){
-                right.add(new ScrollBean(new ScrollBean.ScrollItemBean(titleList.get(i).getChild().get(j).getName(), titleList.get(i).getChild().get(j).getThumb(),titleList.get(i).getChild().get(j).getCate_id(),titleList.get(i).getCate_id())));
+        for (int i = 0; i < titleList.size(); i++) {
+            if (i != 0) {
+                right.add(new ScrollBean(true, titleList.get(i).getName()));
+                for (int j = 0; j < titleList.get(i).getChild().size(); j++) {
+                    right.add(new ScrollBean(new ScrollBean.ScrollItemBean(titleList.get(i).getChild().get(j).getName(), titleList.get(i).getChild().get(j).getThumb(), titleList.get(i).getChild().get(j).getCate_id(), titleList.get(i).getCate_id())));
                 }
             }
         }
@@ -228,7 +232,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
             if (right.get(i).isHeader) {
                 //遍历右侧列表,判断如果是header,则将此header在右侧列表中所在的position添加到集合中
                 tPosition.add(i);
-                Log.i("list+++++",i+"");
+                Log.i("list+++++", i + "");
             }
         }
 

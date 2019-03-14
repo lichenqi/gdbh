@@ -228,8 +228,8 @@ public class YaoQingFriendActivity extends BaseActivity {
 
     private void layoutView(View v, int width, int height) {
         v.layout(0, 0, width, height);
-        int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec(DensityUtils.dip2px(getApplicationContext(), 700), View.MeasureSpec.AT_MOST);
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec(v.getWidth()+100, View.MeasureSpec.EXACTLY);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(DensityUtils.dip2px(getApplicationContext(),720), View.MeasureSpec.EXACTLY);
         v.measure(measuredWidth, measuredHeight);
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         viewSaveToImage(v);
@@ -241,8 +241,9 @@ public class YaoQingFriendActivity extends BaseActivity {
         view.setDrawingCacheEnabled(true);
         view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         view.setDrawingCacheBackgroundColor(Color.WHITE);
-        // 把一个View转换成图片
-        hebingBitmap = loadBitmapFromView(view);
+        hebingBitmap = view.getDrawingCache();
+//        // 把一个View转换成图片
+//        hebingBitmap = loadBitmapFromView(view);
         DialogUtil.closeDialog(loadingDialog);
         /*自定义九宫格样式*/
         customShareStyle();

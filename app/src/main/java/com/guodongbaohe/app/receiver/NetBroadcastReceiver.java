@@ -27,7 +27,6 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
             if (!TextUtils.isEmpty(String.valueOf(netWorkState)) || netWorkState!=0) {
                 evevt.onNetChange(netWorkState);
             }
-
         }
     }
 

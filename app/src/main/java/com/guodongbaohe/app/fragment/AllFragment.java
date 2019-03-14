@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -38,13 +39,18 @@ import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
+import com.guodongbaohe.app.adapter.HomeHorizontalAdapter;
 import com.guodongbaohe.app.adapter.HomeListAdapter;
+import com.guodongbaohe.app.adapter.HomeVerticalAdapter;
+import com.guodongbaohe.app.adapter.HoursHortAdapter;
 import com.guodongbaohe.app.bean.BannerDataBean;
 import com.guodongbaohe.app.bean.BuyUserBean;
+import com.guodongbaohe.app.bean.HomeHorizontalListBean;
 import com.guodongbaohe.app.bean.HomeListBean;
 import com.guodongbaohe.app.bean.NewBanDataBean;
 import com.guodongbaohe.app.bean.NewBannerBean;
 import com.guodongbaohe.app.bean.ShopBasicBean;
+import com.guodongbaohe.app.bean.ThemeBean;
 import com.guodongbaohe.app.bean.XinShouJiaoBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -52,7 +58,10 @@ import com.guodongbaohe.app.gridview.DecoratorViewPager;
 import com.guodongbaohe.app.gridview.GViewPagerAdapter;
 import com.guodongbaohe.app.gridview.GridViewAdapter;
 import com.guodongbaohe.app.gridview.MultiGridView;
+import com.guodongbaohe.app.itemdecoration.HorizontalItem;
+import com.guodongbaohe.app.itemdecoration.HotItem;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -160,6 +169,170 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             }
         }
         return view;
+    }
+
+    ThemeBean themeBean;
+    List<ThemeBean.ThemeData> theme_list;
+    List<HomeHorizontalListBean> horizontalList;
+    List<HomeHorizontalListBean> verticalList;
+
+    private void getThemeData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("type", "index_activity");
+        String param = ParamUtil.getMapParam(map);
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url(Constant.BASE_URL + Constant.BANNER + "?" + param)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                themeBean = GsonUtil.GsonToBean(response.toString(), ThemeBean.class);
+                                if (themeBean == null) return;
+                                theme_list = themeBean.getResult();
+                                /*主题头部图片*/
+                                for (int i = 0; i < theme_list.size(); i++) {
+                                    if (theme_list.get(i).getUrl().equals("center")) {
+                                        Glide.with(getContext()).load(theme_list.get(i).getImage()).into(iv_theme);
+                                    }
+                                }
+
+                                /*布局背景图*/
+                                for (int i = 0; i < theme_list.size(); i++) {
+                                    if (theme_list.get(i).getUrl().equals("background")) {
+                                        Glide.with(getContext()).load(theme_list.get(i).getImage()).into(iv_list_bg);
+                                    }
+                                }
+                                /*横向列表数据显示*/
+                                horizontalList = new ArrayList<>();
+                                for (int i = 0; i < theme_list.size(); i++) {
+                                    if (theme_list.get(i).getUrl().equals("horizontal")) {
+                                        ThemeBean.ThemeData themeData = theme_list.get(i);
+                                        HomeHorizontalListBean bean = new HomeHorizontalListBean();
+                                        bean.setExtend(themeData.getExtend());
+                                        bean.setImage(themeData.getImage());
+                                        bean.setSort(themeData.getSort());
+                                        bean.setTitle(themeData.getTitle());
+                                        bean.setUrl(themeData.getUrl());
+                                        bean.setType(themeData.getType());
+                                        horizontalList.add(bean);
+                                    }
+                                }
+                                HomeHorizontalAdapter homeHorizontalAdapter = new HomeHorizontalAdapter(getContext(), horizontalList);
+                                recyclerview_horizontal.setAdapter(homeHorizontalAdapter);
+                                /*竖直列表数据显示*/
+                                verticalList = new ArrayList<>();
+                                for (int i = 0; i < theme_list.size(); i++) {
+                                    if (theme_list.get(i).getUrl().equals("vertical")) {
+                                        ThemeBean.ThemeData themeData = theme_list.get(i);
+                                        HomeHorizontalListBean bean = new HomeHorizontalListBean();
+                                        bean.setExtend(themeData.getExtend());
+                                        bean.setImage(themeData.getImage());
+                                        bean.setSort(themeData.getSort());
+                                        bean.setTitle(themeData.getTitle());
+                                        bean.setUrl(themeData.getUrl());
+                                        bean.setType(themeData.getType());
+                                        verticalList.add(bean);
+                                    }
+                                }
+                                HomeVerticalAdapter homeVerticalAdapter = new HomeVerticalAdapter(getContext(), verticalList);
+                                recyclerview_vertical.setAdapter(homeVerticalAdapter);
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
+    }
+
+    /*24小时排行榜*/
+    HomeListBean hoursHotBean;
+
+    private void getHoursHotListData() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put("page", "1");
+        map.put("rank", "day");
+        map.put("limit", "10");
+        final String param = ParamUtil.getMapParam(map);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.RANKINGLIST + "?" + param)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                hoursHotBean = GsonUtil.GsonToBean(response.toString(), HomeListBean.class);
+                                if (hoursHotBean == null) return;
+                                final List<HomeListBean.ListData> hoursList = hoursHotBean.getResult();
+                                if (hoursList.size() == 0) return;
+                                HoursHortAdapter hoursHortAdapter = new HoursHortAdapter(getContext(), hoursList);
+                                recyclerview_hours_hot.setAdapter(hoursHortAdapter);
+                                hoursHortAdapter.setonclicklistener(new OnItemClick() {
+                                    @Override
+                                    public void OnItemClickListener(View view, int pos) {
+                                        Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                                        intent.putExtra("goods_id", hoursList.get(pos).getGoods_id());
+                                        intent.putExtra("cate_route", hoursList.get(pos).getCate_route());/*类目名称*/
+                                        intent.putExtra("cate_category", hoursList.get(pos).getCate_category());
+                                        intent.putExtra("attr_price", hoursList.get(pos).getAttr_price());
+                                        intent.putExtra("attr_prime", hoursList.get(pos).getAttr_prime());
+                                        intent.putExtra("attr_ratio", hoursList.get(pos).getAttr_ratio());
+                                        intent.putExtra("sales_month", hoursList.get(pos).getSales_month());
+                                        intent.putExtra("goods_name", hoursList.get(pos).getGoods_name());/*长标题*/
+                                        intent.putExtra("goods_short", hoursList.get(pos).getGoods_short());/*短标题*/
+                                        intent.putExtra("seller_shop", hoursList.get(pos).getSeller_shop());/*店铺姓名*/
+                                        intent.putExtra("goods_thumb", hoursList.get(pos).getGoods_thumb());/*单图*/
+                                        intent.putExtra("goods_gallery", hoursList.get(pos).getGoods_gallery());/*多图*/
+                                        intent.putExtra("coupon_begin", hoursList.get(pos).getCoupon_begin());/*开始时间*/
+                                        intent.putExtra("coupon_final", hoursList.get(pos).getCoupon_final());/*结束时间*/
+                                        intent.putExtra("coupon_surplus", hoursList.get(pos).getCoupon_surplus());/*是否有券*/
+                                        intent.putExtra("coupon_explain", hoursList.get(pos).getGoods_slogan());/*推荐理由*/
+                                        intent.putExtra("attr_site", hoursList.get(pos).getAttr_site());/*天猫或者淘宝*/
+                                        intent.putExtra("coupon_total", hoursList.get(pos).getCoupon_total());
+                                        intent.putExtra("coupon_id", hoursList.get(pos).getCoupon_id());/*优惠券id*/
+                                        intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+                                        intent.putExtra(Constant.GAOYONGJIN_SOURCE, hoursList.get(pos).getSource());/*高佣金来源*/
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                });
     }
 
     @OnClick({R.id.notice_ca, R.id.to_top, R.id.re_notice})
@@ -457,6 +630,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 if (jiaoBean == null) {
                     getXinShuoData();
                 }
+                if (themeBean == null) {
+                    getThemeData();
+                }
+                if (hoursHotBean == null) {
+                    getHoursHotListData();
+                }
             }
 
             @Override
@@ -565,6 +744,10 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     DecoratorViewPager screen_viewpager;
     LinearLayout screen_point;
     private GViewPagerAdapter adapters;
+    ImageView iv_theme, iv_list_bg;
+    RecyclerView recyclerview_horizontal;
+    RecyclerView recyclerview_vertical;
+    RecyclerView recyclerview_hours_hot;
 
     private void initbannerview() {
         view_color = headView.findViewById(R.id.view_color);
@@ -575,10 +758,34 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         llpoint_xin = (LinearLayout) headView.findViewById(R.id.llpoint_xin);
         screen_viewpager = (DecoratorViewPager) headView.findViewById(R.id.screen_viewpager);
         screen_point = (LinearLayout) headView.findViewById(R.id.screen_point);
+        iv_theme = (ImageView) headView.findViewById(R.id.iv_theme);
+        iv_list_bg = (ImageView) headView.findViewById(R.id.iv_list_bg);
+        /*横向布局*/
+        recyclerview_horizontal = (RecyclerView) headView.findViewById(R.id.recyclerview_horizontal);
+        recyclerview_horizontal.setHasFixedSize(true);
+        recyclerview_horizontal.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        int space = DensityUtils.dip2px(getContext(), 10);
+        recyclerview_horizontal.addItemDecoration(new HorizontalItem(space));
+        /*竖直布局*/
+        recyclerview_vertical = (RecyclerView) headView.findViewById(R.id.recyclerview_vertical);
+        recyclerview_vertical.setHasFixedSize(true);
+        recyclerview_vertical.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        space = DensityUtils.dip2px(getContext(), 10);
+        recyclerview_vertical.addItemDecoration(new HorizontalItem(space));
+        /*24小时热播榜*/
+        recyclerview_hours_hot = (RecyclerView) headView.findViewById(R.id.recyclerview_hours_hot);
+        recyclerview_hours_hot.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerview_hours_hot.setLayoutManager(linearLayoutManager);
+        space = DensityUtils.dip2px(getContext(), 10);
+        recyclerview_hours_hot.addItemDecoration(new HotItem(space));
         getBannerData();
         getBuyData();
         getNewClassicData();
         getXinShuoData();
+        getThemeData();/*新版数据*/
+        getHoursHotListData();/*24小时热播榜*/
         viewpager.addOnPageChangeListener(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);

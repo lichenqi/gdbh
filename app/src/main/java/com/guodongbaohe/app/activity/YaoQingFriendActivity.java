@@ -214,52 +214,26 @@ public class YaoQingFriendActivity extends BaseActivity {
         @Override
         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
             share_iv.setImageBitmap(bitmap);
-            getViewToPics(share_view);
+            getViewBitmap(share_view);
+
         }
     };
-
-    private void getViewToPics(View view) {
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int width = metric.widthPixels;
-        int height = metric.heightPixels;
-        layoutView(view, width, height);
-    }
-
-    private void layoutView(View v, int width, int height) {
-        v.layout(0, 0, width, height);
-        int measuredWidth = View.MeasureSpec.makeMeasureSpec(v.getWidth() + 100, View.MeasureSpec.EXACTLY);
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec(DensityUtils.dip2px(getApplicationContext(), 720), View.MeasureSpec.EXACTLY);
-        v.measure(measuredWidth, measuredHeight);
-        v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
-        viewSaveToImage(v);
-    }
-
     Bitmap hebingBitmap;
-
-    private void viewSaveToImage(View view) {
-        view.setDrawingCacheEnabled(true);
-        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        view.setDrawingCacheBackgroundColor(Color.WHITE);
-        hebingBitmap = view.getDrawingCache();
-//        // 把一个View转换成图片
-//        hebingBitmap = loadBitmapFromView(view);
+    //把布局变成Bitmap
+    private void  getViewBitmap(View addViewContent) {
+        addViewContent.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        addViewContent.layout(0, 0, addViewContent.getMeasuredWidth()+10, addViewContent.getMeasuredHeight());
+        addViewContent.setDrawingCacheEnabled(true);
+        hebingBitmap = Bitmap.createBitmap(addViewContent.getMeasuredWidth(), addViewContent.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        addViewContent.setDrawingCacheEnabled(false);
+        Canvas c = new Canvas(hebingBitmap);
+        c.drawColor(Color.WHITE);
+        addViewContent.draw(c);
         DialogUtil.closeDialog(loadingDialog);
         /*自定义九宫格样式*/
         customShareStyle();
     }
-
-    private Bitmap loadBitmapFromView(View v) {
-        int w = v.getWidth();
-        int h = v.getHeight();
-        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(bmp);
-        c.drawColor(Color.WHITE);
-        v.layout(0, 0, w, h);
-        v.draw(c);
-        return bmp;
-    }
-
     List<InviteAwardBean.InviteAwardData> result;
     YaoQingFriendAdapter adapter;
 
@@ -390,30 +364,6 @@ public class YaoQingFriendActivity extends BaseActivity {
                 .setOutCancel(true)
                 .setAnimStyle(R.style.EnterExitAnimation)
                 .show(getSupportFragmentManager());
-    }
-
-    /*保存bitmap到本地*/
-    private void saveToLocal() {
-        File appDir = new File(Environment.getExternalStorageDirectory(), "gdbh");
-        if (!appDir.exists()) {
-            appDir.mkdir();
-        }
-        String fileName = System.currentTimeMillis() + ".jpg";
-        File file = new File(appDir, fileName);
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            hebingBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        ToastUtils.showToast(getApplicationContext(), "图片已保存至手机相册");
-        if (!TextUtils.isEmpty(file.getAbsolutePath())) {
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
-        }
     }
 
     /*微信好友分享*/

@@ -228,8 +228,8 @@ public class YaoQingFriendActivity extends BaseActivity {
 
     private void layoutView(View v, int width, int height) {
         v.layout(0, 0, width, height);
-        int measuredWidth = View.MeasureSpec.makeMeasureSpec(v.getWidth()+100, View.MeasureSpec.EXACTLY);
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec(DensityUtils.dip2px(getApplicationContext(),720), View.MeasureSpec.EXACTLY);
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec(v.getWidth() + 100, View.MeasureSpec.EXACTLY);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(DensityUtils.dip2px(getApplicationContext(), 720), View.MeasureSpec.EXACTLY);
         v.measure(measuredWidth, measuredHeight);
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         viewSaveToImage(v);
@@ -411,7 +411,7 @@ public class YaoQingFriendActivity extends BaseActivity {
             e.printStackTrace();
         }
         ToastUtils.showToast(getApplicationContext(), "图片已保存至手机相册");
-        if (!TextUtils.isEmpty(file.getAbsolutePath())){
+        if (!TextUtils.isEmpty(file.getAbsolutePath())) {
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
         }
     }

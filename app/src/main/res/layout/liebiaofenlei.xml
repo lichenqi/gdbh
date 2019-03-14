@@ -4,44 +4,47 @@
     android:layout_height="match_parent"
     android:background="@drawable/jianbian_zqian"
     android:orientation="vertical">
+
     <RelativeLayout
         android:id="@+id/re_search_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:paddingLeft="15dp">
+        android:layout_marginTop="10dp">
 
-    <RelativeLayout
-        android:id="@+id/re_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/iv_chat"
-        android:background="@drawable/home_search"
-        android:paddingBottom="6dp"
-        android:paddingLeft="15dp"
-        android:paddingTop="6dp">
-
-        <ImageView
-            android:id="@+id/iv_search"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/re_search"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/huise_search" />
+            android:layout_toLeftOf="@+id/iv_chat"
+            android:background="@drawable/home_search"
+            android:paddingBottom="8dp"
+            android:paddingLeft="15dp"
+            android:paddingTop="8dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="搜索商品名或粘贴宝贝标题"
-            android:textColor="@color/txblack"
-            android:textSize="13sp" />
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/huise_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="搜索商品名或粘贴宝贝标题"
+                android:textColor="@color/txblack"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,15 +65,16 @@
 
         <FrameLayout
             android:layout_width="0dp"
-            android:background="@color/white"
             android:layout_height="match_parent"
-            android:layout_weight="3">
+            android:layout_weight="3"
+            android:background="@color/white">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rec_right"
-                android:background="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -79,18 +83,19 @@
 
                 <View
                     android:layout_width="2dp"
-                    android:layout_gravity="center_vertical"
                     android:layout_height="10dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
-                    android:background="@color/red"/>
+                    android:background="@color/red" />
+
                 <TextView
                     android:id="@+id/right_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:text="sssss"
+                    android:gravity="center_vertical"
                     android:singleLine="true"
+                    android:text="sssss"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.HomeHorizontalListBean;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -20,6 +21,11 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
 
     private Context context;
     private List<HomeHorizontalListBean> horizontalList;
+    private OnItemClick onItemClick;
+
+    public void setonclicklistener(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
+    }
 
     public HomeHorizontalAdapter(Context context, List<HomeHorizontalListBean> horizontalList) {
         this.context = context;
@@ -33,8 +39,16 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
     }
 
     @Override
-    public void onBindViewHolder(HomeHorizontalHolder holder, int position) {
+    public void onBindViewHolder(final HomeHorizontalHolder holder, int position) {
         Glide.with(context).load(horizontalList.get(position).getImage()).into(holder.iv);
+        if (onItemClick != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onItemClick.OnItemClickListener(holder.itemView, holder.getAdapterPosition());
+                }
+            });
+        }
     }
 
     @Override

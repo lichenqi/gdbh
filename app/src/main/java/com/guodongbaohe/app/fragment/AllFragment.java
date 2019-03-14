@@ -32,7 +32,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
@@ -117,7 +116,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     String cate_id;
     private RelativeLayout re_tablayout_parent;
     private RelativeLayout re_search_title;
-    String notice_url;
+    String notice_url, is_index_activity;
     Context context;
     ViewPager viewpager, viewpager_xin;
     LinearLayout llpoint, llpoint_xin;
@@ -155,10 +154,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             view = inflater.inflate(R.layout.allfragment, container, false);
             ButterKnife.bind(this, view);
             context = MyApplication.getInstance();
-            initRecyclerview();
-            getListData();
             String notice_title = PreferUtils.getString(getContext(), "notice_title");
             notice_url = PreferUtils.getString(getContext(), "notice_url");
+            is_index_activity = PreferUtils.getString(getContext(), "is_index_activity");
+            initRecyclerview();
+            getListData();
             if (TextUtils.isEmpty(notice_title)) {
                 re_notice.setVisibility(View.INVISIBLE);
             } else {
@@ -176,6 +176,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     List<ThemeBean.ThemeData> theme_list;
     List<HomeHorizontalListBean> horizontalList;
     List<HomeHorizontalListBean> verticalList;
+    ThemeBean.ThemeData head_theme_data;
+    HomeHorizontalAdapter homeHorizontalAdapter;
+    HomeVerticalAdapter homeVerticalAdapter;
 
     private void getThemeData() {
         HashMap<String, String> map = new HashMap<>();
@@ -200,15 +203,19 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 themeBean = GsonUtil.GsonToBean(response.toString(), ThemeBean.class);
-                                if (themeBean == null) return;
+                                if (themeBean == null) {
+                                    ll_theme_parent.setVisibility(View.GONE);
+                                    return;
+                                }
                                 theme_list = themeBean.getResult();
                                 /*主题头部图片*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get(i).getUrl().equals("center")) {
                                         Glide.with(getContext()).load(theme_list.get(i).getImage()).into(iv_theme);
+                                        head_theme_data = theme_list.get(i);
                                     }
                                 }
-
+                                setHeadListener(head_theme_data);/*头部点击*/
                                 /*布局背景图*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get(i).getUrl().equals("background")) {
@@ -230,8 +237,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                         horizontalList.add(bean);
                                     }
                                 }
-                                HomeHorizontalAdapter homeHorizontalAdapter = new HomeHorizontalAdapter(getContext(), horizontalList);
+                                homeHorizontalAdapter = new HomeHorizontalAdapter(getContext(), horizontalList);
                                 recyclerview_horizontal.setAdapter(homeHorizontalAdapter);
+                                setHomeHorizontalAdapterListener();
                                 /*竖直列表数据显示*/
                                 verticalList = new ArrayList<>();
                                 for (int i = 0; i < theme_list.size(); i++) {
@@ -247,9 +255,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                         verticalList.add(bean);
                                     }
                                 }
-                                HomeVerticalAdapter homeVerticalAdapter = new HomeVerticalAdapter(getContext(), verticalList);
+                                homeVerticalAdapter = new HomeVerticalAdapter(getContext(), verticalList);
                                 recyclerview_vertical.setAdapter(homeVerticalAdapter);
-
+                                setHomeVerticalAdapterListener();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -749,6 +757,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     RecyclerView recyclerview_horizontal;
     RecyclerView recyclerview_vertical;
     RecyclerView recyclerview_hours_hot;
+    LinearLayout ll_theme_parent;
 
     private void initbannerview() {
         view_color = headView.findViewById(R.id.view_color);
@@ -759,6 +768,17 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         llpoint_xin = (LinearLayout) headView.findViewById(R.id.llpoint_xin);
         screen_viewpager = (DecoratorViewPager) headView.findViewById(R.id.screen_viewpager);
         screen_point = (LinearLayout) headView.findViewById(R.id.screen_point);
+        /*活动主题大布局*/
+        ll_theme_parent = (LinearLayout) headView.findViewById(R.id.ll_theme_parent);
+        if (TextUtils.isEmpty(is_index_activity)) {
+            ll_theme_parent.setVisibility(View.GONE);
+        } else {
+            if (is_index_activity.equals("no")) {
+                ll_theme_parent.setVisibility(View.GONE);
+            } else {
+                ll_theme_parent.setVisibility(View.VISIBLE);
+            }
+        }
         iv_theme = (ImageView) headView.findViewById(R.id.iv_theme);
         iv_list_bg = (ImageView) headView.findViewById(R.id.iv_list_bg);
         /*横向布局*/
@@ -1311,6 +1331,144 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             indicator_grid[i].setBackgroundResource(R.mipmap.grid_unselect);
         }
         indicator_grid[selectedPosition % indicator_grid.length].setBackgroundResource(R.mipmap.grid_select);
+    }
+
+    private void setHeadListener(final ThemeBean.ThemeData head_theme_data) {
+        iv_theme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    String type = head_theme_data.getType();
+                    String extend = head_theme_data.getExtend();
+                    String title = head_theme_data.getTitle();
+                    switch (type) {
+                        case "xinshou":
+                            /*新手教程界面*/
+                            intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "tmall":
+                            /*淘宝天猫会场活动*/
+                            intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                            intent.putExtra("url", extend);
+                            intent.putExtra("title", title);
+                            startActivity(intent);
+                            break;
+                        case "normal":
+                            /*普通链接*/
+                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "app_theme":
+                            /*app主题*/
+                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "local_goods":
+                            /*实例商品到商品详情*/
+                            getShopBasicData(extend);
+                            break;
+                    }
+                } else {
+                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                }
+            }
+        });
+    }
+
+    private void setHomeHorizontalAdapterListener() {
+        homeHorizontalAdapter.setonclicklistener(new OnItemClick() {
+            @Override
+            public void OnItemClickListener(View view, int position) {
+                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    String type = horizontalList.get(position).getType();
+                    String title = horizontalList.get(position).getTitle();
+                    String extend = horizontalList.get(position).getExtend();
+                    switch (type) {
+                        case "xinshou":
+                            /*新手教程界面*/
+                            intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "tmall":
+                            /*淘宝天猫会场活动*/
+                            intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                            intent.putExtra("url", extend);
+                            intent.putExtra("title", title);
+                            startActivity(intent);
+                            break;
+                        case "normal":
+                            /*普通链接*/
+                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "app_theme":
+                            /*app主题*/
+                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "local_goods":
+                            /*实例商品到商品详情*/
+                            getShopBasicData(extend);
+                            break;
+                    }
+                } else {
+                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                }
+            }
+        });
+    }
+
+    private void setHomeVerticalAdapterListener() {
+        homeVerticalAdapter.setonclicklistener(new OnItemClick() {
+            @Override
+            public void OnItemClickListener(View view, int position) {
+                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    String type = verticalList.get(position).getType();
+                    String title = verticalList.get(position).getTitle();
+                    String extend = verticalList.get(position).getExtend();
+                    switch (type) {
+                        case "xinshou":
+                            /*新手教程界面*/
+                            intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "tmall":
+                            /*淘宝天猫会场活动*/
+                            intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                            intent.putExtra("url", extend);
+                            intent.putExtra("title", title);
+                            startActivity(intent);
+                            break;
+                        case "normal":
+                            /*普通链接*/
+                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "app_theme":
+                            /*app主题*/
+                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent.putExtra("url", extend);
+                            startActivity(intent);
+                            break;
+                        case "local_goods":
+                            /*实例商品到商品详情*/
+                            getShopBasicData(extend);
+                            break;
+                    }
+                } else {
+                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                }
+            }
+        });
     }
 
 }

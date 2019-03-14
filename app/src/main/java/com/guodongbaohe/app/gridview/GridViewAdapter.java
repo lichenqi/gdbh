@@ -81,72 +81,71 @@ public class GridViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Context context = viewGroup.getContext();
-                switch (url) {
-                    case "jkj":
-                        /*9.9包邮*/
-                        intent = new Intent(context, NinePinkageActivity.class);
-                        intent.putExtra("title", title);
-                        context.startActivity(intent);
-                        break;
-                    case "fqb":
-                        /*疯抢榜*/
-                        intent = new Intent(context, ShopRangingClassicActivity.class);
-                        intent.putExtra("title", title);
-                        context.startActivity(intent);
-                        break;
-                    case "jhs":
-                        /*聚划算*/
-                        intent = new Intent(context, KesalanPathActivity.class);
-                        intent.putExtra("title", title);
-                        context.startActivity(intent);
-                        break;
-                    case "tqg":
-                        /*淘抢购*/
-                        intent = new Intent(context, SuperMakeActivity.class);
-                        intent.putExtra("title", title);
-                        context.startActivity(intent);
-                        break;
-                    case "gwc":
-                        /*淘宝购物车*/
-                        if (PreferUtils.getBoolean(context, "isLogin")) {
+                if (PreferUtils.getBoolean(context, "isLogin")) {
+                    switch (url) {
+                        case "jkj":
+                            /*9.9包邮*/
+                            intent = new Intent(context, NinePinkageActivity.class);
+                            intent.putExtra("title", title);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "fqb":
+                            /*疯抢榜*/
+                            intent = new Intent(context, ShopRangingClassicActivity.class);
+                            intent.putExtra("title", title);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "jhs":
+                            /*聚划算*/
+                            intent = new Intent(context, KesalanPathActivity.class);
+                            intent.putExtra("title", title);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "tqg":
+                            /*淘抢购*/
+                            intent = new Intent(context, SuperMakeActivity.class);
+                            intent.putExtra("title", title);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "gwc":
+                            /*淘宝购物车*/
                             intent = new Intent(context, TaobaoShoppingCartActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                        } else {
-                            context.startActivity(new Intent(context, LoginAndRegisterActivity.class));
-                        }
-                        break;
-                    case "yqtz":
-                        if (PreferUtils.getBoolean(context, "isLogin")) {
+                            break;
+                        case "yqtz":
                             intent = new Intent(context, YaoQingFriendActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                        } else {
-                            context.startActivity(new Intent(context, LoginAndRegisterActivity.class));
-                        }
-                        break;
-                    case "tgsc":
-                        intent = new Intent(context, BaseH5Activity.class);
-                        intent.putExtra("url", bean.extend);
-                        context.startActivity(intent);
-                        break;
-                    case "upgrade":/*用户升级*/
-                        if (PreferUtils.getBoolean(context, "isLogin")) {
+                            break;
+                        case "tgsc":
+                            intent = new Intent(context, BaseH5Activity.class);
+                            intent.putExtra("url", bean.extend);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                            break;
+                        case "upgrade":/*用户升级*/
                             intent = new Intent(context, GShenJiActivity.class);
                             intent.putExtra("url", bean.extend);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                        } else {
-                            context.startActivity(new Intent(context, LoginAndRegisterActivity.class));
-                        }
-                        break;
-                    case "tmall":
-                        if (PreferUtils.getBoolean(context, "isLogin")) {
+                            break;
+                        case "tmall":
                             intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", bean.extend);
                             intent.putExtra("title", title);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
-                        } else {
-                            context.startActivity(new Intent(context, LoginAndRegisterActivity.class));
-                        }
-                        break;
+                            break;
+                    }
+                } else {
+                    intent = new Intent(context, LoginAndRegisterActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
                 }
             }
         });

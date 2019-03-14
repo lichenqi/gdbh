@@ -321,6 +321,8 @@ public class GuideActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
                                 /*令牌说明*/
                                 PreferUtils.putString(getApplicationContext(), "app_token_desc", bean.getResult().getApp_token_desc());
+                                /*存储首页主题活动状态*/
+                                PreferUtils.putString(getApplicationContext(), "is_index_activity", bean.getResult().getIs_index_activity());
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }

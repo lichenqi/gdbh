@@ -60,7 +60,6 @@ import com.guodongbaohe.app.fragment.LieBiaoFenLeiFragment;
 import com.guodongbaohe.app.fragment.MakeMoneyFragment;
 import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
-import com.guodongbaohe.app.fragment.NewRangingListFragment;
 import com.guodongbaohe.app.fragment.SendCircleFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
@@ -429,8 +428,7 @@ public class MainActivity extends BigBaseActivity {
                     currentFragment = new NewHomeFragment();
                     break;
                 case 1:
-//                    currentFragment = new NewRangingListFragment();
-                    currentFragment=new LieBiaoFenLeiFragment();
+                    currentFragment = new LieBiaoFenLeiFragment();
                     break;
                 case 2:
                     currentFragment = new MakeMoneyFragment();
@@ -644,6 +642,8 @@ public class MainActivity extends BigBaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
                                 /*令牌说明*/
                                 PreferUtils.putString(getApplicationContext(), "app_token_desc", bean.getResult().getApp_token_desc());
+                                /*存储首页主题活动状态*/
+                                PreferUtils.putString(getApplicationContext(), "is_index_activity", bean.getResult().getIs_index_activity());
                             } else {
                                 ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                             }

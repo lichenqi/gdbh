@@ -22,6 +22,7 @@ import com.guodongbaohe.app.activity.ShopRangingClassicActivity;
 import com.guodongbaohe.app.activity.SuperMakeActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.TaobaoShoppingCartActivity;
+import com.guodongbaohe.app.activity.TaobaoTianMaoHolidayOfActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.activity.YaoQingFriendActivity;
 import com.guodongbaohe.app.bean.NewBanDataBean;
@@ -132,6 +133,12 @@ public class GridViewAdapter extends BaseAdapter {
                             case "local_goods":
                                 /*实例商品到商品详情*/
                                 getShopBasicData(bean.extend);
+                                break;
+                            case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+                                intent.putExtra("url", bean.extend);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
                                 break;
                         }
                     } else {

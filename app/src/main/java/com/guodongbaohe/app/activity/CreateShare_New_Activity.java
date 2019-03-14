@@ -53,6 +53,7 @@ import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetPicsToBitmap;
+import com.guodongbaohe.app.util.NetUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.QRCodeUtil;
@@ -534,6 +535,10 @@ public class CreateShare_New_Activity extends BaseActivity {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_buide_poster:/*点击生成海报按钮*/
+                if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
+                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+                    return;
+                }
                 if (buidePoster == 1) {
                     ToastUtils.showToast(getApplicationContext(), "已经生成过推广海报");
                 } else {
@@ -572,6 +577,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                 copyWenAnFunction();
                 break;
             case R.id.re_wchat_friend:/*微信好友*/
+                if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
+                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+                    return;
+                }
                 if (choose_poition.size() == 0) {
                     ToastUtils.showToast(getApplicationContext(), "至少勾选一张图片才能分享");
                     return;
@@ -591,6 +600,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                 }
                 break;
             case R.id.re_wchat_circle:/*朋友圈分享*/
+                if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
+                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+                    return;
+                }
                 if (choose_poition.size() == 0) {
                     ToastUtils.showToast(getApplicationContext(), "至少勾选一张图片才能分享");
                     return;
@@ -605,6 +618,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                 }
                 break;
             case R.id.re_qq_space:/*批量下载*/
+                if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
+                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+                    return;
+                }
                 if (choose_poition.size() == 0) {
                     ToastUtils.showToast(getApplicationContext(), "至少勾选一张图片才能保存");
                     return;
@@ -623,6 +640,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.re_qq_friend:/*qq好友分享*/
+                if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
+                    ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
+                    return;
+                }
                 if (choose_poition.size() == 0) {
                     ToastUtils.showToast(getApplicationContext(), "至少勾选一张图片才能分享");
                     return;

@@ -38,6 +38,7 @@ import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
+import com.guodongbaohe.app.activity.TaobaoTianMaoHolidayOfActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.adapter.HomeHorizontalAdapter;
 import com.guodongbaohe.app.adapter.HomeListAdapter;
@@ -199,6 +200,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
+                        Log.i("查看数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -953,6 +955,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     intent.putExtra("url", url);
                                     startActivity(intent);
                                     break;
+                                case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                    intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
+                                    break;
                             }
                         }
                     } else {
@@ -1027,6 +1034,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 case "local_goods":
                                     /*实例商品到商品详情*/
                                     getShopBasicData(url);
+                                    break;
+                                case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                    intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+                                    intent.putExtra("url", url);
+                                    startActivity(intent);
                                     break;
                             }
                         }
@@ -1303,7 +1315,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             bean.image = screenList.get(i).getImage();
             bean.url = screenList.get(i).getUrl();
             bean.extend = screenList.get(i).getExtend();
-            bean.type=screenList.get(i).getType();
+            bean.type = screenList.get(i).getType();
             dataList.add(bean);
         }
         //计算viewpager一共显示几页
@@ -1372,6 +1384,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*实例商品到商品详情*/
                             getShopBasicData(extend);
                             break;
+                        case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                            intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+                            intent.putExtra("url", extend);
+                            context.startActivity(intent);
+                            break;
                     }
                 } else {
                     startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
@@ -1418,6 +1435,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*实例商品到商品详情*/
                             getShopBasicData(extend);
                             break;
+                        case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                            intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+                            intent.putExtra("url", extend);
+                            context.startActivity(intent);
+                            break;
                     }
                 } else {
                     startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
@@ -1463,6 +1485,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         case "local_goods":
                             /*实例商品到商品详情*/
                             getShopBasicData(extend);
+                            break;
+                        case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                            intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+                            intent.putExtra("url", extend);
+                            context.startActivity(intent);
                             break;
                     }
                 } else {

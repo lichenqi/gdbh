@@ -308,13 +308,16 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GFriendToBossActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.GBossH5Activity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.GVipToFriendActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.GCollectionActivity"
             android:screenOrientation="portrait" />
@@ -327,7 +330,8 @@
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.TaoBaoWebViewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.SaveMoneyActivity"
             android:screenOrientation="portrait" />
@@ -351,13 +355,15 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.CommonUserToVIPActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.TaoBaoFromUrlToDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GShenJiActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".activity.CeShiTianMaoActivity"
             android:screenOrientation="portrait" />
@@ -375,6 +381,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.EditCommentTemplateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TaobaoTianMaoHolidayOfActivity"
             android:screenOrientation="portrait" />
 
         <receiver

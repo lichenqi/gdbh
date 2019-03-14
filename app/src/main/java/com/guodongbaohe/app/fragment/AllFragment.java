@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
@@ -760,6 +761,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             View view = LayoutInflater.from(getContext()).inflate(R.layout.xinshoujiao, container, false);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
             Glide.with(getContext()).load(xin_list.get(position % xin_list.size()).getImage()).into(iv);
+//            Glide.with(getContext()).load(R.drawable.ceshigif).into(iv);
             container.addView(view);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override

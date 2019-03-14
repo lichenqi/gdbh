@@ -47,6 +47,7 @@ import com.guodongbaohe.app.activity.SearchResultActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.TaoBaoWebViewActivity;
+import com.guodongbaohe.app.activity.TaobaoTianMaoHolidayOfActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
@@ -1039,6 +1040,11 @@ public class MainActivity extends BigBaseActivity {
                                                     case "app_theme":
                                                         /*app主题*/
                                                         intent = new Intent(getApplicationContext(), BaseH5Activity.class);
+                                                        intent.putExtra("url", url);
+                                                        startActivity(intent);
+                                                        break;
+                                                    case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                                        intent = new Intent(getApplicationContext(), TaobaoTianMaoHolidayOfActivity.class);
                                                         intent.putExtra("url", url);
                                                         startActivity(intent);
                                                         break;

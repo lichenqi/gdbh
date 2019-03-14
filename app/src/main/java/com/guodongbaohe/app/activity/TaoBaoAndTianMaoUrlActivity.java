@@ -145,6 +145,9 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                     Uri uri = Uri.parse(url);
                     /*获取商品id*/
                     shop_id = uri.getQueryParameter("id");
+                    if (TextUtils.isEmpty(shop_id)) {
+                        shop_id = uri.getQueryParameter("itemId");
+                    }
                 } else {
                     tv_notice.setVisibility(View.GONE);
                     ll_yijian_view.setVisibility(View.GONE);

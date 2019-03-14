@@ -272,10 +272,12 @@ public class CreateShare_New_Activity extends BaseActivity {
             }
             /*原价显示*/
             String start_sale_price = content_sale_price_three.substring(0, content_sale_price_three.indexOf("{"));
-            shop_original_price.setText(start_sale_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+            String end_sale_price = content_sale_price_three.substring(content_sale_price_three.indexOf("}") + 1);
+            shop_original_price.setText(start_sale_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
             /*券后价显示*/
             String start_coupon_price = content_coupon_four.substring(0, content_coupon_four.indexOf("{"));
-            shop_coupon_price.setText(start_coupon_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+            String end_coupon_price = content_coupon_four.substring(content_coupon_four.indexOf("}") + 1);
+            shop_coupon_price.setText(start_coupon_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
             /*线二显示*/
             if (TextUtils.isEmpty(content_line_five)) {
                 tv_view_line_two.setVisibility(View.GONE);

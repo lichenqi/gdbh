@@ -45,208 +45,219 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/layout_stats"
+    <LinearLayout
+        android:id="@+id/ll_big_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_pager"
-        android:layout_marginTop="15dp"
-        android:descendantFocusability="blocksDescendants">
-
-        <com.guodongbaohe.app.gridview.DecoratorViewPager
-            android:id="@+id/screen_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-
-        <LinearLayout
-            android:id="@+id/screen_point"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@+id/screen_viewpager"
-            android:gravity="center"
-            android:orientation="horizontal" />
-
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/iv_theme"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_stats"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:scaleType="fitXY" />
-
-    <RelativeLayout
-        android:id="@+id/ll_theme_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/iv_theme"
-        android:background="@color/quanbeijing"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/recyclerview_horizontal"
-            android:scrollbars="none" />
-
-        <ImageView
-            android:id="@+id/iv_list_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/re_xinshuojiaoc"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/ll_theme_list">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager_xin"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:id="@+id/llpoint_xin"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:orientation="horizontal" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_ma"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/re_xinshuojiaoc"
-        android:background="@color/homelistitem"
-        android:paddingBottom="5dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp">
+        android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/layout_stats"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/home_search"
+            android:layout_marginTop="15dp"
+            android:descendantFocusability="blocksDescendants">
+
+            <com.guodongbaohe.app.gridview.DecoratorViewPager
+                android:id="@+id/screen_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <LinearLayout
+                android:id="@+id/screen_point"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_below="@+id/screen_viewpager"
+                android:gravity="center"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_theme_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/iv_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:scaleType="fitXY" />
+
+            <RelativeLayout
+                android:id="@+id/ll_theme_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/quanbeijing"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_list_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerview_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/recyclerview_horizontal"
+                    android:scrollbars="none" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_xinshuojiaoc"
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_xin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/llpoint_xin"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_ma"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/homelistitem"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
-            android:paddingRight="5dp"
+            android:paddingRight="10dp"
             android:paddingTop="5dp">
 
-            <TextView
-                android:id="@+id/shouru"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="实时"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/kfsdj"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@+id/shouru"
-                android:background="@drawable/bobao"
-                android:paddingBottom="2dp"
-                android:paddingLeft="2dp"
-                android:paddingRight="2dp"
-                android:paddingTop="2dp"
-                android:text="播报"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <com.guodongbaohe.app.view.UPMarqueeView
-                android:id="@+id/upmarqueeview"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="4dp"
-                android:layout_toRightOf="@+id/kfsdj" />
+                android:background="@drawable/home_search"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/shouru"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="实时"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/kfsdj"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/shouru"
+                    android:background="@drawable/bobao"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingTop="2dp"
+                    android:text="播报"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_ma"
-        android:background="@color/homelistitem"
-        android:orientation="vertical"
-        android:paddingTop="10dp">
+                <com.guodongbaohe.app.view.UPMarqueeView
+                    android:id="@+id/upmarqueeview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/kfsdj" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            </RelativeLayout>
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/zimubg" />
+        </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:text="24小时热播榜"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_hours_hot"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:scrollbars="none" />
+            android:background="@color/homelistitem"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <ImageView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/zimubg" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/zimubg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="24小时热播榜"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_hours_hot"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:text="精选宝贝"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:layout_marginTop="10dp"
+                android:scrollbars="none" />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/zimubg" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="精选宝贝"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 

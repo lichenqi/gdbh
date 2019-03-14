@@ -147,6 +147,15 @@ public class ConfigurationBean {
         private String about_us;
         private String agreement;
         private String online_switch_android;
+        private String is_index_activity;
+
+        public String getIs_index_activity() {
+            return is_index_activity;
+        }
+
+        public void setIs_index_activity(String is_index_activity) {
+            this.is_index_activity = is_index_activity;
+        }
 
         public String getUpgrade_vip_invite() {
             return upgrade_vip_invite;

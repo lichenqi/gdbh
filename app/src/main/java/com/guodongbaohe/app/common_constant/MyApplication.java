@@ -73,7 +73,7 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         context = getApplicationContext();
         mInstance = this;
-        initLeakCanary();
+//        initLeakCanary();
         //持久化存储cookie
         ClearableCookieJar cookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getApplicationContext()));
         //log拦截器

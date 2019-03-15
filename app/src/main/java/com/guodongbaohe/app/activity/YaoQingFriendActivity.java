@@ -5,14 +5,11 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -20,7 +17,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,10 +57,6 @@ import com.guodongbaohe.app.util.VersionUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -219,11 +211,12 @@ public class YaoQingFriendActivity extends BaseActivity {
         }
     };
     Bitmap hebingBitmap;
+
     //把布局变成Bitmap
-    private void  getViewBitmap(View addViewContent) {
+    private void getViewBitmap(View addViewContent) {
         addViewContent.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        addViewContent.layout(0, 0, addViewContent.getMeasuredWidth()+10, addViewContent.getMeasuredHeight());
+        addViewContent.layout(0, 0, addViewContent.getMeasuredWidth() + 10, addViewContent.getMeasuredHeight());
         addViewContent.setDrawingCacheEnabled(true);
         hebingBitmap = Bitmap.createBitmap(addViewContent.getMeasuredWidth(), addViewContent.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
         addViewContent.setDrawingCacheEnabled(false);
@@ -234,6 +227,7 @@ public class YaoQingFriendActivity extends BaseActivity {
         /*自定义九宫格样式*/
         customShareStyle();
     }
+
     List<InviteAwardBean.InviteAwardData> result;
     YaoQingFriendAdapter adapter;
 

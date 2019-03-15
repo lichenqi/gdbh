@@ -28,7 +28,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:textColor="#f6c15b"
+                    android:textColor="#6f4207"
                     android:textSize="12sp" />
 
                 <TextView
@@ -39,7 +39,8 @@
                     android:layout_toLeftOf="@+id/iv"
                     android:text="规则"
                     android:textColor="#f6c15b"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/iv"
@@ -47,7 +48,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@mipmap/red_jiantou" />
+                    android:src="@mipmap/red_jiantou"
+                    android:visibility="gone" />
 
             </RelativeLayout>
 

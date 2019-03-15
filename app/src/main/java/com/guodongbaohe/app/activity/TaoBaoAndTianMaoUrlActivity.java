@@ -137,8 +137,16 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                 Log.i("淘宝地址", url);
                 if (url.contains("https://detail.m.tmall.com/item.htm?")
                         || url.contains("https://detail.m.taobao.com/item.htm?")
+                        || url.contains("https://detail.m.alimama.com/item.htm?")
+                        || url.contains("https://detail.m.tmall.com/item.html?")
+                        || url.contains("https://detail.m.taobao.com/item.html?")
+                        || url.contains("https://detail.m.alimama.com/item.html?")
                         || url.contains("https://detail.m.tmall.hk/item.htm?")
-                        || url.contains("https://detail.m.taobao.hk/item.htm?")) {
+                        || url.contains("https://detail.m.taobao.hk/item.htm?")
+                        || url.contains("https://detail.m.alimama.hk/item.htm?")
+                        || url.contains("https://detail.m.tmall.hk/item.html?")
+                        || url.contains("https://detail.m.taobao.hk/item.html?")
+                        || url.contains("https://detail.m.alimama.hk/item.html?")) {
                     tv_notice.setVisibility(View.VISIBLE);
                     ll_yijian_view.setVisibility(View.VISIBLE);
                     //将String类型的地址转变为URI类型

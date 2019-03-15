@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -13,7 +14,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
-import com.guodongbaohe.app.base_activity.BigBaseActivity;
+import com.guodongbaohe.app.app_status.AppStatus;
+import com.guodongbaohe.app.app_status.AppStatusManager;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.NoticeBean;
@@ -37,7 +39,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class StartActivity extends BigBaseActivity {
+public class StartActivity extends AppCompatActivity {
     Intent intent;
     @BindView(R.id.time)
     TextView time;
@@ -77,10 +79,14 @@ public class StartActivity extends BigBaseActivity {
     private void toMainActivity() {
         if (!isFirst) {
             intent = new Intent(getApplicationContext(), GuideActivity.class);
+            //app状态改为正常
+            AppStatusManager.getInstance().setAppStatus(AppStatus.STATUS_NORMAL);
             startActivity(intent);
             PreferUtils.putBoolean(getApplicationContext(), "isFirst", true);
         } else {
             intent = new Intent(getApplicationContext(), MainActivity.class);
+            //app状态改为正常
+            AppStatusManager.getInstance().setAppStatus(AppStatus.STATUS_NORMAL);
             startActivity(intent);
         }
         finish();

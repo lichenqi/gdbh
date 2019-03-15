@@ -134,7 +134,7 @@ public class GridViewAdapter extends BaseAdapter {
                                 /*实例商品到商品详情*/
                                 getShopBasicData(bean.extend);
                                 break;
-                            case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                            case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                 intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                                 intent.putExtra("url", bean.extend);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

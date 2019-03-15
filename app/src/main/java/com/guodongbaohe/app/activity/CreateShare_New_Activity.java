@@ -379,6 +379,9 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
                                 if (bean == null) return;
                                 String comment = bean.getResult().getComment();
+                                String content = bean.getResult().getContent();
+                                String[] lines = content.split("\n");
+                                if (lines.length == 0) return;
                                 String start_tkl = comment.substring(0, comment.indexOf("{"));
                                 String end_tkl = comment.substring(comment.indexOf("}") + 1);
                                 tv_view_line_one.setVisibility(View.VISIBLE);
@@ -389,24 +392,32 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 tv_view_line_four.setVisibility(View.VISIBLE);
                                 taobao_ling.setVisibility(View.VISIBLE);
                                 re_plun.setVisibility(View.VISIBLE);
-                                tv_view_line_one.setText("----------");
+                                tv_view_line_one.setText(lines[1]);
+                                String start_title = lines[0].substring(0, lines[0].indexOf("{"));
+                                String end_title = lines[0].substring(lines[0].indexOf("}") + 1);
                                 if (TextUtils.isEmpty(good_short)) {
-                                    shop_title.setText("【" + goods_name + "】");
+                                    shop_title.setText(start_title + goods_name + end_title);
                                 } else {
-                                    shop_title.setText("【" + good_short + "】");
+                                    shop_title.setText(start_title + good_short + end_title);
                                 }
-                                shop_original_price.setText("【在售】¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
-                                shop_coupon_price.setText("【券后限时秒杀】¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-                                tv_view_line_two.setText("----------");
+                                String start_sale_price = lines[2].substring(0, lines[2].indexOf("{"));
+                                String end_sale_price = lines[2].substring(lines[2].indexOf("}") + 1);
+                                shop_original_price.setText(start_sale_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
+                                String start_coupon_price = lines[3].substring(0, lines[3].indexOf("{"));
+                                String end_coupon_price = lines[3].substring(lines[3].indexOf("}") + 1);
+                                shop_coupon_price.setText(start_coupon_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
+                                tv_view_line_two.setText(lines[1]);
                                 tv_order_addrress.setText(share_qrcode);
-                                tv_view_line_three.setText("----------");
+                                tv_view_line_three.setText(lines[1]);
                                 if (TextUtils.isEmpty(promo_slogan)) {
                                     tuijian_liyou.setVisibility(View.GONE);
                                 } else {
                                     tuijian_liyou.setVisibility(View.VISIBLE);
-                                    tuijian_liyou.setText(promo_slogan);
+                                    String start_liyou = lines[5].substring(0, lines[5].indexOf("{"));
+                                    String end_liyou = lines[5].substring(lines[5].indexOf("}") + 1);
+                                    tuijian_liyou.setText(start_liyou + promo_slogan + end_liyou);
                                 }
-                                tv_view_line_four.setText("----------");
+                                tv_view_line_four.setText(lines[1]);
                                 taobao_ling.setText(start_tkl + share_taokouling + end_tkl);
                                 tv_tkl_content.setText(start_tkl + share_taokouling + end_tkl);
                             } else {
@@ -635,9 +646,9 @@ public class CreateShare_New_Activity extends BaseActivity {
                 }
                 break;
             case R.id.re_guize:/*规则*/
-                intent = new Intent(getApplicationContext(), ShareDetailActivity.class);
-                intent.putExtra("url", PreferUtils.getString(getApplicationContext(), "share_goods"));
-                startActivity(intent);
+//                intent = new Intent(getApplicationContext(), ShareDetailActivity.class);
+//                intent.putExtra("url", PreferUtils.getString(getApplicationContext(), "share_goods"));
+//                startActivity(intent);
                 break;
             case R.id.re_qq_friend:/*qq好友分享*/
                 if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {

@@ -130,10 +130,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/fuzhifenxiangwenan"
                 android:gravity="center"
-                android:paddingBottom="5dp"
+                android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="5dp"
+                android:paddingTop="8dp"
                 android:text="恢复"
                 android:textColor="#6f4207" />
 
@@ -145,10 +145,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/fuzhifenxiangwenan"
                 android:gravity="center"
-                android:paddingBottom="5dp"
+                android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:paddingTop="5dp"
+                android:paddingTop="8dp"
                 android:text="保存"
                 android:textColor="#6f4207" />
 

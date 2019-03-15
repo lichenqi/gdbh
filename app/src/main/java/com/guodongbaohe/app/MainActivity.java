@@ -22,6 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -45,11 +46,13 @@ import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.SearchResultActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
+import com.guodongbaohe.app.activity.StartActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.TaoBaoWebViewActivity;
 import com.guodongbaohe.app.activity.TaobaoTianMaoHolidayOfActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
-import com.guodongbaohe.app.base_activity.BigBaseActivity;
+import com.guodongbaohe.app.app_status.AppStatus;
+import com.guodongbaohe.app.app_status.AppStatusManager;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.NewYearsBean;
@@ -93,7 +96,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BigBaseActivity {
+public class MainActivity extends AppCompatActivity {
     @BindView(R.id.fl_container)
     FrameLayout fl_container;
     @BindView(R.id.ll_home)
@@ -143,6 +146,13 @@ public class MainActivity extends BigBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (AppStatusManager.getInstance().getAppStatus() == AppStatus.STATUS_RECYVLE) {
+            /*跳转到闪屏页*/
+            Intent intent = new Intent(this, StartActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
@@ -1043,7 +1053,7 @@ public class MainActivity extends BigBaseActivity {
                                                         intent.putExtra("url", url);
                                                         startActivity(intent);
                                                         break;
-                                                    case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                                    case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                                         intent = new Intent(getApplicationContext(), TaobaoTianMaoHolidayOfActivity.class);
                                                         intent.putExtra("url", url);
                                                         startActivity(intent);

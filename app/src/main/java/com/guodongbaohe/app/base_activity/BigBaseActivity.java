@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.base_activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -9,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.guodongbaohe.app.MainActivity;
+import com.guodongbaohe.app.app_status.AppStatus;
+import com.guodongbaohe.app.app_status.AppStatusManager;
 import com.guodongbaohe.app.common_constant.AppManager;
 import com.guodongbaohe.app.receiver.NetBroadcastReceiver;
 import com.guodongbaohe.app.util.NetUtil;
@@ -25,6 +29,13 @@ public class BigBaseActivity extends AppCompatActivity implements NetBroadcastRe
         AppManager.getInstance().addActivity(this); //添加到栈中
         evevt = this;
         inspectNet();
+        if (AppStatusManager.getInstance().getAppStatus() == AppStatus.STATUS_RECYVLE) {
+            //跳到MainActivity,让MainActivity也finish掉
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
     }
 
     @Override

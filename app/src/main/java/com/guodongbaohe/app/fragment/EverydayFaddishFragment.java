@@ -43,6 +43,7 @@ import com.guodongbaohe.app.adapter.EverydayfaddishAdapter;
 import com.guodongbaohe.app.bean.EverydayHostGoodsBean;
 import com.guodongbaohe.app.bean.GaoYongJinBean;
 import com.guodongbaohe.app.bean.ShopBasicBean;
+import com.guodongbaohe.app.bean.TemplateBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.dialogfragment.BaseNiceDialog;
@@ -131,6 +132,8 @@ public class EverydayFaddishFragment extends Fragment {
         }
     }
 
+    String content_taobao_eight;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -141,6 +144,7 @@ public class EverydayFaddishFragment extends Fragment {
             iwxapi = WXAPIFactory.createWXAPI(getContext(), Constant.WCHATAPPID, true);
             iwxapi.registerApp(Constant.WCHATAPPID);
             getData();
+            getTemplateData();
             xrecycler.setHasFixedSize(true);
             xrecycler.setLayoutManager(new LinearLayoutManager(getContext()));
             XRecyclerViewUtil.setView(xrecycler);
@@ -199,6 +203,7 @@ public class EverydayFaddishFragment extends Fragment {
                 @Override
                 public void OnItemClickListener(View view, int position) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                        content_taobao_eight = PreferUtils.getString(getContext(), "content_taobao_eight");
                         which_position = position - 1;
                         String status = list.get(which_position).getStatus();
                         if (TextUtils.isEmpty(status) || status.equals("0")) {
@@ -398,6 +403,8 @@ public class EverydayFaddishFragment extends Fragment {
                 });
     }
 
+    String start_tkl, end_tkl;
+
     /*获取淘口令*/
     private void shenchengTaoKouLing(String coupon_click_url) {
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -433,9 +440,21 @@ public class EverydayFaddishFragment extends Fragment {
                             if (jsonObject.getInt("status") >= 0) {
                                 String taokouling = jsonObject.getString("result");
                                 ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData mClipData = ClipData.newPlainText("Label", "复制这条评论信息，" + taokouling + " ，打开【手机淘宝】即可查看");
+                                if (!TextUtils.isEmpty(content_taobao_eight)) {
+                                    start_tkl = content_taobao_eight.substring(0, content_taobao_eight.indexOf("{"));
+                                    end_tkl = content_taobao_eight.substring(content_taobao_eight.indexOf("}") + 1);
+                                } else {
+                                    if (!TextUtils.isEmpty(taokouling_muban)) {
+                                        start_tkl = taokouling_muban.substring(0, taokouling_muban.indexOf("{"));
+                                        end_tkl = taokouling_muban.substring(taokouling_muban.indexOf("}") + 1);
+                                    } else {
+                                        start_tkl = "复制这条评论信息";
+                                        end_tkl = "，打开【手机Taobao】即可查看";
+                                    }
+                                }
+                                ClipData mClipData = ClipData.newPlainText("Label", start_tkl + taokouling + end_tkl);
                                 cm.setPrimaryClip(mClipData);
-                                ClipContentUtil.getInstance(getContext()).putNewSearch("复制这条评论信息，" + taokouling + " ，打开【手机淘宝】即可查看");//保存记录到数据库
+                                ClipContentUtil.getInstance(getContext()).putNewSearch(start_tkl + taokouling + end_tkl);//保存记录到数据库
                                 showWeiXinDialog();
                             } else {
                                 ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -1152,6 +1171,44 @@ public class EverydayFaddishFragment extends Fragment {
                 }
                 break;
         }
+    }
+
+    String taokouling_muban;
+
+    /*获取模板数据*/
+    private void getTemplateData() {
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHARE_MOBAN)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        DialogUtil.closeDialog(loadingDialog);
+                        Log.i("打印模板看看", response.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
+                                if (bean == null) return;
+                                taokouling_muban = bean.getResult().getComment();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                    }
+                });
     }
 
 }

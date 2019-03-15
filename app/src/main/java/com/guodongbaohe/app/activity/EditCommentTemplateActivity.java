@@ -167,7 +167,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
     }
 
     /*获取模板数据*/
-    private void getTemplateData(int mode) {
+    private void getTemplateData(final int mode) {
         if (mode == 1) {
             loadingDialog = DialogUtil.createLoadingDialog(EditCommentTemplateActivity.this, "恢复中...");
         }
@@ -193,15 +193,18 @@ public class EditCommentTemplateActivity extends BaseActivity {
                                 TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
                                 if (bean == null) return;
                                 String comment = bean.getResult().getComment();
-                                et_line_one.setText("----------");
-                                et_title_two.setText("【{标题}】");
-                                et_sale_price_three.setText("【在售】{商品原价}");
-                                et_coupon_price_four.setText("【券后限时秒杀】{券后价}");
-                                et_line_five.setText("----------");
+                                String content = bean.getResult().getContent();
+                                String[] lines = content.split("\n");
+                                if (lines.length == 0) return;
+                                et_line_one.setText(lines[1]);
+                                et_title_two.setText(lines[0]);
+                                et_sale_price_three.setText(lines[2]);
+                                et_coupon_price_four.setText(lines[3]);
+                                et_line_five.setText(lines[1]);
                                 et_order_six.setText("{下单链接}");
-                                et_line_seven.setText("----------");
-                                et_tuijian_nine.setText("{推荐理由}");
-                                et_line_ten.setText("----------");
+                                et_line_seven.setText(lines[1]);
+                                et_tuijian_nine.setText(lines[5]);
+                                et_line_ten.setText(lines[1]);
                                 et_taobao_eight.setText(comment);
                                 /*获取数据之后保存下来*/
                                 PreferUtils.putString(getApplicationContext(), "content_line_one", et_line_one.getText().toString().trim());
@@ -214,6 +217,9 @@ public class EditCommentTemplateActivity extends BaseActivity {
                                 PreferUtils.putString(getApplicationContext(), "content_taobao_eight", et_taobao_eight.getText().toString().trim());
                                 PreferUtils.putString(getApplicationContext(), "content_tuijian_nine", et_tuijian_nine.getText().toString().trim());
                                 PreferUtils.putString(getApplicationContext(), "content_line_ten", et_line_ten.getText().toString().trim());
+                                if (mode == 1) {
+                                    ToastUtils.showToast(getApplicationContext(), "已恢复");
+                                }
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);

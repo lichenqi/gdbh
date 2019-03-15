@@ -955,7 +955,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     intent.putExtra("url", url);
                                     startActivity(intent);
                                     break;
-                                case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                     intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                                     intent.putExtra("url", url);
                                     startActivity(intent);
@@ -1035,7 +1035,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     /*实例商品到商品详情*/
                                     getShopBasicData(url);
                                     break;
-                                case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                                case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                     intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                                     intent.putExtra("url", url);
                                     startActivity(intent);
@@ -1384,7 +1384,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*实例商品到商品详情*/
                             getShopBasicData(extend);
                             break;
-                        case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                        case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                             intent.putExtra("url", extend);
                             context.startActivity(intent);
@@ -1435,7 +1435,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*实例商品到商品详情*/
                             getShopBasicData(extend);
                             break;
-                        case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                        case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                             intent.putExtra("url", extend);
                             context.startActivity(intent);
@@ -1486,7 +1486,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*实例商品到商品详情*/
                             getShopBasicData(extend);
                             break;
-                        case "taobao_no_coupo":/*淘宝天猫不需要一键查询*/
+                        case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                             intent.putExtra("url", extend);
                             context.startActivity(intent);

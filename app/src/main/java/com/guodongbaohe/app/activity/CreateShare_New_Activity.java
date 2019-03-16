@@ -274,11 +274,11 @@ public class CreateShare_New_Activity extends BaseActivity {
             /*原价显示*/
             String start_sale_price = content_sale_price_three.substring(0, content_sale_price_three.indexOf("{"));
             String end_sale_price = content_sale_price_three.substring(content_sale_price_three.indexOf("}") + 1);
-            shop_original_price.setText(start_sale_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
+            shop_original_price.setText(start_sale_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
             /*券后价显示*/
             String start_coupon_price = content_coupon_four.substring(0, content_coupon_four.indexOf("{"));
             String end_coupon_price = content_coupon_four.substring(content_coupon_four.indexOf("}") + 1);
-            shop_coupon_price.setText(start_coupon_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
+            shop_coupon_price.setText(start_coupon_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
             /*线二显示*/
             if (TextUtils.isEmpty(content_line_five)) {
                 tv_view_line_two.setVisibility(View.GONE);
@@ -402,10 +402,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                                 String start_sale_price = lines[2].substring(0, lines[2].indexOf("{"));
                                 String end_sale_price = lines[2].substring(lines[2].indexOf("}") + 1);
-                                shop_original_price.setText(start_sale_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
+                                shop_original_price.setText(start_sale_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
                                 String start_coupon_price = lines[3].substring(0, lines[3].indexOf("{"));
                                 String end_coupon_price = lines[3].substring(lines[3].indexOf("}") + 1);
-                                shop_coupon_price.setText(start_coupon_price + "¥" + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
+                                shop_coupon_price.setText(start_coupon_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
                                 tv_view_line_two.setText(lines[1]);
                                 tv_order_addrress.setText(share_qrcode);
                                 tv_view_line_three.setText(lines[1]);
@@ -879,9 +879,6 @@ public class CreateShare_New_Activity extends BaseActivity {
         }
         if (tv_view_line_four.getVisibility() == View.VISIBLE) {
             copy_cotent = copy_cotent + "\n" + ten;
-        }
-        if (taobao_ling.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + "\n" + eight;
         }
         ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         if (cm.hasPrimaryClip()) {

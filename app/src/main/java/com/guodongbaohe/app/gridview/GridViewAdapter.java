@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
-import com.guodongbaohe.app.activity.CeShiTianMaoActivity;
 import com.guodongbaohe.app.activity.GShenJiActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
@@ -111,7 +110,6 @@ public class GridViewAdapter extends BaseAdapter {
                                 context.startActivity(intent);
                                 break;
                             case "tmall":
-//                                intent=new Intent(context,CeShiTianMaoActivity.class);
                                 intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                                 intent.putExtra("url", bean.extend);
                                 intent.putExtra("title", title);

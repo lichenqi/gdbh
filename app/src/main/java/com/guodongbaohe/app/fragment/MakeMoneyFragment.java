@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -149,6 +150,7 @@ public class MakeMoneyFragment extends Fragment {
     @BindView(R.id.tv_hehren_view)
     TextView tv_hehren_view;
     String upgrade_partner_vips, upgrade_boss_partners;
+    Context context;
 
     @Override
     public void onDestroy() {
@@ -183,10 +185,11 @@ public class MakeMoneyFragment extends Fragment {
             view = inflater.inflate(R.layout.makemoneyfragment, container, false);
             ButterKnife.bind(this, view);
             EventBus.getDefault().register(this);
+            context = MyApplication.getInstance();
             /*vip要升级合伙人需要的人数*/
-            upgrade_partner_vips = PreferUtils.getString(getContext(), "upgrade_partner_vips");
+            upgrade_partner_vips = PreferUtils.getString(context, "upgrade_partner_vips");
             /*合伙人升级总裁需要的人数*/
-            upgrade_boss_partners = PreferUtils.getString(getContext(), "upgrade_boss_partners");
+            upgrade_boss_partners = PreferUtils.getString(context, "upgrade_boss_partners");
             /*用户信息接口*/
             getUserData();
             /*滑动标题渐变*/
@@ -215,14 +218,14 @@ public class MakeMoneyFragment extends Fragment {
 
     /*用户头像和用户名更改*/
     private void userImgAnduserNameChange() {
-        userImg = PreferUtils.getString(getContext(), "userImg");
-        userName = PreferUtils.getString(getContext(), "userName");
-        member_role = PreferUtils.getString(getContext(), "member_role");
-        son_count = PreferUtils.getString(getContext(), "son_count");
+        userImg = PreferUtils.getString(context, "userImg");
+        userName = PreferUtils.getString(context, "userName");
+        member_role = PreferUtils.getString(context, "member_role");
+        son_count = PreferUtils.getString(context, "son_count");
         if (TextUtils.isEmpty(userImg)) {
             circleimageview.setImageResource(R.mipmap.user_moren_logo);
         } else {
-            Glide.with(getContext()).load(userImg).into(circleimageview);
+            Glide.with(context).load(userImg).into(circleimageview);
         }
         name.setText(userName);
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
@@ -250,19 +253,19 @@ public class MakeMoneyFragment extends Fragment {
             case R.id.tv_open_vip:
                 if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                     /*总裁*/
-                    intent = new Intent(getContext(), GBossH5Activity.class);
+                    intent = new Intent(context, GBossH5Activity.class);
                     startActivity(intent);
                 } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                     /*合伙人升级总裁*/
-                    intent = new Intent(getContext(), GFriendToBossActivity.class);
+                    intent = new Intent(context, GFriendToBossActivity.class);
                     startActivity(intent);
                 } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                     /*vip级别要升级到合伙人*/
-                    intent = new Intent(getContext(), GVipToFriendActivity.class);
+                    intent = new Intent(context, GVipToFriendActivity.class);
                     startActivity(intent);
                 } else {
                     /*普通用户*/
-                    intent = new Intent(getContext(), CommonUserToVIPActivity.class);
+                    intent = new Intent(context, CommonUserToVIPActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -274,7 +277,7 @@ public class MakeMoneyFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("field", Constant.USER_DATA_PARA);
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
@@ -283,14 +286,14 @@ public class MakeMoneyFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.USER_BASIC_INFO + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -308,8 +311,8 @@ public class MakeMoneyFragment extends Fragment {
                                     invite_code = result.getInvite_code();/*邀请码*/
                                     /*合伙人到期时间*/
                                     validity = result.getValidity();
-                                    PreferUtils.putString(getContext(), "member_role", member_role);
-                                    PreferUtils.putString(getContext(), "son_count", son_count);
+                                    PreferUtils.putString(context, "member_role", member_role);
+                                    PreferUtils.putString(context, "son_count", son_count);
                                     /*其他全部数据初始化*/
                                     OtherDataChange();
                                     userImgAnduserNameChange();
@@ -388,9 +391,9 @@ public class MakeMoneyFragment extends Fragment {
 
     /*初始化数据和无网络时*/
     private void initDataAndNoNet() {
-        member_role = PreferUtils.getString(getContext(), "member_role");
-        invite_code = PreferUtils.getString(getContext(), "invite_code");
-        son_count = PreferUtils.getString(getContext(), "son_count");
+        member_role = PreferUtils.getString(context, "member_role");
+        invite_code = PreferUtils.getString(context, "invite_code");
+        son_count = PreferUtils.getString(context, "son_count");
         OtherDataChange();
     }
 
@@ -479,21 +482,21 @@ public class MakeMoneyFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
         String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.MAKEMONEY + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -513,7 +516,7 @@ public class MakeMoneyFragment extends Fragment {
                                     tv_total_income.setText("¥" + d_money);
                                 }
                             } else {
-                                ToastUtils.showToast(getContext(), Constant.NONET);
+                                ToastUtils.showToast(context, Constant.NONET);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -522,7 +525,7 @@ public class MakeMoneyFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -533,21 +536,21 @@ public class MakeMoneyFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
         String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.MAKEMONEY + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -591,7 +594,7 @@ public class MakeMoneyFragment extends Fragment {
                                     }
                                 }
                             } else {
-                                ToastUtils.showToast(getContext(), Constant.NONET);
+                                ToastUtils.showToast(context, Constant.NONET);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -600,7 +603,7 @@ public class MakeMoneyFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }

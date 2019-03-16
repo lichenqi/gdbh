@@ -179,6 +179,7 @@ public class MineFragment extends Fragment {
     private final int VERSIONCODE_RESULT = 100;
     @BindView(R.id.qudao_id_webview)
     WebView qudao_id_webview;
+    Context context;
 
     @Override
     public void onDestroy() {
@@ -189,9 +190,10 @@ public class MineFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = MyApplication.getInstance();
         /*提示用户打开储存权限*/
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //没有存储权限
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, VERSIONCODE_RESULT);
         }
@@ -203,6 +205,7 @@ public class MineFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.mine_fragment, container, false);
             ButterKnife.bind(this, view);
+            context = MyApplication.getInstance();
             EventBus.getDefault().register(this);
             alibcLogin = AlibcLogin.getInstance();
             /*清理缓存*/
@@ -220,7 +223,7 @@ public class MineFragment extends Fragment {
     }
 
     private void initVersionView() {
-        String androidNumVersion = VersionUtil.getAndroidNumVersion(getContext());
+        String androidNumVersion = VersionUtil.getAndroidNumVersion(context);
         tv_version_display.setText(androidNumVersion);
     }
 
@@ -248,7 +251,7 @@ public class MineFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -256,14 +259,14 @@ public class MineFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.MINE_DATA + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -290,7 +293,7 @@ public class MineFragment extends Fragment {
                                     tv_daozhang.setText(String.valueOf(today_money));
                                 }
                             } else {
-                                ToastUtils.showToast(getContext(), Constant.NONET);
+                                ToastUtils.showToast(context, Constant.NONET);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -299,7 +302,7 @@ public class MineFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -329,18 +332,18 @@ public class MineFragment extends Fragment {
     }
 
     private void initView() {
-        userImg = PreferUtils.getString(getContext(), "userImg");
-        userName = PreferUtils.getString(getContext(), "userName");
-        member_role = PreferUtils.getString(getContext(), "member_role");
-        invite_code = PreferUtils.getString(getContext(), "invite_code");
-        son_count = PreferUtils.getString(getContext(), "son_count");
-        balance = PreferUtils.getString(getContext(), "balance");
-        pwechat = PreferUtils.getString(getContext(), "pwechat");
-        credits = PreferUtils.getString(getContext(), "credits");
+        userImg = PreferUtils.getString(context, "userImg");
+        userName = PreferUtils.getString(context, "userName");
+        member_role = PreferUtils.getString(context, "member_role");
+        invite_code = PreferUtils.getString(context, "invite_code");
+        son_count = PreferUtils.getString(context, "son_count");
+        balance = PreferUtils.getString(context, "balance");
+        pwechat = PreferUtils.getString(context, "pwechat");
+        credits = PreferUtils.getString(context, "credits");
         if (TextUtils.isEmpty(userImg)) {
             circleimageview.setImageResource(R.mipmap.user_moren_logo);
         } else {
-            Glide.with(getContext()).load(userImg).into(circleimageview);
+            Glide.with(context).load(userImg).into(circleimageview);
         }
         tv_name.setText(userName);
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
@@ -362,7 +365,7 @@ public class MineFragment extends Fragment {
 
     private void getCacheData() {
         try {
-            String totalCacheSize = DataCleanManager.getTotalCacheSize(getContext());
+            String totalCacheSize = DataCleanManager.getTotalCacheSize(context);
             bg3 = new BigDecimal(Double.valueOf(totalCacheSize) / 10);
             double cache = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             tv_cache_size.setText(String.valueOf(cache));
@@ -384,109 +387,109 @@ public class MineFragment extends Fragment {
                 cleanCacheDialog();
                 break;
             case R.id.circleimageview:
-                intent = new Intent(getContext(), PersonalActivity.class);
+                intent = new Intent(context, PersonalActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_order:
-                intent = new Intent(getContext(), MyOrderActivity.class);
+                intent = new Intent(context, MyOrderActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_xinshou_jiaocheng:
-                getUrl = PreferUtils.getString(getContext(), "http_list_data");
+                getUrl = PreferUtils.getString(context, "http_list_data");
                 if (!TextUtils.isEmpty(getUrl)) {
                     Gson gson = new Gson();
                     list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
                     }.getType());
                     url = list_data.getCourse().getUrl();
                 }
-                intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                intent = new Intent(context, XinShouJiaoChengActivity.class);
                 intent.putExtra("url", url);
                 startActivity(intent);
                 break;
             case R.id.re_question:
-                getUrl = PreferUtils.getString(getContext(), "http_list_data");
+                getUrl = PreferUtils.getString(context, "http_list_data");
                 if (!TextUtils.isEmpty(getUrl)) {
                     Gson gson = new Gson();
                     list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
                     }.getType());
                     url = list_data.getQuestion().getUrl();
                 }
-                intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                intent = new Intent(context, XinShouJiaoChengActivity.class);
                 intent.putExtra("url", url);
                 startActivity(intent);
                 break;
             case R.id.re_aboutus:
-                intent = new Intent(getContext(), AboutUsActivity.class);
+                intent = new Intent(context, AboutUsActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_my_department:
-                intent = new Intent(getContext(), MyTeamActivity.class);
+                intent = new Intent(context, MyTeamActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_incomeing:
-                intent = new Intent(getContext(), MyIncomeingActivity.class);
+                intent = new Intent(context, MyIncomeingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_invite_award:
-                intent = new Intent(getContext(), YaoQingFriendActivity.class);
+                intent = new Intent(context, YaoQingFriendActivity.class);
                 startActivity(intent);
                 break;
             case R.id.tv_fuzhi_anniu:
-                cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 mClipData = ClipData.newPlainText("Label", invite_code);
                 cm.setPrimaryClip(mClipData);
-                ToastUtils.showToast(getContext(), "邀请ID复制成功");
-                ClipContentUtil.getInstance(getContext()).putNewSearch(invite_code);//保存记录到数据库
+                ToastUtils.showToast(context, "邀请ID复制成功");
+                ClipContentUtil.getInstance(context).putNewSearch(invite_code);//保存记录到数据库
                 break;
             case R.id.re_user_bg:
-//                intent = new Intent(getContext(), BaiChuanActivity.class);
+//                intent = new Intent(context, BaiChuanActivity.class);
 //                startActivity(intent);
                 break;
             case R.id.re_withdraw_deposit:
-                intent = new Intent(getContext(), MoneyTiXianActivity.class);
+                intent = new Intent(context, MoneyTiXianActivity.class);
                 intent.putExtra("total_money", balance);
                 startActivity(intent);
                 break;
             case R.id.re_wechat:
                 if (!TextUtils.isEmpty(pwechat)) {
-                    cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     mClipData = ClipData.newPlainText("Label", pwechat);
                     cm.setPrimaryClip(mClipData);
-                    ToastUtils.showToast(getContext(), "邀请人微信号复制成功");
-                    ClipContentUtil.getInstance(getContext()).putNewSearch(pwechat);//保存记录到数据库
+                    ToastUtils.showToast(context, "邀请人微信号复制成功");
+                    ClipContentUtil.getInstance(context).putNewSearch(pwechat);//保存记录到数据库
                 } else {
-                    ToastUtils.showToast(getContext(), "暂无邀请人微信号");
+                    ToastUtils.showToast(context, "暂无邀请人微信号");
                 }
                 break;
             case R.id.re_tuandui:
-                intent = new Intent(getContext(), TuanDuiJinTieActivity.class);
+                intent = new Intent(context, TuanDuiJinTieActivity.class);
                 startActivity(intent);
                 break;
             case R.id.iv_set:
-                intent = new Intent(getContext(), PersonalActivity.class);
+                intent = new Intent(context, PersonalActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_taobao_gwuche:
-                intent = new Intent(getContext(), TaobaoShoppingCartActivity.class);
+                intent = new Intent(context, TaobaoShoppingCartActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_taobao_order:
-                intent = new Intent(getContext(), TaoBaoH5Activity.class);
+                intent = new Intent(context, TaoBaoH5Activity.class);
                 startActivity(intent);
                 break;
             case R.id.gd_collect_jia:
-                intent = new Intent(getContext(), GCollectionActivity.class);
+                intent = new Intent(context, GCollectionActivity.class);
                 startActivity(intent);
                 break;
             case R.id.guanfangweixin:
-                intent = new Intent(getContext(), GGfwChatActivity.class);
+                intent = new Intent(context, GGfwChatActivity.class);
                 startActivity(intent);
                 break;
             case R.id.re_version_update:
                 getVersionCodeData();
                 break;
             case R.id.gd_lingpai_rl://手机令牌
-                intent = new Intent(getContext(), GetTokenActivity.class);
+                intent = new Intent(context, GetTokenActivity.class);
                 startActivity(intent);
                 break;
         }
@@ -497,7 +500,7 @@ public class MineFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("field", "balance,credits");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
@@ -505,14 +508,14 @@ public class MineFragment extends Fragment {
         String mapParam = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.USER_BASIC_INFO + "?" + mapParam)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getH5VersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getH5VersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -528,8 +531,8 @@ public class MineFragment extends Fragment {
                                 credits = bean.getResult().getCredits();
                                 tv_ketiixan.setText("¥" + balance);
                                 tv_tuandui.setText("¥" + credits);
-                                PreferUtils.putString(getContext(), "balance", balance);
-                                PreferUtils.putString(getContext(), "credits", credits);
+                                PreferUtils.putString(context, "balance", balance);
+                                PreferUtils.putString(context, "credits", credits);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -544,7 +547,7 @@ public class MineFragment extends Fragment {
     }
 
     private void cleanCacheDialog() {
-        final Dialog dialog = new Dialog(getContext(), R.style.activitydialog);
+        final Dialog dialog = new Dialog(context, R.style.activitydialog);
         dialog.setContentView(R.layout.clean_cache_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
@@ -560,7 +563,7 @@ public class MineFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                DataCleanManager.clearAllCache(getContext());
+                DataCleanManager.clearAllCache(context);
                 getCacheData();
             }
         });
@@ -575,7 +578,7 @@ public class MineFragment extends Fragment {
         initAliBaiApi();
         /*初始化渠道*/
         initQuDaoWebview();
-        String string = PreferUtils.getString(getContext(), "member_role");
+        String string = PreferUtils.getString(context, "member_role");
         if (!TextUtils.equals(string, Constant.COMMON_USER_LEVEL)) {
             gd_lingpai_rl.setVisibility(View.VISIBLE);
         }
@@ -595,7 +598,7 @@ public class MineFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("field", Constant.USER_DATA_PARA);
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
@@ -604,14 +607,14 @@ public class MineFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.USER_BASIC_INFO + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -626,8 +629,8 @@ public class MineFragment extends Fragment {
                                     BaseUserBean.BaseUserData result = userDataBean.getResult();
                                     member_role = result.getMember_role();
                                     son_count = result.getFans();
-                                    PreferUtils.putString(getContext(), "member_role", member_role);
-                                    PreferUtils.putString(getContext(), "son_count", son_count);
+                                    PreferUtils.putString(context, "member_role", member_role);
+                                    PreferUtils.putString(context, "son_count", son_count);
                                     initView();
                                 }
                             } else {
@@ -636,9 +639,9 @@ public class MineFragment extends Fragment {
                                     if (special.equals("logout")) {
                                         /*非法账号*/
                                         String result = jsonObject.getString("result");
-                                        startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                                        startActivity(new Intent(context, LoginAndRegisterActivity.class));
                                         if (!TextUtils.isEmpty(result)) {
-                                            ToastUtils.showToast(getContext(), result);
+                                            ToastUtils.showToast(context, result);
                                         }
                                     }
                                 }
@@ -650,7 +653,7 @@ public class MineFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -662,12 +665,12 @@ public class MineFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.VERSIONUPDATE)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -684,11 +687,11 @@ public class MineFragment extends Fragment {
                                 title = result.getTitle();
                                 download = result.getDownload();
                                 String version = result.getVersion();
-                                Integer localCode = Integer.valueOf(VersionUtil.getAndroidNumVersion(getContext()).replace(".", "").trim());
+                                Integer localCode = Integer.valueOf(VersionUtil.getAndroidNumVersion(context).replace(".", "").trim());
                                 if (Integer.valueOf(version) > localCode) {
                                     versionUpdataDialog();
                                 } else {
-                                    ToastUtils.showToast(getContext(), "已是最新版本!");
+                                    ToastUtils.showToast(context, "已是最新版本!");
                                 }
                             }
                         } catch (JSONException e) {
@@ -705,7 +708,7 @@ public class MineFragment extends Fragment {
 
     /*版本升级弹窗*/
     private void versionUpdataDialog() {
-        final Dialog dialog = new Dialog(getContext(), R.style.activitydialog);
+        final Dialog dialog = new Dialog(context, R.style.activitydialog);
         dialog.setContentView(R.layout.version_update_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
@@ -725,13 +728,13 @@ public class MineFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     //没有存储权限
                     requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, VERSIONCODE_RESULT);
                 } else {
                     IOUtils.rmoveFile("gdbh.apk");
-                    ToastUtils.showToast(getContext(), "可在通知栏查看下载进度");
+                    ToastUtils.showToast(context, "可在通知栏查看下载进度");
                     downLoadApk();
                 }
             }
@@ -746,7 +749,7 @@ public class MineFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(getContext(), Constant.FILEPROVIDER, apkFile);
+            Uri apkUri = FileProvider.getUriForFile(context, Constant.FILEPROVIDER, apkFile);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
         } else {
@@ -761,7 +764,7 @@ public class MineFragment extends Fragment {
     public void downLoadApk() {
         IOUtils.rmoveFile("gdbh.apk");
         //使用系统下载类
-        downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(download);
         DownloadManager.Request request = new DownloadManager.Request(uri);
         request.setAllowedOverRoaming(false);
@@ -778,7 +781,7 @@ public class MineFragment extends Fragment {
         request.setTitle("果冻宝盒App");
         request.setDescription("正在下载中...");
         request.setVisibleInDownloadsUi(true);
-        getContext().registerReceiver(mReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        context.registerReceiver(mReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
@@ -812,7 +815,7 @@ public class MineFragment extends Fragment {
                     break;
                 //下载失败
                 case DownloadManager.STATUS_FAILED:
-                    Toast.makeText(getContext(), "下载失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "下载失败", Toast.LENGTH_SHORT).show();
                     break;
             }
         }
@@ -826,14 +829,14 @@ public class MineFragment extends Fragment {
             case VERSIONCODE_RESULT:
                 /*安装apk权限回调*/
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getContext(), "版本升级需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(context, "版本升级需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getContext(), "版本升级需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(context, "版本升级需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     IOUtils.rmoveFile("gdbh.apk");
-                    ToastUtils.showToast(getContext(), "可在通知栏查看下载进度");
+                    ToastUtils.showToast(context, "可在通知栏查看下载进度");
                     downLoadApk();
                 }
                 break;
@@ -891,7 +894,7 @@ public class MineFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -899,14 +902,14 @@ public class MineFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.BEIANCHECK + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -947,7 +950,7 @@ public class MineFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("account_name", taobao_nick);
         map.put("explain", msg);
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
@@ -957,14 +960,14 @@ public class MineFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.SAVEBEIAN + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override

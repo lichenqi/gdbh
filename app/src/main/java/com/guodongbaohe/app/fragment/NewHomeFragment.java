@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -79,6 +80,7 @@ public class NewHomeFragment extends Fragment {
     PopupWindow popupWindow;
     RecyclerView recyclerview;
     HomeChoiceAdapter homeChoiceAdapter;
+    Context context;
 
     @Override
     public void onDestroy() {
@@ -111,6 +113,7 @@ public class NewHomeFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.newhomefragment, container, false);
             ButterKnife.bind(this, view);
+            context = MyApplication.getInstance();
             initDataView();
             /*显示折叠搜索框*/
             initChoicePopupwindowView();
@@ -119,7 +122,7 @@ public class NewHomeFragment extends Fragment {
     }
 
     private void initDataView() {
-        titleList = SpUtil.getList(getContext(), "head_title_list");
+        titleList = SpUtil.getList(context, "head_title_list");
         if (titleList == null) {
             getClassicHeadTitle();
         } else {
@@ -165,7 +168,7 @@ public class NewHomeFragment extends Fragment {
                 homeChoiceAdapter.notifyDataSetChanged();
                 if (position == 0) {
                     EventBus.getDefault().post("timeStart");
-                    String currentColor = PreferUtils.getString(getContext(), "currentColor");
+                    String currentColor = PreferUtils.getString(context, "currentColor");
                     if (!TextUtils.isEmpty(currentColor)) {
                         if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
                             setColor(currentColor);
@@ -219,12 +222,12 @@ public class NewHomeFragment extends Fragment {
                 .url(Constant.BASE_URL + Constant.GOODS_CATES)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -236,7 +239,7 @@ public class NewHomeFragment extends Fragment {
                             if (jsonObject.getInt("status") >= 0) {
                                 CommonBean bean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
                                 titleList = bean.getResult();
-                                SpUtil.putList(getContext(), "head_title_list", titleList);
+                                SpUtil.putList(context, "head_title_list", titleList);
                                 /*tablayout头部赋值操作*/
                                 setTabLayoutDataView();
                             }
@@ -247,7 +250,7 @@ public class NewHomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -269,12 +272,12 @@ public class NewHomeFragment extends Fragment {
 
     /*显示折叠搜索框*/
     private void initChoicePopupwindowView() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.choice_popupwindow_view, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.choice_popupwindow_view, null);
         RelativeLayout re_all_channel = (RelativeLayout) view.findViewById(R.id.re_all_channel);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         recyclerview.setHasFixedSize(true);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
+        GridLayoutManager manager = new GridLayoutManager(context, 4);
         recyclerview.setLayoutManager(manager);
         setChoiceData();
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
@@ -295,7 +298,7 @@ public class NewHomeFragment extends Fragment {
     }
 
     private void setChoiceData() {
-        titleList = SpUtil.getList(getContext(), "head_title_list");
+        titleList = SpUtil.getList(context, "head_title_list");
         if (titleList == null) {
             getChoiceDataTitle();
         } else {
@@ -305,7 +308,7 @@ public class NewHomeFragment extends Fragment {
 
     /*折叠recyclerview赋值操作*/
     private void initRecyclerviewAdapter() {
-        homeChoiceAdapter = new HomeChoiceAdapter(getContext(), titleList);
+        homeChoiceAdapter = new HomeChoiceAdapter(context, titleList);
         recyclerview.setAdapter(homeChoiceAdapter);
         titleList.get(0).setChoose(true);
         homeChoiceAdapter.setOnClickListener(new OnItemClick() {
@@ -329,12 +332,12 @@ public class NewHomeFragment extends Fragment {
                 .url(Constant.BASE_URL + Constant.GOODS_CATES)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -346,7 +349,7 @@ public class NewHomeFragment extends Fragment {
                             if (jsonObject.getInt("status") >= 0) {
                                 CommonBean bean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
                                 titleList = bean.getResult();
-                                SpUtil.putList(getContext(), "head_title_list", titleList);
+                                SpUtil.putList(context, "head_title_list", titleList);
                                 initRecyclerviewAdapter();
                             }
                         } catch (JSONException e) {
@@ -356,7 +359,7 @@ public class NewHomeFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -365,13 +368,13 @@ public class NewHomeFragment extends Fragment {
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.iv_chat:
-                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                    Intent intent = new Intent(getContext(), ShouRuMingXiActivity.class);
+                if (PreferUtils.getBoolean(context, "isLogin")) {
+                    Intent intent = new Intent(context, ShouRuMingXiActivity.class);
                     intent.putExtra("type", "0");
                     intent.putExtra(Constant.TOMAINTYPE, "");
                     startActivity(intent);
                 } else {
-                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                    startActivity(new Intent(context, LoginAndRegisterActivity.class));
                 }
                 break;
             case R.id.re_choice:/*点击折叠按钮*/
@@ -379,7 +382,7 @@ public class NewHomeFragment extends Fragment {
                 backgroundAlpha(0.5f);
                 break;
             case R.id.re_search:
-                startActivity(new Intent(getContext(), SearchActivity.class));
+                startActivity(new Intent(context, SearchActivity.class));
                 break;
         }
     }

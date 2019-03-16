@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -71,6 +72,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
     private List<HomeListBean.ListData> list = new ArrayList<>();
     NinePinkageAdapter ninePinkageAdapter;
     private String cate_id, label;
+    Context context;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -124,8 +126,8 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
 
     /*佣金和人气切换（初始布局）*/
     private void userLevelChange() {
-        if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-            String member_role = PreferUtils.getString(getContext(), "member_role");
+        if (PreferUtils.getBoolean(context, "isLogin")) {
+            String member_role = PreferUtils.getString(context, "member_role");
             if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 /*普通用户*/
                 tv_renqi.setText("人气");
@@ -140,8 +142,8 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
 
     /*佣金和人气切换（头部布局）*/
     private void userLevelHeadChange() {
-        if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-            String member_role = PreferUtils.getString(getContext(), "member_role");
+        if (PreferUtils.getBoolean(context, "isLogin")) {
+            String member_role = PreferUtils.getString(context, "member_role");
             if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 /*普通用户*/
                 renqi.setText("人气");
@@ -159,6 +161,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
         if (view == null) {
             view = inflater.inflate(R.layout.newotherfragment, container, false);
             ButterKnife.bind(this, view);
+            context = MyApplication.getInstance();
             EventBus.getDefault().register(this);
             initView();
             getListData();
@@ -204,12 +207,12 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GOODS_CATES)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -229,7 +232,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
                                     otherCommonHeadAdapter.setonclicklistener(new OnItemClick() {
                                         @Override
                                         public void OnItemClickListener(View view, int position) {
-                                            Intent intent = new Intent(getContext(), NewSecondClassicActivity.class);
+                                            Intent intent = new Intent(context, NewSecondClassicActivity.class);
                                             intent.putExtra("name", childList.get(position).getName());
                                             intent.putExtra("cate_id", childList.get(position).getCate_id());
                                             intent.putExtra("parent_id", result.get(which_position).getCate_id());
@@ -252,11 +255,11 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
 
     private void initView() {
         xrecycler.setHasFixedSize(true);
-        xrecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        xrecycler.setLayoutManager(new GridLayoutManager(context, 2));
         XRecyclerViewUtil.setView(xrecycler);
-        ninePinkageAdapter = new NinePinkageAdapter(getContext(), list);
+        ninePinkageAdapter = new NinePinkageAdapter(context, list);
         xrecycler.setAdapter(ninePinkageAdapter);
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.other_head_view, null);
+        View view = LayoutInflater.from(context).inflate(R.layout.other_head_view, null);
         xrecycler.addHeaderView(view);
         xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -277,7 +280,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
             @Override
             public void OnItemClickListener(View view, int position) {
                 int pos = position - 2;
-                Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                Intent intent = new Intent(context, ShopDetailActivity.class);
                 intent.putExtra("goods_id", list.get(pos).getGoods_id());
                 intent.putExtra("cate_route", list.get(pos).getCate_route());/*类目名称*/
                 intent.putExtra("cate_category", list.get(pos).getCate_category());
@@ -331,7 +334,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
         ll_head_parent = (LinearLayout) view.findViewById(R.id.ll_head_parent);
         recyclerview = (RecyclerView) view.findViewById(R.id.recyclerview);
         recyclerview.setHasFixedSize(true);
-        recyclerview.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        recyclerview.setLayoutManager(new GridLayoutManager(context, 4));
         getHeadData();
         zuixin = (TextView) view.findViewById(R.id.zuixin);
         xiaoliang = (TextView) view.findViewById(R.id.xiaoliang);
@@ -363,8 +366,8 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
         });
         userLevelHeadChange();
 
-        classicHeight = DensityUtils.dip2px(getContext(), 205);
-        totalHeight = DensityUtils.dip2px(getContext(), 245);
+        classicHeight = DensityUtils.dip2px(context, 205);
+        totalHeight = DensityUtils.dip2px(context, 245);
 
         xrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -474,12 +477,12 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -496,9 +499,9 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
                                     xrecycler.refreshComplete();
                                     xrecycler.loadMoreComplete();
                                 } else {
-                                    boolean isLogin = PreferUtils.getBoolean(getContext(), "isLogin");
-                                    String son_count = PreferUtils.getString(getContext(), "son_count");
-                                    String member_role = PreferUtils.getString(getContext(), "member_role");
+                                    boolean isLogin = PreferUtils.getBoolean(context, "isLogin");
+                                    String son_count = PreferUtils.getString(context, "son_count");
+                                    String member_role = PreferUtils.getString(context, "member_role");
                                     for (HomeListBean.ListData listData : result) {
                                         listData.setLogin(isLogin);
                                         listData.setSon_count(son_count);
@@ -527,7 +530,7 @@ public class NewOtherFragment extends BaseLazyLoadFragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
                     }

@@ -178,13 +178,12 @@ public class MainActivity extends AppCompatActivity {
         /*获取用户信息*/
         if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
             getConfigurationData();
-            getDialogData();
-//            /*首页广告弹窗 2小时一次*/
-//            if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "ddate"))) {
-//                getDialogData();
-//            } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "ddate"))) {
-//                getDialogData();
-//            }
+            /*首页广告弹窗 2小时一次*/
+            if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "ddate"))) {
+                getDialogData();
+            } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "ddate"))) {
+                getDialogData();
+            }
         }
         /*获取app配置信息*/
         getPeiZhiData();
@@ -228,10 +227,12 @@ public class MainActivity extends AppCompatActivity {
             getClipContent();
         }
     }
+
     ClipboardManager cm;
+
     private void getClipContent() {
         flag_frist = 1;
-         cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         boolean b = cm.hasPrimaryClip();
         if (b) {
             ClipData data = cm.getPrimaryClip();
@@ -694,18 +695,20 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-        if (!isUpdataCode(content)){
+        if (!isUpdataCode(content)) {
             guoDuTanKuang(content);
         }
     }
+
     //判断是否是升级码
-    public boolean isUpdataCode(String msg){
-        boolean isture=false;
-        if (msg.matches("^(?![^a-zA-Z0-9]+$)(?!\\\\D+$).{16}$")){
-            isture=true;
+    public boolean isUpdataCode(String msg) {
+        boolean isture = false;
+        if (msg.matches("^(?![^a-zA-Z0-9]+$)(?!\\\\D+$).{16}$")) {
+            isture = true;
         }
         return isture;
     }
+
     /*过渡弹框*/
     private void guoDuTanKuang(final String content) {
         if (dialog != null) {

@@ -206,26 +206,13 @@
             android:background="@color/homelistitem"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/zimubg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="24小时热播榜"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="24小时热播榜"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_hours_hot"
@@ -235,27 +222,15 @@
                 android:layout_marginTop="10dp"
                 android:scrollbars="none" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/zimubg" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:text="精选宝贝"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-            </RelativeLayout>
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="精选宝贝"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
         </LinearLayout>
 

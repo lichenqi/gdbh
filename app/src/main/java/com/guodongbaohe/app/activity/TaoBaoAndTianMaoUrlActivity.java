@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -149,7 +148,6 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                         ll_action.setVisibility(View.GONE);
                     }
                 }
-//                super.onPageFinished(view, url);
             }
         });
         webview.setWebChromeClient(new WebChromeClient() {

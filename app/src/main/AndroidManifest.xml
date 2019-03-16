@@ -385,6 +385,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TaobaoTianMaoHolidayOfActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
 
         <receiver

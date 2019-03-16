@@ -330,6 +330,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                         intent.putExtra("coupon_id", hoursList.get(pos).getCoupon_id());/*优惠券id*/
                                         intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
                                         intent.putExtra(Constant.GAOYONGJIN_SOURCE, hoursList.get(pos).getSource());/*高佣金来源*/
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                     }
                                 });
@@ -359,6 +360,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 if (!TextUtils.isEmpty(notice_url)) {
                     intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                     intent.putExtra("url", notice_url);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
                 break;
@@ -630,22 +632,22 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             @Override
             public void onRefresh() {
                 pageNum = 1;
-                getListData();
+                getListData();/*列表数据*/
                 if (bannerDataBean == null) {
-                    getBannerData();
+                    getBannerData();/*轮播图数据*/
                 }
-                getBuyData();
+                getBuyData();/*实时报播数据*/
                 if (newScreenBean == null) {
-                    getNewClassicData();
+                    getNewClassicData();/*分屏数据*/
                 }
                 if (jiaoBean == null) {
-                    getXinShuoData();
+                    getXinShuoData();/*新手教程数据*/
                 }
                 if (themeBean == null) {
-                    getThemeData();
+                    getThemeData();/*主题活动数据*/
                 }
                 if (hoursHotBean == null) {
-                    getHoursHotListData();
+                    getHoursHotListData();/*24小时热播榜数据*/
                 }
             }
 
@@ -681,6 +683,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 intent.putExtra("coupon_id", list.get(pos).getCoupon_id());/*优惠券id*/
                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
                 intent.putExtra(Constant.GAOYONGJIN_SOURCE, list.get(pos).getSource());/*高佣金来源*/
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
         });
@@ -803,11 +806,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         recyclerview_hours_hot.setLayoutManager(linearLayoutManager);
         space = DensityUtils.dip2px(getContext(), 10);
         recyclerview_hours_hot.addItemDecoration(new HotItem(space));
-        getBannerData();
-        getBuyData();
-        getNewClassicData();
-        getXinShuoData();
-        getThemeData();/*新版数据*/
+        getBannerData();/*轮播图*/
+        getBuyData();/*实时报播*/
+        getNewClassicData();/*分屏数据*/
+        getXinShuoData();/*新手教程*/
+        getThemeData();/*主题活动数据*/
         getHoursHotListData();/*24小时热播榜*/
         viewpager.addOnPageChangeListener(this);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -930,14 +933,16 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     /*普通链接地址*/
                                     intent = new Intent(getContext(), BaseH5Activity.class);
                                     intent.putExtra("url", url);
-                                    context.startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                     break;
                                 case "tmall":
                                     /*淘宝天猫会场地址*/
                                     intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("title", extend);
-                                    context.startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                     break;
                                 case "local_goods":
                                     /*本地商品进商品详情*/
@@ -947,18 +952,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     /*新手教程主题*/
                                     intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                                     intent.putExtra("url", url);
-                                    context.startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                     break;
                                 case "app_theme":
                                     /*app主题*/
                                     intent = new Intent(getContext(), BaseH5Activity.class);
                                     intent.putExtra("url", url);
-                                    context.startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                     break;
                                 case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                     intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                                     intent.putExtra("url", url);
-                                    context.startActivity(intent);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
                                     break;
                             }
                         }
@@ -1010,6 +1018,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     /*新手教程界面*/
                                     intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                                     intent.putExtra("url", url);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "tmall":
@@ -1017,18 +1026,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("title", title);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "normal":
                                     /*普通链接*/
                                     intent = new Intent(getContext(), BaseH5Activity.class);
                                     intent.putExtra("url", url);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "app_theme":
                                     /*app主题*/
                                     intent = new Intent(getContext(), BaseH5Activity.class);
                                     intent.putExtra("url", url);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "local_goods":
@@ -1038,12 +1050,13 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                     intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                                     intent.putExtra("url", url);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                             }
                         }
                     } else {
-                        startActivity(new Intent(context, LoginAndRegisterActivity.class));
+                        startToLoginActivity();
                     }
                 }
             });
@@ -1229,6 +1242,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 intent.putExtra("coupon_id", result.getCoupon_id());
                                 intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
                                 intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");
@@ -1396,7 +1410,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             break;
                     }
                 } else {
-                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                    startToLoginActivity();
                 }
             }
         });
@@ -1452,7 +1466,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             break;
                     }
                 } else {
-                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                    startToLoginActivity();
                 }
             }
         });
@@ -1508,10 +1522,17 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             break;
                     }
                 } else {
-                    startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                    startToLoginActivity();
                 }
             }
         });
+    }
+
+    /*跳转到登录界面*/
+    private void startToLoginActivity() {
+        intent = new Intent(context, LoginAndRegisterActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
     }
 
 }

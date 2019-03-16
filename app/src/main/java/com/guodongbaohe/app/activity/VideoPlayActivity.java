@@ -25,8 +25,8 @@ public class VideoPlayActivity extends AppCompatActivity {
         }
         videoView = (CustomVideoView)findViewById(R.id.videoView);
         //加载指定的视频文件
-//        String path=PreferUtils.getString(this,"url");
-        String path="https://cloud.video.taobao.com//play/u/393300180/p/1/e/6/t/1/215525269409.mp4";
+        String path=getIntent().getStringExtra("url");
+//        String path="https://cloud.video.taobao.com//play/u/393300180/p/1/e/6/t/1/215525269409.mp4";
         videoView.setVideoPath(path);
 
         //创建MediaController对象

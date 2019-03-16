@@ -10,11 +10,19 @@
         android:scaleType="centerCrop"
         android:src="@mipmap/login_logo" />
 
+
     <View
         android:id="@+id/v_go"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/zeor_view"
         android:visibility="gone" />
+    <ImageView
+        android:id="@+id/video_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:background="@mipmap/everyday_video" />
 
 </RelativeLayout>

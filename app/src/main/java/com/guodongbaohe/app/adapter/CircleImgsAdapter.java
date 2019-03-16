@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.PicsLookActivity;
+import com.guodongbaohe.app.activity.VideoPlayActivity;
+import com.guodongbaohe.app.bean.EverydayHostGoodsBean;
 import com.guodongbaohe.app.util.DensityUtils;
 
 import java.util.ArrayList;
@@ -24,17 +26,19 @@ import butterknife.ButterKnife;
 
 public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.CircleImgsHolder> {
     private List<String> list_imgs;
+    private List<EverydayHostGoodsBean.GoodsList> list;
     private Context context;
     private DisplayMetrics displayMetrics;
     private int width;
     private FragmentActivity activity;
     private String status;
 
-    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status) {
+    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, List<EverydayHostGoodsBean.GoodsList> list) {
         this.list_imgs = list_imgs;
         this.context = context;
         this.activity = activity;
         this.status = status;
+        this.list=list;
         displayMetrics = context.getResources().getDisplayMetrics();
         int dip2px = DensityUtils.dip2px(this.context, 95);
         width = (displayMetrics.widthPixels - dip2px) / 3;
@@ -57,6 +61,11 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         holder.iv.setLayoutParams(layoutParams);
         holder.v_go.setLayoutParams(layoutParams1);
         Glide.with(context).load(list_imgs.get(position)).into(holder.iv);
+        if (!TextUtils.isEmpty(list.get(position).getVideourl())){
+            holder.video_image.setVisibility(View.VISIBLE);
+        }else {
+            holder.video_image.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(status)) {
             if (Double.valueOf(status) > 0) {
                 holder.v_go.setVisibility(View.GONE);
@@ -69,11 +78,19 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PicsLookActivity.class);
-                intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);
-                intent.putExtra("position", position);
-                context.startActivity(intent);
-                activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                Intent intent ;
+                if (!TextUtils.isEmpty(list.get(position).getVideourl())){
+                    intent=new Intent(context,VideoPlayActivity.class);
+                    intent.putExtra("url",list.get(position).getVideourl());
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }else {
+                    intent=new Intent(context, PicsLookActivity.class);
+                    intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);
+                    intent.putExtra("position", position);
+                    context.startActivity(intent);
+                    activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
             }
         });
     }
@@ -88,6 +105,8 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         ImageView iv;
         @BindView(R.id.v_go) //抢光了
         View v_go;
+        @BindView(R.id.video_image)
+        ImageView video_image;
 
         public CircleImgsHolder(View itemView) {
             super(itemView);

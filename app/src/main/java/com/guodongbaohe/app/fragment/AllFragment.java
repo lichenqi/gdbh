@@ -155,9 +155,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             view = inflater.inflate(R.layout.allfragment, container, false);
             ButterKnife.bind(this, view);
             context = MyApplication.getInstance();
-            String notice_title = PreferUtils.getString(getContext(), "notice_title");
-            notice_url = PreferUtils.getString(getContext(), "notice_url");
-            is_index_activity = PreferUtils.getString(getContext(), "is_index_activity");
+            String notice_title = PreferUtils.getString(context, "notice_title");
+            notice_url = PreferUtils.getString(context, "notice_url");
+            is_index_activity = PreferUtils.getString(context, "is_index_activity");
             initRecyclerview();
             getListData();
             if (TextUtils.isEmpty(notice_title)) {
@@ -167,7 +167,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 re_notice.getBackground().setAlpha(220);
                 tv_notice.setTextColor(0xff8c5727);
                 tv_notice.setSelected(true);
-                tv_notice.setText(PreferUtils.getString(getContext(), "notice_title"));
+                tv_notice.setText(PreferUtils.getString(context, "notice_title"));
             }
         }
         return view;
@@ -189,12 +189,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 .url(Constant.BASE_URL + Constant.BANNER + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -213,7 +213,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 /*主题头部图片*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get(i).getUrl().equals("center")) {
-                                        Glide.with(getContext()).load(theme_list.get(i).getImage()).into(iv_theme);
+                                        Glide.with(context).load(theme_list.get(i).getImage()).into(iv_theme);
                                         head_theme_data = theme_list.get(i);
                                     }
                                 }
@@ -221,7 +221,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 /*布局背景图*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get(i).getUrl().equals("background")) {
-                                        Glide.with(getContext()).load(theme_list.get(i).getImage()).into(iv_list_bg);
+                                        Glide.with(context).load(theme_list.get(i).getImage()).into(iv_list_bg);
                                     }
                                 }
                                 /*横向列表数据显示*/
@@ -239,7 +239,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                         horizontalList.add(bean);
                                     }
                                 }
-                                homeHorizontalAdapter = new HomeHorizontalAdapter(getContext(), horizontalList);
+                                homeHorizontalAdapter = new HomeHorizontalAdapter(context, horizontalList);
                                 recyclerview_horizontal.setAdapter(homeHorizontalAdapter);
                                 setHomeHorizontalAdapterListener();
                                 /*竖直列表数据显示*/
@@ -257,7 +257,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                         verticalList.add(bean);
                                     }
                                 }
-                                homeVerticalAdapter = new HomeVerticalAdapter(getContext(), verticalList);
+                                homeVerticalAdapter = new HomeVerticalAdapter(context, verticalList);
                                 recyclerview_vertical.setAdapter(homeVerticalAdapter);
                                 setHomeVerticalAdapterListener();
                             }
@@ -285,12 +285,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.RANKINGLIST + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -303,12 +303,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 if (hoursHotBean == null) return;
                                 final List<HomeListBean.ListData> hoursList = hoursHotBean.getResult();
                                 if (hoursList.size() == 0) return;
-                                HoursHortAdapter hoursHortAdapter = new HoursHortAdapter(getContext(), hoursList);
+                                HoursHortAdapter hoursHortAdapter = new HoursHortAdapter(context, hoursList);
                                 recyclerview_hours_hot.setAdapter(hoursHortAdapter);
                                 hoursHortAdapter.setonclicklistener(new OnItemClick() {
                                     @Override
                                     public void OnItemClickListener(View view, int pos) {
-                                        Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                                        Intent intent = new Intent(context, ShopDetailActivity.class);
                                         intent.putExtra("goods_id", hoursList.get(pos).getGoods_id());
                                         intent.putExtra("cate_route", hoursList.get(pos).getCate_route());/*类目名称*/
                                         intent.putExtra("cate_category", hoursList.get(pos).getCate_category());
@@ -358,7 +358,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 break;
             case R.id.re_notice:
                 if (!TextUtils.isEmpty(notice_url)) {
-                    intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                    intent = new Intent(context, XinShouJiaoChengActivity.class);
                     intent.putExtra("url", notice_url);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -379,12 +379,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 .url(Constant.BASE_URL + Constant.BANNER + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -400,7 +400,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 if (xin_list.size() == 0) return;
                                 indicators_xin = new ImageView[xin_list.size()];
                                 for (int i = 0; i < xin_list.size(); i++) {
-                                    View view = LayoutInflater.from(getContext()).inflate(R.layout.view_cycle_viewpager_indicator, null);
+                                    View view = LayoutInflater.from(context).inflate(R.layout.view_cycle_viewpager_indicator, null);
                                     ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
                                     indicators_xin[i] = iv;
                                     llpoint_xin.addView(view);
@@ -436,12 +436,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 .url(Constant.BASE_URL + Constant.SHOP_LIST + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -459,9 +459,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     xrecycler.refreshComplete();
                                     xrecycler.loadMoreComplete();
                                 } else {
-                                    boolean isLogin = PreferUtils.getBoolean(getContext(), "isLogin");
-                                    String son_count = PreferUtils.getString(getContext(), "son_count");
-                                    String member_role = PreferUtils.getString(getContext(), "member_role");
+                                    boolean isLogin = PreferUtils.getBoolean(context, "isLogin");
+                                    String son_count = PreferUtils.getString(context, "son_count");
+                                    String member_role = PreferUtils.getString(context, "member_role");
                                     for (HomeListBean.ListData listData : result) {
                                         listData.setLogin(isLogin);
                                         listData.setSon_count(son_count);
@@ -489,7 +489,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
                     }
@@ -510,9 +510,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         MyApplication.getInstance().getMyOkHttp().post().url(url).tag(this)
                 .addHeader("x-userid", member_id)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
                 .addHeader("x-token", member_id)
@@ -532,7 +532,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 if (banner_result.size() == 0) return;
                                 indicators = new ImageView[banner_result.size()];
                                 for (int i = 0; i < banner_result.size(); i++) {
-                                    View view = LayoutInflater.from(getContext()).inflate(R.layout.view_cycle_viewpager_indicator, null);
+                                    View view = LayoutInflater.from(context).inflate(R.layout.view_cycle_viewpager_indicator, null);
                                     ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
                                     indicators[i] = iv;
                                     llpoint.addView(view);
@@ -570,13 +570,13 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 .url(Constant.BASE_URL + Constant.GOODSDETAIL_BUY_NUMS + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-userid", "100")
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), "100"))
+                .addHeader("x-token", ParamUtil.GroupMap(context, "100"))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -591,7 +591,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 List<BuyUserBean.BuyUser> userList = bean.getResult();
                                 views = new ArrayList<>();
                                 for (int i = 0; i < userList.size(); i++) {
-                                    View view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_news_scroll, null);
+                                    View view = LayoutInflater.from(context).inflate(R.layout.item_home_news_scroll, null);
                                     TextView name = (TextView) view.findViewById(R.id.name);
                                     TextView time = (TextView) view.findViewById(R.id.time);
                                     TextView tmoney = (TextView) view.findViewById(R.id.money);
@@ -612,7 +612,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -621,12 +621,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
     private void initRecyclerview() {
         xrecycler.setHasFixedSize(true);
-        xrecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        xrecycler.setLayoutManager(new LinearLayoutManager(context));
         XRecyclerViewUtil.setView(xrecycler);
-        headView = LayoutInflater.from(getContext()).inflate(R.layout.home_head_view, null);
+        headView = LayoutInflater.from(context).inflate(R.layout.home_head_view, null);
         xrecycler.addHeaderView(headView);
         initbannerview();
-        adapter = new HomeListAdapter(getContext(), list);
+        adapter = new HomeListAdapter(context, list);
         xrecycler.setAdapter(adapter);
         xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -661,7 +661,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             @Override
             public void OnItemClickListener(View view, int position) {
                 int pos = position - 2;
-                intent = new Intent(getContext(), ShopDetailActivity.class);
+                intent = new Intent(context, ShopDetailActivity.class);
                 intent.putExtra("goods_id", list.get(pos).getGoods_id());
                 intent.putExtra("cate_route", list.get(pos).getCate_route());/*类目名称*/
                 intent.putExtra("cate_category", list.get(pos).getCate_category());/*类目id*/
@@ -701,11 +701,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     to_top.setVisibility(View.VISIBLE);
                     int black_color = Color.parseColor("#000000");
                     setColorChange(black_color);
-                    PreferUtils.putString(getContext(), "scrollToWhere", "bottom");
+                    PreferUtils.putString(context, "scrollToWhere", "bottom");
                 } else {
-                    PreferUtils.putString(getContext(), "scrollToWhere", "top");
+                    PreferUtils.putString(context, "scrollToWhere", "top");
                     to_top.setVisibility(View.GONE);
-                    String currentColor = PreferUtils.getString(getContext(), "currentColor");
+                    String currentColor = PreferUtils.getString(context, "currentColor");
                     if (!TextUtils.isEmpty(currentColor)) {
                         if (currentColor.length() == 7 && currentColor.substring(0, 1).equals("#")) {
                             setColorChange(Color.parseColor(currentColor));
@@ -789,22 +789,22 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         /*横向布局*/
         recyclerview_horizontal = (RecyclerView) headView.findViewById(R.id.recyclerview_horizontal);
         recyclerview_horizontal.setHasFixedSize(true);
-        recyclerview_horizontal.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        int space = DensityUtils.dip2px(getContext(), 10);
+        recyclerview_horizontal.setLayoutManager(new GridLayoutManager(context, 2));
+        int space = DensityUtils.dip2px(context, 10);
         recyclerview_horizontal.addItemDecoration(new HorizontalItem(space));
         /*竖直布局*/
         recyclerview_vertical = (RecyclerView) headView.findViewById(R.id.recyclerview_vertical);
         recyclerview_vertical.setHasFixedSize(true);
-        recyclerview_vertical.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        space = DensityUtils.dip2px(getContext(), 10);
+        recyclerview_vertical.setLayoutManager(new GridLayoutManager(context, 4));
+        space = DensityUtils.dip2px(context, 10);
         recyclerview_vertical.addItemDecoration(new HorizontalItem(space));
         /*24小时热播榜*/
         recyclerview_hours_hot = (RecyclerView) headView.findViewById(R.id.recyclerview_hours_hot);
         recyclerview_hours_hot.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerview_hours_hot.setLayoutManager(linearLayoutManager);
-        space = DensityUtils.dip2px(getContext(), 10);
+        space = DensityUtils.dip2px(context, 10);
         recyclerview_hours_hot.addItemDecoration(new HotItem(space));
         getBannerData();/*轮播图*/
         getBuyData();/*实时报播*/
@@ -916,14 +916,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.banner_viewpager, container, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.banner_viewpager, container, false);
             RoundedImageView iv = (RoundedImageView) view.findViewById(R.id.iv);
-            Glide.with(getContext()).load(banner_result.get(position % banner_result.size()).getImage()).into(iv);
+            Glide.with(context).load(banner_result.get(position % banner_result.size()).getImage()).into(iv);
             container.addView(view);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    if (PreferUtils.getBoolean(context, "isLogin")) {
                         String url = banner_result.get(position % banner_result.size()).getUrl();/*跳转地址*/
                         String type = banner_result.get(position % banner_result.size()).getType();/*跳转类型*/
                         String extend = banner_result.get(position % banner_result.size()).getExtend();/*轮播图标题*/
@@ -931,14 +931,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             switch (type) {
                                 case "normal":
                                     /*普通链接地址*/
-                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent = new Intent(context, BaseH5Activity.class);
                                     intent.putExtra("url", url);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "tmall":
                                     /*淘宝天猫会场地址*/
-                                    intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                                    intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("title", extend);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -950,14 +950,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     break;
                                 case "xinshou":
                                     /*新手教程主题*/
-                                    intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                                    intent = new Intent(context, XinShouJiaoChengActivity.class);
                                     intent.putExtra("url", url);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "app_theme":
                                     /*app主题*/
-                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent = new Intent(context, BaseH5Activity.class);
                                     intent.putExtra("url", url);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
@@ -971,7 +971,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             }
                         }
                     } else {
-                        startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                       startToLoginActivity();
                     }
                 }
             });
@@ -1000,15 +1000,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.xinshoujiao, container, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.xinshoujiao, container, false);
             ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            Glide.with(getContext()).load(xin_list.get(position % xin_list.size()).getImage()).into(iv);
-//            Glide.with(getContext()).load(R.drawable.ceshigif).into(iv);
+            Glide.with(context).load(xin_list.get(position % xin_list.size()).getImage()).into(iv);
             container.addView(view);
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    if (PreferUtils.getBoolean(context, "isLogin")) {
                         String url = xin_list.get(position % xin_list.size()).getUrl();/*跳转地址*/
                         String type = xin_list.get(position % xin_list.size()).getType();/*跳转类型*/
                         String title = xin_list.get(position % xin_list.size()).getTitle();/*标题*/
@@ -1016,14 +1015,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             switch (type) {
                                 case "xinshou":
                                     /*新手教程界面*/
-                                    intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                                    intent = new Intent(context, XinShouJiaoChengActivity.class);
                                     intent.putExtra("url", url);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "tmall":
                                     /*淘宝天猫会场活动*/
-                                    intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                                    intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("title", title);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1031,14 +1030,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     break;
                                 case "normal":
                                     /*普通链接*/
-                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent = new Intent(context, BaseH5Activity.class);
                                     intent.putExtra("url", url);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
                                     break;
                                 case "app_theme":
                                     /*app主题*/
-                                    intent = new Intent(getContext(), BaseH5Activity.class);
+                                    intent = new Intent(context, BaseH5Activity.class);
                                     intent.putExtra("url", url);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
@@ -1070,14 +1069,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         int i;
         if (!TextUtils.isEmpty(s)) {
             if (s.length() == 7 && s.substring(0, 1).equals("#")) {
-                PreferUtils.putString(getContext(), "currentColor", s);
+                PreferUtils.putString(context, "currentColor", s);
                 i = Color.parseColor(s);
             } else {
-                PreferUtils.putString(getContext(), "currentColor", "#000000");
+                PreferUtils.putString(context, "currentColor", "#000000");
                 i = Color.parseColor("#000000");
             }
         } else {
-            PreferUtils.putString(getContext(), "currentColor", "#000000");
+            PreferUtils.putString(context, "currentColor", "#000000");
             i = Color.parseColor("#000000");
         }
         if (!TextUtils.isEmpty(i + "")) {
@@ -1203,12 +1202,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -1220,7 +1219,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
                                 if (bean == null) return;
                                 ShopBasicBean.ShopBasicData result = bean.getResult();
-                                Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                                Intent intent = new Intent(context, ShopDetailActivity.class);
                                 intent.putExtra("goods_id", result.getGoods_id());
                                 intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
                                 intent.putExtra("cate_category", result.getCate_category());/*类目id*/
@@ -1246,7 +1245,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");
-                                ToastUtils.showToast(getContext(), result);
+                                ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1255,7 +1254,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -1272,12 +1271,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 .url(Constant.BASE_URL + Constant.BANNER + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -1336,14 +1335,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         int pageSize = dataList.size() % item_grid_num == 0 ? dataList.size() / item_grid_num : dataList.size() / item_grid_num + 1;
         indicator_grid = new ImageView[pageSize];
         for (int i = 0; i < pageSize; i++) {
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.view_grid_viewpager, null);
+            View view = LayoutInflater.from(context).inflate(R.layout.view_grid_viewpager, null);
             ImageView iv = (ImageView) view.findViewById(R.id.image_indicator);
             indicator_grid[i] = iv;
             screen_point.addView(view);
         }
         setIndicator_grid(0);
         for (int i = 0; i < pageSize; i++) {
-            gridView = new MultiGridView(getActivity().getApplicationContext());
+            gridView = new MultiGridView(context);
             GridViewAdapter adapter = new GridViewAdapter(dataList, i);
             gridView.setNumColumns(number_columns);
             gridView.setSelector(new ColorDrawable(Color.TRANSPARENT));// 去掉默认点击背景
@@ -1364,21 +1363,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         iv_theme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                if (PreferUtils.getBoolean(context, "isLogin")) {
                     String type = head_theme_data.getType();
                     String extend = head_theme_data.getExtend();
                     String title = head_theme_data.getTitle();
                     switch (type) {
                         case "xinshou":
                             /*新手教程界面*/
-                            intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                            intent = new Intent(context, XinShouJiaoChengActivity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                         case "tmall":
                             /*淘宝天猫会场活动*/
-                            intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                            intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", extend);
                             intent.putExtra("title", title);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1386,14 +1385,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             break;
                         case "normal":
                             /*普通链接*/
-                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent = new Intent(context, BaseH5Activity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                         case "app_theme":
                             /*app主题*/
-                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent = new Intent(context, BaseH5Activity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
@@ -1420,21 +1419,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         homeHorizontalAdapter.setonclicklistener(new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
-                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                if (PreferUtils.getBoolean(context, "isLogin")) {
                     String type = horizontalList.get(position).getType();
                     String title = horizontalList.get(position).getTitle();
                     String extend = horizontalList.get(position).getExtend();
                     switch (type) {
                         case "xinshou":
                             /*新手教程界面*/
-                            intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                            intent = new Intent(context, XinShouJiaoChengActivity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                         case "tmall":
                             /*淘宝天猫会场活动*/
-                            intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                            intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", extend);
                             intent.putExtra("title", title);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1442,14 +1441,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             break;
                         case "normal":
                             /*普通链接*/
-                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent = new Intent(context, BaseH5Activity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                         case "app_theme":
                             /*app主题*/
-                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent = new Intent(context, BaseH5Activity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
@@ -1476,21 +1475,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         homeVerticalAdapter.setonclicklistener(new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
-                if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                if (PreferUtils.getBoolean(context, "isLogin")) {
                     String type = verticalList.get(position).getType();
                     String title = verticalList.get(position).getTitle();
                     String extend = verticalList.get(position).getExtend();
                     switch (type) {
                         case "xinshou":
                             /*新手教程界面*/
-                            intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
+                            intent = new Intent(context, XinShouJiaoChengActivity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                         case "tmall":
                             /*淘宝天猫会场活动*/
-                            intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
+                            intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", extend);
                             intent.putExtra("title", title);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -1498,14 +1497,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             break;
                         case "normal":
                             /*普通链接*/
-                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent = new Intent(context, BaseH5Activity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                         case "app_theme":
                             /*app主题*/
-                            intent = new Intent(getContext(), BaseH5Activity.class);
+                            intent = new Intent(context, BaseH5Activity.class);
                             intent.putExtra("url", extend);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);

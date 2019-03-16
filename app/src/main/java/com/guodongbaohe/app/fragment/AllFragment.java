@@ -930,14 +930,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     /*普通链接地址*/
                                     intent = new Intent(getContext(), BaseH5Activity.class);
                                     intent.putExtra("url", url);
-                                    startActivity(intent);
+                                    context.startActivity(intent);
                                     break;
                                 case "tmall":
                                     /*淘宝天猫会场地址*/
                                     intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                                     intent.putExtra("url", url);
                                     intent.putExtra("title", extend);
-                                    startActivity(intent);
+                                    context.startActivity(intent);
                                     break;
                                 case "local_goods":
                                     /*本地商品进商品详情*/
@@ -947,18 +947,18 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     /*新手教程主题*/
                                     intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                                     intent.putExtra("url", url);
-                                    startActivity(intent);
+                                    context.startActivity(intent);
                                     break;
                                 case "app_theme":
                                     /*app主题*/
                                     intent = new Intent(getContext(), BaseH5Activity.class);
                                     intent.putExtra("url", url);
-                                    startActivity(intent);
+                                    context.startActivity(intent);
                                     break;
                                 case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                                     intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                                     intent.putExtra("url", url);
-                                    startActivity(intent);
+                                    context.startActivity(intent);
                                     break;
                             }
                         }
@@ -1359,26 +1359,30 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*新手教程界面*/
                             intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "tmall":
                             /*淘宝天猫会场活动*/
                             intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", extend);
                             intent.putExtra("title", title);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "normal":
                             /*普通链接*/
                             intent = new Intent(getContext(), BaseH5Activity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "app_theme":
                             /*app主题*/
                             intent = new Intent(getContext(), BaseH5Activity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "local_goods":
                             /*实例商品到商品详情*/
@@ -1387,6 +1391,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                             intent.putExtra("url", extend);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                     }
@@ -1410,26 +1415,30 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*新手教程界面*/
                             intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "tmall":
                             /*淘宝天猫会场活动*/
                             intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", extend);
                             intent.putExtra("title", title);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "normal":
                             /*普通链接*/
                             intent = new Intent(getContext(), BaseH5Activity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "app_theme":
                             /*app主题*/
                             intent = new Intent(getContext(), BaseH5Activity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "local_goods":
                             /*实例商品到商品详情*/
@@ -1438,6 +1447,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                             intent.putExtra("url", extend);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                     }
@@ -1461,26 +1471,30 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             /*新手教程界面*/
                             intent = new Intent(getContext(), XinShouJiaoChengActivity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "tmall":
                             /*淘宝天猫会场活动*/
                             intent = new Intent(getContext(), TaoBaoAndTianMaoUrlActivity.class);
                             intent.putExtra("url", extend);
                             intent.putExtra("title", title);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "normal":
                             /*普通链接*/
                             intent = new Intent(getContext(), BaseH5Activity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "app_theme":
                             /*app主题*/
                             intent = new Intent(getContext(), BaseH5Activity.class);
                             intent.putExtra("url", extend);
-                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
                             break;
                         case "local_goods":
                             /*实例商品到商品详情*/
@@ -1489,6 +1503,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
                             intent.putExtra("url", extend);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             context.startActivity(intent);
                             break;
                     }

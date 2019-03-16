@@ -369,6 +369,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TaoBaoAndTianMaoUrlActivity"
+            android:hardwareAccelerated="false"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.VideoPlayActivity"

@@ -115,6 +115,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         settings.setJavaScriptEnabled(true);
         settings.setSupportZoom(false);
         settings.setBuiltInZoomControls(true);
+        settings.setDomStorageEnabled(true);
         webview.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -122,10 +123,6 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                 return super.shouldOverrideUrlLoading(view, url);
             }
 
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return super.shouldOverrideUrlLoading(view, request);
-            }
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
@@ -135,35 +132,37 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 Log.i("淘宝地址", url);
-                if (url.contains("https://detail.m.tmall.com/item.htm?")
-                        || url.contains("https://detail.m.taobao.com/item.htm?")
-                        || url.contains("https://detail.m.alimama.com/item.htm?")
-                        || url.contains("https://detail.m.tmall.com/item.html?")
-                        || url.contains("https://detail.m.taobao.com/item.html?")
-                        || url.contains("https://detail.m.alimama.com/item.html?")
-                        || url.contains("https://detail.m.tmall.hk/item.htm?")
-                        || url.contains("https://detail.m.taobao.hk/item.htm?")
-                        || url.contains("https://detail.m.alimama.hk/item.htm?")
-                        || url.contains("https://detail.m.tmall.hk/item.html?")
-                        || url.contains("https://detail.m.taobao.hk/item.html?")
-                        || url.contains("https://detail.m.alimama.hk/item.html?")) {
-                    tv_notice.setVisibility(View.VISIBLE);
-                    ll_yijian_view.setVisibility(View.VISIBLE);
-                    //将String类型的地址转变为URI类型
-                    Uri uri = Uri.parse(url);
-                    /*获取商品id*/
-                    shop_id = uri.getQueryParameter("id");
-                    if (TextUtils.isEmpty(shop_id)) {
-                        shop_id = uri.getQueryParameter("itemId");
+                if (url.matches(".*(tmall.com|taobao.com|alimama.com|95095.com|taobao.hk|tmall.hk|alimama.hk|95095.hk).*")) {
+                    if (url.matches(".*(item.htm|detail.htm|container.htm|item.html|detail.html|container.html).*")) {
+//                if (url.contains("https://detail.m.tmall.com/item.htm?")
+//                        || url.contains("https://detail.m.taobao.com/item.htm?")
+//                        || url.contains("https://detail.m.alimama.com/item.htm?")
+//                        || url.contains("https://detail.m.tmall.com/item.html?")
+//                        || url.contains("https://detail.m.taobao.com/item.html?")
+//                        || url.contains("https://detail.m.alimama.com/item.html?")
+//                        || url.contains("https://detail.m.tmall.hk/item.htm?")
+//                        || url.contains("https://detail.m.taobao.hk/item.htm?")
+//                        || url.contains("https://detail.m.alimama.hk/item.htm?")
+//                        || url.contains("https://detail.m.tmall.hk/item.html?")
+//                        || url.contains("https://detail.m.taobao.hk/item.html?")
+//                        || url.contains("https://detail.m.alimama.hk/item.html?")) {
+                        tv_notice.setVisibility(View.VISIBLE);
+                        ll_yijian_view.setVisibility(View.VISIBLE);
+                        //将String类型的地址转变为URI类型
+                        Uri uri = Uri.parse(url);
+                        /*获取商品id*/
+                        shop_id = uri.getQueryParameter("id");
+                        if (TextUtils.isEmpty(shop_id)) {
+                            shop_id = uri.getQueryParameter("itemId");
+                        }
+                    } else {
+                        tv_notice.setVisibility(View.GONE);
+                        ll_yijian_view.setVisibility(View.GONE);
+                        ll_action.setVisibility(View.GONE);
                     }
-                } else {
-                    tv_notice.setVisibility(View.GONE);
-                    ll_yijian_view.setVisibility(View.GONE);
-                    ll_action.setVisibility(View.GONE);
                 }
-                super.onPageFinished(view, url);
+//                super.onPageFinished(view, url);
             }
-
         });
         webview.setWebChromeClient(new WebChromeClient() {
             @Override

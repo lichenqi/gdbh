@@ -19,6 +19,7 @@ import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.activity.MoneyTiXianActivity;
 import com.guodongbaohe.app.activity.MyIncomeingActivity;
 import com.guodongbaohe.app.activity.MyOrderActivity;
 import com.guodongbaohe.app.activity.MyTeamActivity;
@@ -208,7 +209,7 @@ public class MyApplication extends MultiDexApplication {
                             startActivity(intent);
                             break;
                         case "withdraw":/*提现记录*/
-                            intent = new Intent(context, TiXianRecordActivity.class);
+                            intent = new Intent(context, MoneyTiXianActivity.class);
                             startActivity(intent);
                             break;
                         case "goods":/*商品详细*/
@@ -222,8 +223,13 @@ public class MyApplication extends MultiDexApplication {
                             intent = new Intent(context, YaoQingFriendActivity.class);
                             startActivity(intent);
                             break;
+                        case "commission":
+                            intent = new Intent(context, TiXianRecordActivity.class);
+                            startActivity(intent);
+                            break;
                         default:/*其他到主界面*/
                             intent = new Intent(context, MainActivity.class);
+                            PreferUtils.putString(getApplicationContext(), "flag_main", "1");
                             startActivity(intent);
                             break;
                     }

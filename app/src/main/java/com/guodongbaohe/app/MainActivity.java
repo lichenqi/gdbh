@@ -228,13 +228,14 @@ public class MainActivity extends AppCompatActivity {
             getClipContent();
         }
     }
-
+    ClipboardManager cm;
     private void getClipContent() {
         flag_frist = 1;
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+         cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         boolean b = cm.hasPrimaryClip();
         if (b) {
             ClipData data = cm.getPrimaryClip();
+
             if (data == null) return;
             ClipData.Item item = data.getItemAt(0);
             if (item == null) return;
@@ -693,9 +694,18 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
-        guoDuTanKuang(content);
+        if (!isUpdataCode(content)){
+            guoDuTanKuang(content);
+        }
     }
-
+    //判断是否是升级码
+    public boolean isUpdataCode(String msg){
+        boolean isture=false;
+        if (msg.matches("^(?![^a-zA-Z0-9]+$)(?!\\\\D+$).{16}$")){
+            isture=true;
+        }
+        return isture;
+    }
     /*过渡弹框*/
     private void guoDuTanKuang(final String content) {
         if (dialog != null) {
@@ -712,7 +722,9 @@ public class MainActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                cm.setText("");
                 dialog.dismiss();
+
             }
         });
         sure.setOnClickListener(new View.OnClickListener() {

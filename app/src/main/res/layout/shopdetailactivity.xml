@@ -436,15 +436,17 @@
 
             <RelativeLayout
                 android:id="@+id/re_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="25dp">
 
                 <ImageView
                     android:id="@+id/iv_collect"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/wei_collect" />

@@ -74,9 +74,7 @@
     <style name="StartActivityTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@mipmap/start_page</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">
-            @android:color/transparent
-        </item>
+        <item name="android:navigationBarColor" tools:targetApi="lollipop"></item>
         <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
         </item>
     </style>

@@ -34,7 +34,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
     List<String> list_imgs;
     private OnLongClick onLongClick;
     BigDecimal bg3;
-    String attr_price, attr_prime, attr_ratio, tax_rate, status,video;
+    String attr_price, attr_prime, attr_ratio, tax_rate, status, video;
     double app_v;
 
     public interface OnLongClick {
@@ -76,7 +76,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             app_v = 1 - Double.valueOf(tax_rate);
         }
         status = list.get(position).getStatus();
-        video=list.get(position).getVideo();
+        video = list.get(position).getVideo();
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();
@@ -95,7 +95,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         }
         holder.recyclerview.setHasFixedSize(true);
         holder.recyclerview.setLayoutManager(new GridLayoutManager(context, 3));
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status,video);
+        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video);
         holder.recyclerview.setAdapter(circleImgsAdapter);
         String comment = list.get(position).getComment();
         if (TextUtils.isEmpty(comment)) {

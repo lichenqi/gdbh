@@ -40,14 +40,14 @@ public class EverydayHostGoodsBean {
         private boolean isLogin;
         private String son_count;
         private String source;
-        private String videourl;
+        private String video;
 
-        public String getVideourl() {
-            return videourl;
+        public String getVideo() {
+            return video;
         }
 
-        public void setVideourl(String videourl) {
-            this.videourl = videourl;
+        public void setVideo(String video) {
+            this.video = video;
         }
 
         public String getSource() {

@@ -106,6 +106,7 @@ public class EverydayFaddishFragment extends Fragment {
     private final int ONLYPHOTO = 1;
     /*多张图片分享字段*/
     private final int MOREPHOTO = 2;
+    Context context;
 
     @Override
     public void onDestroy() {
@@ -141,12 +142,13 @@ public class EverydayFaddishFragment extends Fragment {
             view = inflater.inflate(R.layout.everydayfaddishfragment, container, false);
             ButterKnife.bind(this, view);
             EventBus.getDefault().register(this);
-            iwxapi = WXAPIFactory.createWXAPI(getContext(), Constant.WCHATAPPID, true);
+            context = MyApplication.getInstance();
+            iwxapi = WXAPIFactory.createWXAPI(context, Constant.WCHATAPPID, true);
             iwxapi.registerApp(Constant.WCHATAPPID);
             getData();
             getTemplateData();
             xrecycler.setHasFixedSize(true);
-            xrecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+            xrecycler.setLayoutManager(new LinearLayoutManager(context));
             XRecyclerViewUtil.setView(xrecycler);
             adapter = new EverydayfaddishAdapter(list, getActivity());
             xrecycler.setAdapter(adapter);
@@ -167,12 +169,12 @@ public class EverydayFaddishFragment extends Fragment {
             adapter.onShareClickListener(new OnItemClick() {
                 @Override
                 public void OnItemClickListener(View view, int position) {
-                    if (PreferUtils.getBoolean(getContext(), "isLogin")) {
+                    if (PreferUtils.getBoolean(context, "isLogin")) {
                         which_position = position - 1;
                         goods_gallery = list.get(which_position).getGoods_gallery();
                         String status = list.get(which_position).getStatus();
                         if (TextUtils.isEmpty(status) || status.equals("0")) {
-                            ToastUtils.showToast(getContext(), "该商品抢光呢!");
+                            ToastUtils.showToast(context, "该商品抢光呢!");
                             return;
                         }
                         if (goods_gallery.contains("||")) {
@@ -186,15 +188,15 @@ public class EverydayFaddishFragment extends Fragment {
                         } else {
                             /*单张图片用sharesdk分享*/
                             String content = list.get(position - 1).getContent();
-                            ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                             ClipData mClipData = ClipData.newPlainText("Label", content);
                             cm.setPrimaryClip(mClipData);
-                            ClipContentUtil.getInstance(getContext()).putNewSearch(content);//保存记录到数据库
-                            ToastUtils.showToast(getContext(), "文案内容已复制成功");
+                            ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
+                            ToastUtils.showToast(context, "文案内容已复制成功");
                             showShare(which_position);
                         }
                     } else {
-                        startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                        startActivity(new Intent(context, LoginAndRegisterActivity.class));
                     }
                 }
             });
@@ -202,17 +204,17 @@ public class EverydayFaddishFragment extends Fragment {
             adapter.setonFuZhiListener(new OnItemClick() {
                 @Override
                 public void OnItemClickListener(View view, int position) {
-                    if (PreferUtils.getBoolean(getContext(), "isLogin")) {
-                        content_taobao_eight = PreferUtils.getString(getContext(), "content_taobao_eight");
+                    if (PreferUtils.getBoolean(context, "isLogin")) {
+                        content_taobao_eight = PreferUtils.getString(context, "content_taobao_eight");
                         which_position = position - 1;
                         String status = list.get(which_position).getStatus();
                         if (TextUtils.isEmpty(status) || status.equals("0")) {
-                            ToastUtils.showToast(getContext(), "该商品抢光呢!");
+                            ToastUtils.showToast(context, "该商品抢光呢!");
                             return;
                         }
                         getTaoKouLin(position - 1);
                     } else {
-                        startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
+                        startActivity(new Intent(context, LoginAndRegisterActivity.class));
                     }
                 }
             });
@@ -223,7 +225,7 @@ public class EverydayFaddishFragment extends Fragment {
                     int pos = position - 1;
                     String status = list.get(pos).getStatus();
                     if (TextUtils.isEmpty(status) || status.equals("0")) {
-                        ToastUtils.showToast(getContext(), "该商品抢光呢!");
+                        ToastUtils.showToast(context, "该商品抢光呢!");
                         return;
                     }
                     getShopBasicData(pos);
@@ -258,14 +260,14 @@ public class EverydayFaddishFragment extends Fragment {
                     String content = list.get(position - 1).getContent();
                     String status = list.get(position - 1).getStatus();
                     if (!TextUtils.isEmpty(status) && status.equals("0")) {
-                        ToastUtils.showToast(getContext(), "该商品抢光呢!");
+                        ToastUtils.showToast(context, "该商品抢光呢!");
                         return;
                     }
-                    ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData mClipData = ClipData.newPlainText("Label", content);
                     cm.setPrimaryClip(mClipData);
-                    ToastUtils.showToast(getContext(), "复制成功");
-                    ClipContentUtil.getInstance(getContext()).putNewSearch(content);//保存记录到数据库
+                    ToastUtils.showToast(context, "复制成功");
+                    ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
                 }
             });
         }
@@ -280,12 +282,12 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -297,7 +299,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
                                 if (bean == null) return;
                                 ShopBasicBean.ShopBasicData result = bean.getResult();
-                                Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                                Intent intent = new Intent(context, ShopDetailActivity.class);
                                 intent.putExtra("goods_id", result.getGoods_id());
                                 intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
                                 intent.putExtra("cate_category", result.getCate_category());/*类目id*/
@@ -322,7 +324,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 startActivity(intent);
                             } else {
                                 String result = jsonObject.getString("result");
-                                ToastUtils.showToast(getContext(), result);
+                                ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -331,7 +333,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -350,7 +352,7 @@ public class EverydayFaddishFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("goods_id", list.get(pos).getGoods_id());
         map.put(Constant.SHOP_REFERER, "circle");
         if (!TextUtils.isEmpty(list.get(pos).getSource())) {
@@ -362,14 +364,14 @@ public class EverydayFaddishFragment extends Fragment {
         String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.GAOYONGIN + "?" + param)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -383,10 +385,10 @@ public class EverydayFaddishFragment extends Fragment {
                                 String coupon_click_url = bean.getResult().getCoupon_click_url();
                                 shenchengTaoKouLing(coupon_click_url);
                             } else {
-                                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData mClipData = ClipData.newPlainText("Label", list.get(which_position).getContent());
                                 cm.setPrimaryClip(mClipData);
-                                ClipContentUtil.getInstance(getContext()).putNewSearch(list.get(which_position).getContent());//保存记录到数据库
+                                ClipContentUtil.getInstance(context).putNewSearch(list.get(which_position).getContent());//保存记录到数据库
                                 showWeiXinDialog();
                                 DialogUtil.closeDialog(loadingDialog);
                             }
@@ -397,7 +399,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                         DialogUtil.closeDialog(loadingDialog);
                     }
                 });
@@ -411,7 +413,7 @@ public class EverydayFaddishFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("url", coupon_click_url);
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
@@ -420,14 +422,14 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.GETTAOKOULING + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -439,7 +441,7 @@ public class EverydayFaddishFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 String taokouling = jsonObject.getString("result");
-                                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 if (!TextUtils.isEmpty(content_taobao_eight)) {
                                     start_tkl = content_taobao_eight.substring(0, content_taobao_eight.indexOf("{"));
                                     end_tkl = content_taobao_eight.substring(content_taobao_eight.indexOf("}") + 1);
@@ -454,13 +456,13 @@ public class EverydayFaddishFragment extends Fragment {
                                 }
                                 ClipData mClipData = ClipData.newPlainText("Label", start_tkl + taokouling + end_tkl);
                                 cm.setPrimaryClip(mClipData);
-                                ClipContentUtil.getInstance(getContext()).putNewSearch(start_tkl + taokouling + end_tkl);//保存记录到数据库
+                                ClipContentUtil.getInstance(context).putNewSearch(start_tkl + taokouling + end_tkl);//保存记录到数据库
                                 showWeiXinDialog();
                             } else {
-                                ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData mClipData = ClipData.newPlainText("Label", list.get(which_position).getContent());
                                 cm.setPrimaryClip(mClipData);
-                                ClipContentUtil.getInstance(getContext()).putNewSearch(list.get(which_position).getContent());//保存记录到数据库
+                                ClipContentUtil.getInstance(context).putNewSearch(list.get(which_position).getContent());//保存记录到数据库
                                 showWeiXinDialog();
                             }
                         } catch (JSONException e) {
@@ -471,7 +473,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         DialogUtil.closeDialog(loadingDialog);
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -497,7 +499,7 @@ public class EverydayFaddishFragment extends Fragment {
             public void onClick(View view) {
                 dialog.dismiss();
                 if (!iwxapi.isWXAppInstalled()) {
-                    ToastUtils.showToast(getContext(), "请先安装微信APP");
+                    ToastUtils.showToast(context, "请先安装微信APP");
                 } else {
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
@@ -521,12 +523,12 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.EVERYDAYHOSTGOODS + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -549,9 +551,9 @@ public class EverydayFaddishFragment extends Fragment {
                                     xrecycler.refreshComplete();
                                     xrecycler.loadMoreComplete();
                                 } else {
-                                    boolean isLogin = PreferUtils.getBoolean(getContext(), "isLogin");
-                                    String son_count = PreferUtils.getString(getContext(), "son_count");
-                                    String member_role = PreferUtils.getString(getContext(), "member_role");
+                                    boolean isLogin = PreferUtils.getBoolean(context, "isLogin");
+                                    String son_count = PreferUtils.getString(context, "son_count");
+                                    String member_role = PreferUtils.getString(context, "member_role");
                                     for (EverydayHostGoodsBean.GoodsList listData : list_result) {
                                         listData.setLogin(isLogin);
                                         listData.setSon_count(son_count);
@@ -592,7 +594,7 @@ public class EverydayFaddishFragment extends Fragment {
 
     private void showShare(int which_position) {
         loadingDialog = DialogUtil.createLoadingDialog(getContext(), "加载中...");
-        share_view = LayoutInflater.from(getContext()).inflate(R.layout.creation_erweima_pic, null);
+        share_view = LayoutInflater.from(context).inflate(R.layout.creation_erweima_pic, null);
         /*标题*/
         p_title = (TextView) share_view.findViewById(R.id.p_title);
         /*券后价*/
@@ -617,12 +619,12 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -656,7 +658,7 @@ public class EverydayFaddishFragment extends Fragment {
                             } else {
                                 DialogUtil.closeDialog(loadingDialog);
                                 String result = jsonObject.getString("result");
-                                ToastUtils.showToast(getContext(), result);
+                                ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -665,7 +667,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                         DialogUtil.closeDialog(loadingDialog);
                     }
                 });
@@ -678,7 +680,7 @@ public class EverydayFaddishFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("goods_id", list.get(which_position).getGoods_id());
         map.put(Constant.SHOP_REFERER, "circle");
         if (!TextUtils.isEmpty(list.get(which_position).getSource())) {
@@ -690,14 +692,14 @@ public class EverydayFaddishFragment extends Fragment {
         String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.GAOYONGIN + "?" + param)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -719,7 +721,7 @@ public class EverydayFaddishFragment extends Fragment {
                             } else {
                                 DialogUtil.closeDialog(loadingDialog);
                                 String result = jsonObject.getString("result");
-                                ToastUtils.showToast(getContext(), result);
+                                ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -728,7 +730,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                         DialogUtil.closeDialog(loadingDialog);
                     }
                 });
@@ -740,7 +742,7 @@ public class EverydayFaddishFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
         map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         map.put("url", content);
         map.put("goods_id", goods_id);
         map.put("attr_prime", attr_prime);
@@ -754,14 +756,14 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.GETTAOKOULING + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -777,7 +779,7 @@ public class EverydayFaddishFragment extends Fragment {
                             } else {
                                 String result = jsonObject.getString("result");
                                 DialogUtil.closeDialog(loadingDialog);
-                                ToastUtils.showToast(getContext(), result);
+                                ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -787,7 +789,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         DialogUtil.closeDialog(loadingDialog);
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }
@@ -802,7 +804,7 @@ public class EverydayFaddishFragment extends Fragment {
         map.put("attr_prime", attr_prime);
         map.put("attr_price", attr_price);
         map.put("platform", "android");
-        map.put("member_id", PreferUtils.getString(getContext(), "member_id"));
+        map.put("member_id", PreferUtils.getString(context, "member_id"));
         String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -810,14 +812,14 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.ERWEIMAA + "?" + param)
                 .tag(this)
-                .addHeader("x-userid", PreferUtils.getString(getContext(), "member_id"))
+                .addHeader("x-userid", PreferUtils.getString(context, "member_id"))
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), PreferUtils.getString(getContext(), "member_id")))
+                .addHeader("x-token", ParamUtil.GroupMap(context, PreferUtils.getString(context, "member_id")))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -828,12 +830,12 @@ public class EverydayFaddishFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 String result = jsonObject.getString("result");
-                                Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap(result, DensityUtils.dip2px(getContext(), 100));
+                                Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap(result, DensityUtils.dip2px(context, 100));
                                 iv_qr_code.setImageBitmap(mBitmap);
-                                Glide.with(getContext()).load(goods_thumb).asBitmap().into(target);
+                                Glide.with(context).load(goods_thumb).asBitmap().into(target);
                             } else {
                                 String result = jsonObject.getString("result");
-                                ToastUtils.showToast(getContext(), result);
+                                ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -842,7 +844,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                         DialogUtil.closeDialog(loadingDialog);
                     }
                 });
@@ -883,8 +885,8 @@ public class EverydayFaddishFragment extends Fragment {
         hebingBitmap = loadBitmapFromView(view);
         DialogUtil.closeDialog(loadingDialog);
         /*先开存储权限*/
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //没有存储权限
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, ONLYPHOTO);
         } else {
@@ -912,12 +914,12 @@ public class EverydayFaddishFragment extends Fragment {
                 .url(Constant.BASE_URL + Constant.SHARE_NUM + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
@@ -943,8 +945,8 @@ public class EverydayFaddishFragment extends Fragment {
     private int share_type = 0;
 
     private void morePicsShareDialog() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             //没有存储权限
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, MOREPHOTO);
         } else {
@@ -1014,7 +1016,7 @@ public class EverydayFaddishFragment extends Fragment {
     }
 
     private void sharePics(int i, String type) {
-        ShareManager shareManager = new ShareManager(getContext());
+        ShareManager shareManager = new ShareManager(context);
         shareManager.setShareImage(hebingBitmap, i, list_share_imgs, "", type, 100);
     }
 
@@ -1058,7 +1060,7 @@ public class EverydayFaddishFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 dialog.dismiss();
-                                CommonUtil.saveBitmap2file(hebingBitmap, getContext());
+                                CommonUtil.saveBitmap2file(hebingBitmap, context);
                             }
                         });
                     }
@@ -1148,10 +1150,10 @@ public class EverydayFaddishFragment extends Fragment {
             case MOREPHOTO:
                 /*多张图片存储权限回调*/
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getContext(), "分享多张图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(context, "分享多张图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getContext(), "分享多张图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(context, "分享多张图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     duoTuShareDialog();
@@ -1160,10 +1162,10 @@ public class EverydayFaddishFragment extends Fragment {
             case ONLYPHOTO:
                 /*单张图片分享回调*/
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getContext(), "分享图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(context, "分享图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getContext(), "分享图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(context, "分享图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     /*自定义九宫格样式*/
@@ -1180,12 +1182,12 @@ public class EverydayFaddishFragment extends Fragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHARE_MOBAN)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override

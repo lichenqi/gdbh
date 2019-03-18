@@ -38,7 +38,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         this.context = context;
         this.activity = activity;
         this.status = status;
-        this.list=list;
+        this.list = list;
         displayMetrics = context.getResources().getDisplayMetrics();
         int dip2px = DensityUtils.dip2px(this.context, 95);
         width = (displayMetrics.widthPixels - dip2px) / 3;
@@ -61,9 +61,9 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         holder.iv.setLayoutParams(layoutParams);
         holder.v_go.setLayoutParams(layoutParams1);
         Glide.with(context).load(list_imgs.get(position)).into(holder.iv);
-        if (!TextUtils.isEmpty(list.get(position).getVideourl())){
+        if (!TextUtils.isEmpty(list.get(position).getVideo())) {
             holder.video_image.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             holder.video_image.setVisibility(View.GONE);
         }
         if (!TextUtils.isEmpty(status)) {
@@ -72,20 +72,20 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
             } else {
                 holder.v_go.setVisibility(View.VISIBLE);
             }
-        }else {
+        } else {
             holder.v_go.setVisibility(View.VISIBLE);
         }
         holder.iv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent ;
-                if (!TextUtils.isEmpty(list.get(position).getVideourl())){
-                    intent=new Intent(context,VideoPlayActivity.class);
-                    intent.putExtra("url",list.get(position).getVideourl());
+                Intent intent;
+                if (!TextUtils.isEmpty(list.get(position).getVideo())) {
+                    intent = new Intent(context, VideoPlayActivity.class);
+                    intent.putExtra("url", list.get(position).getVideo());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
-                }else {
-                    intent=new Intent(context, PicsLookActivity.class);
+                } else {
+                    intent = new Intent(context, PicsLookActivity.class);
                     intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);
                     intent.putExtra("position", position);
                     context.startActivity(intent);
@@ -104,7 +104,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         @BindView(R.id.iv)
         ImageView iv;
         @BindView(R.id.v_go) //抢光了
-        View v_go;
+                View v_go;
         @BindView(R.id.video_image)
         ImageView video_image;
 

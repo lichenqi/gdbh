@@ -862,9 +862,10 @@ public class CreateShare_New_Activity extends BaseActivity {
         String ten = tv_view_line_four.getText().toString().trim();
         String eight = taobao_ling.getText().toString().trim();
         if (tv_view_line_one.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + one;
+            copy_cotent = copy_cotent + one + "\n" + two + "\n" + three + "\n" + four;
+        } else {
+            copy_cotent = copy_cotent + two + "\n" + three + "\n" + four;
         }
-        copy_cotent = copy_cotent + "\n" + two + "\n" + three + "\n" + four;
         if (tv_view_line_two.getVisibility() == View.VISIBLE) {
             copy_cotent = copy_cotent + "\n" + five;
         }

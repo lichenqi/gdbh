@@ -547,7 +547,7 @@ public class MineFragment extends Fragment {
     }
 
     private void cleanCacheDialog() {
-        final Dialog dialog = new Dialog(context, R.style.activitydialog);
+        final Dialog dialog = new Dialog(getContext(), R.style.activitydialog);
         dialog.setContentView(R.layout.clean_cache_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);
@@ -708,7 +708,7 @@ public class MineFragment extends Fragment {
 
     /*版本升级弹窗*/
     private void versionUpdataDialog() {
-        final Dialog dialog = new Dialog(context, R.style.activitydialog);
+        final Dialog dialog = new Dialog(getContext(), R.style.activitydialog);
         dialog.setContentView(R.layout.version_update_dialog);
         Window window = dialog.getWindow();
         window.setGravity(Gravity.CENTER | Gravity.CENTER);

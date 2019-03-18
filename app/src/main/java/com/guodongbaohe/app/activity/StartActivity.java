@@ -73,7 +73,7 @@ public class StartActivity extends AppCompatActivity {
                 toMainActivity();
             }
         });
-        time.getBackground().setAlpha(220);
+        time.getBackground().setAlpha(150);
     }
 
     private void toMainActivity() {

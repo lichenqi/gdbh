@@ -94,7 +94,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         }
         holder.recyclerview.setHasFixedSize(true);
         holder.recyclerview.setLayoutManager(new GridLayoutManager(context, 3));
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status,list);
+        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, list.get(position).getVideo());
         holder.recyclerview.setAdapter(circleImgsAdapter);
         String comment = list.get(position).getComment();
         if (TextUtils.isEmpty(comment)) {

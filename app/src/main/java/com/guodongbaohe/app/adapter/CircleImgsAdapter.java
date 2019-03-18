@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.PicsLookActivity;
 import com.guodongbaohe.app.activity.VideoPlayActivity;
+import com.guodongbaohe.app.bean.EverydayHostGoodsBean;
 import com.guodongbaohe.app.util.DensityUtils;
 
 import java.util.ArrayList;
@@ -25,19 +26,18 @@ import butterknife.ButterKnife;
 
 public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.CircleImgsHolder> {
     private List<String> list_imgs;
-    private String video;
     private Context context;
     private DisplayMetrics displayMetrics;
     private int width;
     private FragmentActivity activity;
-    private String status;
+    private String status,video;
 
-    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, String video) {
+    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, String video_url) {
         this.list_imgs = list_imgs;
         this.context = context;
         this.activity = activity;
         this.status = status;
-        this.video = video;
+        this.video = video_url;
         displayMetrics = context.getResources().getDisplayMetrics();
         int dip2px = DensityUtils.dip2px(this.context, 95);
         width = (displayMetrics.widthPixels - dip2px) / 3;
@@ -102,7 +102,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
     public class CircleImgsHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv)
         ImageView iv;
-        @BindView(R.id.v_go)
+        @BindView(R.id.v_go) //抢光了
         View v_go;
         @BindView(R.id.video_image)
         ImageView video_image;

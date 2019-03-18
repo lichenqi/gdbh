@@ -61,7 +61,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         holder.iv.setLayoutParams(layoutParams);
         holder.v_go.setLayoutParams(layoutParams1);
         Glide.with(context).load(list_imgs.get(position)).into(holder.iv);
-        if (!TextUtils.isEmpty(list.get(position).getVideourl())){
+        if (!TextUtils.isEmpty(list.get(position).getVideo())){
             holder.video_image.setVisibility(View.VISIBLE);
         }else {
             holder.video_image.setVisibility(View.GONE);
@@ -79,9 +79,9 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
             @Override
             public void onClick(View view) {
                 Intent intent ;
-                if (!TextUtils.isEmpty(list.get(position).getVideourl())){
+                if (!TextUtils.isEmpty(list.get(position).getVideo())){
                     intent=new Intent(context,VideoPlayActivity.class);
-                    intent.putExtra("url",list.get(position).getVideourl());
+                    intent.putExtra("url",list.get(position).getVideo());
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }else {

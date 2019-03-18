@@ -133,12 +133,16 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                 Log.i("淘宝地址", url);
                 if (url.matches(".*(tmall.com|taobao.com|alimama.com|95095.com|taobao.hk|tmall.hk|alimama.hk|95095.hk).*")) {
                     if (url.matches(".*(item.htm|detail.htm|container.htm|item.html|detail.html|container.html).*")) {
-                        tv_notice.setVisibility(View.VISIBLE);
-                        ll_yijian_view.setVisibility(View.VISIBLE);
+
                         //将String类型的地址转变为URI类型
                         Uri uri = Uri.parse(url);
+
                         /*获取商品id*/
                         shop_id = uri.getQueryParameter("id");
+                        if (!TextUtils.isEmpty(uri.getQueryParameter("id"))||!TextUtils.isEmpty(uri.getQueryParameter("itemId"))){
+                            tv_notice.setVisibility(View.VISIBLE);
+                            ll_yijian_view.setVisibility(View.VISIBLE);
+                        }
                         if (TextUtils.isEmpty(shop_id)) {
                             shop_id = uri.getQueryParameter("itemId");
                         }

@@ -86,7 +86,6 @@ import org.json.JSONObject;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -774,8 +773,6 @@ public class MainActivity extends AppCompatActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 VersionBean versionBean = GsonUtil.GsonToBean(response.toString(), VersionBean.class);
                                 if (versionBean == null) return;
-                                Calendar c = Calendar.getInstance();
-                                c.add(Calendar.DATE, 1); //向前走一天
                                 VersionBean.VersionData result = versionBean.getResult();
                                 is_update = result.getIs_update();/*是否强制更新标识 no 代表随意；yes 代表强制更新*/
                                 desc = result.getDesc();
@@ -784,13 +781,8 @@ public class MainActivity extends AppCompatActivity {
                                 String version = result.getVersion();
                                 Integer localCode = Integer.valueOf(local_version.replace(".", "").trim());
                                 if (Integer.valueOf(version) > localCode) {
-                                    if (TextUtils.isEmpty(PreferUtils.getString(MainActivity.this, "Tdata"))) {
-                                        versionUpdataDialog();
-                                    } else if (DateUtils.isDateOneBigger(simpleDateFormat.format(date), PreferUtils.getString(MainActivity.this, "Tdata"))) {
-                                        versionUpdataDialog();
-                                    }
+                                    versionUpdataDialog();
                                 }
-                                PreferUtils.putString(MainActivity.this, "Tdata", simpleDateFormat.format(c.getTime()));
                             } else {
                                 getDialogData();
                             }

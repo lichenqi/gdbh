@@ -24,6 +24,7 @@ import com.guodongbaohe.app.adapter.ScrollLeftAdapter;
 import com.guodongbaohe.app.adapter.ScrollRightAdapter;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.bean.ScrollBean;
+import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.util.SpUtil;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.liebiaofenlei, container, false);
             ButterKnife.bind(this, view);
-            mContext = view.getContext();
+            mContext = MyApplication.getInstance();
             recLeft = (RecyclerView) view.findViewById(R.id.rec_left);
             recRight = (RecyclerView) view.findViewById(R.id.rec_right);
             rightTitle = (TextView) view.findViewById(R.id.right_title);
@@ -82,7 +83,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
             re_search.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(getContext(), SearchActivity.class));
+                    startActivity(new Intent(mContext, SearchActivity.class));
                 }
             });
         }
@@ -209,7 +210,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
 
     //获取数据(若请求服务端数据,请求到的列表需有序排列)
     private void initData() {
-        titleList = SpUtil.getList(getContext(), "head_title_list");
+        titleList = SpUtil.getList(mContext, "head_title_list");
         right_data = new ArrayList<>();
         left = new ArrayList<>();
         for (int i = 0; i < titleList.size(); i++) {

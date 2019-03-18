@@ -56,6 +56,7 @@ public class PublicityMaterialAdapter extends RecyclerView.Adapter<PublicityMate
     @Override
     public void onBindViewHolder(final PublicMaterialHolder holder, int position) {
         String status = list.get(position).getStatus();
+        String video_url=list.get(position).getVideo();
         holder.share_nums.setText("分享" + list.get(position).getTimes());
         holder.title.setText(list.get(position).getContent());
         holder.time.setText(TimeShowUtil.getTimeShow(list.get(position).getDateline(), System.currentTimeMillis()));
@@ -71,7 +72,7 @@ public class PublicityMaterialAdapter extends RecyclerView.Adapter<PublicityMate
         }
         holder.recyclerview.setHasFixedSize(true);
         holder.recyclerview.setLayoutManager(new GridLayoutManager(context, 3));
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status,list);
+        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status,video_url);
         holder.recyclerview.setAdapter(circleImgsAdapter);
         String comment = list.get(position).getComment();
         if (TextUtils.isEmpty(comment)) {

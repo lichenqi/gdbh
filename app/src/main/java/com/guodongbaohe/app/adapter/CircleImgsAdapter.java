@@ -26,19 +26,18 @@ import butterknife.ButterKnife;
 
 public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.CircleImgsHolder> {
     private List<String> list_imgs;
-    private List<EverydayHostGoodsBean.GoodsList> list;
     private Context context;
     private DisplayMetrics displayMetrics;
     private int width;
     private FragmentActivity activity;
-    private String status;
+    private String status,video;
 
-    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, List<EverydayHostGoodsBean.GoodsList> list) {
+    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, String video_url) {
         this.list_imgs = list_imgs;
         this.context = context;
         this.activity = activity;
         this.status = status;
-        this.list = list;
+        this.video = video_url;
         displayMetrics = context.getResources().getDisplayMetrics();
         int dip2px = DensityUtils.dip2px(this.context, 95);
         width = (displayMetrics.widthPixels - dip2px) / 3;
@@ -61,7 +60,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         holder.iv.setLayoutParams(layoutParams);
         holder.v_go.setLayoutParams(layoutParams1);
         Glide.with(context).load(list_imgs.get(position)).into(holder.iv);
-        if (!TextUtils.isEmpty(list.get(position).getVideo())) {
+        if (!TextUtils.isEmpty(video)) {
             holder.video_image.setVisibility(View.VISIBLE);
         } else {
             holder.video_image.setVisibility(View.GONE);
@@ -79,9 +78,9 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
             @Override
             public void onClick(View view) {
                 Intent intent;
-                if (!TextUtils.isEmpty(list.get(position).getVideo())) {
+                if (!TextUtils.isEmpty(video)) {
                     intent = new Intent(context, VideoPlayActivity.class);
-                    intent.putExtra("url", list.get(position).getVideo());
+                    intent.putExtra("url", video);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 } else {

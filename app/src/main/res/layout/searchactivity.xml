@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -125,13 +126,16 @@
 
         </RelativeLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview_histor_search"
+        <com.guodongbaohe.app.view.FlowLayout
+            android:id="@+id/flow_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
+            android:visibility="gone"
+            app:lineSpace="10dp"
+            app:rowSpace="10dp" />
 
     </LinearLayout>
 

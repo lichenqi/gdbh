@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.PicsLookActivity;
 import com.guodongbaohe.app.activity.VideoPlayActivity;
-import com.guodongbaohe.app.bean.EverydayHostGoodsBean;
 import com.guodongbaohe.app.util.DensityUtils;
 
 import java.util.ArrayList;

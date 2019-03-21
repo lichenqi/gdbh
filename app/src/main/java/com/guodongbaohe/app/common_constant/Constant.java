@@ -206,4 +206,6 @@ public class Constant {
     public static final String WEIXIN_KEFU = "assets/upgradeCourse";
     /*分享模板*/
     public static final String SHARE_MOBAN = "share/template";
+    /*新版模板数据*/
+    public static final String NEW_TAMPLATE_DATA = "share/template/taowords";
 }

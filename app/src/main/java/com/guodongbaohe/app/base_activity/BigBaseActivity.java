@@ -1,14 +1,9 @@
 package com.guodongbaohe.app.base_activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.app_status.AppStatus;
@@ -78,25 +73,6 @@ public class BigBaseActivity extends AppCompatActivity implements NetBroadcastRe
         // TODO Auto-generated method stub
         this.netMobile = netMobile;
         isNetConnect();
-    }
-
-    /*app字体不随着系统设置变大变小*/
-    @Override
-    public Resources getResources() {
-        Resources resources = super.getResources();
-        Configuration newConfig = resources.getConfiguration();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        if (resources != null && newConfig.fontScale != 1) {
-            newConfig.fontScale = 1;
-            if (Build.VERSION.SDK_INT >= 17) {
-                Context configurationContext = createConfigurationContext(newConfig);
-                resources = configurationContext.getResources();
-                displayMetrics.scaledDensity = displayMetrics.density * newConfig.fontScale;
-            } else {
-                resources.updateConfiguration(newConfig, displayMetrics);
-            }
-        }
-        return resources;
     }
 
 }

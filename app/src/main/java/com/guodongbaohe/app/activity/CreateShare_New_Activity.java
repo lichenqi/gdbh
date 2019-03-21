@@ -101,6 +101,42 @@ public class CreateShare_New_Activity extends BaseActivity {
     /*生成海报按钮*/
     @BindView(R.id.tv_buide_poster)
     TextView tv_buide_poster;
+    /*文案内容显示*/
+    @BindView(R.id.tv_official_content)
+    TextView tv_official_content;
+    /*恢复默认按钮*/
+    @BindView(R.id.tv_huifu_moren)
+    TextView tv_huifu_moren;
+    /*编辑文案模板*/
+    @BindView(R.id.edit_comment_template)
+    TextView edit_comment_template;
+    /*购买地址显示*/
+    @BindView(R.id.re_buy_address_show)
+    RelativeLayout re_buy_address_show;
+    /*购买地址图片*/
+    @BindView(R.id.iv_buy_show)
+    ImageView iv_buy_show;
+    /*淘口令显示*/
+    @BindView(R.id.re_taokou_ling_show)
+    RelativeLayout re_taokou_ling_show;
+    /*淘口令图标*/
+    @BindView(R.id.iv_taokou_ling_show)
+    ImageView iv_taokou_ling_show;
+    /*复制文案分享按钮*/
+    @BindView(R.id.tv_copy_comment_shre)
+    TextView tv_copy_comment_shre;
+    /*淘口令纯评论框*/
+    @BindView(R.id.re_plun)
+    RelativeLayout re_plun;
+    /*单独的淘口令信息*/
+    @BindView(R.id.tv_tkl_content)
+    TextView tv_tkl_content;
+    /*淘口令模板编辑*/
+    @BindView(R.id.tv_edit_taokling_muban)
+    TextView tv_edit_taokling_muban;
+    /*淘口令评论按钮*/
+    @BindView(R.id.tkl_copy_comment)
+    TextView tkl_copy_comment;
     /*微信好友*/
     @BindView(R.id.re_wchat_friend)
     RelativeLayout re_wchat_friend;
@@ -113,51 +149,6 @@ public class CreateShare_New_Activity extends BaseActivity {
     /*保存图片*/
     @BindView(R.id.re_qq_space)
     RelativeLayout re_qq_space;
-    /*编辑文案模板*/
-    @BindView(R.id.edit_comment_template)
-    TextView edit_comment_template;
-    /*线一*/
-    @BindView(R.id.tv_view_line_one)
-    TextView tv_view_line_one;
-    /*标题二*/
-    @BindView(R.id.shop_title)
-    TextView shop_title;
-    /*在售价三*/
-    @BindView(R.id.shop_original_price)
-    TextView shop_original_price;
-    /*券后限时秒杀四*/
-    @BindView(R.id.shop_coupon_price)
-    TextView shop_coupon_price;
-    /*线五*/
-    @BindView(R.id.tv_view_line_two)
-    TextView tv_view_line_two;
-    /*下单链接六*/
-    @BindView(R.id.tv_order_addrress)
-    TextView tv_order_addrress;
-    /*线七*/
-    @BindView(R.id.tv_view_line_three)
-    TextView tv_view_line_three;
-    /*淘口令八*/
-    @BindView(R.id.taobao_ling)
-    TextView taobao_ling;
-    /*单独的淘口令信息*/
-    @BindView(R.id.tv_tkl_content)
-    TextView tv_tkl_content;
-    /*复制评论按钮*/
-    @BindView(R.id.tkl_copy_comment)
-    TextView tkl_copy_comment;
-    /*复制文案分享按钮*/
-    @BindView(R.id.tv_copy_comment_shre)
-    TextView tv_copy_comment_shre;
-    /*纯评论框*/
-    @BindView(R.id.re_plun)
-    RelativeLayout re_plun;
-    /*推荐理由*/
-    @BindView(R.id.tuijian_liyou)
-    TextView tuijian_liyou;
-    /*推荐理由下面的线*/
-    @BindView(R.id.tv_view_line_four)
-    TextView tv_view_line_four;
     /*商品资源*/
     String goods_thumb, goods_gallery, goods_name, promo_slogan, attr_price, attr_prime,
             attr_site, good_short, attr_ratio, goods_id, share_taokouling, share_qrcode, coupon_surplus;
@@ -177,6 +168,8 @@ public class CreateShare_New_Activity extends BaseActivity {
     LinkedHashMap<Integer, Integer> choose_poition;
     List<Integer> allPosition;
     String title_sign = "{标题}";
+    String shop_old_price = "{商品原价}";
+    String shop_coupon_price = "{券后价}";
     String order_address_sign = "{下单链接}";
     String taokouling_sign = "{淘口令}";
     String tuijian_sign = "{推荐理由}";
@@ -184,6 +177,12 @@ public class CreateShare_New_Activity extends BaseActivity {
     private List<String> wchatCirclePicsList;
     private int ainteger;
     String circle_pic_url;
+    /*购买地址默认为true*/
+    private boolean isBuyAddress = true;
+    /*淘口令默认为true*/
+    private boolean isTaoKouling = true;
+    /*定义一个默认变量 表示没有读模板*/
+    private int readMuBan = -1;
 
     @Override
     public int getContainerView() {
@@ -242,123 +241,52 @@ public class CreateShare_New_Activity extends BaseActivity {
     }
 
     private void initTemplateDataView() {
-        content_line_one = PreferUtils.getString(getApplicationContext(), "content_line_one");
-        content_title_two = PreferUtils.getString(getApplicationContext(), "content_title_two");
-        content_sale_price_three = PreferUtils.getString(getApplicationContext(), "content_sale_price_three");
-        content_coupon_four = PreferUtils.getString(getApplicationContext(), "content_coupon_four");
-        content_line_five = PreferUtils.getString(getApplicationContext(), "content_line_five");
-        content_order_six = PreferUtils.getString(getApplicationContext(), "content_order_six");
-        content_line_seven = PreferUtils.getString(getApplicationContext(), "content_line_seven");
-        content_taobao_eight = PreferUtils.getString(getApplicationContext(), "content_taobao_eight");
-        content_tuijian_nine = PreferUtils.getString(getApplicationContext(), "content_tuijian_nine");
-        content_line_ten = PreferUtils.getString(getApplicationContext(), "content_line_ten");
-        if (TextUtils.isEmpty(content_title_two)) {
+        official_content = PreferUtils.getString(getApplicationContext(), "official_content");
+        if (TextUtils.isEmpty(official_content)) {
             /*调用接口数据*/
-            getTemplateData();
+            getTemplateData(0);
         } else {
-            /*线一显示*/
-            if (TextUtils.isEmpty(content_line_one)) {
-                tv_view_line_one.setVisibility(View.GONE);
+            readMuBan = 1;
+            if (official_content.contains(order_address_sign)) {
+                iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
+                isBuyAddress = true;
             } else {
-                tv_view_line_one.setVisibility(View.VISIBLE);
-                tv_view_line_one.setText(content_line_one);
+                iv_buy_show.setImageResource(R.mipmap.buxianshiyjin);
+                isBuyAddress = false;
             }
-            /*标题显示*/
-            String start_tile = content_title_two.substring(0, content_title_two.indexOf("{"));
-            String end_tile = content_title_two.substring(content_title_two.indexOf("}") + 1);
+            if (official_content.contains(taokouling_sign)) {
+                iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
+                isTaoKouling = true;
+            } else {
+                iv_taokou_ling_show.setImageResource(R.mipmap.buxianshiyjin);
+                isTaoKouling = false;
+            }
             if (TextUtils.isEmpty(good_short)) {
-                shop_title.setText(start_tile + goods_name + end_tile);
+                official_content = official_content.replace(title_sign, goods_name);
             } else {
-                shop_title.setText(start_tile + good_short + end_tile);
+                official_content = official_content.replace(title_sign, good_short);
             }
-            /*原价显示*/
-            String start_sale_price = content_sale_price_three.substring(0, content_sale_price_three.indexOf("{"));
-            String end_sale_price = content_sale_price_three.substring(content_sale_price_three.indexOf("}") + 1);
-            shop_original_price.setText(start_sale_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
-            /*券后价显示*/
-            String start_coupon_price = content_coupon_four.substring(0, content_coupon_four.indexOf("{"));
-            String end_coupon_price = content_coupon_four.substring(content_coupon_four.indexOf("}") + 1);
-            shop_coupon_price.setText(start_coupon_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
-            /*线二显示*/
-            if (TextUtils.isEmpty(content_line_five)) {
-                tv_view_line_two.setVisibility(View.GONE);
+            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+            official_content = official_content.replace(order_address_sign, share_qrcode);
+            if (!TextUtils.isEmpty(promo_slogan)) {
+                official_content = official_content.replace(tuijian_sign, promo_slogan);
             } else {
-                tv_view_line_two.setVisibility(View.VISIBLE);
-                tv_view_line_two.setText(content_line_five);
+                official_content = official_content.replace(tuijian_sign, "");
             }
-            /*下单链接显示*/
-            if (TextUtils.isEmpty(content_order_six)) {
-                tv_order_addrress.setVisibility(View.GONE);
-            } else {
-                tv_order_addrress.setVisibility(View.VISIBLE);
-                if (content_order_six.contains(order_address_sign)) {
-                    String start_order = content_order_six.substring(0, content_order_six.indexOf("{"));
-                    String end_order = content_order_six.substring(content_order_six.indexOf("}") + 1);
-                    tv_order_addrress.setText(start_order + share_qrcode + end_order);
-                } else {
-                    tv_order_addrress.setText(content_order_six);
-                }
-            }
-            /*线三显示*/
-            if (TextUtils.isEmpty(content_line_seven)) {
-                tv_view_line_three.setVisibility(View.GONE);
-            } else {
-                tv_view_line_three.setVisibility(View.VISIBLE);
-                tv_view_line_three.setText(content_line_seven);
-            }
-            /*推荐理由显示*/
-            if (TextUtils.isEmpty(content_tuijian_nine)) {
-                tuijian_liyou.setVisibility(View.GONE);
-            } else {
-                tuijian_liyou.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(promo_slogan)) {
-                    tuijian_liyou.setVisibility(View.GONE);
-                } else {
-                    tuijian_liyou.setVisibility(View.VISIBLE);
-                    if (content_tuijian_nine.contains(tuijian_sign)) {
-                        String start_tuijian = content_tuijian_nine.substring(0, content_tuijian_nine.indexOf("{"));
-                        String end_tuijian = content_tuijian_nine.substring(content_tuijian_nine.indexOf("}") + 1);
-                        tuijian_liyou.setText(start_tuijian + promo_slogan + end_tuijian);
-                    } else {
-                        tuijian_liyou.setText(content_tuijian_nine);
-                    }
-                }
-            }
-            /*推荐理由下面的线条*/
-            if (TextUtils.isEmpty(content_line_ten)) {
-                tv_view_line_four.setVisibility(View.GONE);
-            } else {
-                tv_view_line_four.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(promo_slogan)) {
-                    tv_view_line_four.setVisibility(View.GONE);
-                } else {
-                    tv_view_line_four.setVisibility(View.VISIBLE);
-                    tv_view_line_four.setText(content_line_ten);
-                }
-            }
-            /*淘口令显示  和  单独的淘口令显示 */
-            if (TextUtils.isEmpty(content_taobao_eight)) {
-                taobao_ling.setVisibility(View.GONE);
-                re_plun.setVisibility(View.GONE);
-            } else {
-                taobao_ling.setVisibility(View.VISIBLE);
-                re_plun.setVisibility(View.VISIBLE);
-                if (content_taobao_eight.contains(taokouling_sign)) {
-                    String start_order = content_taobao_eight.substring(0, content_taobao_eight.indexOf("{"));
-                    String end_order = content_taobao_eight.substring(content_taobao_eight.indexOf("}") + 1);
-                    taobao_ling.setText(start_order + share_taokouling + end_order);
-                    tv_tkl_content.setText(start_order + share_taokouling + end_order);
-                } else {
-                    taobao_ling.setText(content_taobao_eight);
-                    tv_tkl_content.setText(content_taobao_eight);
-                }
-            }
+            official_content = official_content.replace(taokouling_sign, share_taokouling);
+            tv_official_content.setText(official_content);
         }
     }
 
+    String official_content;
+
     /*获取模板数据*/
-    private void getTemplateData() {
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHARE_MOBAN)
+    private void getTemplateData(final int mode) {
+        if (mode > 0) {
+            loadingDialog = DialogUtil.createLoadingDialog(CreateShare_New_Activity.this, "恢复中...");
+        }
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.NEW_TAMPLATE_DATA)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
@@ -372,6 +300,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
+                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("打印模板看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -379,47 +308,31 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
                                 if (bean == null) return;
                                 String comment = bean.getResult().getComment();
-                                String content = bean.getResult().getContent();
-                                String[] lines = content.split("\n");
-                                if (lines.length == 0) return;
-                                String start_tkl = comment.substring(0, comment.indexOf("{"));
-                                String end_tkl = comment.substring(comment.indexOf("}") + 1);
-                                tv_view_line_one.setVisibility(View.VISIBLE);
-                                tv_view_line_two.setVisibility(View.VISIBLE);
-                                tv_order_addrress.setVisibility(View.VISIBLE);
-                                tv_view_line_three.setVisibility(View.VISIBLE);
-                                tuijian_liyou.setVisibility(View.VISIBLE);
-                                tv_view_line_four.setVisibility(View.VISIBLE);
-                                taobao_ling.setVisibility(View.VISIBLE);
-                                re_plun.setVisibility(View.VISIBLE);
-                                tv_view_line_one.setText(lines[1]);
-                                String start_title = lines[0].substring(0, lines[0].indexOf("{"));
-                                String end_title = lines[0].substring(lines[0].indexOf("}") + 1);
+                                official_content = bean.getResult().getContent();
+                                if (official_content == null) return;
+                                PreferUtils.putString(getApplicationContext(), "official_content", official_content);
                                 if (TextUtils.isEmpty(good_short)) {
-                                    shop_title.setText(start_title + goods_name + end_title);
+                                    official_content = official_content.replace(title_sign, goods_name);
                                 } else {
-                                    shop_title.setText(start_title + good_short + end_title);
+                                    official_content = official_content.replace(title_sign, good_short);
                                 }
-                                String start_sale_price = lines[2].substring(0, lines[2].indexOf("{"));
-                                String end_sale_price = lines[2].substring(lines[2].indexOf("}") + 1);
-                                shop_original_price.setText(start_sale_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)) + end_sale_price);
-                                String start_coupon_price = lines[3].substring(0, lines[3].indexOf("{"));
-                                String end_coupon_price = lines[3].substring(lines[3].indexOf("}") + 1);
-                                shop_coupon_price.setText(start_coupon_price + StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)) + end_coupon_price);
-                                tv_view_line_two.setText(lines[1]);
-                                tv_order_addrress.setText(share_qrcode);
-                                tv_view_line_three.setText(lines[1]);
-                                if (TextUtils.isEmpty(promo_slogan)) {
-                                    tuijian_liyou.setVisibility(View.GONE);
+                                official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                                official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                                official_content = official_content.replace(order_address_sign, share_qrcode);
+                                if (!TextUtils.isEmpty(promo_slogan)) {
+                                    official_content = official_content.replace(tuijian_sign, promo_slogan);
                                 } else {
-                                    tuijian_liyou.setVisibility(View.VISIBLE);
-                                    String start_liyou = lines[5].substring(0, lines[5].indexOf("{"));
-                                    String end_liyou = lines[5].substring(lines[5].indexOf("}") + 1);
-                                    tuijian_liyou.setText(start_liyou + promo_slogan + end_liyou);
+                                    official_content = official_content.replace(tuijian_sign, "");
                                 }
-                                tv_view_line_four.setText(lines[1]);
-                                taobao_ling.setText(start_tkl + share_taokouling + end_tkl);
-                                tv_tkl_content.setText(start_tkl + share_taokouling + end_tkl);
+                                official_content = official_content.replace(taokouling_sign, share_taokouling);
+                                tv_official_content.setText(official_content);
+                                if (mode == 0 || mode == 1) {
+                                    iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
+                                    iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
+                                }
+                                if (mode == 1) {
+                                    ToastUtils.showToast(getApplicationContext(), "已恢复");
+                                }
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -431,6 +344,7 @@ public class CreateShare_New_Activity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -542,7 +456,8 @@ public class CreateShare_New_Activity extends BaseActivity {
     }
 
     @OnClick({R.id.tv_buide_poster, R.id.edit_comment_template, R.id.tkl_copy_comment, R.id.tv_copy_comment_shre
-            , R.id.re_wchat_friend, R.id.re_wchat_circle, R.id.re_qq_friend, R.id.re_qq_space, R.id.re_guize})
+            , R.id.re_wchat_friend, R.id.re_wchat_circle, R.id.re_qq_friend, R.id.re_qq_space, R.id.re_guize
+            , R.id.tv_huifu_moren, R.id.re_buy_address_show, R.id.re_taokou_ling_show})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_buide_poster:/*点击生成海报按钮*/
@@ -585,7 +500,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                 ToastUtils.showToast(getApplicationContext(), "评论复制成功");
                 break;
             case R.id.tv_copy_comment_shre:/*复制文案按钮*/
-                copyWenAnFunction();
+//                copyWenAnFunction();
                 break;
             case R.id.re_wchat_friend:/*微信好友*/
                 if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
@@ -667,6 +582,114 @@ public class CreateShare_New_Activity extends BaseActivity {
                     /*qq好友分享*/
                     qqFriendShareCommon();
                 }
+                break;
+            case R.id.tv_huifu_moren:/*恢复默认*/
+                readMuBan = -1;
+                getTemplateData(1);
+                break;
+            case R.id.re_buy_address_show:/*购买地址*/
+                if (isBuyAddress) {
+                    iv_buy_show.setImageResource(R.mipmap.buxianshiyjin);
+                    if (readMuBan == -1) {
+                        official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                    } else {
+                        official_content = official_content.replace(share_qrcode, "");
+                    }
+                    tv_official_content.setText(official_content);
+                } else {
+                    iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
+                    if (readMuBan == -1) {
+                        getTemplateData(2);
+                    } else {
+                        official_content = PreferUtils.getString(getApplicationContext(), "official_content");
+                        if (official_content.contains(order_address_sign)) {
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            official_content = official_content.replace(order_address_sign, share_qrcode);
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace(tuijian_sign, "");
+                            }
+                            official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            tv_official_content.setText(official_content);
+                        } else {
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace(tuijian_sign, "");
+                            }
+                            official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            official_content = official_content + "\n" + "【下单链接】" + share_qrcode;
+                            tv_official_content.setText(official_content);
+                        }
+                    }
+                }
+                isBuyAddress = !isBuyAddress;
+                break;
+            case R.id.re_taokou_ling_show:/*淘口令点击显示*/
+                if (isTaoKouling) {
+                    iv_taokou_ling_show.setImageResource(R.mipmap.buxianshiyjin);
+                    if (readMuBan == -1) {
+                        official_content = official_content.replace("长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
+                    } else {
+                        official_content = official_content.replace(share_taokouling, "");
+                    }
+                    tv_official_content.setText(official_content);
+                } else {
+                    iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
+                    if (readMuBan == -1) {
+                        getTemplateData(2);
+                    } else {
+                        official_content = PreferUtils.getString(getApplicationContext(), "official_content");
+                        if (official_content.contains(taokouling_sign)) {
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            official_content = official_content.replace(order_address_sign, share_qrcode);
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace(tuijian_sign, "");
+                            }
+                            official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            tv_official_content.setText(official_content);
+                        } else {
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            official_content = official_content.replace(order_address_sign, share_qrcode);
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace(tuijian_sign, "");
+                            }
+                            official_content = official_content + "长按復至" + share_qrcode + "，[掏寳]即可抢购";
+                            tv_official_content.setText(official_content);
+                        }
+                    }
+                }
+                isTaoKouling = !isTaoKouling;
                 break;
         }
     }
@@ -847,49 +870,49 @@ public class CreateShare_New_Activity extends BaseActivity {
         shareManager.setShareImage(hebingBitmap, 0, share_imgs, "", "wchat", mode);
     }
 
-    /*复制文案方法*/
-    private void copyWenAnFunction() {
-        /*全部复制分享文案（复制看得见的）*/
-        String copy_cotent = "";
-        String one = tv_view_line_one.getText().toString().trim();
-        String two = shop_title.getText().toString().trim();
-        String three = shop_original_price.getText().toString().trim();
-        String four = shop_coupon_price.getText().toString().trim();
-        String five = tv_view_line_two.getText().toString().trim();
-        String six = tv_order_addrress.getText().toString().trim();
-        String seven = tv_view_line_three.getText().toString().trim();
-        String nine = tuijian_liyou.getText().toString().trim();
-        String ten = tv_view_line_four.getText().toString().trim();
-        String eight = taobao_ling.getText().toString().trim();
-        if (tv_view_line_one.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + one + "\n" + two + "\n" + three + "\n" + four;
-        } else {
-            copy_cotent = copy_cotent + two + "\n" + three + "\n" + four;
-        }
-        if (tv_view_line_two.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + "\n" + five;
-        }
-        if (tv_order_addrress.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + "\n" + six;
-        }
-        if (tv_view_line_three.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + "\n" + seven;
-        }
-        if (tuijian_liyou.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + "\n" + nine;
-        }
-        if (tv_view_line_four.getVisibility() == View.VISIBLE) {
-            copy_cotent = copy_cotent + "\n" + ten;
-        }
-        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        if (cm.hasPrimaryClip()) {
-            cm.getPrimaryClip().getItemAt(0).getText();
-        }
-        ClipData mClipData = ClipData.newPlainText("Label", copy_cotent);
-        cm.setPrimaryClip(mClipData);
-        ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(copy_cotent);//保存记录到数据库
-        ToastUtils.showToast(getApplicationContext(), "文案复制成功");
-    }
+//    /*复制文案方法*/
+//    private void copyWenAnFunction() {
+//        /*全部复制分享文案（复制看得见的）*/
+//        String copy_cotent = "";
+//        String one = tv_view_line_one.getText().toString().trim();
+//        String two = shop_title.getText().toString().trim();
+//        String three = shop_original_price.getText().toString().trim();
+//        String four = shop_coupon_price.getText().toString().trim();
+//        String five = tv_view_line_two.getText().toString().trim();
+//        String six = tv_order_addrress.getText().toString().trim();
+//        String seven = tv_view_line_three.getText().toString().trim();
+//        String nine = tuijian_liyou.getText().toString().trim();
+//        String ten = tv_view_line_four.getText().toString().trim();
+//        String eight = taobao_ling.getText().toString().trim();
+//        if (tv_view_line_one.getVisibility() == View.VISIBLE) {
+//            copy_cotent = copy_cotent + one + "\n" + two + "\n" + three + "\n" + four;
+//        } else {
+//            copy_cotent = copy_cotent + two + "\n" + three + "\n" + four;
+//        }
+//        if (tv_view_line_two.getVisibility() == View.VISIBLE) {
+//            copy_cotent = copy_cotent + "\n" + five;
+//        }
+//        if (tv_order_addrress.getVisibility() == View.VISIBLE) {
+//            copy_cotent = copy_cotent + "\n" + six;
+//        }
+//        if (tv_view_line_three.getVisibility() == View.VISIBLE) {
+//            copy_cotent = copy_cotent + "\n" + seven;
+//        }
+//        if (tuijian_liyou.getVisibility() == View.VISIBLE) {
+//            copy_cotent = copy_cotent + "\n" + nine;
+//        }
+//        if (tv_view_line_four.getVisibility() == View.VISIBLE) {
+//            copy_cotent = copy_cotent + "\n" + ten;
+//        }
+//        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+//        if (cm.hasPrimaryClip()) {
+//            cm.getPrimaryClip().getItemAt(0).getText();
+//        }
+//        ClipData mClipData = ClipData.newPlainText("Label", copy_cotent);
+//        cm.setPrimaryClip(mClipData);
+//        ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(copy_cotent);//保存记录到数据库
+//        ToastUtils.showToast(getApplicationContext(), "文案复制成功");
+//    }
 
     String content_line_one, content_title_two, content_sale_price_three, content_coupon_four, content_line_five,
             content_order_six, content_line_seven, content_taobao_eight, content_tuijian_nine, content_line_ten;

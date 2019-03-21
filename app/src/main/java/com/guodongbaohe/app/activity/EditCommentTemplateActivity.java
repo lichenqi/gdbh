@@ -33,26 +33,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class EditCommentTemplateActivity extends BaseActivity {
-    @BindView(R.id.et_line_one)
-    EditText et_line_one;
-    @BindView(R.id.et_title_two)
-    EditText et_title_two;
-    @BindView(R.id.et_sale_price_three)
-    EditText et_sale_price_three;
-    @BindView(R.id.et_coupon_price_four)
-    EditText et_coupon_price_four;
-    @BindView(R.id.et_line_five)
-    EditText et_line_five;
-    @BindView(R.id.et_order_six)
-    EditText et_order_six;
-    @BindView(R.id.et_line_seven)
-    EditText et_line_seven;
-    @BindView(R.id.et_taobao_eight)
-    EditText et_taobao_eight;
-    @BindView(R.id.et_tuijian_nine)
-    EditText et_tuijian_nine;
-    @BindView(R.id.et_line_ten)
-    EditText et_line_ten;
+    /*输入内容*/
+    @BindView(R.id.ed_input_content)
+    EditText ed_input_content;
     /*恢复按钮*/
     @BindView(R.id.tv_huifu)
     TextView tv_huifu;
@@ -62,8 +45,6 @@ public class EditCommentTemplateActivity extends BaseActivity {
     /*判断是否点击保存按钮*/
     private boolean isSave = false;
     ImageView iv_back;
-    String content_line_one, content_title_two, content_sale_price_three, content_coupon_four, content_line_five,
-            content_order_six, content_line_seven, content_taobao_eight, content_tuijian_nine, content_line_ten;
     Dialog loadingDialog;
     String title_sign = "{标题}";
     String shop_old_price_sign = "{商品原价}";
@@ -84,94 +65,12 @@ public class EditCommentTemplateActivity extends BaseActivity {
         initlocalDataView();/*初始化本地数据*/
     }
 
-    /*初始化本地数据*/
-    private void initlocalDataView() {
-        content_line_one = PreferUtils.getString(getApplicationContext(), "content_line_one");
-        content_title_two = PreferUtils.getString(getApplicationContext(), "content_title_two");
-        content_sale_price_three = PreferUtils.getString(getApplicationContext(), "content_sale_price_three");
-        content_coupon_four = PreferUtils.getString(getApplicationContext(), "content_coupon_four");
-        content_line_five = PreferUtils.getString(getApplicationContext(), "content_line_five");
-        content_order_six = PreferUtils.getString(getApplicationContext(), "content_order_six");
-        content_line_seven = PreferUtils.getString(getApplicationContext(), "content_line_seven");
-        content_taobao_eight = PreferUtils.getString(getApplicationContext(), "content_taobao_eight");
-        content_tuijian_nine = PreferUtils.getString(getApplicationContext(), "content_tuijian_nine");
-        content_line_ten = PreferUtils.getString(getApplicationContext(), "content_line_ten");
-        if (TextUtils.isEmpty(content_title_two)) {
-            /*代表一次都没有保存过*/
-            /*执行网络请求*/
-            getTemplateData(0);/*获取模板数据*/
-        } else {
-            et_line_one.setText(content_line_one);
-            et_title_two.setText(content_title_two);
-            et_sale_price_three.setText(content_sale_price_three);
-            et_coupon_price_four.setText(content_coupon_four);
-            et_line_five.setText(content_line_five);
-            et_order_six.setText(content_order_six);
-            et_line_seven.setText(content_line_seven);
-            et_taobao_eight.setText(content_taobao_eight);
-            et_tuijian_nine.setText(content_tuijian_nine);
-            et_line_ten.setText(content_line_ten);
-        }
-    }
-
-    @OnClick({R.id.tv_huifu, R.id.tv_save})
-    public void OnClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_huifu:/*恢复按钮*/
-                getTemplateData(1);
-                break;
-            case R.id.tv_save:/*保存按钮*/
-                String content_line_one = et_line_one.getText().toString().trim();
-                String content_title_two = et_title_two.getText().toString().trim();
-                String content_sale_price_three = et_sale_price_three.getText().toString().trim();
-                String content_coupon_four = et_coupon_price_four.getText().toString().trim();
-                String content_line_five = et_line_five.getText().toString().trim();
-                String content_order_six = et_order_six.getText().toString().trim();
-                String content_line_seven = et_line_seven.getText().toString().trim();
-                String content_taobao_eight = et_taobao_eight.getText().toString().trim();
-                String content_tuijian_nine = et_tuijian_nine.getText().toString().trim();
-                String content_line_ten = et_line_ten.getText().toString().trim();
-                if (!content_title_two.contains(title_sign)) {
-                    ToastUtils.showToast(getApplicationContext(), "缺少必填内容{标题}");
-                    return;
-                }
-                if (!content_sale_price_three.contains(shop_old_price_sign)) {
-                    ToastUtils.showToast(getApplicationContext(), "缺少必填内容{商品原价}");
-                    return;
-                }
-                if (!content_coupon_four.contains(shop_coupon_price_sign)) {
-                    ToastUtils.showToast(getApplicationContext(), "缺少必填内容{券后价}");
-                    return;
-                }
-                loadingDialog = DialogUtil.createLoadingDialog(EditCommentTemplateActivity.this, "保存中...");
-                PreferUtils.putString(getApplicationContext(), "content_line_one", content_line_one);
-                PreferUtils.putString(getApplicationContext(), "content_title_two", content_title_two);
-                PreferUtils.putString(getApplicationContext(), "content_sale_price_three", content_sale_price_three);
-                PreferUtils.putString(getApplicationContext(), "content_coupon_four", content_coupon_four);
-                PreferUtils.putString(getApplicationContext(), "content_line_five", content_line_five);
-                PreferUtils.putString(getApplicationContext(), "content_order_six", content_order_six);
-                PreferUtils.putString(getApplicationContext(), "content_line_seven", content_line_seven);
-                PreferUtils.putString(getApplicationContext(), "content_taobao_eight", content_taobao_eight);
-                PreferUtils.putString(getApplicationContext(), "content_tuijian_nine", content_tuijian_nine);
-                PreferUtils.putString(getApplicationContext(), "content_line_ten", content_line_ten);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        DialogUtil.closeDialog(loadingDialog);
-                        ToastUtils.showToast(getApplicationContext(), "保存成功");
-                    }
-                }, 1000);
-                isSave = true;
-                break;
-        }
-    }
-
-    /*获取模板数据*/
-    private void getTemplateData(final int mode) {
+    /*新版模板数据*/
+    private void getNewTemplateData(int mode) {
         if (mode == 1) {
             loadingDialog = DialogUtil.createLoadingDialog(EditCommentTemplateActivity.this, "恢复中...");
         }
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHARE_MOBAN)
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.NEW_TAMPLATE_DATA)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
@@ -186,40 +85,17 @@ public class EditCommentTemplateActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         DialogUtil.closeDialog(loadingDialog);
-                        Log.i("打印模板看看", response.toString());
+                        Log.i("新模板数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
                                 if (bean == null) return;
-                                String comment = bean.getResult().getComment();
-                                String content = bean.getResult().getContent();
-                                String[] lines = content.split("\n");
-                                if (lines.length == 0) return;
-                                et_line_one.setText(lines[1]);
-                                et_title_two.setText(lines[0]);
-                                et_sale_price_three.setText(lines[2]);
-                                et_coupon_price_four.setText(lines[3]);
-                                et_line_five.setText(lines[1]);
-                                et_order_six.setText("{下单链接}");
-                                et_line_seven.setText(lines[1]);
-                                et_tuijian_nine.setText(lines[5]);
-                                et_line_ten.setText(lines[1]);
-                                et_taobao_eight.setText(comment);
-                                /*获取数据之后保存下来*/
-                                PreferUtils.putString(getApplicationContext(), "content_line_one", et_line_one.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_title_two", et_title_two.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_sale_price_three", et_sale_price_three.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_coupon_four", et_coupon_price_four.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_line_five", et_line_five.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_order_six", et_order_six.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_line_seven", et_line_seven.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_taobao_eight", et_taobao_eight.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_tuijian_nine", et_tuijian_nine.getText().toString().trim());
-                                PreferUtils.putString(getApplicationContext(), "content_line_ten", et_line_ten.getText().toString().trim());
-                                if (mode == 1) {
-                                    ToastUtils.showToast(getApplicationContext(), "已恢复");
-                                }
+                                String comment = bean.getResult().getComment();/*淘口令*/
+                                String content = bean.getResult().getContent();/*文案*/
+                                ed_input_content.setText(content);
+                                ed_input_content.setSelection(content.length());
+                                PreferUtils.putString(getApplicationContext(), "official_content", content);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -235,6 +111,53 @@ public class EditCommentTemplateActivity extends BaseActivity {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
+    }
+
+    /*初始化本地数据*/
+    private void initlocalDataView() {
+        String official_content = PreferUtils.getString(getApplicationContext(), "official_content");
+        if (TextUtils.isEmpty(official_content)) {
+            /*代表一次都没有保存过*/
+            /*执行网络请求*/
+            getNewTemplateData(0);/*获取模板数据*/
+        } else {
+            ed_input_content.setText(official_content);
+            ed_input_content.setSelection(official_content.length());
+        }
+    }
+
+    @OnClick({R.id.tv_huifu, R.id.tv_save})
+    public void OnClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_huifu:/*恢复按钮*/
+                getNewTemplateData(1);
+                break;
+            case R.id.tv_save:/*保存按钮*/
+                String content = ed_input_content.getText().toString();
+                if (!content.contains(title_sign)) {
+                    ToastUtils.showToast(getApplicationContext(), "缺少必填内容{标题}");
+                    return;
+                }
+                if (!content.contains(shop_old_price_sign)) {
+                    ToastUtils.showToast(getApplicationContext(), "缺少必填内容{商品原价}");
+                    return;
+                }
+                if (!content.contains(shop_coupon_price_sign)) {
+                    ToastUtils.showToast(getApplicationContext(), "缺少必填内容{券后价}");
+                    return;
+                }
+                loadingDialog = DialogUtil.createLoadingDialog(EditCommentTemplateActivity.this, "保存中...");
+                PreferUtils.putString(getApplicationContext(), "official_content", content);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        DialogUtil.closeDialog(loadingDialog);
+                        ToastUtils.showToast(getApplicationContext(), "保存成功");
+                    }
+                }, 1000);
+                isSave = true;
+                break;
+        }
     }
 
     @Override

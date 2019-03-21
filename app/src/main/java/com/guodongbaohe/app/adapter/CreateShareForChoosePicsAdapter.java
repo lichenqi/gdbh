@@ -59,7 +59,7 @@ public class CreateShareForChoosePicsAdapter extends RecyclerView.Adapter<Create
         }
 
         if (list.get(position).isChecked()) {
-            holder.iv_check.setImageResource(R.mipmap.xainshiyjin);
+            holder.iv_check.setImageResource(R.mipmap.green_choose);
         } else {
             holder.iv_check.setImageResource(R.mipmap.buxianshiyjin);
         }

@@ -83,107 +83,106 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/create_share_copy_bg"
                 android:orientation="vertical"
-                android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="10dp">
+                android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/tv_view_line_one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/shop_title"
+                    android:id="@+id/tv_official_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lineSpacingExtra="2dp"
-                    android:maxLines="2"
-                    android:text="这是标题"
+                    android:text="这是内容"
                     android:textColor="@color/black"
                     android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/shop_original_price"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="在售"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/shop_coupon_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="券后限时秒杀"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tv_view_line_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_order_addrress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="2dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_view_line_three"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tuijian_liyou"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/tv_view_line_four"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/taobao_ling"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/edit_comment_template"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/fuzhifenxiangwenan"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="5dp"
-                    android:text="编辑模板"
-                    android:textColor="#6f4207"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_huifu_moren"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/fuzhifenxiangwenan"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="5dp"
+                        android:text="恢复默认"
+                        android:textColor="#6f4207"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/edit_comment_template"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/fuzhifenxiangwenan"
+                        android:gravity="center"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="5dp"
+                        android:text="编辑模板"
+                        android:textColor="#6f4207"
+                        android:textSize="14sp" />
+
+                    <RelativeLayout
+                        android:id="@+id/re_buy_address_show"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/iv_buy_show"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/xainshiyjin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/iv_buy_show"
+                            android:text="购买地址"
+                            android:textColor="@color/txblack"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/re_taokou_ling_show"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/iv_taokou_ling_show"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/xainshiyjin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/iv_taokou_ling_show"
+                            android:text="淘口令"
+                            android:textColor="@color/txblack"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -211,7 +210,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_tkl_content"
@@ -222,7 +221,7 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/tkl_copy_comment"
+                    android:id="@+id/tv_edit_taokling_muban"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -233,11 +232,25 @@
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="5dp"
-                    android:text="复制评论"
+                    android:text="编辑模板"
                     android:textColor="#6f4207"
                     android:textSize="12sp" />
 
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tkl_copy_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/fuzhifenxiangwenan"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="5dp"
+                android:text="复制评论"
+                android:textColor="#6f4207" />
 
         </LinearLayout>
 
@@ -246,86 +259,98 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="图片分享到"
-            android:textColor="@color/black"
-            android:textSize="12sp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/gray_one" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <RelativeLayout
-                android:id="@+id/re_wchat_friend"
-                style="@style/create_style_of_re">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="图片分享到"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
-                <ImageView
-                    android:id="@+id/iv_wchat_friend"
-                    style="@style/create_style_of_iv"
-                    android:src="@mipmap/wchat_friend" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-                <TextView
-                    style="@style/create_style_of_text"
-                    android:layout_below="@+id/iv_wchat_friend"
-                    android:text="微信" />
+                <RelativeLayout
+                    android:id="@+id/re_wchat_friend"
+                    style="@style/create_style_of_re">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_wchat_friend"
+                        style="@style/create_style_of_iv"
+                        android:src="@mipmap/wchat_friend" />
 
-            <RelativeLayout
-                android:id="@+id/re_wchat_circle"
-                style="@style/create_style_of_re">
+                    <TextView
+                        style="@style/create_style_of_text"
+                        android:layout_below="@+id/iv_wchat_friend"
+                        android:text="微信" />
 
-                <ImageView
-                    android:id="@+id/iv_wchat_circle"
-                    style="@style/create_style_of_iv"
-                    android:src="@mipmap/wchat_circle" />
+                </RelativeLayout>
 
-                <TextView
-                    style="@style/create_style_of_text"
-                    android:layout_below="@+id/iv_wchat_circle"
-                    android:text="朋友圈" />
+                <RelativeLayout
+                    android:id="@+id/re_wchat_circle"
+                    style="@style/create_style_of_re">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_wchat_circle"
+                        style="@style/create_style_of_iv"
+                        android:src="@mipmap/wchat_circle" />
 
-            <RelativeLayout
-                android:id="@+id/re_qq_friend"
-                style="@style/create_style_of_re">
+                    <TextView
+                        style="@style/create_style_of_text"
+                        android:layout_below="@+id/iv_wchat_circle"
+                        android:text="朋友圈" />
 
-                <ImageView
-                    android:id="@+id/iv_qq_friend"
-                    style="@style/create_style_of_iv"
-                    android:src="@mipmap/qq_friend" />
+                </RelativeLayout>
 
-                <TextView
-                    style="@style/create_style_of_text"
-                    android:layout_below="@+id/iv_qq_friend"
-                    android:text="QQ" />
+                <RelativeLayout
+                    android:id="@+id/re_qq_friend"
+                    style="@style/create_style_of_re">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_qq_friend"
+                        style="@style/create_style_of_iv"
+                        android:src="@mipmap/qq_friend" />
 
-            <RelativeLayout
-                android:id="@+id/re_qq_space"
-                style="@style/create_style_of_re">
+                    <TextView
+                        style="@style/create_style_of_text"
+                        android:layout_below="@+id/iv_qq_friend"
+                        android:text="QQ" />
 
-                <ImageView
-                    android:id="@+id/iv_qq_area"
-                    style="@style/create_style_of_iv"
-                    android:src="@mipmap/save_img" />
+                </RelativeLayout>
 
-                <TextView
-                    style="@style/create_style_of_text"
-                    android:layout_below="@+id/iv_qq_area"
-                    android:text="保存图片" />
+                <RelativeLayout
+                    android:id="@+id/re_qq_space"
+                    style="@style/create_style_of_re">
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_qq_area"
+                        style="@style/create_style_of_iv"
+                        android:src="@mipmap/save_img" />
+
+                    <TextView
+                        style="@style/create_style_of_text"
+                        android:layout_below="@+id/iv_qq_area"
+                        android:text="保存图片" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -95,7 +95,7 @@ public class MyApplication extends MultiDexApplication {
         mDownloadMgr.resumeTasks();     //恢复本地所有未完成的任务
 
         /*sharesdk分享*/
-//        MobSDK.init(this);
+        MobSDK.init(this);
         /*阿里百川*/
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
@@ -267,9 +267,6 @@ public class MyApplication extends MultiDexApplication {
 
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
-//        boolean is_start= NotificationPermissions.isNotificationEnable(context);
-////        boolean is_start=isNotificationEnabled();
-//        PreferUtils.putBoolean(context,"is_start",is_start);
     }
 
     public static synchronized MyApplication getInstance() {
@@ -358,12 +355,5 @@ public class MyApplication extends MultiDexApplication {
                     }
                 });
     }
-//
-//    //内存泄漏检测工具
-//    private void initLeakCanary() {
-//        if (LeakCanary.isInAnalyzerProcess(this)) {
-//            return;
-//        }
-//        LeakCanary.install(this);
-//    }
+
 }

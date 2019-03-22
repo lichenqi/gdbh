@@ -35,7 +35,7 @@ public class DateUtils {
 
     /*时间格式转化为时间戳类型*/
     public static long getDateTime(String name) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
         Date date = null;
         try {
             date = format.parse(name);
@@ -50,7 +50,6 @@ public class DateUtils {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         return format.format(name);
     }
-
 
     /*将时间戳格式化(2018-06-20 14:14:15)*/
     public static String getTimeYearType(long name) {
@@ -149,6 +148,7 @@ public class DateUtils {
         }
         return mHour + ":" + mMinute + ":" + mSecond;
     }
+
     /**
      * 比较两个日期的大小，日期格式为yyyy-MM-dd
      *
@@ -167,13 +167,14 @@ public class DateUtils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (dt1.getTime()*1000 > dt2.getTime()*1000) {
+        if (dt1.getTime() * 1000 > dt2.getTime() * 1000) {
             isBigger = true;
-        } else if (dt1.getTime()*1000 < dt2.getTime()*1000) {
+        } else if (dt1.getTime() * 1000 < dt2.getTime() * 1000) {
             isBigger = false;
         }
         return isBigger;
     }
+
     /**
      * 比较两个日期的大小，日期格式为yyyy-MM-dd
      *
@@ -201,24 +202,27 @@ public class DateUtils {
         }
         return isBigger;
     }
-    public static String getTimes(){
-        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy年MM月dd日   HH:mm:ss");
-        Date curDate =  new Date(System.currentTimeMillis());
-        String str=formatter.format(curDate);
+
+    public static String getTimes() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日   HH:mm:ss");
+        Date curDate = new Date(System.currentTimeMillis());
+        String str = formatter.format(curDate);
         return str;
     }
+
     public static String getTime(String user_time) {
-        String str="";
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");//小写的mm表示的是分钟
-        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy-MM-dd");
+        String str = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");//小写的mm表示的是分钟
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            Date date=sdf.parse(user_time);
-             str=formatter.format(date);
+            Date date = sdf.parse(user_time);
+            str = formatter.format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return str;
     }
+
     // 将字符串转为时间戳
     public static String getTimess(String user_time) {
         String re_time = null;
@@ -229,11 +233,12 @@ public class DateUtils {
             long l = d.getTime();
             String str = String.valueOf(l);
             re_time = str.substring(0, 10);
-        }catch (ParseException e) {
+        } catch (ParseException e) {
             // TODO Auto-generated catch block e.printStackTrace();
         }
         return re_time;
     }
+
     // 将时间戳转为字符串
     public static String getStrTimes(String cc_time) {
         String re_StrTime = null;

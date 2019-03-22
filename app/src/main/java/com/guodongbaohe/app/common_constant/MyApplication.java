@@ -3,8 +3,6 @@ package com.guodongbaohe.app.common_constant;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
@@ -42,7 +40,6 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.mob.MobSDK;
-import com.squareup.leakcanary.LeakCanary;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -98,7 +95,7 @@ public class MyApplication extends MultiDexApplication {
         mDownloadMgr.resumeTasks();     //恢复本地所有未完成的任务
 
         /*sharesdk分享*/
-        MobSDK.init(this);
+//        MobSDK.init(this);
         /*阿里百川*/
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
@@ -270,6 +267,9 @@ public class MyApplication extends MultiDexApplication {
 
         };
         mPushAgent.setNotificationClickHandler(notificationClickHandler);
+//        boolean is_start= NotificationPermissions.isNotificationEnable(context);
+////        boolean is_start=isNotificationEnabled();
+//        PreferUtils.putBoolean(context,"is_start",is_start);
     }
 
     public static synchronized MyApplication getInstance() {
@@ -358,33 +358,12 @@ public class MyApplication extends MultiDexApplication {
                     }
                 });
     }
-
-    //内存泄漏检测工具
-    private void initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        if (newConfig.fontScale != 1) {
-            //非默认值
-            getResources();
-        }
-        super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    public Resources getResources() {
-        Resources res = super.getResources();
-        if (res.getConfiguration().fontScale != 1) {//非默认值
-            Configuration newConfig = new Configuration();
-            newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
-        }
-        return res;
-    }
-
+//
+//    //内存泄漏检测工具
+//    private void initLeakCanary() {
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return;
+//        }
+//        LeakCanary.install(this);
+//    }
 }

@@ -174,6 +174,76 @@ public class DateUtils {
         }
         return isBigger;
     }
+    /**
+     * 比较两个日期的大小，日期格式为yyyy-MM-dd
+     *
+     * @param str1 the first date
+     * @param str2 the second date
+     * @return true <br/>false
+     */
+    public static boolean isDateOneBiggers(String str1, String str2) {
+        boolean isBigger = false;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+
+        Date dt1 = null;
+        Date dt2 = null;
+        try {
+//            String ss=getTime(str2);
+            dt1 = sdf.parse(str1);
+            dt2 = sdf.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (dt1.getTime() > dt2.getTime()) {
+            isBigger = true;
+        } else if (dt1.getTime() < dt2.getTime()) {
+            isBigger = false;
+        }
+        return isBigger;
+    }
+    public static String getTimes(){
+        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy年MM月dd日   HH:mm:ss");
+        Date curDate =  new Date(System.currentTimeMillis());
+        String str=formatter.format(curDate);
+        return str;
+    }
+    public static String getTime(String user_time) {
+        String str="";
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");//小写的mm表示的是分钟
+        SimpleDateFormat   formatter   =   new   SimpleDateFormat   ("yyyy-MM-dd");
+        try {
+            Date date=sdf.parse(user_time);
+             str=formatter.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+    // 将字符串转为时间戳
+    public static String getTimess(String user_time) {
+        String re_time = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date d;
+        try {
+            d = sdf.parse(user_time);
+            long l = d.getTime();
+            String str = String.valueOf(l);
+            re_time = str.substring(0, 10);
+        }catch (ParseException e) {
+            // TODO Auto-generated catch block e.printStackTrace();
+        }
+        return re_time;
+    }
+    // 将时间戳转为字符串
+    public static String getStrTimes(String cc_time) {
+        String re_StrTime = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        // 例如：
+//        cc_time=1291778220 ;
+        long lcc_time = Long.valueOf(cc_time);
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
+        return re_StrTime;
+    }
 }
 
 

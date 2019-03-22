@@ -66,6 +66,7 @@ import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
 import com.guodongbaohe.app.fragment.SendCircleFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.util.CleanDataUtil;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.DateUtils;
 import com.guodongbaohe.app.util.DensityUtils;
@@ -678,8 +679,8 @@ public class MainActivity extends AppCompatActivity {
         if (!isFirstClip) {
             showOnlySearchDialog(content);
         } else {
-            String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
-            if (clip_content.equals(content)) return;
+//            String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
+//            if (clip_content.equals(content)) return;
             showOnlySearchDialog(content);
         }
         PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
@@ -733,6 +734,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                cm.setText("");
                 Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                 intent.putExtra("keyword", content);
                 startActivity(intent);
@@ -890,6 +892,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
         }
+        CleanDataUtil.clearAllCache(getApplicationContext());
         startActivity(intent);
     }
 
@@ -898,6 +901,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void downLoadApk() {
         IOUtils.rmoveFile("gdbh.apk");
+
         //使用系统下载类
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(download);
@@ -1178,7 +1182,7 @@ public class MainActivity extends AppCompatActivity {
                 exitTime = System.currentTimeMillis();
             } else {
                 finish();
-                System.exit(0);
+//                System.exit(0);
             }
             return true;
         }

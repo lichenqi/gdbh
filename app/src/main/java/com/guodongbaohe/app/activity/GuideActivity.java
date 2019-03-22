@@ -55,6 +55,11 @@ public class GuideActivity extends BigBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)> 0) {
+            /**为了防止重复启动多个闪屏页面**/
+            finish();
+            return;
+        }
         setContentView(R.layout.guideactivity);
         ButterKnife.bind(this);
         indicators = new ImageView[guides.length];

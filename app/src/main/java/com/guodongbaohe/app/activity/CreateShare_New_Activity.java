@@ -183,6 +183,7 @@ public class CreateShare_New_Activity extends BaseActivity {
     private boolean isTaoKouling = true;
     /*定义一个默认变量 表示没有读模板*/
     private int readMuBan = -1;
+    String official_content, taokouling_content;
 
     @Override
     public int getContainerView() {
@@ -215,8 +216,9 @@ public class CreateShare_New_Activity extends BaseActivity {
         v = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
         initRecyclerView();/*图片初始化*/
         initPosterLayoutView();/*二维码海报布局*/
-        initTemplateDataView();/*初始化本地数据*/
+        initTemplateDataView();/*初始化文案数据*/
         initMoneyData();/*初始化金额数据*/
+        initTaoKouLingDataView();/*初始化淘口令数据*/
     }
 
     private void initMoneyData() {
@@ -240,6 +242,7 @@ public class CreateShare_New_Activity extends BaseActivity {
         tv_bonus.setText("你的奖励预计为: ¥" + money_ninneng);
     }
 
+    /*初始化文案数据*/
     private void initTemplateDataView() {
         official_content = PreferUtils.getString(getApplicationContext(), "official_content");
         if (TextUtils.isEmpty(official_content)) {
@@ -279,9 +282,19 @@ public class CreateShare_New_Activity extends BaseActivity {
         }
     }
 
-    String official_content;
+    /*初始化淘口令数据*/
+    private void initTaoKouLingDataView() {
+        taokouling_content = PreferUtils.getString(getApplicationContext(), "taokouling_content");
+        if (TextUtils.isEmpty(taokouling_content)) {
+            getOnlyTaoKouLinData();
+        } else {
+            taokouling_content = taokouling_content.replace(taokouling_sign, share_taokouling);
+            taokouling_content = taokouling_content.replace(order_address_sign, share_qrcode);
+            tv_tkl_content.setText(taokouling_content);
+        }
+    }
 
-    /*获取模板数据*/
+    /*仅仅获取文案模板数据*/
     private void getTemplateData(final int mode) {
         if (mode > 0) {
             loadingDialog = DialogUtil.createLoadingDialog(CreateShare_New_Activity.this, "恢复中...");
@@ -307,7 +320,6 @@ public class CreateShare_New_Activity extends BaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
                                 if (bean == null) return;
-                                String comment = bean.getResult().getComment();
                                 official_content = bean.getResult().getContent();
                                 if (official_content == null) return;
                                 PreferUtils.putString(getApplicationContext(), "official_content", official_content);
@@ -333,6 +345,52 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 if (mode == 1) {
                                     ToastUtils.showToast(getApplicationContext(), "已恢复");
                                 }
+                            } else {
+                                String result = jsonObject.getString("result");
+                                ToastUtils.showToast(getApplicationContext(), result);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog(loadingDialog);
+                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                    }
+                });
+    }
+
+    /*仅仅只获取淘口令模板数据*/
+    private void getOnlyTaoKouLinData() {
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.NEW_TAMPLATE_DATA)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        DialogUtil.closeDialog(loadingDialog);
+                        Log.i("打印模板看看", response.toString());
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                TemplateBean bean = GsonUtil.GsonToBean(response.toString(), TemplateBean.class);
+                                if (bean == null) return;
+                                taokouling_content = bean.getResult().getComment();
+                                if (TextUtils.isEmpty(taokouling_content)) return;
+                                PreferUtils.putString(getApplicationContext(), "taokouling_content", taokouling_content);
+                                taokouling_content = taokouling_content.replace(taokouling_sign, share_taokouling);
+                                taokouling_content = taokouling_content.replace(order_address_sign, share_qrcode);
+                                tv_tkl_content.setText(taokouling_content);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -457,7 +515,7 @@ public class CreateShare_New_Activity extends BaseActivity {
 
     @OnClick({R.id.tv_buide_poster, R.id.edit_comment_template, R.id.tkl_copy_comment, R.id.tv_copy_comment_shre
             , R.id.re_wchat_friend, R.id.re_wchat_circle, R.id.re_qq_friend, R.id.re_qq_space, R.id.re_guize
-            , R.id.tv_huifu_moren, R.id.re_buy_address_show, R.id.re_taokou_ling_show})
+            , R.id.tv_huifu_moren, R.id.re_buy_address_show, R.id.re_taokou_ling_show, R.id.tv_edit_taokling_muban})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_buide_poster:/*点击生成海报按钮*/
@@ -500,7 +558,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                 ToastUtils.showToast(getApplicationContext(), "评论复制成功");
                 break;
             case R.id.tv_copy_comment_shre:/*复制文案按钮*/
-//                copyWenAnFunction();
+                copyWenAnFunction();
                 break;
             case R.id.re_wchat_friend:/*微信好友*/
                 if (NetUtil.getNetWorkState(CreateShare_New_Activity.this) < 0) {
@@ -593,7 +651,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     if (readMuBan == -1) {
                         official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
                     } else {
-                        official_content = official_content.replace(share_qrcode, "");
+                        official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
                     }
                     tv_official_content.setText(official_content);
                 } else {
@@ -642,11 +700,7 @@ public class CreateShare_New_Activity extends BaseActivity {
             case R.id.re_taokou_ling_show:/*淘口令点击显示*/
                 if (isTaoKouling) {
                     iv_taokou_ling_show.setImageResource(R.mipmap.buxianshiyjin);
-                    if (readMuBan == -1) {
-                        official_content = official_content.replace("长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
-                    } else {
-                        official_content = official_content.replace(share_taokouling, "");
-                    }
+                    official_content = official_content.replace(share_taokouling, "");
                     tv_official_content.setText(official_content);
                 } else {
                     iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
@@ -684,12 +738,16 @@ public class CreateShare_New_Activity extends BaseActivity {
                             } else {
                                 official_content = official_content.replace(tuijian_sign, "");
                             }
-                            official_content = official_content + "长按復至" + share_qrcode + "，[掏寳]即可抢购";
+                            official_content = official_content + "长按復至" + share_taokouling + "，[掏寳]即可抢购";
                             tv_official_content.setText(official_content);
                         }
                     }
                 }
                 isTaoKouling = !isTaoKouling;
+                break;
+            case R.id.tv_edit_taokling_muban:/*编辑淘口令模板*/
+                intent = new Intent(getApplicationContext(), EditTaoKouLingTemplateActivity.class);
+                startActivityForResult(intent, 100);
                 break;
         }
     }
@@ -870,58 +928,31 @@ public class CreateShare_New_Activity extends BaseActivity {
         shareManager.setShareImage(hebingBitmap, 0, share_imgs, "", "wchat", mode);
     }
 
-//    /*复制文案方法*/
-//    private void copyWenAnFunction() {
-//        /*全部复制分享文案（复制看得见的）*/
-//        String copy_cotent = "";
-//        String one = tv_view_line_one.getText().toString().trim();
-//        String two = shop_title.getText().toString().trim();
-//        String three = shop_original_price.getText().toString().trim();
-//        String four = shop_coupon_price.getText().toString().trim();
-//        String five = tv_view_line_two.getText().toString().trim();
-//        String six = tv_order_addrress.getText().toString().trim();
-//        String seven = tv_view_line_three.getText().toString().trim();
-//        String nine = tuijian_liyou.getText().toString().trim();
-//        String ten = tv_view_line_four.getText().toString().trim();
-//        String eight = taobao_ling.getText().toString().trim();
-//        if (tv_view_line_one.getVisibility() == View.VISIBLE) {
-//            copy_cotent = copy_cotent + one + "\n" + two + "\n" + three + "\n" + four;
-//        } else {
-//            copy_cotent = copy_cotent + two + "\n" + three + "\n" + four;
-//        }
-//        if (tv_view_line_two.getVisibility() == View.VISIBLE) {
-//            copy_cotent = copy_cotent + "\n" + five;
-//        }
-//        if (tv_order_addrress.getVisibility() == View.VISIBLE) {
-//            copy_cotent = copy_cotent + "\n" + six;
-//        }
-//        if (tv_view_line_three.getVisibility() == View.VISIBLE) {
-//            copy_cotent = copy_cotent + "\n" + seven;
-//        }
-//        if (tuijian_liyou.getVisibility() == View.VISIBLE) {
-//            copy_cotent = copy_cotent + "\n" + nine;
-//        }
-//        if (tv_view_line_four.getVisibility() == View.VISIBLE) {
-//            copy_cotent = copy_cotent + "\n" + ten;
-//        }
-//        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-//        if (cm.hasPrimaryClip()) {
-//            cm.getPrimaryClip().getItemAt(0).getText();
-//        }
-//        ClipData mClipData = ClipData.newPlainText("Label", copy_cotent);
-//        cm.setPrimaryClip(mClipData);
-//        ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(copy_cotent);//保存记录到数据库
-//        ToastUtils.showToast(getApplicationContext(), "文案复制成功");
-//    }
-
-    String content_line_one, content_title_two, content_sale_price_three, content_coupon_four, content_line_five,
-            content_order_six, content_line_seven, content_taobao_eight, content_tuijian_nine, content_line_ten;
+    /*复制文案方法*/
+    private void copyWenAnFunction() {
+        String copy_cotent = tv_official_content.getText().toString().trim();
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        if (cm.hasPrimaryClip()) {
+            cm.getPrimaryClip().getItemAt(0).getText();
+        }
+        ClipData mClipData = ClipData.newPlainText("Label", copy_cotent);
+        cm.setPrimaryClip(mClipData);
+        ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(copy_cotent);//保存记录到数据库
+        ToastUtils.showToast(getApplicationContext(), "文案复制成功");
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100 && resultCode == 100) {
-            initTemplateDataView();
+        if (requestCode == 100) {
+            switch (resultCode) {
+                case 100:/*文案保存回调*/
+                    initTemplateDataView();
+                    break;
+                case 300:/*淘口令保存回调*/
+                    initTaoKouLingDataView();
+                    break;
+            }
         }
     }
 

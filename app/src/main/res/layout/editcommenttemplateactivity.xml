@@ -47,14 +47,14 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/fuzhifenxiangwenan"
+                android:background="@drawable/deeply_yellow_bg"
                 android:gravity="center"
                 android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="8dp"
                 android:text="恢复"
-                android:textColor="#6f4207" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_save"
@@ -62,14 +62,14 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30dp"
                 android:layout_weight="1"
-                android:background="@drawable/fuzhifenxiangwenan"
+                android:background="@drawable/deeply_yellow_bg"
                 android:gravity="center"
                 android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="8dp"
                 android:text="保存"
-                android:textColor="#6f4207" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 

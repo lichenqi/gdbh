@@ -4,8 +4,6 @@ import android.Manifest;
 import android.app.Dialog;
 import android.app.DownloadManager;
 import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +20,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,7 +41,6 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
-import com.guodongbaohe.app.activity.SearchResultActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.StartActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
@@ -53,6 +49,7 @@ import com.guodongbaohe.app.activity.TaobaoTianMaoHolidayOfActivity;
 import com.guodongbaohe.app.activity.XinShouJiaoChengActivity;
 import com.guodongbaohe.app.app_status.AppStatus;
 import com.guodongbaohe.app.app_status.AppStatusManager;
+import com.guodongbaohe.app.base_activity.OriginalActivity;
 import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.NewYearsBean;
@@ -67,7 +64,6 @@ import com.guodongbaohe.app.fragment.NewHomeFragment;
 import com.guodongbaohe.app.fragment.SendCircleFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.CleanDataUtil;
-import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.DateUtils;
 import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.EmjoyAndTeShuUtil;
@@ -96,7 +92,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends OriginalActivity {
     @BindView(R.id.fl_container)
     FrameLayout fl_container;
     @BindView(R.id.ll_home)
@@ -142,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// HH:mm:ss
     Date date = new Date(System.currentTimeMillis());//获取当前时间
     String ddate;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,20 +197,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void toSetting() {
-        Intent localIntent = new Intent();
-        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        if (Build.VERSION.SDK_INT >= 9) {
-            localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-            localIntent.setData(Uri.fromParts("package", getPackageName(), null));
-        } else if (Build.VERSION.SDK_INT <= 8) {
-            localIntent.setAction(Intent.ACTION_VIEW);
-            localIntent.setClassName("com.android.settings", "com.android.setting.InstalledAppDetails");
-            localIntent.putExtra("com.android.settings.ApplicationPkgName", getPackageName());
-        }
-        startActivity(localIntent);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -221,28 +204,6 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.equals(flag_main, "1")) {
             ll_home.performClick();
             PreferUtils.putString(getApplicationContext(), "flag_main", "0");
-        }
-        /*获取剪切板内容*/
-        if (flag_frist == 1) {
-            getClipContent();
-        }
-    }
-
-    ClipboardManager cm;
-
-    private void getClipContent() {
-        flag_frist = 1;
-        cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        boolean b = cm.hasPrimaryClip();
-        if (b) {
-            ClipData data = cm.getPrimaryClip();
-
-            if (data == null) return;
-            ClipData.Item item = data.getItemAt(0);
-            if (item == null) return;
-            String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
-            if (TextUtils.isEmpty(content)) return;
-            showSearchDialog(content);
         }
     }
 
@@ -508,15 +469,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
-
-    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         String loginout = intent.getStringExtra("loginout");
@@ -672,85 +624,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    Dialog dialog;
-
-    private void showSearchDialog(final String content) {
-        boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
-        if (!isFirstClip) {
-            showOnlySearchDialog(content);
-        } else {
-//            String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
-//            if (clip_content.equals(content)) return;
-            showOnlySearchDialog(content);
-        }
-        PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
-    }
-
-    private void showOnlySearchDialog(final String content) {
-        PreferUtils.putString(getApplicationContext(), "clip_content", content);
-        List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
-        if (clip_list == null) return;
-        for (int i = 0; i < clip_list.size(); i++) {
-            if (clip_list.get(i).equals(content)) {
-                return;
-            }
-        }
-        if (!isUpdataCode(content)) {
-            guoDuTanKuang(content);
-        }
-    }
-
-    //判断是否是升级码
-    public boolean isUpdataCode(String msg) {
-        boolean isture = false;
-        if (msg.matches("^(?![^a-zA-Z0-9]+$)(?!\\\\D+$).{16}$")) {
-            isture = true;
-        }
-        return isture;
-    }
-
-    /*过渡弹框*/
-    private void guoDuTanKuang(final String content) {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        dialog = new Dialog(MainActivity.this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(R.layout.clip_search_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-        TextView title = (TextView) dialog.findViewById(R.id.content);
-        title.setText(content);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cm.setText("");
-                dialog.dismiss();
-
-            }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                cm.setText("");
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", content);
-                startActivity(intent);
-            }
-        });
-        dialog.show();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
-
     String download, title, desc, is_update;
 
     /*版本升级接口*/
@@ -798,31 +671,6 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    /*开启通知弹窗*/
-    private void StartTzDialog() {
-        final Dialog dialog = new Dialog(MainActivity.this, R.style.activitydialog);
-        dialog.setContentView(R.layout.tongzhi_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        LinearLayout cancel = (LinearLayout) dialog.findViewById(R.id.cancel);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                toSetting();
-            }
-        });
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
     }
 
     /*版本升级弹窗*/
@@ -1081,21 +929,8 @@ public class MainActivity extends AppCompatActivity {
                                             dialogs.dismiss();
                                         }
                                     });
-
-                                    dialogs.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                                        @Override
-                                        public void onDismiss(DialogInterface dialogInterface) {
-                                            if (flag_frist == 0) {
-                                                getClipContent();
-                                            }
-                                        }
-                                    });
                                     dialogs.show();
-                                } else {
-                                    flag_frist = 1;
-                                    getClipContent();
                                 }
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -1189,4 +1024,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
 }

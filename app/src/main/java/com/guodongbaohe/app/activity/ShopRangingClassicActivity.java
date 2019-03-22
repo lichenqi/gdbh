@@ -1,8 +1,5 @@
 package com.guodongbaohe.app.activity;
 
-import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.fragment.RankingListFragment;
-import com.guodongbaohe.app.util.ClipContentUtil;
-import com.guodongbaohe.app.util.PreferUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,78 +28,6 @@ public class ShopRangingClassicActivity extends BaseActivity {
     private String[] titles = {"2小时排行", "全天排行"};
     private List<Fragment> fragments;
     private TabFragmentAdapter adapter;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*获取剪切板内容*/
-        getClipContent();
-    }
-
-    Dialog dialog;
-
-    private void getClipContent() {
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        if (cm.hasPrimaryClip()) {
-            ClipData data = cm.getPrimaryClip();
-            if (data == null) return;
-            ClipData.Item item = data.getItemAt(0);
-            final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
-            if (TextUtils.isEmpty(content)) return;
-            boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
-            if (!isFirstClip) {
-                showDialog(content);
-            } else {
-                String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
-                if (clip_content.equals(content)) return;
-                showDialog(content);
-            }
-            PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
-        }
-    }
-
-    private void showDialog(final String content) {
-        PreferUtils.putString(getApplicationContext(), "clip_content", content);
-        List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
-        if (clip_list == null) return;
-        for (int i = 0; i < clip_list.size(); i++) {
-            if (clip_list.get(i).equals(content)) {
-                return;
-            }
-        }
-        guoDuTanKuang(content);
-    }
-
-    /*过渡弹框*/
-    private void guoDuTanKuang(final String content) {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        dialog = new Dialog(ShopRangingClassicActivity.this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(R.layout.clip_search_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-        TextView title = (TextView) dialog.findViewById(R.id.content);
-        title.setText(content);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", content);
-                startActivity(intent);
-            }
-        });
-        dialog.show();
-    }
 
     @Override
     public int getContainerView() {
@@ -190,11 +109,4 @@ public class ShopRangingClassicActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
 }

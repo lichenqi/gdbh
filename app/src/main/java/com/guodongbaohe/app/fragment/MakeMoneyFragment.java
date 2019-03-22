@@ -234,7 +234,7 @@ public class MakeMoneyFragment extends Fragment {
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             user_level.setText("合伙人");
             tv_hehren_view.setVisibility(View.VISIBLE);
-            tv_hehren_view.setText("发展" + upgrade_boss_partners + "个合伙人，获得升级总裁权限");
+            tv_hehren_view.setText("邀请" + upgrade_boss_partners + "个合伙人，获得升级总裁权限");
         } else {
             if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 user_level.setText("普通会员");
@@ -242,7 +242,7 @@ public class MakeMoneyFragment extends Fragment {
             } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 user_level.setText("VIP");
                 tv_hehren_view.setVisibility(View.VISIBLE);
-                tv_hehren_view.setText("发展" + upgrade_partner_vips + "个VIP，获得升级合伙人权限");
+                tv_hehren_view.setText("邀请" + upgrade_partner_vips + "个VIP，获得升级合伙人权限");
             }
         }
     }

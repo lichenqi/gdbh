@@ -421,10 +421,10 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     private void initGoodHeadView() {
-        if (TextUtils.isEmpty(goods_short)) {
-            setVerticalCenterIconSpan(goods_name);
-        } else {
+        if (TextUtils.isEmpty(goods_name)) {
             setVerticalCenterIconSpan(goods_short);
+        } else {
+            setVerticalCenterIconSpan(goods_name);
         }
         StringCleanZeroUtil.StringFormat(attr_price, tv_price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, tv_old_price);
@@ -474,8 +474,6 @@ public class ShopDetailActivity extends BigBaseActivity {
         /*优惠券显示view*/
         initCouponView();
         super.onResume();
-        /*获取剪切板内容*/
-        getClipContent();
         /*判断该商品是否收藏*/
         initCollectShop();
         /*获取下级数量接口*/
@@ -485,71 +483,6 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     Dialog dialog;
-
-    private void getClipContent() {
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        boolean b = cm.hasPrimaryClip();
-        if (b) {
-            ClipData data = cm.getPrimaryClip();
-            if (data == null) return;
-            ClipData.Item item = data.getItemAt(0);
-            final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
-            if (TextUtils.isEmpty(content)) return;
-            boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
-            if (!isFirstClip) {
-                showClipDialog(content);
-            } else {
-                String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
-                if (clip_content.equals(content)) return;
-                showClipDialog(content);
-            }
-            PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
-        }
-    }
-
-    private void showClipDialog(final String content) {
-        PreferUtils.putString(getApplicationContext(), "clip_content", content);
-        List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
-        if (clip_list == null) return;
-        for (int i = 0; i < clip_list.size(); i++) {
-            if (clip_list.get(i).equals(content)) {
-                return;
-            }
-        }
-        guoDuTanKuang(content);
-    }
-
-    /*过渡弹框*/
-    private void guoDuTanKuang(final String content) {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        dialog = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(R.layout.clip_search_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-        TextView title = (TextView) dialog.findViewById(R.id.content);
-        title.setText(content);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", content);
-                startActivity(intent);
-            }
-        });
-        dialog.show();
-    }
-
     BigDecimal bg;
     String start_time;
 
@@ -1661,7 +1594,7 @@ public class ShopDetailActivity extends BigBaseActivity {
             /*优惠券布局按钮*/
             toTaoBaoCouponActivity();
         } else {
-            if (System.currentTimeMillis() < DateUtils.getDateTime(start_time)) {
+            if (System.currentTimeMillis() > DateUtils.getDateTime(start_time)) {
                 dialog_miaoshu = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
                 dialog_miaoshu.setContentView(R.layout.youhuiquan_tishi);
                 Window window = dialog_miaoshu.getWindow();

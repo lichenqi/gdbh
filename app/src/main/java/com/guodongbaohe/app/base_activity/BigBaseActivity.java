@@ -3,7 +3,6 @@ package com.guodongbaohe.app.base_activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.app_status.AppStatus;
@@ -13,7 +12,7 @@ import com.guodongbaohe.app.receiver.NetBroadcastReceiver;
 import com.guodongbaohe.app.util.NetUtil;
 
 
-public class BigBaseActivity extends AppCompatActivity implements NetBroadcastReceiver.NetEvevt {
+public class BigBaseActivity extends OriginalActivity implements NetBroadcastReceiver.NetEvevt {
     public static NetBroadcastReceiver.NetEvevt evevt;
     /*网络类型*/
     private int netMobile;

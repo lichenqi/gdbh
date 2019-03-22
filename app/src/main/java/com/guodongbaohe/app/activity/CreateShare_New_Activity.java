@@ -574,6 +574,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     //没有存储权限
                     ActivityCompat.requestPermissions(CreateShare_New_Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
+                    copyWenAnFunction();
                     if (buidePoster == 1) {
                         /*生成过海报*/
                         wChatFriendPicShare(0);
@@ -597,6 +598,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     //没有存储权限
                     ActivityCompat.requestPermissions(CreateShare_New_Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
                 } else {
+                    copyWenAnFunction();
                     /*朋友圈分享*/
                     circleCommonFunction();
                 }
@@ -637,6 +639,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     //没有存储权限
                     ActivityCompat.requestPermissions(CreateShare_New_Activity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 3);
                 } else {
+                    copyWenAnFunction();
                     /*qq好友分享*/
                     qqFriendShareCommon();
                 }
@@ -651,7 +654,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     if (readMuBan == -1) {
                         official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
                     } else {
-                        official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                        official_content = official_content.replace(share_qrcode, "");
                     }
                     tv_official_content.setText(official_content);
                 } else {
@@ -696,6 +699,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     }
                 }
                 isBuyAddress = !isBuyAddress;
+                PreferUtils.putString(getApplicationContext(), "official_content", official_content);
                 break;
             case R.id.re_taokou_ling_show:/*淘口令点击显示*/
                 if (isTaoKouling) {
@@ -744,6 +748,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     }
                 }
                 isTaoKouling = !isTaoKouling;
+                PreferUtils.putString(getApplicationContext(), "official_content", official_content);
                 break;
             case R.id.tv_edit_taokling_muban:/*编辑淘口令模板*/
                 intent = new Intent(getApplicationContext(), EditTaoKouLingTemplateActivity.class);

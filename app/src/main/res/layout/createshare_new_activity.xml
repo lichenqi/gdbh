@@ -67,13 +67,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/fuzhifenxiangwenan"
+                android:background="@drawable/deeply_yellow_bg"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="生成海报"
-                android:textColor="#6f4207" />
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -112,7 +112,7 @@
                         android:paddingTop="5dp"
                         android:text="恢复默认"
                         android:textColor="#6f4207"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/edit_comment_template"
@@ -128,7 +128,7 @@
                         android:paddingTop="5dp"
                         android:text="编辑模板"
                         android:textColor="#6f4207"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
 
                     <RelativeLayout
                         android:id="@+id/re_buy_address_show"
@@ -139,8 +139,8 @@
 
                         <ImageView
                             android:id="@+id/iv_buy_show"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_centerVertical="true"
                             android:scaleType="centerCrop"
                             android:src="@mipmap/xainshiyjin" />
@@ -152,7 +152,7 @@
                             android:layout_toRightOf="@+id/iv_buy_show"
                             android:text="购买地址"
                             android:textColor="@color/txblack"
-                            android:textSize="14sp" />
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
@@ -165,8 +165,8 @@
 
                         <ImageView
                             android:id="@+id/iv_taokou_ling_show"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
                             android:layout_centerVertical="true"
                             android:scaleType="centerCrop"
                             android:src="@mipmap/xainshiyjin" />
@@ -178,7 +178,7 @@
                             android:layout_toRightOf="@+id/iv_taokou_ling_show"
                             android:text="淘口令"
                             android:textColor="@color/txblack"
-                            android:textSize="14sp" />
+                            android:textSize="12sp" />
 
                     </RelativeLayout>
 
@@ -192,13 +192,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/fuzhifenxiangwenan"
+                android:background="@drawable/deeply_yellow_bg"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="仅复制文案分享"
-                android:textColor="#6f4207" />
+                android:textColor="@color/black" />
 
             <RelativeLayout
                 android:id="@+id/re_plun"
@@ -244,13 +244,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/fuzhifenxiangwenan"
+                android:background="@drawable/deeply_yellow_bg"
                 android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"
                 android:text="复制评论"
-                android:textColor="#6f4207" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 

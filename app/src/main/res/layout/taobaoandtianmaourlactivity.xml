@@ -112,6 +112,7 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/tianmaobeijing"
                 android:gravity="center"
+                android:layout_marginBottom="5dp"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
                 android:text="一键查询优惠券"

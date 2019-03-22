@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -51,6 +52,20 @@ public class StartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isTaskRoot()) {
+            Intent intent = getIntent();
+            String action = intent.getAction();
+            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                finish();
+                return;
+            }
+        }
+
+//        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)!=0) {
+//            /**为了防止重复启动多个闪屏页面**/
+//            finish();
+//            return;
+//        }
         setContentView(R.layout.advertisementactivity);
         ButterKnife.bind(this);
         /*获取头部分类标题*/
@@ -309,5 +324,14 @@ public class StartActivity extends AppCompatActivity {
                     }
                 });
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            // 仿返回键退出界面,但不销毁，程序仍在后台运行
+//            moveTaskToBack(false); // 关键的一行代码
+            return false;
 
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

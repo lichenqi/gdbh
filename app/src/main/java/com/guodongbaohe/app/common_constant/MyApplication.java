@@ -40,7 +40,6 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.mob.MobSDK;
-import com.squareup.leakcanary.LeakCanary;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -96,7 +95,7 @@ public class MyApplication extends MultiDexApplication {
         mDownloadMgr.resumeTasks();     //恢复本地所有未完成的任务
 
         /*sharesdk分享*/
-        MobSDK.init(this);
+//        MobSDK.init(this);
         /*阿里百川*/
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
@@ -359,12 +358,12 @@ public class MyApplication extends MultiDexApplication {
                     }
                 });
     }
-
-    //内存泄漏检测工具
-    private void initLeakCanary() {
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            return;
-        }
-        LeakCanary.install(this);
-    }
+//
+//    //内存泄漏检测工具
+//    private void initLeakCanary() {
+//        if (LeakCanary.isInAnalyzerProcess(this)) {
+//            return;
+//        }
+//        LeakCanary.install(this);
+//    }
 }

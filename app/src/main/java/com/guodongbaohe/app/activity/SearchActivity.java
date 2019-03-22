@@ -45,6 +45,7 @@ import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
+import com.guodongbaohe.app.view.FlowLayout;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -73,9 +74,9 @@ public class SearchActivity extends BaseActivity {
     /*历史搜索布局*/
     @BindView(R.id.ll_histoy_notiy)
     RelativeLayout ll_histoy_notiy;
-    /*历史搜索*/
-    @BindView(R.id.recyclerview_histor_search)
-    RecyclerView recyclerview_histor_search;
+    /*历史搜索 流式布局*/
+    @BindView(R.id.flow_layout)
+    FlowLayout flow_layout;
     /*模糊查询*/
     @BindView(R.id.fuzzy_recycler)
     RecyclerView fuzzy_recycler;
@@ -118,8 +119,6 @@ public class SearchActivity extends BaseActivity {
         setEditWatch();
         /*热门搜索布局*/
         initHotView();
-        /*历史搜索布局*/
-        initHistorView();
         /*模糊查询布局*/
         initFuzzyView();
         initEditTextView();
@@ -251,14 +250,6 @@ public class SearchActivity extends BaseActivity {
                 });
     }
 
-    private void initHistorView() {
-        recyclerview_histor_search.setHasFixedSize(true);
-        GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 4);
-        TimeItemDecoration itemDecoration = new TimeItemDecoration(DensityUtils.dip2px(getApplicationContext(), 10), DensityUtils.dip2px(getApplicationContext(), 5));
-        recyclerview_histor_search.addItemDecoration(itemDecoration);
-        recyclerview_histor_search.setLayoutManager(manager);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -369,18 +360,18 @@ public class SearchActivity extends BaseActivity {
     private void getHistoryList() {
         final List<String> list = HistorySearchUtil.getInstance(getApplicationContext()).queryHistorySearchList();
         Collections.reverse(list);
-        adapter = new SearchAdapter(list);
-        recyclerview_histor_search.setAdapter(adapter);
         if (list.size() > 0) {
-            ll_histoy_notiy.setVisibility(View.VISIBLE);
+            flow_layout.setVisibility(View.VISIBLE);
         } else {
-            ll_histoy_notiy.setVisibility(View.GONE);
+            flow_layout.setVisibility(View.GONE);
         }
-        adapter.setonclicklistener(new OnItemClick() {
+        //设置标签
+        flow_layout.setLables(list, false);
+        flow_layout.setOnClickListener(new FlowLayout.OnItem() {
             @Override
-            public void OnItemClickListener(View view, int position) {
+            public void OnItemClick(String name) {
                 intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", list.get(position));
+                intent.putExtra("keyword", name);
                 startActivityForResult(intent, 1);
             }
         });

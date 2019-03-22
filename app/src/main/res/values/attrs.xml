@@ -35,20 +35,28 @@
     </declare-styleable>
     <declare-styleable name="VerifyCodeView">
 
-        <attr name="vcTextColor" format="color|reference"/>
-        <attr name="vcTextCount" format="integer"/>
-        <attr name="vcTextSize" format="dimension|reference"/>
-        <attr name="vcDividerWidth" format="dimension|reference"/>
-        <attr name="vcTextFont" format="string|reference"/>
+        <attr name="vcTextColor" format="color|reference" />
+        <attr name="vcTextCount" format="integer" />
+        <attr name="vcTextSize" format="dimension|reference" />
+        <attr name="vcDividerWidth" format="dimension|reference" />
+        <attr name="vcTextFont" format="string|reference" />
         <attr name="vcWrapper" format="enum">
-            <enum name="underLine" value="0"/>
-            <enum name="centerLine" value="1"/>
-            <enum name="square" value="2"/>
-            <enum name="circle" value="3"/>
+            <enum name="underLine" value="0" />
+            <enum name="centerLine" value="1" />
+            <enum name="square" value="2" />
+            <enum name="circle" value="3" />
         </attr>
-        <attr name="vcWrapperColor" format="color|reference"/>
-        <attr name="vcNextWrapperColor" format="color|reference"/>
-        <attr name="vcWrapperStrokeWidth" format="dimension|reference"/>
+        <attr name="vcWrapperColor" format="color|reference" />
+        <attr name="vcNextWrapperColor" format="color|reference" />
+        <attr name="vcWrapperStrokeWidth" format="dimension|reference" />
+    </declare-styleable>
+
+    <!--流式布局-->
+    <declare-styleable name="FlowLayout">
+        <!--标签之间的间距-->
+        <attr name="lineSpace" format="dimension" />
+        <!-- 每一行之间的间距-->
+        <attr name="rowSpace" format="dimension" />
     </declare-styleable>
 
 </resources>

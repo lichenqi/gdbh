@@ -16,6 +16,7 @@ import com.guodongbaohe.app.view.CustomVideoView;
 
 public class VideoPlayActivity extends AppCompatActivity {
     CustomVideoView videoView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,9 +24,9 @@ public class VideoPlayActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         }
-        videoView = (CustomVideoView)findViewById(R.id.videoView);
+        videoView = (CustomVideoView) findViewById(R.id.videoView);
         //加载指定的视频文件
-        String path=getIntent().getStringExtra("url");
+        String path = getIntent().getStringExtra("url");
 //        String path="https://cloud.video.taobao.com//play/u/393300180/p/1/e/6/t/1/215525269409.mp4";
         videoView.setVideoPath(path);
 
@@ -45,17 +46,18 @@ public class VideoPlayActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.addRule(RelativeLayout.CENTER_IN_PARENT);
             videoView.setLayoutParams(params);
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            videoView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT));
+            videoView.setLayoutParams(new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         }
     }
 

@@ -423,7 +423,11 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     private void initGoodHeadView() {
-        setVerticalCenterIconSpan(goods_name);
+        if (TextUtils.isEmpty(goods_short)) {
+            setVerticalCenterIconSpan(goods_name);
+        } else {
+            setVerticalCenterIconSpan(goods_short);
+        }
         StringCleanZeroUtil.StringFormat(attr_price, tv_price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, tv_old_price);
         tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));

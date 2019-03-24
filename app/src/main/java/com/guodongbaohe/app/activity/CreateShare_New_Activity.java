@@ -184,6 +184,10 @@ public class CreateShare_New_Activity extends BaseActivity {
     /*定义一个默认变量 表示没有读模板*/
     private int readMuBan = -1;
     String official_content, taokouling_content;
+    /*购买地址选中是 1   没有选中是-1*/
+    int buy_address_select = 1;
+    /*淘口令选中是 1   没有选中是-1*/
+    int taokouling_select = 1;
 
     @Override
     public int getContainerView() {
@@ -249,20 +253,23 @@ public class CreateShare_New_Activity extends BaseActivity {
             /*调用接口数据*/
             getTemplateData(0);
         } else {
-            readMuBan = 1;
             if (official_content.contains(order_address_sign)) {
                 iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
                 isBuyAddress = true;
+                buy_address_select = 1;
             } else {
                 iv_buy_show.setImageResource(R.mipmap.buxianshiyjin);
                 isBuyAddress = false;
+                buy_address_select = -1;
             }
             if (official_content.contains(taokouling_sign)) {
                 iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
                 isTaoKouling = true;
+                taokouling_select = 1;
             } else {
                 iv_taokou_ling_show.setImageResource(R.mipmap.buxianshiyjin);
                 isTaoKouling = false;
+                taokouling_select = -1;
             }
             if (TextUtils.isEmpty(good_short)) {
                 official_content = official_content.replace(title_sign, goods_name);
@@ -275,7 +282,7 @@ public class CreateShare_New_Activity extends BaseActivity {
             if (!TextUtils.isEmpty(promo_slogan)) {
                 official_content = official_content.replace(tuijian_sign, promo_slogan);
             } else {
-                official_content = official_content.replace(tuijian_sign, "");
+                official_content = official_content.replace("\n" + tuijian_sign, "");
             }
             official_content = official_content.replace(taokouling_sign, share_taokouling);
             tv_official_content.setText(official_content);
@@ -334,7 +341,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 if (!TextUtils.isEmpty(promo_slogan)) {
                                     official_content = official_content.replace(tuijian_sign, promo_slogan);
                                 } else {
-                                    official_content = official_content.replace(tuijian_sign, "");
+                                    official_content = official_content.replace("\n" + tuijian_sign, "");
                                 }
                                 official_content = official_content.replace(taokouling_sign, share_taokouling);
                                 tv_official_content.setText(official_content);
@@ -345,6 +352,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 if (mode == 1) {
                                     ToastUtils.showToast(getApplicationContext(), "已恢复");
                                 }
+                                isBuyAddress = true;
+                                isTaoKouling = true;
+                                buy_address_select = 1;
+                                taokouling_select = 1;
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -650,105 +661,289 @@ public class CreateShare_New_Activity extends BaseActivity {
                 break;
             case R.id.re_buy_address_show:/*购买地址*/
                 if (isBuyAddress) {
+                    /*隐藏购买地址*/
                     iv_buy_show.setImageResource(R.mipmap.buxianshiyjin);
-                    if (readMuBan == -1) {
-                        official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
-                    } else {
-                        official_content = official_content.replace(share_qrcode, "");
-                    }
-                    tv_official_content.setText(official_content);
-                } else {
-                    iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
-                    if (readMuBan == -1) {
-                        getTemplateData(2);
-                    } else {
-                        official_content = PreferUtils.getString(getApplicationContext(), "official_content");
-                        if (official_content.contains(order_address_sign)) {
-                            if (TextUtils.isEmpty(good_short)) {
-                                official_content = official_content.replace(title_sign, goods_name);
-                            } else {
-                                official_content = official_content.replace(title_sign, good_short);
-                            }
-                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
-                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-                            official_content = official_content.replace(order_address_sign, share_qrcode);
-                            if (!TextUtils.isEmpty(promo_slogan)) {
-                                official_content = official_content.replace(tuijian_sign, promo_slogan);
-                            } else {
-                                official_content = official_content.replace(tuijian_sign, "");
-                            }
-                            official_content = official_content.replace(taokouling_sign, share_taokouling);
-                            tv_official_content.setText(official_content);
+                    buy_address_select = -1;
+                    official_content = PreferUtils.getString(getApplicationContext(), "official_content");/*获取模板内容*/
+                    if (official_content.contains(order_address_sign)) {
+
+                        /*模板包含{下单链接}*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
                         } else {
-                            if (TextUtils.isEmpty(good_short)) {
-                                official_content = official_content.replace(title_sign, goods_name);
-                            } else {
-                                official_content = official_content.replace(title_sign, good_short);
-                            }
-                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
-                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-                            if (!TextUtils.isEmpty(promo_slogan)) {
-                                official_content = official_content.replace(tuijian_sign, promo_slogan);
-                            } else {
-                                official_content = official_content.replace(tuijian_sign, "");
-                            }
-                            official_content = official_content.replace(taokouling_sign, share_taokouling);
-                            official_content = official_content + "\n" + "【下单链接】" + share_qrcode;
-                            tv_official_content.setText(official_content);
+                            official_content = official_content.replace(title_sign, good_short);
                         }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        official_content = official_content.replace(order_address_sign, "");
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+
+                        if (taokouling_select == 1) {/*淘口令显示在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content + "\n长按復至" + share_taokouling + "，[掏寳]即可抢购";
+                            }
+                        } else {/*淘口令隐藏在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, "");
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content.replace("\n长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
+                            }
+                        }
+
+                    } else {
+
+                        /*模板不包含下单链接*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+
+                        if (taokouling_select == 1) {/*淘口令显示在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content + "\n长按復至" + share_taokouling + "，[掏寳]即可抢购";
+                            }
+                        } else {/*淘口令隐藏在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, "");
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content.replace("\n长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
+                            }
+                        }
+
+                    }
+
+                    tv_official_content.setText(official_content);
+
+                } else {
+
+                    /*显示购买地址*/
+                    iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
+                    buy_address_select = 1;
+                    official_content = PreferUtils.getString(getApplicationContext(), "official_content");/*获取模板内容*/
+                    if (official_content.contains(order_address_sign)) {/*模板包含{下单链接}*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        official_content = official_content.replace(order_address_sign, share_qrcode);
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+
+                        if (taokouling_select == 1) {/*淘口令显示在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content + "\n长按復至" + share_taokouling + "，[掏寳]即可抢购";
+                            }
+                        } else {/*淘口令隐藏在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, "");
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content.replace("\n长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
+                            }
+                        }
+                        tv_official_content.setText(official_content);
+                    } else {/*模板不包含下单链接*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+
+
+                        if (taokouling_select == 1) {/*淘口令显示在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, share_taokouling);
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content + "\n长按復至" + share_taokouling + "，[掏寳]即可抢购";
+                            }
+                        } else {/*淘口令隐藏在*/
+                            if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                official_content = official_content.replace(taokouling_sign, "");
+                            } else {/*编辑模板不包含淘口令*/
+                                official_content = official_content.replace("\n长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
+                            }
+                        }
+                        official_content = official_content + "\n【下单链接】" + share_qrcode;
+                        tv_official_content.setText(official_content);
                     }
                 }
                 isBuyAddress = !isBuyAddress;
-                PreferUtils.putString(getApplicationContext(), "official_content", official_content);
                 break;
             case R.id.re_taokou_ling_show:/*淘口令点击显示*/
                 if (isTaoKouling) {
+                    /*隐藏淘口令*/
+                    taokouling_select = -1;
                     iv_taokou_ling_show.setImageResource(R.mipmap.buxianshiyjin);
-                    official_content = official_content.replace(share_taokouling, "");
-                    tv_official_content.setText(official_content);
-                } else {
-                    iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
-                    if (readMuBan == -1) {
-                        getTemplateData(2);
-                    } else {
-                        official_content = PreferUtils.getString(getApplicationContext(), "official_content");
-                        if (official_content.contains(taokouling_sign)) {
-                            if (TextUtils.isEmpty(good_short)) {
-                                official_content = official_content.replace(title_sign, goods_name);
-                            } else {
-                                official_content = official_content.replace(title_sign, good_short);
-                            }
-                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
-                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-                            official_content = official_content.replace(order_address_sign, share_qrcode);
-                            if (!TextUtils.isEmpty(promo_slogan)) {
-                                official_content = official_content.replace(tuijian_sign, promo_slogan);
-                            } else {
-                                official_content = official_content.replace(tuijian_sign, "");
-                            }
-                            official_content = official_content.replace(taokouling_sign, share_taokouling);
-                            tv_official_content.setText(official_content);
+                    official_content = PreferUtils.getString(getApplicationContext(), "official_content");/*获取模板内容*/
+                    if (official_content.contains(taokouling_sign)) {
+
+                        /*编辑模板包含淘口令标识*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
                         } else {
-                            if (TextUtils.isEmpty(good_short)) {
-                                official_content = official_content.replace(title_sign, goods_name);
-                            } else {
-                                official_content = official_content.replace(title_sign, good_short);
-                            }
-                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
-                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
-                            official_content = official_content.replace(order_address_sign, share_qrcode);
-                            if (!TextUtils.isEmpty(promo_slogan)) {
-                                official_content = official_content.replace(tuijian_sign, promo_slogan);
-                            } else {
-                                official_content = official_content.replace(tuijian_sign, "");
-                            }
-                            official_content = official_content + "长按復至" + share_taokouling + "，[掏寳]即可抢购";
-                            tv_official_content.setText(official_content);
+                            official_content = official_content.replace(title_sign, good_short);
                         }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+                        official_content = official_content.replace(taokouling_sign, "");
+                        if (buy_address_select == 1) {/*购买地址显示在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, share_qrcode);
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content + "\n【下单链接】" + share_qrcode;
+                            }
+                        } else {/*购买地址隐藏在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, "");
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                            }
+                        }
+
+                    } else {
+
+                        /*编辑模板不包含淘口令标识*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+                        official_content = official_content.replace("\n长按復至" + share_taokouling + "，[掏寳]即可抢购", "");
+
+                        if (buy_address_select == 1) {/*购买地址显示在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, share_qrcode);
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content + "\n【下单链接】" + share_qrcode;
+                            }
+                        } else {/*购买地址隐藏在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, "");
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                            }
+                        }
+
                     }
+
+                    tv_official_content.setText(official_content);
+
+                } else {
+
+                    /*显示淘口令*/
+                    taokouling_select = 1;
+                    iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
+                    official_content = PreferUtils.getString(getApplicationContext(), "official_content");
+                    if (official_content.contains(taokouling_sign)) {
+
+                        /*编辑模板包含淘口令*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+                        official_content = official_content.replace(taokouling_sign, share_taokouling);
+
+                        if (buy_address_select == 1) {/*购买地址显示在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, share_qrcode);
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content + "\n【下单链接】" + share_qrcode;
+                            }
+                        } else {/*购买地址隐藏在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, "");
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                            }
+                        }
+
+                    } else {
+
+                        /*编辑模板不包含淘口令标识*/
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+                        official_content = official_content + "\n长按復至" + share_taokouling + "，[掏寳]即可抢购";
+
+                        if (buy_address_select == 1) {/*购买地址显示在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, share_qrcode);
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content + "\n【下单链接】" + share_qrcode;
+                            }
+                        } else {/*购买地址隐藏在*/
+                            if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                official_content = official_content.replace(order_address_sign, "");
+                            } else {/*编辑模板不包含下单链接*/
+                                official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                            }
+                        }
+
+                    }
+
+                    tv_official_content.setText(official_content);
                 }
                 isTaoKouling = !isTaoKouling;
-                PreferUtils.putString(getApplicationContext(), "official_content", official_content);
                 break;
             case R.id.tv_edit_taokling_muban:/*编辑淘口令模板*/
                 intent = new Intent(getApplicationContext(), EditTaoKouLingTemplateActivity.class);

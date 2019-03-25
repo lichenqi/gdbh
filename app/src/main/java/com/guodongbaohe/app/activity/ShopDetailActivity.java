@@ -80,9 +80,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -422,10 +420,10 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     private void initGoodHeadView() {
-        if (TextUtils.isEmpty(goods_short)) {
-            setVerticalCenterIconSpan(goods_name);
-        } else {
+        if (TextUtils.isEmpty(goods_name)) {
             setVerticalCenterIconSpan(goods_short);
+        } else {
+            setVerticalCenterIconSpan(goods_name);
         }
         StringCleanZeroUtil.StringFormat(attr_price, tv_price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, tv_old_price);
@@ -475,84 +473,19 @@ public class ShopDetailActivity extends BigBaseActivity {
         /*优惠券显示view*/
         initCouponView();
         super.onResume();
-        /*获取剪切板内容*/
-        getClipContent();
         /*判断该商品是否收藏*/
         initCollectShop();
         /*获取下级数量接口*/
         if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
             getUserData();
         }
+        DialogUtil.closeDialog(loadingDialog);
     }
 
     Dialog dialog;
-
-    private void getClipContent() {
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        boolean b = cm.hasPrimaryClip();
-        if (b) {
-            ClipData data = cm.getPrimaryClip();
-            if (data == null) return;
-            ClipData.Item item = data.getItemAt(0);
-            final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
-            if (TextUtils.isEmpty(content)) return;
-            boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
-            if (!isFirstClip) {
-                showClipDialog(content);
-            } else {
-                String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
-                if (clip_content.equals(content)) return;
-                showClipDialog(content);
-            }
-            PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
-        }
-    }
-
-    private void showClipDialog(final String content) {
-        PreferUtils.putString(getApplicationContext(), "clip_content", content);
-        List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
-        if (clip_list == null) return;
-        for (int i = 0; i < clip_list.size(); i++) {
-            if (clip_list.get(i).equals(content)) {
-                return;
-            }
-        }
-        guoDuTanKuang(content);
-    }
-
-    /*过渡弹框*/
-    private void guoDuTanKuang(final String content) {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        dialog = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(R.layout.clip_search_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-        TextView title = (TextView) dialog.findViewById(R.id.content);
-        title.setText(content);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", content);
-                startActivity(intent);
-            }
-        });
-        dialog.show();
-    }
-
     BigDecimal bg;
     String start_time;
+
     private void initCouponView() {
         double v = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
         bg = new BigDecimal(v);
@@ -572,7 +505,7 @@ public class ShopDetailActivity extends BigBaseActivity {
             if (TextUtils.isEmpty(coupon_begin) || TextUtils.isEmpty(coupon_final)) {
                 return;
             }
-             start_time = coupon_begin.substring(0, 4) + "." + coupon_begin.substring(4, 6) + "." + coupon_begin.substring(6, 8);
+            start_time = coupon_begin.substring(0, 4) + "." + coupon_begin.substring(4, 6) + "." + coupon_begin.substring(6, 8);
             String end_time = coupon_final.substring(0, 4) + "." + coupon_final.substring(4, 6) + "." + coupon_final.substring(6, 8);
             coupon_money.setText(StringCleanZeroUtil.DoubleFormat(youhuiquan) + "元优惠券");
             tv_coupon_time.setText("有效期:" + start_time + "-" + end_time);
@@ -789,9 +722,7 @@ public class ShopDetailActivity extends BigBaseActivity {
             }
         });
     }
-    Dialog dialog_miaoshu;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd");// HH:mm:ss
-    Date date = new Date(System.currentTimeMillis());//获取当前时间
+
     @OnClick({R.id.iv_back, R.id.tv_buy, R.id.tv_share_money, R.id.tv_tuijian, R.id.tv_baobei, R.id.re_yao_zhuanqian,
             R.id.ll_youhuiquan_show, R.id.to_home, R.id.tv_xiangqing, R.id.iv_yuanxing_back,
             R.id.to_top, R.id.re_collect, R.id.collect_list, R.id.ll_most_bottom})
@@ -893,6 +824,7 @@ public class ShopDetailActivity extends BigBaseActivity {
     String coupon_url;
 
     private void getGaoYongJinData() {
+        loadingDialog = DialogUtil.createLoadingDialog(ShopDetailActivity.this, "加载中...");
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
@@ -963,6 +895,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     @Override
                                     public void onTradeSuccess(TradeResult tradeResult) {
                                         /*阿里百川进淘宝成功*/
+                                        DialogUtil.closeDialog(loadingDialog);
                                     }
 
                                     @Override
@@ -971,11 +904,13 @@ public class ShopDetailActivity extends BigBaseActivity {
                                         intent = new Intent(getApplicationContext(), TaoBaoFromUrlToDetailActivity.class);
                                         intent.putExtra("coupon_url", coupon_url);
                                         startActivity(intent);
+                                        DialogUtil.closeDialog(loadingDialog);
                                     }
                                 });
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
+                                DialogUtil.closeDialog(loadingDialog);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -985,6 +920,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        DialogUtil.closeDialog(loadingDialog);
                     }
                 });
     }
@@ -1068,6 +1004,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         if (dialog != null) {
             dialog.dismiss();
         }
+        DialogUtil.closeDialog(loadingDialog);
     }
 
     /*分享调用高拥接口*/
@@ -1657,13 +1594,15 @@ public class ShopDetailActivity extends BigBaseActivity {
         }
     }
 
+    Dialog dialog_miaoshu;
+
     /*判断券时间失效问题*/
     private void compareCouponTime() {
         if (TextUtils.isEmpty(start_time)) {
             /*优惠券布局按钮*/
             toTaoBaoCouponActivity();
         } else {
-            if (System.currentTimeMillis() > DateUtils.getDateTime(start_time)) {
+            if (System.currentTimeMillis() < DateUtils.getDateTime(start_time)) {
                 dialog_miaoshu = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
                 dialog_miaoshu.setContentView(R.layout.youhuiquan_tishi);
                 Window window = dialog_miaoshu.getWindow();

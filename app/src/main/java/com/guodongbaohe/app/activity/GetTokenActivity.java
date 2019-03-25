@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
@@ -49,12 +50,18 @@ public class GetTokenActivity extends BaseActivity {
     @BindView(R.id.vc_centerLine)
     VerifyCodeView vc_centerLine;
     @BindView(R.id.copy_lingpai)
-    TextView copy_lingpai; //复制
+    TextView copy_lingpai; //复制令牌
+    @BindView(R.id.copy_guanwang)
+    TextView copy_guanwang; //复制官网
+    @BindView(R.id.guanwang_address)
+    TextView guanwang_address;
     @BindView(R.id.youxiaoqi)
     TextView youxiaoqi;
     SimpleDateFormat format;
     @BindView(R.id.shuoming)
     TextView shuoming;
+    @BindView(R.id.is_boss)
+    LinearLayout is_boss;
     private Timer timer = new Timer(true);
     Dialog dialog;
      int flag=0;
@@ -66,7 +73,10 @@ public class GetTokenActivity extends BaseActivity {
         iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
-
+        String user_code=getIntent().getStringExtra("user_code");
+        if (!TextUtils.equals(user_code, Constant.BOSS_USER_LEVEL)) {
+            is_boss.setVisibility(View.VISIBLE);
+        }
         shuoming.setText(PreferUtils.getString(GetTokenActivity.this,"app_token_desc"));
         //启动定时器
         timer.schedule(task, 0, 2*60*1000);
@@ -92,6 +102,13 @@ public class GetTokenActivity extends BaseActivity {
                     copy_lingpai.setText("复制成功");
                 }
 
+            }
+        });
+        copy_guanwang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CopyToClipboard(GetTokenActivity.this, guanwang_address.getText().toString());
+                ToastUtils.showToast(GetTokenActivity.this, "复制成功");
             }
         });
         vc_centerLine.setEnabled(false);

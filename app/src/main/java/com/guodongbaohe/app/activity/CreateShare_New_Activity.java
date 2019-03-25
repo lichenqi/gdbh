@@ -249,11 +249,16 @@ public class CreateShare_New_Activity extends BaseActivity {
     /*初始化文案数据*/
     private void initTemplateDataView() {
         official_content = PreferUtils.getString(getApplicationContext(), "official_content");
+        int template_is_save = PreferUtils.getInt(getApplicationContext(), "template_is_save");
         if (TextUtils.isEmpty(official_content)) {
             /*调用接口数据*/
             getTemplateData(0);
         } else {
-            readMuBan = 1;
+            if (template_is_save == 1) {
+                readMuBan = 1;
+            } else {
+                readMuBan = -1;
+            }
             if (official_content.contains(order_address_sign)) {
                 iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
                 isBuyAddress = true;

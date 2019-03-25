@@ -74,7 +74,7 @@ public class GetTokenActivity extends BaseActivity {
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
         String user_code=getIntent().getStringExtra("user_code");
-        if (!TextUtils.equals(user_code, Constant.BOSS_USER_LEVEL)) {
+        if (TextUtils.equals(user_code, "总裁")) {
             is_boss.setVisibility(View.VISIBLE);
         }
         shuoming.setText(PreferUtils.getString(GetTokenActivity.this,"app_token_desc"));

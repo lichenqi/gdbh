@@ -1,6 +1,5 @@
 package com.guodongbaohe.app.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -75,8 +74,6 @@ public class TransitionSearchActivity extends BigBaseActivity {
     protected void onResume() {
         super.onResume();
     }
-
-    Dialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

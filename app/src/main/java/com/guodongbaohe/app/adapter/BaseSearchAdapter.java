@@ -77,9 +77,6 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
         attr_ratio = list.get(position).getAttr_ratio();
         String coupon_surplus = list.get(position).getCoupon_surplus();
         holder.tv_price.setText(attr_price);
-        if (TextUtils.isEmpty(attr_price) && TextUtils.isEmpty(attr_price)) {
-            return;
-        }
         d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
         bg3 = new BigDecimal(d_price);
         double d_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
-import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.NoticeBean;
@@ -42,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GuideActivity extends BigBaseActivity {
+public class GuideActivity extends AppCompatActivity {
     @BindView(R.id.viewpager)
     ViewPager viewpager;
     @BindView(R.id.jump)
@@ -55,7 +55,7 @@ public class GuideActivity extends BigBaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)> 0) {
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) > 0) {
             /**为了防止重复启动多个闪屏页面**/
             finish();
             return;

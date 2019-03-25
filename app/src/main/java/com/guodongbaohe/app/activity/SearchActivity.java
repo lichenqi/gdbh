@@ -1,6 +1,5 @@
 package com.guodongbaohe.app.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,9 +84,6 @@ public class SearchActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (dialog != null) {
-            dialog.dismiss();
-        }
     }
 
     // 声明一个订阅方法，用于接收事件
@@ -259,8 +255,6 @@ public class SearchActivity extends BaseActivity {
             }
         }, 100);
     }
-
-    Dialog dialog;
 
     private void setEditWatch() {
         ed_keyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {

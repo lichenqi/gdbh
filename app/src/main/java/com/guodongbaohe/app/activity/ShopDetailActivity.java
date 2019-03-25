@@ -826,24 +826,29 @@ public class ShopDetailActivity extends BigBaseActivity {
                 }
                 break;
             case R.id.ll_youhuiquan_show:
-
-                if (!DateUtils.isDateOneBiggers(simpleDateFormat.format(date),start_time)){
-                    dialog_miaoshu = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
-                    dialog_miaoshu.setContentView(R.layout.youhuiquan_tishi);
-                    Window window = dialog_miaoshu.getWindow();
-                    window.setGravity(Gravity.CENTER | Gravity.CENTER);
-                    TextView miaoshu = (TextView) dialog_miaoshu.findViewById(R.id.miaoshu);
-                    TextView sure = (TextView) dialog_miaoshu.findViewById(R.id.sure);
-                    miaoshu.setText("该优惠券即将生效，生效时间为："+start_time+",可提前领券加收藏等待抢购哦~");
-                    sure.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            dialog_miaoshu.dismiss();
-                            toTaoBaoCouponActivity();
-                        }
-                    });
-                    dialog_miaoshu.show();
-                }else {
+                if (!TextUtils.isEmpty(start_time)){
+                    if (!DateUtils.isDateOneBiggers(simpleDateFormat.format(date),start_time)){
+                        dialog_miaoshu = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
+                        dialog_miaoshu.setContentView(R.layout.youhuiquan_tishi);
+                        Window window = dialog_miaoshu.getWindow();
+                        window.setGravity(Gravity.CENTER | Gravity.CENTER);
+                        TextView miaoshu = (TextView) dialog_miaoshu.findViewById(R.id.miaoshu);
+                        TextView sure = (TextView) dialog_miaoshu.findViewById(R.id.sure);
+                        miaoshu.setText("该优惠券即将生效，生效时间为："+start_time+",可提前领券加收藏等待抢购哦~");
+                        sure.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog_miaoshu.dismiss();
+                                toTaoBaoCouponActivity();
+                            }
+                        });
+                        dialog_miaoshu.show();
+                    }else {
+                        /*优惠券布局按钮*/
+                        toTaoBaoCouponActivity();
+                    }
+                }
+                else {
                     /*优惠券布局按钮*/
                     toTaoBaoCouponActivity();
                 }

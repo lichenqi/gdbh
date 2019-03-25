@@ -95,15 +95,17 @@ public class MyApplication extends MultiDexApplication {
         mDownloadMgr.resumeTasks();     //恢复本地所有未完成的任务
 
         /*sharesdk分享*/
-//        MobSDK.init(this);
+        MobSDK.init(this);
         /*阿里百川*/
         AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
             @Override
             public void onSuccess() {
+                Log.i("是否成功","ssssss");
             }
 
             @Override
             public void onFailure(int i, String s) {
+                Log.i("是否成功",s);
             }
         });
         String pesudoUniqueID = AppUtils.getPesudoUniqueID();

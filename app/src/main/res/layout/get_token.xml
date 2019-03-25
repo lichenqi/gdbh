@@ -58,12 +58,58 @@
             android:textSize="14dp" />
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/is_boss"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/weizhi_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="总裁后台地址："
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/black"/>
+        <TextView
+            android:id="@+id/guanwang_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:text="https://bd.mopland.com"/>
 
+        <TextView
+            android:id="@+id/copy_guanwang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/zhenduiweizhi"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/yellow_bg_base"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:text="一键复制"
+            android:textColor="@color/white" />
+        <TextView
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="说明：果冻令牌也可以用于登录总裁后台"
+            android:layout_gravity="center"
+            android:textColor="@color/black"/>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@+id/weizhi_ll"
+        android:layout_below="@+id/is_boss"
         android:gravity="center"
         android:orientation="horizontal">
 

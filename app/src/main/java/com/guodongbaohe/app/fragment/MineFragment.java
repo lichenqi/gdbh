@@ -490,6 +490,8 @@ public class MineFragment extends Fragment {
                 break;
             case R.id.gd_lingpai_rl://手机令牌
                 intent = new Intent(context, GetTokenActivity.class);
+                String string = iv_user_level.getText().toString();
+               intent.putExtra("user_code",string);
                 startActivity(intent);
                 break;
         }

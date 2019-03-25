@@ -40,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/miaoshu"
+        android:textStyle="bold"
         android:padding="10dp"
         android:textSize="22sp"
         android:text="我知道了"/>

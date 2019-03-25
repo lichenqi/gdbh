@@ -1,21 +1,14 @@
 package com.guodongbaohe.app.activity;
 
-import android.app.Dialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
@@ -27,7 +20,6 @@ import com.guodongbaohe.app.bean.HomeListBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
@@ -86,81 +78,6 @@ public class SuperMakeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        /*获取剪切板内容*/
-        getClipContent();
-    }
-
-    Dialog dialog;
-
-    private void getClipContent() {
-        ClipboardManager cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-        if (cm.hasPrimaryClip()) {
-            ClipData data = cm.getPrimaryClip();
-            if (data == null) return;
-            ClipData.Item item = data.getItemAt(0);
-            final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
-            if (TextUtils.isEmpty(content)) return;
-            boolean isFirstClip = PreferUtils.getBoolean(getApplicationContext(), "isFirstClip");
-            if (!isFirstClip) {
-                showDialog(content);
-            } else {
-                String clip_content = PreferUtils.getString(getApplicationContext(), "clip_content");
-                if (clip_content.equals(content)) return;
-                showDialog(content);
-            }
-            PreferUtils.putBoolean(getApplicationContext(), "isFirstClip", true);
-        }
-    }
-
-    private void showDialog(final String content) {
-        PreferUtils.putString(getApplicationContext(), "clip_content", content);
-        List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
-        if (clip_list == null) return;
-        for (int i = 0; i < clip_list.size(); i++) {
-            if (clip_list.get(i).equals(content)) {
-                return;
-            }
-        }
-        guoDuTanKuang(content);
-    }
-
-    /*过渡弹框*/
-    private void guoDuTanKuang(final String content) {
-        if (dialog != null) {
-            dialog.dismiss();
-        }
-        dialog = new Dialog(SuperMakeActivity.this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(R.layout.clip_search_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-        TextView title = (TextView) dialog.findViewById(R.id.content);
-        title.setText(content);
-        cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", content);
-                startActivity(intent);
-            }
-        });
-        dialog.show();
     }
 
     @Override

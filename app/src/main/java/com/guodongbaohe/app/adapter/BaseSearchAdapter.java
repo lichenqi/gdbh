@@ -35,6 +35,7 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
     BigDecimal bg3;
     String attr_price, attr_prime, attr_ratio;
     double app_v;
+    double d_price;
 
     public void setonclicklistener(OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
@@ -68,13 +69,18 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
             holder.title.setMaxLines(1);
         }
         String attr_site = list.get(position).getAttr_site();
-        IconAndTextGroupUtil.setTextView(context, holder.dianpu_name, list.get(position).getSeller_shop(), attr_site);
+        if (!TextUtils.isEmpty(attr_site) && !TextUtils.isEmpty(list.get(position).getSeller_shop())) {
+            IconAndTextGroupUtil.setTextView(context, holder.dianpu_name, list.get(position).getSeller_shop(), attr_site);
+        }
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();
         String coupon_surplus = list.get(position).getCoupon_surplus();
         holder.tv_price.setText(attr_price);
-        double d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
+        if (TextUtils.isEmpty(attr_price) && TextUtils.isEmpty(attr_price)) {
+            return;
+        }
+        d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
         bg3 = new BigDecimal(d_price);
         double d_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         if (Double.valueOf(coupon_surplus) > 0) {

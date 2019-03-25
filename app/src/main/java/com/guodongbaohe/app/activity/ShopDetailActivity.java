@@ -80,7 +80,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -803,7 +802,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 break;
             case R.id.tv_buy:
                 /*购买返按钮*/
-                toTaoBaoCouponActivity();
+                compareCouponTime();
                 break;
             case R.id.tv_share_money:
                 /*分享赚按钮*/
@@ -825,33 +824,8 @@ public class ShopDetailActivity extends BigBaseActivity {
                     startActivity(intent);
                 }
                 break;
-            case R.id.ll_youhuiquan_show:
-                if (!TextUtils.isEmpty(start_time)){
-                    if (!DateUtils.isDateOneBiggers(simpleDateFormat.format(date),start_time)){
-                        dialog_miaoshu = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
-                        dialog_miaoshu.setContentView(R.layout.youhuiquan_tishi);
-                        Window window = dialog_miaoshu.getWindow();
-                        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-                        TextView miaoshu = (TextView) dialog_miaoshu.findViewById(R.id.miaoshu);
-                        TextView sure = (TextView) dialog_miaoshu.findViewById(R.id.sure);
-                        miaoshu.setText("该优惠券即将生效，生效时间为："+start_time+",可提前领券加收藏等待抢购哦~");
-                        sure.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog_miaoshu.dismiss();
-                                toTaoBaoCouponActivity();
-                            }
-                        });
-                        dialog_miaoshu.show();
-                    }else {
-                        /*优惠券布局按钮*/
-                        toTaoBaoCouponActivity();
-                    }
-                }
-                else {
-                    /*优惠券布局按钮*/
-                    toTaoBaoCouponActivity();
-                }
+            case R.id.ll_youhuiquan_show:/*点击优惠券布局按钮*/
+                compareCouponTime();
                 break;
             case R.id.to_home:
                 intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -1680,6 +1654,35 @@ public class ShopDetailActivity extends BigBaseActivity {
                 initCollectShop();
                 break;
 
+        }
+    }
+
+    /*判断券时间失效问题*/
+    private void compareCouponTime() {
+        if (TextUtils.isEmpty(start_time)) {
+            /*优惠券布局按钮*/
+            toTaoBaoCouponActivity();
+        } else {
+            if (System.currentTimeMillis() > DateUtils.getDateTime(start_time)) {
+                dialog_miaoshu = new Dialog(ShopDetailActivity.this, R.style.transparentFrameWindowStyle);
+                dialog_miaoshu.setContentView(R.layout.youhuiquan_tishi);
+                Window window = dialog_miaoshu.getWindow();
+                window.setGravity(Gravity.CENTER | Gravity.CENTER);
+                TextView miaoshu = (TextView) dialog_miaoshu.findViewById(R.id.miaoshu);
+                TextView sure = (TextView) dialog_miaoshu.findViewById(R.id.sure);
+                miaoshu.setText("该优惠券即将生效，生效时间为：" + start_time + ",可提前领券加收藏等待抢购哦~");
+                sure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog_miaoshu.dismiss();
+                        toTaoBaoCouponActivity();
+                    }
+                });
+                dialog_miaoshu.show();
+            } else {
+                /*优惠券布局按钮*/
+                toTaoBaoCouponActivity();
+            }
         }
     }
 

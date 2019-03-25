@@ -23,6 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:gravity="left"
+                android:minHeight="100dp"
+                android:text="{淘口令}"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -93,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="{标题}表示商品标题，"
+                android:text="{淘口令}表示商品下单口令, "
                 android:textColor="@color/black" />
 
             <TextView
@@ -106,71 +109,15 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/tv_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="{商品原价}表示在售价格，"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tv_two"
-                android:text="必填"
-                android:textColor="@color/red" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:id="@+id/tv_three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="{券后价}表示券后价格，"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/tv_three"
-                android:text="必填"
-                android:textColor="@color/red" />
-
-        </RelativeLayout>
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
-            android:text="{推荐理由}表示推荐理由,可为空"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text="{下单链接}表示下单链接,可为空"
+            android:text="{下单链接}表示商品下单链接, 可为空"
             android:textColor="@color/black" />
 
     </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>

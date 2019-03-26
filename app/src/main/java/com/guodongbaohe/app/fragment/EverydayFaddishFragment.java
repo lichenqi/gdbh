@@ -251,7 +251,7 @@ public class EverydayFaddishFragment extends Fragment {
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     int i = recyclerView.computeVerticalScrollOffset();
-                    if (dy>0&&i > 200) {
+                    if (dy>0&&i > 3000) {
                         to_top.setVisibility(View.VISIBLE);
                     } else {
                         to_top.setVisibility(View.GONE);

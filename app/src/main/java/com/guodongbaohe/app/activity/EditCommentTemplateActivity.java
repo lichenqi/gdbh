@@ -109,6 +109,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
                     }
                 }, 1000);
                 isSave = true;
+                PreferUtils.putInt(getApplicationContext(), "template_is_save", 1);
                 break;
         }
     }

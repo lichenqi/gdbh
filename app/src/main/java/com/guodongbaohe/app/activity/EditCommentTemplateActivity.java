@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +23,7 @@ import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
+import com.guodongbaohe.app.view.MyEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +35,7 @@ import butterknife.OnClick;
 public class EditCommentTemplateActivity extends BaseActivity {
     /*输入内容*/
     @BindView(R.id.ed_input_content)
-    EditText ed_input_content;
+    MyEditText ed_input_content;
     /*恢复按钮*/
     @BindView(R.id.tv_huifu)
     TextView tv_huifu;

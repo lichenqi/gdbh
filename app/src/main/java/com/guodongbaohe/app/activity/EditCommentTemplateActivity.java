@@ -145,6 +145,7 @@ public class EditCommentTemplateActivity extends BaseActivity {
                                 ed_input_content.setText(content);
                                 ed_input_content.setSelection(content.length());
                                 PreferUtils.putString(getApplicationContext(), "official_content", content);
+                                PreferUtils.putInt(getApplicationContext(), "template_is_save", -1);
                                 if (mode == 1) {
                                     ToastUtils.showToast(getApplicationContext(), "已恢复");
                                 }

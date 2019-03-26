@@ -362,6 +362,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 isTaoKouling = true;
                                 buy_address_select = 1;
                                 taokouling_select = 1;
+                                PreferUtils.putInt(getApplicationContext(), "template_is_save", -1);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
@@ -1273,7 +1274,7 @@ public class CreateShare_New_Activity extends BaseActivity {
     private void layoutView(View v, int width, int height) {
         v.layout(0, 0, width, height);
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec(12000, View.MeasureSpec.AT_MOST);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
         v.measure(measuredWidth, measuredHeight);
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         viewSaveToImage(v);
@@ -1285,7 +1286,7 @@ public class CreateShare_New_Activity extends BaseActivity {
         view.setDrawingCacheEnabled(true);
         view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         view.setDrawingCacheBackgroundColor(Color.WHITE);
-        // 把一个View转换成图片
+//         把一个View转换成图片
         hebingBitmap = loadBitmapFromView(view);
         String one_buide_pic = NetPicsToBitmap.convertIconToString(hebingBitmap);
         PreferUtils.putString(getApplicationContext(), "one_buide_pic", one_buide_pic);

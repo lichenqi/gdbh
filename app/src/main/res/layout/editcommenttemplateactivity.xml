@@ -172,5 +172,13 @@
             android:text="{下单链接}表示下单链接,可为空"
             android:textColor="@color/black" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="{淘口令}表示商品下单口令,可为空"
+            android:textColor="@color/black" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

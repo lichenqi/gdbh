@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.view;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,8 +10,11 @@ import android.widget.EditText;
 
 import com.guodongbaohe.app.util.ClipContentUtil;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 @SuppressLint("AppCompatCustomView")
 public class MyEditText extends EditText {
+
     public MyEditText(Context context) {
         super(context);
     }
@@ -19,18 +23,17 @@ public class MyEditText extends EditText {
         super(context, attrs);
     }
 
-    public MyEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
     @Override
     public boolean onTextContextMenuItem(int id) {
-        if (id == 16908321) {/*复制操作*/
-            ClipboardManager clip = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            //改变剪贴板中Content
-            CharSequence text = clip.getPrimaryClip().getItemAt(0).getText();
-            ClipContentUtil.getInstance(getContext()).putNewSearch(text.toString().trim());//保存记录到数据库
-            Log.i("打印剪切板操作", text.toString());
+        if (id == android.R.id.copy) {/*复制操作*/
+            ClipboardManager cm = (ClipboardManager) getContext().getSystemService(CLIPBOARD_SERVICE);
+            if (cm.hasPrimaryClip()) {
+                ClipData data = cm.getPrimaryClip();
+                ClipData.Item item = data.getItemAt(0);
+                final String content = item.coerceToText(getContext()).toString().trim().replace("\r\n\r\n", "\r\n");
+                ClipContentUtil.getInstance(getContext()).putNewSearch(content);//保存记录到数据库
+                Log.i("剪切板内容", content);
+            }
         }
         return super.onTextContextMenuItem(id);
     }

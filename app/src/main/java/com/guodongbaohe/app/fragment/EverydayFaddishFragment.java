@@ -138,7 +138,8 @@ public class EverydayFaddishFragment extends Fragment {
     }
 
     String content_taobao_eight;
-
+    String video_url;
+    int isvideo=0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -181,24 +182,33 @@ public class EverydayFaddishFragment extends Fragment {
                             ToastUtils.showToast(context, "该商品抢光呢!");
                             return;
                         }
-                        if (goods_gallery.contains("||")) {
-                            /*多张图片用原生分享*/
-                            String[] imgs = goods_gallery.replace("||", ",").split(",");
-                            list_share_imgs = new ArrayList<>();
-                            for (int i = 0; i < imgs.length; i++) {
-                                list_share_imgs.add(imgs[i]);
-                            }
+                        if (!TextUtils.isEmpty(list.get(which_position).getVideo())){
+
+                            video_url=list.get(which_position).getVideo();
+                            isvideo=1;
                             morePicsShareDialog();
-                        } else {
-                            /*单张图片用sharesdk分享*/
-                            String content = list.get(position - 1).getContent();
-                            ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                            ClipData mClipData = ClipData.newPlainText("Label", content);
-                            cm.setPrimaryClip(mClipData);
-                            ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
-                            ToastUtils.showToast(context, "文案内容已复制成功");
-                            showShare(which_position);
+                        }else {
+                            isvideo=0;
+                            if (goods_gallery.contains("||")) {
+                                /*多张图片用原生分享*/
+                                String[] imgs = goods_gallery.replace("||", ",").split(",");
+                                list_share_imgs = new ArrayList<>();
+                                for (int i = 0; i < imgs.length; i++) {
+                                    list_share_imgs.add(imgs[i]);
+                                }
+                                morePicsShareDialog();
+                            } else {
+                                /*单张图片用sharesdk分享*/
+                                String content = list.get(position - 1).getContent();
+                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                                ClipData mClipData = ClipData.newPlainText("Label", content);
+                                cm.setPrimaryClip(mClipData);
+                                ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
+                                ToastUtils.showToast(context, "文案内容已复制成功");
+                                showShare(which_position);
+                            }
                         }
+
                     } else {
                         startActivity(new Intent(context, LoginAndRegisterActivity.class));
                     }
@@ -245,7 +255,7 @@ public class EverydayFaddishFragment extends Fragment {
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     int i = recyclerView.computeVerticalScrollOffset();
-                    if (i > 1200) {
+                    if (dy>0&&i > 200) {
                         to_top.setVisibility(View.VISIBLE);
                     } else {
                         to_top.setVisibility(View.GONE);
@@ -973,7 +983,12 @@ public class EverydayFaddishFragment extends Fragment {
                                 /*微信好友分享*/
                                 share_type = 0;
                                 dialog.dismiss();
-                                sharePics(0, "wchat");
+                                if (isvideo==1){
+                                    wchatFriendShareVideo();
+                                }else {
+                                    sharePics(0, "wchat");
+                                }
+
                             }
                         });
                         re_wchat_circle.setOnClickListener(new View.OnClickListener() {
@@ -982,6 +997,9 @@ public class EverydayFaddishFragment extends Fragment {
                                 /*微信朋友圈分享*/
                                 share_type = 1;
                                 dialog.dismiss();
+                                if (isvideo==1){
+                                    wchatFriendShareVideo();
+                                }
                                 sharePics(1, "wchat");
                             }
                         });
@@ -1066,7 +1084,28 @@ public class EverydayFaddishFragment extends Fragment {
                 .setAnimStyle(R.style.EnterExitAnimation)
                 .show(getFragmentManager());
     }
+    private void wchatFriendShareVideo(){
+        Wechat.ShareParams shareParams=new Wechat.ShareParams();
+        shareParams.setShareType(Platform.SHARE_VIDEO);
+        shareParams.setUrl(video_url);
+        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+        wechat.setPlatformActionListener(new PlatformActionListener() {
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                /*保存在后台*/
+                saveData();
+            }
 
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+            }
+        });
+        wechat.share(shareParams);
+    }
     /*微信好友分享*/
     private void wchatFriendShare() {
         Wechat.ShareParams sp = new Wechat.ShareParams();

@@ -3,6 +3,7 @@ package com.guodongbaohe.app.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,8 +58,14 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
         attr_ratio = list.get(position).getAttr_ratio();
         String seller_shop = list.get(position).getSeller_shop();
         String goods_thumb = list.get(position).getGoods_thumb();
+        String goods_name = list.get(position).getGoods_name();
+        String goods_short = list.get(position).getGoods_short();
         NetImageLoadUtil.loadImage(goods_thumb, context, holder.iv);
-        IconAndTextGroupUtil.setTextView(context, holder.title, list.get(position).getGoods_name(), list.get(position).getAttr_site());
+        if (TextUtils.isEmpty(goods_short)) {
+            IconAndTextGroupUtil.setTextView(context, holder.title, goods_name, list.get(position).getAttr_site());
+        } else {
+            IconAndTextGroupUtil.setTextView(context, holder.title, goods_short, list.get(position).getAttr_site());
+        }
         holder.tv_sale_num.setText(NumUtil.getNum(list.get(position).getSales_month()) + "人已购");
         StringCleanZeroUtil.StringFormat(attr_price, holder.price);
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, holder.old_price);

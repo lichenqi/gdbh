@@ -107,6 +107,10 @@ public class EverydayFaddishFragment extends Fragment {
     /*多张图片分享字段*/
     private final int MOREPHOTO = 2;
     Context context;
+    /*淘口令标识*/
+    private String taokouling_sign = "{淘口令}";
+    /*下单链接*/
+    private String order_sign = "{下单链接}";
 
     @Override
     public void onDestroy() {
@@ -215,7 +219,7 @@ public class EverydayFaddishFragment extends Fragment {
                 @Override
                 public void OnItemClickListener(View view, int position) {
                     if (PreferUtils.getBoolean(context, "isLogin")) {
-                        content_taobao_eight = PreferUtils.getString(context, "content_taobao_eight");
+                        content_taobao_eight = PreferUtils.getString(context, "taokouling_content");
                         which_position = position - 1;
                         String status = list.get(which_position).getStatus();
                         if (TextUtils.isEmpty(status) || status.equals("0")) {
@@ -415,7 +419,7 @@ public class EverydayFaddishFragment extends Fragment {
                 });
     }
 
-    String start_tkl, end_tkl;
+    String start_tkl, end_tkl, tkl_content;
 
     /*获取淘口令*/
     private void shenchengTaoKouLing(String coupon_click_url) {
@@ -453,20 +457,17 @@ public class EverydayFaddishFragment extends Fragment {
                                 String taokouling = jsonObject.getString("result");
                                 ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 if (!TextUtils.isEmpty(content_taobao_eight)) {
-                                    start_tkl = content_taobao_eight.substring(0, content_taobao_eight.indexOf("{"));
-                                    end_tkl = content_taobao_eight.substring(content_taobao_eight.indexOf("}") + 1);
+                                    tkl_content = content_taobao_eight.replace(taokouling_sign, taokouling).replace(order_sign, "");
                                 } else {
                                     if (!TextUtils.isEmpty(taokouling_muban)) {
-                                        start_tkl = taokouling_muban.substring(0, taokouling_muban.indexOf("{"));
-                                        end_tkl = taokouling_muban.substring(taokouling_muban.indexOf("}") + 1);
+                                        tkl_content = taokouling_muban.replace(taokouling_sign, taokouling).replace(order_sign, "");
                                     } else {
-                                        start_tkl = "复制这条评论信息";
-                                        end_tkl = "，打开【手机Taobao】即可查看";
+                                        tkl_content = "复制这条评论信息" + taokouling + "，打开【手机Taobao】即可查看";
                                     }
                                 }
-                                ClipData mClipData = ClipData.newPlainText("Label", start_tkl + taokouling + end_tkl);
+                                ClipData mClipData = ClipData.newPlainText("Label", tkl_content);
                                 cm.setPrimaryClip(mClipData);
-                                ClipContentUtil.getInstance(context).putNewSearch(start_tkl + taokouling + end_tkl);//保存记录到数据库
+                                ClipContentUtil.getInstance(context).putNewSearch(tkl_content);//保存记录到数据库
                                 showWeiXinDialog();
                             } else {
                                 ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
@@ -874,7 +875,7 @@ public class EverydayFaddishFragment extends Fragment {
     private void layoutView(View v, int width, int height) {
         v.layout(0, 0, width, height);
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec(10000, View.MeasureSpec.AT_MOST);
+        int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
         v.measure(measuredWidth, measuredHeight);
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
         viewSaveToImage(v);

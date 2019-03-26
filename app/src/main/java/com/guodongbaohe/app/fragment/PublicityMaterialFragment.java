@@ -143,9 +143,9 @@ public class PublicityMaterialFragment extends Fragment {
                             morePicsShareDialog();
                         } else {
                             /*单张图片用sharesdk分享*/
-                            ToastUtils.showToast(getContext(), "文案内容已复制成功");
                             showShare();
                         }
+                        ToastUtils.showToast(getContext(), "文案内容已复制成功");
                     } else {
                         startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
                     }

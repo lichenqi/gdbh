@@ -691,13 +691,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int i = recyclerView.computeVerticalScrollOffset();
-                if (i > 1200) {
+                if (dy > 0&&i>200) {
                     to_top.setVisibility(View.VISIBLE);
                     int black_color = Color.parseColor("#000000");
                     setColorChange(black_color);

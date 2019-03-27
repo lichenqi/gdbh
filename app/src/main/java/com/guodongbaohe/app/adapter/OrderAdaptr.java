@@ -62,7 +62,11 @@ public class OrderAdaptr extends RecyclerView.Adapter<OrderAdaptr.OrderHolder> {
         holder.order_no.setText("订单号:" + list.get(position).getTrade_id());
         holder.order_price.setText("商品付款 ¥" + list.get(position).getAlipay_total_price());
         if (freeze.equals("1")) {
-            holder.taonbao.setText("订单已冻结");
+            holder.taonbao.setText("订单异常");
+            holder.taonbao.setTextColor(0xffff0000);
+            holder.end_time.setVisibility(View.GONE);
+        } else if (freeze.equals("3")) {
+            holder.taonbao.setText("订单维权");
             holder.taonbao.setTextColor(0xffff0000);
             holder.end_time.setVisibility(View.GONE);
         } else {

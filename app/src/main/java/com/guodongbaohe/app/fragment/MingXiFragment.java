@@ -139,7 +139,7 @@ public class MingXiFragment extends Fragment {
                         nodata.setVisibility(View.VISIBLE);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(getActivity().getApplicationContext(), Constant.NONET);
                     }
                 });
     }

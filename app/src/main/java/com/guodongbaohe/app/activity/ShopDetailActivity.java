@@ -583,11 +583,14 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     }
                                     PicsAdapter picsAdapter = new PicsAdapter(list_detail);
                                     recyclerview_pic.setAdapter(picsAdapter);
+                                    if (loadingDialog==null) return;
                                     DialogUtil.closeDialog(loadingDialog);
                                 } else {
+                                    if (loadingDialog==null) return;
                                     DialogUtil.closeDialog(loadingDialog);
                                 }
                             } else {
+                                if (loadingDialog==null) return;
                                 DialogUtil.closeDialog(loadingDialog);
                             }
                         } catch (JSONException e) {
@@ -598,6 +601,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
+                        if (loadingDialog==null) return;
                         DialogUtil.closeDialog(loadingDialog);
                     }
                 });

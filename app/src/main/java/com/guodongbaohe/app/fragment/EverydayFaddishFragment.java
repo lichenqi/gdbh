@@ -139,7 +139,8 @@ public class EverydayFaddishFragment extends Fragment {
 
     String content_taobao_eight;
     String video_url;
-    int isvideo=0;
+    int isvideo = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -182,13 +183,13 @@ public class EverydayFaddishFragment extends Fragment {
                             ToastUtils.showToast(context, "该商品抢光呢!");
                             return;
                         }
-                        if (!TextUtils.isEmpty(list.get(which_position).getVideo())){
+                        if (!TextUtils.isEmpty(list.get(which_position).getVideo())) {
 
-                            video_url=list.get(which_position).getVideo();
-                            isvideo=1;
+                            video_url = list.get(which_position).getVideo();
+                            isvideo = 1;
                             morePicsShareDialog();
-                        }else {
-                            isvideo=0;
+                        } else {
+                            isvideo = 0;
                             if (goods_gallery.contains("||")) {
                                 /*多张图片用原生分享*/
                                 String[] imgs = goods_gallery.replace("||", ",").split(",");
@@ -255,7 +256,7 @@ public class EverydayFaddishFragment extends Fragment {
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
                     int i = recyclerView.computeVerticalScrollOffset();
-                    if (dy!=0&&i > 3000) {
+                    if (i > 3000) {
                         to_top.setVisibility(View.VISIBLE);
                     } else {
                         to_top.setVisibility(View.GONE);
@@ -983,9 +984,9 @@ public class EverydayFaddishFragment extends Fragment {
                                 /*微信好友分享*/
                                 share_type = 0;
                                 dialog.dismiss();
-                                if (isvideo==1){
+                                if (isvideo == 1) {
                                     wchatFriendShareVideo();
-                                }else {
+                                } else {
                                     sharePics(0, "wchat");
                                 }
 
@@ -997,7 +998,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 /*微信朋友圈分享*/
                                 share_type = 1;
                                 dialog.dismiss();
-                                if (isvideo==1){
+                                if (isvideo == 1) {
                                     wchatFriendShareVideo();
                                 }
                                 sharePics(1, "wchat");
@@ -1084,8 +1085,9 @@ public class EverydayFaddishFragment extends Fragment {
                 .setAnimStyle(R.style.EnterExitAnimation)
                 .show(getFragmentManager());
     }
-    private void wchatFriendShareVideo(){
-        Wechat.ShareParams shareParams=new Wechat.ShareParams();
+
+    private void wchatFriendShareVideo() {
+        Wechat.ShareParams shareParams = new Wechat.ShareParams();
         shareParams.setShareType(Platform.SHARE_VIDEO);
         shareParams.setUrl(video_url);
         Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
@@ -1106,6 +1108,7 @@ public class EverydayFaddishFragment extends Fragment {
         });
         wechat.share(shareParams);
     }
+
     /*微信好友分享*/
     private void wchatFriendShare() {
         Wechat.ShareParams sp = new Wechat.ShareParams();

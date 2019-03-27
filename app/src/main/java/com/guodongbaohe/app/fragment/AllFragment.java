@@ -618,6 +618,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     }
 
     View headView;
+
     private void initRecyclerview() {
         xrecycler.setHasFixedSize(true);
         xrecycler.setLayoutManager(new LinearLayoutManager(context));
@@ -696,7 +697,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 int i = recyclerView.computeVerticalScrollOffset();
-                if (dy !=0&&i>3000) {
+                if (dy != 0 && i > 3000) {
                     to_top.setVisibility(View.VISIBLE);
                     int black_color = Color.parseColor("#000000");
                     setColorChange(black_color);
@@ -970,7 +971,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             }
                         }
                     } else {
-                       startToLoginActivity();
+                        startToLoginActivity();
                     }
                 }
             });

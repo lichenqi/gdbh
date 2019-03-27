@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/re_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -19,9 +21,6 @@
                 android:id="@+id/p_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
                 android:ellipsize="end"
                 android:lineSpacingExtra="4dp"
                 android:maxLines="2"
@@ -29,10 +28,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -84,17 +80,17 @@
     <RelativeLayout
         android:id="@+id/re_centry"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="350dp"
         android:layout_below="@+id/re_top"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp">
 
         <ImageView
             android:id="@+id/p_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/login_logo" />
+            android:scaleType="fitCenter" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -127,7 +123,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_centry"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
@@ -137,11 +134,11 @@
             android:layout_centerVertical="true"
             android:orientation="horizontal">
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@mipmap/small_qrcode"
-                app:riv_corner_radius="5dp" />
+                android:scaleType="centerCrop"
+                android:src="@mipmap/small_qrcode" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,10 +185,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:text="长按识别二维码"
                 android:textColor="@color/black"
                 android:textSize="10sp" />
+
         </LinearLayout>
 
     </RelativeLayout>

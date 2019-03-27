@@ -23,7 +23,8 @@ import java.util.List;
 
 /*最原始基本类*/
 public class OriginalActivity extends AppCompatActivity {
-
+    private String bracket_one = "{";
+    private String bracket_two = "}";
     Dialog dialog;
     ClipboardManager cm;
 
@@ -48,6 +49,7 @@ public class OriginalActivity extends AppCompatActivity {
             final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
             if (TextUtils.isEmpty(content)) return;
             if (isUpdataCode(content)) return;
+            if (content.contains(bracket_one) && content.contains(bracket_two)) return;
             showDialog(content);
         }
     }

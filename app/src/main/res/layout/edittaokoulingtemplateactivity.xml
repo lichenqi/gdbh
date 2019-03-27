@@ -18,7 +18,7 @@
             android:orientation="vertical"
             android:padding="10dp">
 
-            <com.guodongbaohe.app.view.MyEditText
+            <EditText
                 android:id="@+id/ed_input_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -108,15 +108,6 @@
                 android:textColor="@color/red" />
 
         </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text="{下单链接}表示商品下单链接, 可为空"
-            android:textColor="@color/black" />
 
     </LinearLayout>
 

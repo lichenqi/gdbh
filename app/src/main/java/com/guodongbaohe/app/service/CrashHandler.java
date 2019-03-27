@@ -43,12 +43,17 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     //用于格式化日期,作为日志文件名的一部分
     private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 
-    /** 保证只有一个CrashHandler实例 */
-    private CrashHandler() {}
+    /**
+     * 保证只有一个CrashHandler实例
+     */
+    private CrashHandler() {
+    }
 
-    /** 获取CrashHandler实例 ,单例模式 */
+    /**
+     * 获取CrashHandler实例 ,单例模式
+     */
     public static CrashHandler getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new CrashHandler();
         return instance;
     }
@@ -127,9 +132,9 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         sb.append(result);
 
         Upload(result);
-        if (flg==1){
+        if (flg == 1) {
             return true;
-        }else {
+        } else {
             return false;
         }
 
@@ -137,6 +142,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     /**
      * 收集设备参数信息
+     *
      * @param ctx
      */
     public void collectDeviceInfo(Context ctx) {
@@ -168,7 +174,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 保存错误信息到文件中
      *
      * @param ex
-     * @return  返回文件名称,便于将文件传送到服务器
+     * @return 返回文件名称, 便于将文件传送到服务器
      */
     private void saveCatchInfo2File(Throwable ex) {
 
@@ -194,13 +200,15 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         Upload(result);
 
     }
-    int flg=0;
-    public boolean Upload(String message){
+
+    int flg = 0;
+
+    public boolean Upload(String message) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("package", "com.guodongbaohe.app");
-        map.put("event","APP_CRASH");
-        map.put("platform","android");
-        map.put("content",message);
+        map.put("event", "APP_CRASH");
+        map.put("platform", "android");
+        map.put("content", message);
         String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post()
                 .url(Constant.BASE_URL + Constant.ERROR_MESSAGE + "?" + param)
@@ -209,7 +217,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        flg=1;
+                        flg = 1;
                         super.onSuccess(statusCode, response);
                         Log.i("error数据", response.toString());
                         //退出程序

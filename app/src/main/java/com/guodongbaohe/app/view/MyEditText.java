@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.guodongbaohe.app.util.ClipContentUtil;
@@ -32,7 +31,6 @@ public class MyEditText extends EditText {
                 ClipData.Item item = data.getItemAt(0);
                 final String content = item.coerceToText(getContext()).toString().trim().replace("\r\n\r\n", "\r\n");
                 ClipContentUtil.getInstance(getContext()).putNewSearch(content);//保存记录到数据库
-                Log.i("剪切板内容", content);
             }
         }
         return super.onTextContextMenuItem(id);

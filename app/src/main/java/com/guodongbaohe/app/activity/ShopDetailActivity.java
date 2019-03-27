@@ -1000,7 +1000,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
             final ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).asBitmap().placeholder(R.drawable.loading_img)
+            Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).asBitmap().placeholder(R.drawable.loading_img).dontAnimate()
                     .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
                         @Override
                         public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

@@ -15,9 +15,9 @@ public class NetImageLoadUtil {
         } else {
             if (url.contains("alicdn") || url.contains("tbcdn")) {
                 String small_url = url + "_400x400.jpg";
-                Glide.with(context).load(small_url).into(view);
+                Glide.with(context).load(small_url).dontAnimate().into(view);
             } else {
-                Glide.with(context).load(url).into(view);
+                Glide.with(context).load(url).dontAnimate().into(view);
             }
         }
     }

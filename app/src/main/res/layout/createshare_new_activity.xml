@@ -160,7 +160,6 @@
                         android:id="@+id/re_taokou_ling_show"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
                         android:layout_weight="1">
 
                         <ImageView

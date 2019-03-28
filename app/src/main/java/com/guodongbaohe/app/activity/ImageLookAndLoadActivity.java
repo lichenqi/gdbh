@@ -39,31 +39,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by Administrator on 2018/6/7.
- */
-
-public class PicsLookActivity extends BigBaseActivity {
-    int current;
+public class ImageLookAndLoadActivity extends BigBaseActivity {
     @BindView(R.id.viewpager)
     ViewPager viewpager;
-    @BindView(R.id.show_origin_pic_dot)
-    TextView show_origin_pic_dot;
     @BindView(R.id.tv_save)
     TextView tv_save;
-    ArrayList<String> list_imgs;
+    ArrayList<String> bannerList;
+    int currentPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.picslookactivity);
+        setContentView(R.layout.imagelookandloadactivity);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        current = intent.getIntExtra("position", 0);
-        list_imgs = intent.getStringArrayListExtra("split");
+        bannerList = intent.getStringArrayListExtra("bannerList");
+        currentPosition = intent.getIntExtra("currentPosition", 0);
         viewpager.setAdapter(new ImageviewAdapter());
-        viewpager.setCurrentItem(current);
-        show_origin_pic_dot.setText((current + 1) + "/" + list_imgs.size());
+        viewpager.setCurrentItem(currentPosition);
         viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -72,8 +65,7 @@ public class PicsLookActivity extends BigBaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                show_origin_pic_dot.setText((position + 1) + "/" + list_imgs.size());
-                current = position;
+                currentPosition = position;
             }
 
             @Override
@@ -83,53 +75,18 @@ public class PicsLookActivity extends BigBaseActivity {
         });
     }
 
-    public class ImageviewAdapter extends PagerAdapter {
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public int getCount() {
-            return list_imgs == null ? 0 : list_imgs.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
-            ImageView imageView = new ImageView(container.getContext());
-            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            Glide.with(getApplicationContext()).load(list_imgs.get(position)).into(imageView);
-            container.addView(imageView);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                }
-            });
-            return imageView;
-        }
-    }
-
     @OnClick({R.id.tv_save})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_save:
-                if (NetUtil.getNetWorkState(PicsLookActivity.this) < 0) {
+                if (NetUtil.getNetWorkState(ImageLookAndLoadActivity.this) < 0) {
                     ToastUtils.showToast(getApplicationContext(), "您的网络异常，请联网重试");
                     return;
                 }
-                if (ContextCompat.checkSelfPermission(PicsLookActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(PicsLookActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(ImageLookAndLoadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(ImageLookAndLoadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     //没有存储权限
-                    ActivityCompat.requestPermissions(PicsLookActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    ActivityCompat.requestPermissions(ImageLookAndLoadActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     savePicsToLocal();
                 }
@@ -145,7 +102,7 @@ public class PicsLookActivity extends BigBaseActivity {
             public void run() {
                 URL imageurl;
                 try {
-                    imageurl = new URL(list_imgs.get(current));
+                    imageurl = new URL(bannerList.get(currentPosition));
                     HttpURLConnection conn = (HttpURLConnection) imageurl.openConnection();
                     conn.setDoInput(true);
                     conn.connect();
@@ -173,19 +130,39 @@ public class PicsLookActivity extends BigBaseActivity {
         }
     };
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            finish();
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+    public class ImageviewAdapter extends PagerAdapter {
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            container.removeView((View) object);
+        }
+
+        @Override
+        public int getCount() {
+            return bannerList == null ? 0 : bannerList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+            return view == object;
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+            ImageView imageView = new ImageView(container.getContext());
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            Glide.with(getApplicationContext()).load(bannerList.get(position)).into(imageView);
+            container.addView(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                }
+            });
+            return imageView;
+        }
     }
 
     @Override
@@ -205,5 +182,13 @@ public class PicsLookActivity extends BigBaseActivity {
         }
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            finish();
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }
-

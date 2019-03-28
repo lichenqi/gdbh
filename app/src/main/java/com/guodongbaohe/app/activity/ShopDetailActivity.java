@@ -583,14 +583,14 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     }
                                     PicsAdapter picsAdapter = new PicsAdapter(list_detail);
                                     recyclerview_pic.setAdapter(picsAdapter);
-                                    if (loadingDialog==null) return;
+                                    if (loadingDialog == null) return;
                                     DialogUtil.closeDialog(loadingDialog);
                                 } else {
-                                    if (loadingDialog==null) return;
+                                    if (loadingDialog == null) return;
                                     DialogUtil.closeDialog(loadingDialog);
                                 }
                             } else {
-                                if (loadingDialog==null) return;
+                                if (loadingDialog == null) return;
                                 DialogUtil.closeDialog(loadingDialog);
                             }
                         } catch (JSONException e) {
@@ -601,7 +601,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        if (loadingDialog==null) return;
+                        if (loadingDialog == null) return;
                         DialogUtil.closeDialog(loadingDialog);
                     }
                 });
@@ -1001,7 +1001,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
         @NonNull
         @Override
-        public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.guide_item, container, false);
             final ImageView iv = (ImageView) view.findViewById(R.id.iv);
             Glide.with(getApplicationContext()).load(bannerList.get(position % bannerList.size())).asBitmap().placeholder(R.drawable.loading_img).dontAnimate()
@@ -1021,6 +1021,16 @@ public class ShopDetailActivity extends BigBaseActivity {
                             iv.setImageBitmap(resource);
                         }
                     });
+            iv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(getApplicationContext(), ImageLookAndLoadActivity.class);
+                    intent.putStringArrayListExtra("bannerList", (ArrayList<String>) bannerList);
+                    intent.putExtra("currentPosition", position % bannerList.size());
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                }
+            });
             container.addView(view);
             return view;
         }

@@ -37,7 +37,7 @@ public class DialogUtil {
     }
 
     public static void closeDialog(Dialog mDialogUtils) {
-        if (mDialogUtils != null && mDialogUtils.isShowing()) {
+        if (mDialogUtils != null) {
             mDialogUtils.dismiss();
         }
     }

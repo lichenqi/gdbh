@@ -1329,10 +1329,10 @@ public class CreateShare_New_Activity extends BaseActivity {
                 /*存储权限回调*/
                 /*微信好友分享回调*/
                 if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getApplicationContext(), "分享多张图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
-                    ToastUtils.showToast(getApplicationContext(), "分享多张图片需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     if (buidePoster == 1) {
@@ -1345,13 +1345,37 @@ public class CreateShare_New_Activity extends BaseActivity {
                 }
                 break;
             case 2:
-                circleCommonFunction();
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    circleCommonFunction();
+                }
                 break;
             case 3:
-                qqFriendShareCommon();
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    qqFriendShareCommon();
+                }
                 break;
             case 4:
-                savePicsToLocal();
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getApplicationContext(), "需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    savePicsToLocal();
+                }
                 break;
         }
     }

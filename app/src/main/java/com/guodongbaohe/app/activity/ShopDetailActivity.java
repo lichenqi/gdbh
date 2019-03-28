@@ -1639,12 +1639,19 @@ public class ShopDetailActivity extends BigBaseActivity {
                 window.setGravity(Gravity.CENTER | Gravity.CENTER);
                 TextView miaoshu = (TextView) dialog_miaoshu.findViewById(R.id.miaoshu);
                 TextView sure = (TextView) dialog_miaoshu.findViewById(R.id.sure);
+                TextView cancel=(TextView)dialog_miaoshu.findViewById(R.id.cancel);
                 miaoshu.setText("该优惠券即将生效，生效时间为：" + start_time + ",可提前领券加收藏等待抢购哦~");
                 sure.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         dialog_miaoshu.dismiss();
                         toTaoBaoCouponActivity();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog_miaoshu.dismiss();
                     }
                 });
                 dialog_miaoshu.show();

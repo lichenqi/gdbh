@@ -36,6 +36,7 @@ import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
+import com.guodongbaohe.app.activity.NewShopDetialActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
 import com.guodongbaohe.app.activity.TaobaoTianMaoHolidayOfActivity;
@@ -308,29 +309,30 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 hoursHortAdapter.setonclicklistener(new OnItemClick() {
                                     @Override
                                     public void OnItemClickListener(View view, int pos) {
-                                        Intent intent = new Intent(context, ShopDetailActivity.class);
-                                        intent.putExtra("goods_id", hoursList.get(pos).getGoods_id());
-                                        intent.putExtra("cate_route", hoursList.get(pos).getCate_route());/*类目名称*/
-                                        intent.putExtra("cate_category", hoursList.get(pos).getCate_category());
-                                        intent.putExtra("attr_price", hoursList.get(pos).getAttr_price());
-                                        intent.putExtra("attr_prime", hoursList.get(pos).getAttr_prime());
-                                        intent.putExtra("attr_ratio", hoursList.get(pos).getAttr_ratio());
-                                        intent.putExtra("sales_month", hoursList.get(pos).getSales_month());
-                                        intent.putExtra("goods_name", hoursList.get(pos).getGoods_name());/*长标题*/
-                                        intent.putExtra("goods_short", hoursList.get(pos).getGoods_short());/*短标题*/
-                                        intent.putExtra("seller_shop", hoursList.get(pos).getSeller_shop());/*店铺姓名*/
-                                        intent.putExtra("goods_thumb", hoursList.get(pos).getGoods_thumb());/*单图*/
-                                        intent.putExtra("goods_gallery", hoursList.get(pos).getGoods_gallery());/*多图*/
-                                        intent.putExtra("coupon_begin", hoursList.get(pos).getCoupon_begin());/*开始时间*/
-                                        intent.putExtra("coupon_final", hoursList.get(pos).getCoupon_final());/*结束时间*/
-                                        intent.putExtra("coupon_surplus", hoursList.get(pos).getCoupon_surplus());/*是否有券*/
-                                        intent.putExtra("coupon_explain", hoursList.get(pos).getGoods_slogan());/*推荐理由*/
-                                        intent.putExtra("attr_site", hoursList.get(pos).getAttr_site());/*天猫或者淘宝*/
-                                        intent.putExtra("coupon_total", hoursList.get(pos).getCoupon_total());
-                                        intent.putExtra("coupon_id", hoursList.get(pos).getCoupon_id());/*优惠券id*/
-                                        intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
-                                        intent.putExtra(Constant.GAOYONGJIN_SOURCE, hoursList.get(pos).getSource());/*高佣金来源*/
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Intent intent=new Intent(context,NewShopDetialActivity.class);
+//                                        Intent intent = new Intent(context, ShopDetailActivity.class);
+//                                        intent.putExtra("goods_id", hoursList.get(pos).getGoods_id());
+//                                        intent.putExtra("cate_route", hoursList.get(pos).getCate_route());/*类目名称*/
+//                                        intent.putExtra("cate_category", hoursList.get(pos).getCate_category());
+//                                        intent.putExtra("attr_price", hoursList.get(pos).getAttr_price());
+//                                        intent.putExtra("attr_prime", hoursList.get(pos).getAttr_prime());
+//                                        intent.putExtra("attr_ratio", hoursList.get(pos).getAttr_ratio());
+//                                        intent.putExtra("sales_month", hoursList.get(pos).getSales_month());
+//                                        intent.putExtra("goods_name", hoursList.get(pos).getGoods_name());/*长标题*/
+//                                        intent.putExtra("goods_short", hoursList.get(pos).getGoods_short());/*短标题*/
+//                                        intent.putExtra("seller_shop", hoursList.get(pos).getSeller_shop());/*店铺姓名*/
+//                                        intent.putExtra("goods_thumb", hoursList.get(pos).getGoods_thumb());/*单图*/
+//                                        intent.putExtra("goods_gallery", hoursList.get(pos).getGoods_gallery());/*多图*/
+//                                        intent.putExtra("coupon_begin", hoursList.get(pos).getCoupon_begin());/*开始时间*/
+//                                        intent.putExtra("coupon_final", hoursList.get(pos).getCoupon_final());/*结束时间*/
+//                                        intent.putExtra("coupon_surplus", hoursList.get(pos).getCoupon_surplus());/*是否有券*/
+//                                        intent.putExtra("coupon_explain", hoursList.get(pos).getGoods_slogan());/*推荐理由*/
+//                                        intent.putExtra("attr_site", hoursList.get(pos).getAttr_site());/*天猫或者淘宝*/
+//                                        intent.putExtra("coupon_total", hoursList.get(pos).getCoupon_total());
+//                                        intent.putExtra("coupon_id", hoursList.get(pos).getCoupon_id());/*优惠券id*/
+//                                        intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
+//                                        intent.putExtra(Constant.GAOYONGJIN_SOURCE, hoursList.get(pos).getSource());/*高佣金来源*/
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                     }
                                 });

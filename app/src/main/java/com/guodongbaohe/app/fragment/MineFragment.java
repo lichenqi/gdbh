@@ -385,6 +385,8 @@ public class MineFragment extends Fragment {
         switch (view.getId()) {
             case R.id.re_clean_cache:
                 cleanCacheDialog();
+//                intent = new Intent(context, ShopDynamicDisplayActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.circleimageview:
                 intent = new Intent(context, PersonalActivity.class);
@@ -491,7 +493,7 @@ public class MineFragment extends Fragment {
             case R.id.gd_lingpai_rl://手机令牌
                 intent = new Intent(context, GetTokenActivity.class);
                 String string = iv_user_level.getText().toString();
-               intent.putExtra("user_code",string);
+                intent.putExtra("user_code", string);
                 startActivity(intent);
                 break;
         }

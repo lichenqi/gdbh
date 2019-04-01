@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,6 +50,7 @@ public class RankingListFragment extends BaseLazyLoadFragment {
     private List<HomeListBean.ListData> list = new ArrayList<>();
     JhsAdapter adapter;
     private int position;
+    Context context;
 
     // 声明一个订阅方法，用于接收事件
     @Subscribe
@@ -80,6 +82,7 @@ public class RankingListFragment extends BaseLazyLoadFragment {
         EventBus.getDefault().register(this);
         if (getArguments() != null) {
             position = getArguments().getInt("position");
+            context = MyApplication.getInstance();
         }
         super.onCreate(savedInstanceState);
     }
@@ -94,6 +97,7 @@ public class RankingListFragment extends BaseLazyLoadFragment {
         if (view == null) {
             view = inflater.inflate(R.layout.secondclassicfragment, container, false);
             ButterKnife.bind(this, view);
+            context = MyApplication.getInstance();
             to_top.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -107,9 +111,9 @@ public class RankingListFragment extends BaseLazyLoadFragment {
     @Override
     public void initEvent() {
         xrecycler.setHasFixedSize(true);
-        xrecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        xrecycler.setLayoutManager(new LinearLayoutManager(context));
         XRecyclerViewUtil.setView(xrecycler);
-        adapter = new JhsAdapter(list, getContext());
+        adapter = new JhsAdapter(list, context);
         xrecycler.setAdapter(adapter);
         xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -128,7 +132,7 @@ public class RankingListFragment extends BaseLazyLoadFragment {
             @Override
             public void OnItemClickListener(View view, int position) {
                 int pos = position - 1;
-                Intent intent = new Intent(getContext(), ShopDetailActivity.class);
+                Intent intent = new Intent(context, ShopDetailActivity.class);
                 intent.putExtra("goods_id", list.get(pos).getGoods_id());
                 intent.putExtra("cate_route", list.get(pos).getCate_route());/*类目名称*/
                 intent.putExtra("cate_category", list.get(pos).getCate_category());
@@ -195,12 +199,12 @@ public class RankingListFragment extends BaseLazyLoadFragment {
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.RANKINGLIST + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getContext()))
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
                 .addHeader("x-platform", Constant.ANDROID)
                 .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getContext(), ""))
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
                 .enqueue(new JsonResponseHandler() {
 
                     @Override
@@ -213,9 +217,9 @@ public class RankingListFragment extends BaseLazyLoadFragment {
                                 HomeListBean bean = GsonUtil.GsonToBean(response.toString(), HomeListBean.class);
                                 if (bean != null) {
                                     List<HomeListBean.ListData> result = bean.getResult();
-                                    boolean isLogin = PreferUtils.getBoolean(getContext(), "isLogin");
-                                    String son_count = PreferUtils.getString(getContext(), "son_count");
-                                    String member_role = PreferUtils.getString(getContext(), "member_role");
+                                    boolean isLogin = PreferUtils.getBoolean(context, "isLogin");
+                                    String son_count = PreferUtils.getString(context, "son_count");
+                                    String member_role = PreferUtils.getString(context, "member_role");
                                     for (HomeListBean.ListData listData : result) {
                                         listData.setLogin(isLogin);
                                         listData.setSon_count(son_count);
@@ -245,7 +249,7 @@ public class RankingListFragment extends BaseLazyLoadFragment {
                     public void onFailure(int statusCode, String error_msg) {
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
-                        ToastUtils.showToast(getContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }

@@ -11,22 +11,26 @@ public class ToastUtils {
 
     /*显示在屏幕下方*/
     public static void showToast(Context context, String content) {
-        if (toast == null) {
-            toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText(content);
+        if (context != null) {
+            if (toast == null) {
+                toast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
+            } else {
+                toast.setText(content);
+            }
+            toast.show();
         }
-        toast.show();
     }
 
     /*显示下屏幕中间*/
     public static void showCenterToast(Context context, String content) {
-        if (centerToast == null) {
-            centerToast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
-        } else {
-            centerToast.setText(content);
+        if (context != null) {
+            if (centerToast == null) {
+                centerToast = Toast.makeText(context, content, Toast.LENGTH_SHORT);
+            } else {
+                centerToast.setText(content);
+            }
+            centerToast.setGravity(Gravity.CENTER, 0, 0);
+            centerToast.show();
         }
-        centerToast.setGravity(Gravity.CENTER, 0, 0);
-        centerToast.show();
     }
 }

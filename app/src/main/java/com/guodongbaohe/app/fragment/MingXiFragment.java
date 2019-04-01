@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,7 @@ public class MingXiFragment extends Fragment {
     int type;
     private int pageNum = 1;
     List<MingXiBean.MingXiData> list = new ArrayList<>();
+    Context context;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class MingXiFragment extends Fragment {
         if (view == null) {
             view = inflater.inflate(R.layout.mingxifragment, container, false);
             ButterKnife.bind(this, view);
+            context = MyApplication.getInstance();
             initView();
             getData();
         }
@@ -139,7 +142,7 @@ public class MingXiFragment extends Fragment {
                         nodata.setVisibility(View.VISIBLE);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
-                        ToastUtils.showToast(getActivity().getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
     }

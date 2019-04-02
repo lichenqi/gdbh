@@ -229,8 +229,9 @@
         <activity
             android:name=".activity.TuanDuiJinTieActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.NewShopDetialActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.NewShopDetialActivity"
+            android:screenOrientation="portrait" />
         <!--注册网络变化监听器-->
         <receiver android:name="com.guodongbaohe.app.receiver.NetBroadcastReceiver">
             <intent-filter>
@@ -403,6 +404,7 @@
         <activity
             android:name=".activity.ShopDynamicDisplayActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".activity.CeShiVersionUploadActivity" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

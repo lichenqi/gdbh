@@ -198,9 +198,9 @@ public class NewShopDetialActivity extends AppCompatActivity {
         na = new NumberAnimation(tv_down);
         for (int i = 0; i < imagesList.size(); i++) {
             if (imagesList.get(i).contains(".mp4")) {
-                fileUpLoad(imagesList.get(i), VideoSaveToPhone.saveVideoUrlToFile());
+                fileUpLoad(imagesList.get(i), VideoSaveToPhone.saveVideoUrlToFile(getApplicationContext()));
             } else {
-                fileUpLoad(imagesList.get(i), VideoSaveToPhone.saveImageUrlToFile());
+                fileUpLoad(imagesList.get(i), VideoSaveToPhone.saveImageUrlToFile(getApplicationContext()));
             }
         }
     }

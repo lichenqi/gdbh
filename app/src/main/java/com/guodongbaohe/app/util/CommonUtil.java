@@ -11,7 +11,6 @@ import android.graphics.Typeface;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -19,7 +18,6 @@ import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.style.ForegroundColorSpan;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,7 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,6 +36,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class CommonUtil {
+
     private static String generateFileName() {
         return UUID.randomUUID().toString();
     }
@@ -65,209 +63,11 @@ public class CommonUtil {
             fos.flush();
             fos.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + savePath + fileName)));
         ToastUtils.showToast(context, "图片已保存至手机图库");
-    }
-    public static File getFileDir(Context context, String desFileName) {
-        try {
-            File dir = new File(Environment.getExternalStorageDirectory().toString() + "/carefree/");
-            if (!dir.exists()) {
-                dir.createNewFile();
-            }
-            return dir;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new File(context.getFilesDir() + desFileName);
-        }
-
-    }
-
-    public static Bitmap createAsciiPic(final String path, Context context) {
-        final String base = "#8XOHLTI)i=+;:,.";// 字符串由复杂到简单
-//        final String base = "#,.0123456789:;@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";// 字符串由复杂到简单
-        StringBuilder text = new StringBuilder();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        Bitmap image = BitmapFactory.decodeFile(path);  //读取图片
-        int width0 = image.getWidth();
-        int height0 = image.getHeight();
-        int width1, height1;
-        int scale = 7;
-        if (width0 <= width / scale) {
-            width1 = width0;
-            height1 = height0;
-        } else {
-            width1 = width / scale;
-            height1 = width1 * height0 / width0;
-        }
-        image = scale(path, width1, height1);  //读取图片
-        //输出到指定文件中
-        for (int y = 0; y < image.getHeight(); y += 2) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                final int pixel = image.getPixel(x, y);
-                final int r = (pixel & 0xff0000) >> 16, g = (pixel & 0xff00) >> 8, b = pixel & 0xff;
-                final float gray = 0.299f * r + 0.578f * g + 0.114f * b;
-                final int index = Math.round(gray * (base.length() + 1) / 255);
-                String s = index >= base.length() ? " " : String.valueOf(base.charAt(index));
-                text.append(s);
-            }
-            text.append("\n");
-        }
-        return textAsBitmap(text, context);
-//        return creatCodeBitmap(text,context,colors);
-//        return image;
-    }
-
-    public static Bitmap createAsciiPicColor(final String path, Context context) {
-        final String base = "#8XOHLTI)i=+;:,.";// 字符串由复杂到简单
-//        final String base = "#,.0123456789:;@ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";// 字符串由复杂到简单
-        StringBuilder text = new StringBuilder();
-        List<Integer> colors = new ArrayList<>();
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        Bitmap image = BitmapFactory.decodeFile(path);  //读取图片
-        int width0 = image.getWidth();
-        int height0 = image.getHeight();
-        int width1, height1;
-        int scale = 7;
-        if (width0 <= width / scale) {
-            width1 = width0;
-            height1 = height0;
-        } else {
-            width1 = width / scale;
-            height1 = width1 * height0 / width0;
-        }
-        image = scale(path, width1, height1);  //读取图片
-        //输出到指定文件中
-        for (int y = 0; y < image.getHeight(); y += 2) {
-            for (int x = 0; x < image.getWidth(); x++) {
-                final int pixel = image.getPixel(x, y);
-                final int r = (pixel & 0xff0000) >> 16, g = (pixel & 0xff00) >> 8, b = pixel & 0xff;
-                final float gray = 0.299f * r + 0.578f * g + 0.114f * b;
-                final int index = Math.round(gray * (base.length() + 1) / 255);
-                String s = index >= base.length() ? " " : String.valueOf(base.charAt(index));
-                colors.add(pixel);
-                text.append(s);
-            }
-            text.append("\n");
-            colors.add(0);
-        }
-        return textAsBitmapColor(text, colors, context);
-//        return creatCodeBitmap(text,context,colors);
-//        return image;
-    }
-
-    public static Bitmap creatCodeBitmap(StringBuilder contents, Context context, List<Integer> colors) {
-//        contents = new StringBuilder().append("")
-        float scale = context.getResources().getDisplayMetrics().scaledDensity;
-
-        TextView tv = new TextView(context);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        tv.setLayoutParams(layoutParams);
-        SpannableStringBuilder spannableString = new SpannableStringBuilder(contents);
-        ForegroundColorSpan colorSpan;
-        for (int i = 0; i < colors.size(); i++) {
-            colorSpan = new ForegroundColorSpan(colors.get(i));
-            spannableString.setSpan(colorSpan, i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        tv.setText(spannableString);
-        tv.setTextSize(scale * 2);
-        tv.setTypeface(Typeface.MONOSPACE);
-        tv.setGravity(Gravity.CENTER_HORIZONTAL);
-        tv.setDrawingCacheEnabled(true);
-        tv.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        tv.layout(0, 0, tv.getMeasuredWidth(), tv.getMeasuredHeight());
-
-
-        tv.setBackgroundColor(Color.WHITE);
-
-        tv.buildDrawingCache();
-        Bitmap bitmapCode = tv.getDrawingCache();
-        return bitmapCode;
-    }
-
-    public static Bitmap textAsBitmap(StringBuilder text, Context context) {
-        TextPaint textPaint = new TextPaint();
-        textPaint.setColor(Color.GRAY);
-        textPaint.setAntiAlias(true);
-        textPaint.setTypeface(Typeface.MONOSPACE);
-        textPaint.setTextSize(12);
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;         //
-
-        StaticLayout layout = new StaticLayout(text, textPaint, width,
-
-                Layout.Alignment.ALIGN_CENTER, 1f, 0.0f, true);
-
-        Bitmap bitmap = Bitmap.createBitmap(layout.getWidth() + 20,
-
-                layout.getHeight() + 20, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(bitmap);
-
-        canvas.translate(10, 10);
-
-        canvas.drawColor(Color.WHITE);
-
-//        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
-
-        layout.draw(canvas);
-
-        return bitmap;
-
-    }
-
-    public static Bitmap textAsBitmapColor(StringBuilder text, List<Integer> colors, Context context) {
-        TextPaint textPaint = new TextPaint();
-        textPaint.setColor(Color.TRANSPARENT);
-        textPaint.setAntiAlias(true);
-        textPaint.setTypeface(Typeface.MONOSPACE);
-        textPaint.setTextSize(12);
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;         //
-        SpannableStringBuilder spannableString = new SpannableStringBuilder(text);
-        ForegroundColorSpan colorSpan;
-        for (int i = 0; i < colors.size(); i++) {
-            colorSpan = new ForegroundColorSpan(colors.get(i));
-            spannableString.setSpan(colorSpan, i, i + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        StaticLayout layout = new StaticLayout(spannableString, textPaint, width,
-
-                Layout.Alignment.ALIGN_CENTER, 1f, 0.0f, true);
-
-        Bitmap bitmap = Bitmap.createBitmap(layout.getWidth() + 20,
-
-                layout.getHeight() + 20, Bitmap.Config.ARGB_8888);
-
-        Canvas canvas = new Canvas(bitmap);
-
-        canvas.translate(10, 10);
-
-        canvas.drawColor(Color.WHITE);
-
-//        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);//绘制透明色
-
-        layout.draw(canvas);
-
-        return bitmap;
-
     }
 
     public static Bitmap scale(String src, int newWidth, int newHeight) {

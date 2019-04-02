@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Base64;
 
-import com.guodongbaohe.app.R;
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -154,17 +152,18 @@ public class NetPicsToBitmap {
             return null;
         }
     }
+
     public static Bitmap getBitmaps(String imgUrl) {
-        InputStream inputStream=null;
-        ByteArrayOutputStream outputStream=null;
+        InputStream inputStream = null;
+        ByteArrayOutputStream outputStream = null;
         URL url = null;
         try {
-            url=new URL(imgUrl);
-            HttpURLConnection httpURLConnection=(HttpURLConnection) url.openConnection();
+            url = new URL(imgUrl);
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setReadTimeout(2000);
             httpURLConnection.connect();
-            if(httpURLConnection.getResponseCode()==200) {
+            if (httpURLConnection.getResponseCode() == 200) {
                 //网络连接成功
                 inputStream = httpURLConnection.getInputStream();
                 outputStream = new ByteArrayOutputStream();
@@ -176,12 +175,12 @@ public class NetPicsToBitmap {
                 byte[] bu = outputStream.toByteArray();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bu, 0, bu.length);
                 return bitmap;
-            }else {
+            } else {
             }
         } catch (Exception e) {
             // TODO: handle exception
-        }finally{
-            if(inputStream!=null){
+        } finally {
+            if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
@@ -189,7 +188,7 @@ public class NetPicsToBitmap {
                     e.printStackTrace();
                 }
             }
-            if(outputStream!=null){
+            if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {

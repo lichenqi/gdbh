@@ -107,19 +107,25 @@ public class JhsAdapter extends RecyclerView.Adapter<JhsAdapter.JhsHolder> {
                 holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                YouMakeMoney(holder, 70);
+                YouMakeMoney(holder, 80);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
                 holder.tv_sale_num.getPaint().setFlags(1);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            }
+//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//                /*vip用户*/
+//                YouMakeMoney(holder, 55);
+//                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+//                holder.tv_sale_num.getPaint().setFlags(1);
+//            }
+            else {
+//                /*普通用户*/
+//                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+//                holder.tv_sale_num.setText("¥" + attr_prime);
+//                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 /*vip用户*/
-                YouMakeMoney(holder, 40);
+                YouMakeMoney(holder, 55);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
                 holder.tv_sale_num.getPaint().setFlags(1);
-            } else {
-                /*普通用户*/
-                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
-                holder.tv_sale_num.setText("¥" + attr_prime);
-                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
             }
         } else {
             /*游客*/

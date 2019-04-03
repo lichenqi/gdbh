@@ -531,18 +531,21 @@ public class ShopDetailActivity extends BigBaseActivity {
                 setDataBiLi(90);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人比例*/
-                setDataBiLi(70);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                /*vip比例*/
-                setDataBiLi(40);
-            } else {
+                setDataBiLi(80);
+            }
+//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//                /*vip比例*/
+//                setDataBiLi(40);
+//            }
+            else {
                 /*普通用户角色*/
-                tv_share_money.setText("升级VIP");
-                tv_buy.setText("领券购买");
+//                tv_share_money.setText("升级VIP");
+//                tv_buy.setText("领券购买");
+                setDataBiLi(55);
             }
         } else {
             /*游客*/
-            tv_share_money.setText("升级VIP");
+            tv_share_money.setText("升级合伙人");
             tv_buy.setText("领券购买");
         }
     }

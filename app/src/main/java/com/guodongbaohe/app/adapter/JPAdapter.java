@@ -89,13 +89,16 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
                 YouMakeMoney(holder, 90);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*和火人用户*/
-                YouMakeMoney(holder, 70);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                /*Vip用户*/
-                YouMakeMoney(holder, 40);
-            } else {
+                YouMakeMoney(holder, 80);
+            }
+//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//                /*Vip用户*/
+//                YouMakeMoney(holder, 55);
+//            }
+            else {
                 /*普通用户*/
-                holder.ninengzhuan.setText(seller_shop);
+                YouMakeMoney(holder, 55);
+//                holder.ninengzhuan.setText(seller_shop);
             }
         } else {
             /*游客*/

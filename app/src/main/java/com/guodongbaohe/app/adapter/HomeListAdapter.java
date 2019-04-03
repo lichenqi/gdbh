@@ -109,19 +109,25 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
                 holder.tv_sale_num.getPaint().setFlags(1);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人角色*/
-                NiNengZhuanViewData(holder, 70);
+                NiNengZhuanViewData(holder, 80);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
                 holder.tv_sale_num.getPaint().setFlags(1);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            }
+//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//                /*Vip角色*/
+//                NiNengZhuanViewData(holder, 55);
+//                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
+//                holder.tv_sale_num.getPaint().setFlags(1);
+//            }
+            else {
+//                /*普通用户角色*/
+//                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
+//                holder.tv_sale_num.setText("¥" + attr_prime);
+//                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 /*Vip角色*/
-                NiNengZhuanViewData(holder, 40);
+                NiNengZhuanViewData(holder, 55);
                 holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
                 holder.tv_sale_num.getPaint().setFlags(1);
-            } else if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-                /*普通用户角色*/
-                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
-                holder.tv_sale_num.setText("¥" + attr_prime);
-                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
             }
         } else {
             /*游客*/

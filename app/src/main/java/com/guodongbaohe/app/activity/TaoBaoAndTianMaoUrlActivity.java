@@ -498,10 +498,10 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                 setDataBiLi(90);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人比例*/
-                setDataBiLi(70);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                setDataBiLi(80);
+            } else  {
                 /*vip比例*/
-                setDataBiLi(40);
+                setDataBiLi(55);
             }
         }
     }

@@ -351,11 +351,11 @@ public class MineFragment extends Fragment {
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             iv_user_level.setText("合伙人");
         } else {
-            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-                iv_user_level.setText("普通会员");
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+//                iv_user_level.setText("普通会员");
+//            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 iv_user_level.setText("VIP");
-            }
+//            }
         }
         tv_id.setText("邀请ID: " + invite_code);
         tv_ketiixan.setText("¥" + balance);
@@ -609,6 +609,7 @@ public class MineFragment extends Fragment {
         map.put(Constant.TOKEN, token);
         String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post()
+
                 .url(Constant.BASE_URL + Constant.USER_BASIC_INFO + "?" + param)
                 .tag(this)
                 .addHeader("x-userid", PreferUtils.getString(context, "member_id"))

@@ -97,14 +97,17 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
                 YouMakeMoney(holder, 90);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                YouMakeMoney(holder, 70);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                /*vip用户*/
-                YouMakeMoney(holder, 40);
-            } else {
+                YouMakeMoney(holder, 80);
+            }
+//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//                /*vip用户*/
+//                YouMakeMoney(holder, 40);
+//            }
+            else {
                 /*普通用户*/
-                holder.ninengzhuan.setText(seller_shop);
-                holder.ninengzhuan.setTextSize(12);
+//                holder.ninengzhuan.setText(seller_shop);
+//                holder.ninengzhuan.setTextSize(12);
+                YouMakeMoney(holder, 55);
             }
         } else {
             /*游客*/

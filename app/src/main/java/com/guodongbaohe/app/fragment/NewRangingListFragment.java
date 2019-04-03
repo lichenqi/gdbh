@@ -232,11 +232,12 @@ public class NewRangingListFragment extends Fragment {
             name_type.setText("总裁");
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             name_type.setText("合伙人");
-        } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+        } else  {
             name_type.setText("VIP");
-        } else if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-            name_type.setText("普通会员");
         }
+//        else if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+//            name_type.setText("普通会员");
+//        }
     }
 
     private void getData() {

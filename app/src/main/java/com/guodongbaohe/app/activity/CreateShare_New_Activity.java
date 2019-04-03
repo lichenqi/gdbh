@@ -231,10 +231,11 @@ public class CreateShare_New_Activity extends BaseActivity {
             rebateData(90);
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
-            rebateData(70);
-        } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            rebateData(80);
+        }else {
+//        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*vip用户*/
-            rebateData(40);
+            rebateData(55);
         }
     }
 

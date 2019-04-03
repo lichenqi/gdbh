@@ -236,14 +236,14 @@ public class MakeMoneyFragment extends Fragment {
             tv_hehren_view.setVisibility(View.VISIBLE);
             tv_hehren_view.setText("邀请" + upgrade_boss_partners + "个合伙人，获得升级总裁权限");
         } else {
-            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-                user_level.setText("普通会员");
-                tv_hehren_view.setVisibility(View.INVISIBLE);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+//                user_level.setText("普通会员");
+//                tv_hehren_view.setVisibility(View.INVISIBLE);
+//            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 user_level.setText("VIP");
                 tv_hehren_view.setVisibility(View.VISIBLE);
                 tv_hehren_view.setText("邀请" + upgrade_partner_vips + "个VIP，获得升级合伙人权限");
-            }
+//            }
         }
     }
 
@@ -259,13 +259,17 @@ public class MakeMoneyFragment extends Fragment {
                     /*合伙人升级总裁*/
                     intent = new Intent(context, GFriendToBossActivity.class);
                     startActivity(intent);
-                } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                    /*vip级别要升级到合伙人*/
-                    intent = new Intent(context, GVipToFriendActivity.class);
-                    startActivity(intent);
-                } else {
+                }
+//                else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//                    /*vip级别要升级到合伙人*/
+//                    intent = new Intent(context, GVipToFriendActivity.class);
+//                    startActivity(intent);
+//                }
+                else {
                     /*普通用户*/
-                    intent = new Intent(context, CommonUserToVIPActivity.class);
+//                    intent = new Intent(context, CommonUserToVIPActivity.class);
+//                    startActivity(intent);
+                    intent = new Intent(context, GVipToFriendActivity.class);
                     startActivity(intent);
                 }
                 break;
@@ -346,13 +350,13 @@ public class MakeMoneyFragment extends Fragment {
         } else {
             /*赚钱接口数据*/
             getData();
-            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-                /*普通用户*/
-                touristData();
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
+//                /*普通用户*/
+//                touristData();
+//            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 /*Vip用户*/
                 haveSonData();
-            }
+//            }
         }
     }
 
@@ -374,7 +378,7 @@ public class MakeMoneyFragment extends Fragment {
             tv_invite_code.setTextColor(0xff7A5B2D);
             tv_total_income.setTextColor(0xff7A5B2D);
         } else {
-            if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+//            if (Constant.VIP_USER_LEVEL.contains(member_role)) {
                 ll_user_and_vip.setVisibility(View.GONE);
                 re_hehuoren_buju.setVisibility(View.VISIBLE);
                 hehuoren_and_zcai_bg.setImageResource(R.mipmap.vip_zhuantu);
@@ -382,10 +386,10 @@ public class MakeMoneyFragment extends Fragment {
                 tv_invite_code.setText("邀请ID: " + invite_code);
                 tv_invite_code.setTextColor(0xff444444);
                 tv_total_income.setTextColor(0xff444444);
-            } else {
-                ll_user_and_vip.setVisibility(View.VISIBLE);
-                re_hehuoren_buju.setVisibility(View.GONE);
-            }
+//            } else {
+//                ll_user_and_vip.setVisibility(View.VISIBLE);
+//                re_hehuoren_buju.setVisibility(View.GONE);
+//            }
         }
     }
 

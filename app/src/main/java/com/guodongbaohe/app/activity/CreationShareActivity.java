@@ -247,10 +247,11 @@ public class CreationShareActivity extends BaseActivity {
             rebateData(90);
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
-            rebateData(70);
-        } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            rebateData(80);
+        }else {
+//        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*vip用户*/
-            rebateData(40);
+            rebateData(55);
         }
         /*推荐理由和线条显示*/
         if (TextUtils.isEmpty(promo_slogan)) {

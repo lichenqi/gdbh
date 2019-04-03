@@ -1259,35 +1259,33 @@ public class CreateShare_New_Activity extends BaseActivity {
         @Override
         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
             p_iv.setImageBitmap(bitmap);
-            getViewToPics(qrcode_poster_view);
+            viewSaveToImage(qrcode_poster_view);
         }
     };
 
-    private void getViewToPics(View view) {
-        DisplayMetrics metric = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(metric);
-        int width = metric.widthPixels;
-        int height = metric.heightPixels;
-        layoutView(view, width, height);
-    }
-
-    private void layoutView(View v, int width, int height) {
-        v.layout(0, 0, width, height);
+    /*看不见的view转化成bitmap*/
+    public Bitmap createBitmapOfNew(View v, int width, int height) {
+        //测量使得view指定大小
         int measuredWidth = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         int measuredHeight = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.AT_MOST);
         v.measure(measuredWidth, measuredHeight);
+        //调用layout方法布局后，可以得到view的尺寸大小
         v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
-        viewSaveToImage(v);
+        Bitmap bmp = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+        c.drawColor(Color.WHITE);
+        v.draw(c);
+        return bmp;
     }
 
     Bitmap hebingBitmap;
 
     private void viewSaveToImage(View view) {
-        view.setDrawingCacheEnabled(true);
-        view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
-        view.setDrawingCacheBackgroundColor(Color.WHITE);
-//         把一个View转换成图片
-        hebingBitmap = loadBitmapFromView(view);
+        DisplayMetrics metric = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metric);
+        int width = metric.widthPixels;
+        int height = metric.heightPixels;
+        hebingBitmap = createBitmapOfNew(view, width, height);
         String one_buide_pic = NetPicsToBitmap.convertIconToString(hebingBitmap);
         PreferUtils.putString(getApplicationContext(), "one_buide_pic", one_buide_pic);
         ChooseImagsNum bean = new ChooseImagsNum();
@@ -1303,17 +1301,6 @@ public class CreateShare_New_Activity extends BaseActivity {
         choose_poition.clear();
         choose_poition.put(0, 0);
         DialogUtil.closeDialog(loadingDialog);
-    }
-
-    private Bitmap loadBitmapFromView(View v) {
-        int w = v.getWidth();
-        int h = v.getHeight();
-        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas c = new Canvas(bmp);
-        c.drawColor(Color.WHITE);
-        v.layout(0, 0, w, h);
-        v.draw(c);
-        return bmp;
     }
 
     @Override

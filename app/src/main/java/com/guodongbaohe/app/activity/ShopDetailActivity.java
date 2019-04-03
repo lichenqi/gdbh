@@ -152,7 +152,7 @@ public class ShopDetailActivity extends BigBaseActivity {
     String son_count, member_role, tax_rate;
     String goods_id, cate_route, attr_price, attr_prime, attr_ratio, sales_month, goods_name, goods_short, seller_shop,
             goods_thumb, goods_gallery, coupon_begin, coupon_final, coupon_surplus, coupon_explain, cate_category,
-            attr_site, coupon_total, coupon_id, referer, source;
+            attr_site, coupon_total, coupon_id, referer, source, short_title;
     /*标题头部布局*/
     @BindView(R.id.iv_yuanxing_back)
     ImageView iv_yuanxing_back;
@@ -232,7 +232,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         coupon_id = intent.getStringExtra("coupon_id");
         referer = intent.getStringExtra(Constant.SHOP_REFERER);
         source = intent.getStringExtra(Constant.GAOYONGJIN_SOURCE);
-        String short_title = PreferUtils.getString(getApplicationContext(), "short_title");
+        short_title = PreferUtils.getString(getApplicationContext(), "short_title");
         is_pop_window = PreferUtils.getString(getApplicationContext(), "is_pop_window");
         is_show_money_vip = PreferUtils.getString(getApplicationContext(), "is_show_money_vip");
         is_pop_window_vip = PreferUtils.getString(getApplicationContext(), "is_pop_window_vip");
@@ -257,9 +257,6 @@ public class ShopDetailActivity extends BigBaseActivity {
         initBannerView();
         /*复制标题操作*/
         initEditView();
-        if (!TextUtils.isEmpty(short_title)) {
-            tv_yao_zhuanqian.setText(short_title);
-        }
     }
 
     private void initCollectShop() {
@@ -529,25 +526,36 @@ public class ShopDetailActivity extends BigBaseActivity {
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁比例*/
                 setDataBiLi(90);
+                if (!TextUtils.isEmpty(short_title)) {
+                    tv_yao_zhuanqian.setText(short_title);
+                } else {
+                    tv_yao_zhuanqian.setText("邀请好友下载APP,好友买东西，你也能挣钱.");
+                }
+                tv_lijiyaoqing.setText("立即邀请>");
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人比例*/
                 setDataBiLi(80);
-            }
-//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-//                /*vip比例*/
-//                setDataBiLi(40);
-//            }
-            else {
-                /*普通用户角色*/
-//                tv_share_money.setText("升级VIP");
-//                tv_buy.setText("领券购买");
+                upDateAndInviteTextView(90, "总裁");
+            } else {
+                /*VIP比例*/
                 setDataBiLi(55);
+                upDateAndInviteTextView(80, "合伙人");
             }
         } else {
             /*游客*/
             tv_share_money.setText("升级合伙人");
             tv_buy.setText("领券购买");
+            upDateAndInviteTextView(80, "合伙人");
         }
+    }
+
+    /*升级和邀请文案显示*/
+    private void upDateAndInviteTextView(int num, String content) {
+        double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
+        BigDecimal bg3 = new BigDecimal(result);
+        double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        tv_yao_zhuanqian.setText("现在升级" + content + ",最高可得佣金¥" + money);
+        tv_lijiyaoqing.setText("立即查看>");
     }
 
     private void getPhotoTextData() {
@@ -794,8 +802,21 @@ public class ShopDetailActivity extends BigBaseActivity {
                 break;
             case R.id.re_yao_zhuanqian:
                 if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    intent = new Intent(getApplicationContext(), YaoQingFriendActivity.class);
-                    startActivity(intent);
+                    if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+                        /*总裁角色*/
+                        intent = new Intent(getApplicationContext(), YaoQingFriendActivity.class);
+                        startActivity(intent);
+                    } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                        /* 合伙人角色*/
+                        /*合伙人升级总裁*/
+                        intent = new Intent(getApplicationContext(), GFriendToBossActivity.class);
+                        startActivity(intent);
+                    } else {
+                        /*VIP角色*/
+                        /*VIP升级合伙人*/
+                        intent = new Intent(getApplicationContext(), GVipToFriendActivity.class);
+                        startActivity(intent);
+                    }
                 } else {
                     startActivity(new Intent(getApplicationContext(), LoginAndRegisterActivity.class));
                 }
@@ -1626,7 +1647,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 window.setGravity(Gravity.CENTER | Gravity.CENTER);
                 TextView miaoshu = (TextView) dialog_miaoshu.findViewById(R.id.miaoshu);
                 TextView sure = (TextView) dialog_miaoshu.findViewById(R.id.sure);
-                TextView cancel=(TextView)dialog_miaoshu.findViewById(R.id.cancel);
+                TextView cancel = (TextView) dialog_miaoshu.findViewById(R.id.cancel);
                 miaoshu.setText("该优惠券即将生效，生效时间为：" + start_time + ",可提前领券加收藏等待抢购哦~");
                 sure.setOnClickListener(new View.OnClickListener() {
                     @Override

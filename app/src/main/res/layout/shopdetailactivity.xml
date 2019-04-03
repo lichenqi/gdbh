@@ -126,7 +126,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="邀请好友下载APP,好友买东西，你也能挣钱."
                         android:textColor="#b17a47"
                         android:textSize="12sp" />
 
@@ -136,7 +135,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="立即邀请>"
+                        android:text=""
                         android:textColor="#b17a47"
                         android:textSize="12sp" />
 

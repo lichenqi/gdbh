@@ -8,6 +8,7 @@
         android:id="@+id/barrageview"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
+        android:background="@mipmap/ic_launcher"
         android:layout_height="100dp" />
     <View
         android:id="@+id/zhanwei"
@@ -51,7 +52,6 @@
                 android:src="@mipmap/ic_launcher" />
 
             <ImageView
-                android:id="@+id/download_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_launcher" />

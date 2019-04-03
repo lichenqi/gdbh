@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,11 +36,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
-import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.popupwindow_util.FloatWindowService;
 import com.guodongbaohe.app.receiver.IRequestPermissions;
 import com.guodongbaohe.app.receiver.IRequestPermissionsResult;
@@ -47,7 +45,6 @@ import com.guodongbaohe.app.receiver.RequestPermissions;
 import com.guodongbaohe.app.receiver.RequestPermissionsResultSetApp;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.PermissionUtils;
-import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.WebViewUtil;
 import com.liulishuo.filedownloader.BaseDownloadTask;
 import com.liulishuo.filedownloader.FileDownloadListener;
@@ -91,6 +88,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
     private WebChromeClient.CustomViewCallback customViewCallback;
     protected static final FrameLayout.LayoutParams COVER_SCREEN_PARAMS = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     String url;
+
     @Override
     public int getContainerView() {
         return R.layout.baseh5activity;
@@ -424,7 +422,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
 
                     @Override
                     protected void progress(BaseDownloadTask task, int soFarBytes, int totalBytes) {
-                        Log.e("TAG", "progress");
+                        Log.e("下载进度条", "progress  " + soFarBytes + "    " + totalBytes);
                     }
 
                     @Override
@@ -440,9 +438,11 @@ public class XinShouJiaoChengActivity extends BaseActivity {
 
                     @Override
                     protected void completed(BaseDownloadTask task) {
-                        Log.e("TAG", "completed");
+                        Log.e("新手教程视频下载完成", task.getPath());
                         Intent intent = new Intent(XinShouJiaoChengActivity.this, FloatWindowService.class);
                         startService(intent);
+                        String path = task.getPath();
+                        sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
                     }
 
                     @Override

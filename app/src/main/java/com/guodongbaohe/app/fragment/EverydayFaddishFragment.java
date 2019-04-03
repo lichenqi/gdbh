@@ -458,7 +458,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 String taokouling = jsonObject.getString("result");
                                 ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 if (!TextUtils.isEmpty(content_taobao_eight)) {
-                                    tkl_content = content_taobao_eight.replace(taokouling_sign, taokouling).replace(order_sign, "");
+                                    tkl_content = content_taobao_eight.replace(taokouling_sign, taokouling).replace(order_sign, "").trim();
                                 } else {
                                     if (!TextUtils.isEmpty(taokouling_muban)) {
                                         tkl_content = taokouling_muban.replace(taokouling_sign, taokouling).replace(order_sign, "");

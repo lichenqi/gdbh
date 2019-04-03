@@ -202,6 +202,7 @@ public class BaseH5Activity extends BaseActivity {
             }
         }
 
+        /*分享*/
         @JavascriptInterface
         public void invitation(String url, String title, String content, String img) {
             Log.i("分享内容", url + "  " + title + "   " + content + "   " + img);

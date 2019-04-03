@@ -13,7 +13,6 @@ import java.io.File;
 public class IOUtils {
 
     public static File getPathFile(String path) {
-//        String apkName = path.substring(path.lastIndexOf("/"));
         File outputFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), path);
         return outputFile;
     }

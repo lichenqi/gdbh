@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <com.guodongbaohe.app.view.BarrageView
         android:id="@+id/barrageview"
-        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
-        android:background="@mipmap/ic_launcher"
-        android:layout_height="100dp" />
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/ic_launcher" />
+
     <View
         android:id="@+id/zhanwei"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/cebianbuju"
         android:layout_width="0.5dp"
-        android:layout_height="0.5dp">
+        android:layout_height="0.5dp"
+        android:layout_above="@+id/cebianbuju"
+        android:layout_alignParentRight="true" />
 
-    </View>
     <com.guodongbaohe.app.view.HeartView
         android:id="@+id/main_heartview"
         android:layout_width="100dp"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="260dp"
-        android:layout_height="match_parent">
+        android:layout_marginBottom="260dp">
 
     </com.guodongbaohe.app.view.HeartView>
+
     <RelativeLayout
-        android:layout_above="@+id/bottom_lv"
         android:id="@+id/cebianbuju"
-        android:layout_marginBottom="20dp"
-        android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="270dp"
+        android:layout_above="@+id/bottom_lv"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
         android:layout_marginRight="20dp"
 
         >
@@ -62,28 +62,30 @@
                 android:layout_gravity="center"
                 android:text="素材" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/yincang_lv"
-            android:layout_alignParentBottom="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/yincang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                />
+                android:src="@mipmap/ic_launcher" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="隐藏"/>
+                android:text="隐藏" />
         </LinearLayout>
 
 
     </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/bottom_lv"
         android:layout_width="match_parent"

@@ -92,6 +92,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/*入口*/
 public class MainActivity extends OriginalActivity {
     @BindView(R.id.fl_container)
     FrameLayout fl_container;
@@ -705,8 +706,6 @@ public class MainActivity extends OriginalActivity {
                     //没有存储权限
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2699);
                 } else {
-                    /*下载之前先删除之前存在的apk*/
-                    IOUtils.rmoveFile("gdbh.apk");
                     ToastUtils.showToast(getApplicationContext(), "可在通知栏查看下载进度");
                     downLoadApk();
                 }
@@ -748,8 +747,8 @@ public class MainActivity extends OriginalActivity {
     long downloadId;
 
     public void downLoadApk() {
+        /*下载之前先删除之前存在的apk*/
         IOUtils.rmoveFile("gdbh.apk");
-
         //使用系统下载类
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(download);
@@ -820,7 +819,6 @@ public class MainActivity extends OriginalActivity {
                     ToastUtils.showToast(getApplicationContext(), "版本升级需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
                     return;
                 } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    IOUtils.rmoveFile("gdbh.apk");
                     ToastUtils.showToast(getApplicationContext(), "可在通知栏查看下载进度");
                     downLoadApk();
                 }

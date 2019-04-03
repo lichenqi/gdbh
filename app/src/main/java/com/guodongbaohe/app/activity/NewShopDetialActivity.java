@@ -36,7 +36,7 @@ import com.guodongbaohe.app.view.HeartView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
+/*xinde*/
 public class NewShopDetialActivity extends AppCompatActivity {
     HeartView main_heartview;
     private BarrageView barrageView;

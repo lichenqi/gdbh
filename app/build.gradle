@@ -16,8 +16,8 @@ android {
         applicationId "com.guodongbaohe.app"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 160
-        versionName "1.6.5"
+        versionCode 180
+        versionName "1.8.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -137,7 +137,6 @@ dependencies {
     debugCompile   'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile    'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    /*加载GIF图*/
 }
 
 repositories {

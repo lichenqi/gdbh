@@ -531,7 +531,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 } else {
                     tv_yao_zhuanqian.setText("邀请好友下载APP,好友买东西，你也能挣钱.");
                 }
-                tv_lijiyaoqing.setText("立即邀请>");
+                tv_lijiyaoqing.setText("立即邀请>>");
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人比例*/
                 setDataBiLi(80);
@@ -555,7 +555,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         BigDecimal bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         tv_yao_zhuanqian.setText("现在升级" + content + ",最高可得佣金¥" + money);
-        tv_lijiyaoqing.setText("立即查看>");
+        tv_lijiyaoqing.setText("立即查看>>");
     }
 
     private void getPhotoTextData() {

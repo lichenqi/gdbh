@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:textColor="#b17a47"
+                        android:textColor="#6f4207"
                         android:textSize="12sp" />
 
                     <TextView
@@ -136,7 +136,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:text=""
-                        android:textColor="#b17a47"
+                        android:textColor="#6f4207"
                         android:textSize="12sp" />
 
                 </RelativeLayout>

@@ -95,18 +95,6 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
     private void initRecyclerview() {  //可为你赚多少钱
         recyclerview.setHasFixedSize(true);
         recyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-//        if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
-//            re_keweinizhuan.setVisibility(View.VISIBLE);
-//        } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
-//            re_keweinizhuan.setVisibility(View.VISIBLE);
-//        }
-//        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-//            re_keweinizhuan.setVisibility(View.VISIBLE);
-//        }
-//        else {
-            re_keweinizhuan.setVisibility(View.VISIBLE);
-//            re_keweinizhuan.setVisibility(View.GONE);
-//        }
     }
 
     /*查询数据*/
@@ -176,10 +164,6 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                                     } else {
                                         calculate(55);
                                     }
-//                                    else {
-//                                        tv_make_yuan.setText("0");
-//                                    }
-                                    DialogUtil.closeDialog(loadingDialog);
                                     /*adapter点击事件*/
                                     shopCartAdapter.setonclicklistener(new OnItemClick() {
                                         @Override

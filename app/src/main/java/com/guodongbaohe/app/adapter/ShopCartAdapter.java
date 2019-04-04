@@ -1,7 +1,6 @@
 package com.guodongbaohe.app.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 /*好的*/
 public class ShopCartAdapter extends RecyclerView.Adapter<ShopCartAdapter.ShopCartHolder> {
     private Context context;
@@ -93,33 +93,19 @@ public class ShopCartAdapter extends RecyclerView.Adapter<ShopCartAdapter.ShopCa
             }
         }
 
+        holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+        holder.tv_sale_num.getPaint().setFlags(1);
+
         String member_role = list.get(position).getMember_role();
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
             /*总裁用户*/
             touristData(holder, 90);
-            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-            holder.tv_sale_num.getPaint().setFlags(1);
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人*/
             touristData(holder, 80);
-            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-            holder.tv_sale_num.getPaint().setFlags(1);
-        }
-//        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-//            /*vip用户*/
-//            touristData(holder, 55);
-//            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-//            holder.tv_sale_num.getPaint().setFlags(1);
-//        }
-        else {
-            /*普通用户*/
-//            holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
-//            holder.tv_sale_num.setText("¥" + attr_prime);
-//            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-            /*vip用户*/
+        } else {
+            /*VIP会员*/
             touristData(holder, 55);
-            holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-            holder.tv_sale_num.getPaint().setFlags(1);
         }
 
         if (onItemClick != null) {

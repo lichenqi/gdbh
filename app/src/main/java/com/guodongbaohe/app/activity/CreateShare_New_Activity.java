@@ -232,7 +232,7 @@ public class CreateShare_New_Activity extends BaseActivity {
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
             rebateData(80);
-        }else {
+        } else {
 //        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*vip用户*/
             rebateData(55);
@@ -436,9 +436,8 @@ public class CreateShare_New_Activity extends BaseActivity {
         recyclerview.setLayoutManager(manager);
         pics_list = new ArrayList<>();
         chooseImagsNumList = new ArrayList<>();
-        if (TextUtils.isEmpty(goods_gallery)) {
-            pics_list.add(goods_thumb);
-        } else {
+        pics_list.add(goods_thumb);
+        if (!TextUtils.isEmpty(goods_gallery)) {
             String[] split = goods_gallery.split(",");
             for (int i = 0; i < split.length; i++) {
                 pics_list.add(split[i]);

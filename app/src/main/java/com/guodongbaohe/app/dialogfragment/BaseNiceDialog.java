@@ -18,6 +18,7 @@ import com.guodongbaohe.app.R;
 
 
 public abstract class BaseNiceDialog extends DialogFragment {
+
     private static final String MARGIN = "margin";
     private static final String WIDTH = "width";
     private static final String HEIGHT = "height";
@@ -28,7 +29,7 @@ public abstract class BaseNiceDialog extends DialogFragment {
     private static final String LAYOUT = "layout_id";
 
     private int margin;//左右边距
-    private int width;//宽度
+    private int width = 0;//宽度
     private int height;//高度
     private float dimAmount = 0.5f;//灰度深浅
     private boolean showBottom;//是否底部显示
@@ -47,7 +48,6 @@ public abstract class BaseNiceDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NO_TITLE, R.style.NiceDialog);
         layoutId = intLayoutId();
-
         //恢复保存的数据
         if (savedInstanceState != null) {
             margin = savedInstanceState.getInt(MARGIN);
@@ -113,23 +113,18 @@ public abstract class BaseNiceDialog extends DialogFragment {
                     animStyle = R.style.DefaultAnimation;
                 }
             }
-
             //设置dialog宽度
-            if (width == 0) {
-                lp.width = Utils.getScreenWidth(getContext()) - 2 * Utils.dp2px(getContext(), margin);
-            } else if (width == -1) {
-                lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
-            } else {
-                lp.width = Utils.dp2px(getContext(), width);
+            if (margin > 0) {/*中间弹框显示*/
+                lp.width = Utils.getScreenWidth(getContext()) - Utils.dp2px(getContext(), margin);
+            } else {/*底部弹框显示*/
+                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
             }
-
             //设置dialog高度
             if (height == 0) {
                 lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             } else {
                 lp.height = Utils.dp2px(getContext(), height);
             }
-
             //设置dialog进入、退出的动画
             window.setWindowAnimations(animStyle);
             window.setAttributes(lp);

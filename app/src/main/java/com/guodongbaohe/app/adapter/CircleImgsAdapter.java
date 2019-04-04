@@ -58,7 +58,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         layoutParams.height = width;
         holder.iv.setLayoutParams(layoutParams);
         holder.v_go.setLayoutParams(layoutParams1);
-        Glide.with(context).load(list_imgs.get(position)).into(holder.iv);
+        Glide.with(context).load(list_imgs.get(position)).placeholder(R.drawable.loading_img).into(holder.iv);
         if (!TextUtils.isEmpty(video)) {
             holder.video_image.setVisibility(View.VISIBLE);
         } else {

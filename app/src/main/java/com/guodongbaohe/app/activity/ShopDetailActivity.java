@@ -354,9 +354,8 @@ public class ShopDetailActivity extends BigBaseActivity {
     private ImageView[] indicators;
 
     private void initBannerView() {
-        if (TextUtils.isEmpty(goods_gallery)) {
-            bannerList.add(goods_thumb);
-        } else {
+        bannerList.add(goods_thumb);
+        if (!TextUtils.isEmpty(goods_gallery)) {
             String[] split = goods_gallery.split(",");
             for (int i = 0; i < split.length; i++) {
                 bannerList.add(split[i]);

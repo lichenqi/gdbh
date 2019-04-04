@@ -1,30 +1,26 @@
 package com.guodongbaohe.app.activity;
 
-import android.Manifest;
-import android.app.Dialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.dialogfragment.BaseNiceDialog;
+import com.guodongbaohe.app.dialogfragment.NiceDialog;
+import com.guodongbaohe.app.dialogfragment.ViewConvertListener;
+import com.guodongbaohe.app.dialogfragment.ViewHolder;
 import com.guodongbaohe.app.myokhttputils.response.DownloadResponseHandler;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.CleanDataUtil;
@@ -97,50 +93,72 @@ public class CeShiVersionUploadActivity extends AppCompatActivity {
                 });
     }
 
+    NiceDialog niceDialog;
+
     /*版本升级弹窗*/
     private void versionUpdataDialog() {
-        final Dialog dialog = new Dialog(CeShiVersionUploadActivity.this, R.style.activitydialog);
-        dialog.setContentView(R.layout.version_update_dialog);
-        Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView tv_one = (TextView) dialog.findViewById(R.id.tv_one);
-        TextView tv_two = (TextView) dialog.findViewById(R.id.tv_two);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        tv_one.setText(title);
-        tv_two.setText(desc);
-        RelativeLayout cancel = (RelativeLayout) dialog.findViewById(R.id.cancel);
-        if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {
-            cancel.setVisibility(View.GONE);
-        } else {
-            cancel.setVisibility(View.VISIBLE);
-        }
-        cancel.setOnClickListener(new View.OnClickListener() {
+        niceDialog = NiceDialog.init();
+        niceDialog.setLayoutId(R.layout.version_update_dialog);
+        niceDialog.setConvertListener(new ViewConvertListener() {
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            protected void convertView(ViewHolder holder, BaseNiceDialog dialog) {
+                RelativeLayout cancel = holder.getView(R.id.cancel);
+                cancel.setVisibility(View.VISIBLE);
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                    }
+                });
             }
         });
-        sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                if (ContextCompat.checkSelfPermission(CeShiVersionUploadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                        || ContextCompat.checkSelfPermission(CeShiVersionUploadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    //没有存储权限
-                    ActivityCompat.requestPermissions(CeShiVersionUploadActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2699);
-                } else {
-                    downLoadApk();
-                }
-            }
-        });
-        if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setCancelable(false);
-        } else {
-            dialog.setCanceledOnTouchOutside(false);
-            dialog.setCancelable(true);
-        }
-        dialog.show();
+        niceDialog.setMargin(50);
+        niceDialog.show(getSupportFragmentManager());
+        niceDialog.setCancelable(false);
+        niceDialog.setOutCancel(false);
+
+//        final Dialog dialog = new Dialog(CeShiVersionUploadActivity.this, R.style.activitydialog);
+//        dialog.setContentView(R.layout.version_update_dialog);
+//        Window window = dialog.getWindow();
+//        window.setGravity(Gravity.CENTER | Gravity.CENTER);
+//        TextView tv_one = (TextView) dialog.findViewById(R.id.tv_one);
+//        TextView tv_two = (TextView) dialog.findViewById(R.id.tv_two);
+//        TextView sure = (TextView) dialog.findViewById(R.id.sure);
+//        tv_one.setText(title);
+//        tv_two.setText(desc);
+//        RelativeLayout cancel = (RelativeLayout) dialog.findViewById(R.id.cancel);
+//        if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {
+//            cancel.setVisibility(View.GONE);
+//        } else {
+//            cancel.setVisibility(View.VISIBLE);
+//        }
+//        cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        sure.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//                if (ContextCompat.checkSelfPermission(CeShiVersionUploadActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+//                        || ContextCompat.checkSelfPermission(CeShiVersionUploadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                    //没有存储权限
+//                    ActivityCompat.requestPermissions(CeShiVersionUploadActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2699);
+//                } else {
+//                    downLoadApk();
+//                }
+//            }
+//        });
+//        if (!TextUtils.isEmpty(is_update) && is_update.equals("yes")) {
+//            dialog.setCanceledOnTouchOutside(false);
+//            dialog.setCancelable(false);
+//        } else {
+//            dialog.setCanceledOnTouchOutside(false);
+//            dialog.setCancelable(true);
+//        }
+//        dialog.show();
     }
 
     private void downLoadApk() {
@@ -189,6 +207,11 @@ public class CeShiVersionUploadActivity extends AppCompatActivity {
         }
         CleanDataUtil.clearAllCache(getApplicationContext());
         startActivity(intent);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
 }

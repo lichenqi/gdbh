@@ -57,12 +57,8 @@ public class DepartmentAdapter extends RecyclerView.Adapter<DepartmentAdapter.De
             holder.level.setText("总裁");
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             holder.level.setText("合伙人");
-        }
-//        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-//            holder.level.setText("VIP");
-//        }
-        else {
-            holder.level.setText("VIP");
+        } else {
+            holder.level.setText("VIP会员");
         }
         holder.num.setText("邀请人数" + counts + "人");
         holder.yaoqingren.setText("邀请人: " + list.get(position).getParent_name());

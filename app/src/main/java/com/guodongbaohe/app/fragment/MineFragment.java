@@ -351,11 +351,7 @@ public class MineFragment extends Fragment {
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             iv_user_level.setText("合伙人");
         } else {
-//            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-//                iv_user_level.setText("普通会员");
-//            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                iv_user_level.setText("VIP");
-//            }
+            iv_user_level.setText("VIP会员");
         }
         tv_id.setText("邀请ID: " + invite_code);
         tv_ketiixan.setText("¥" + balance);
@@ -385,8 +381,6 @@ public class MineFragment extends Fragment {
         switch (view.getId()) {
             case R.id.re_clean_cache:
                 cleanCacheDialog();
-//                intent = new Intent(context, ShopDynamicDisplayActivity.class);
-//                startActivity(intent);
                 break;
             case R.id.circleimageview:
                 intent = new Intent(context, PersonalActivity.class);

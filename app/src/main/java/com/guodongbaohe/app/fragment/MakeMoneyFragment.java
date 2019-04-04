@@ -240,7 +240,7 @@ public class MakeMoneyFragment extends Fragment {
 //                user_level.setText("普通会员");
 //                tv_hehren_view.setVisibility(View.INVISIBLE);
 //            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                user_level.setText("VIP");
+                user_level.setText("VIP会员");
                 tv_hehren_view.setVisibility(View.VISIBLE);
                 tv_hehren_view.setText("邀请" + upgrade_partner_vips + "个VIP，获得升级合伙人权限");
 //            }

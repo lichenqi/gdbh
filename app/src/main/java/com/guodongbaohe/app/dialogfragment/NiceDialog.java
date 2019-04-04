@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
 public class NiceDialog extends BaseNiceDialog {
+
     private ViewConvertListener convertListener;
 
     public static NiceDialog init() {
@@ -22,7 +23,6 @@ public class NiceDialog extends BaseNiceDialog {
             convertListener.convertView(holder, dialog);
         }
     }
-
 
     public NiceDialog setLayoutId(@LayoutRes int layoutId) {
         this.layoutId = layoutId;

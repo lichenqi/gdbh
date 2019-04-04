@@ -405,6 +405,9 @@
             android:name=".activity.ShopDynamicDisplayActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.CeShiVersionUploadActivity" />
+        <activity
+            android:name=".activity.CeShiRecyclerviewLoadMoreActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

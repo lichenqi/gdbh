@@ -147,6 +147,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         String ninengzhuan_money = "你能赚 ¥" + money;
         TextViewUtil.setTextViewSize(ninengzhuan_money, holder.ninengzhuan);
+
+        TextViewUtil.setTextViewSize(ninengzhuan_money, holder.tv_upgrade_money);
     }
 
     /*券后  折后  特惠价显示*/
@@ -173,6 +175,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
         TextView tv_classic_type;
         @BindView(R.id.re_bottom)
         RelativeLayout re_bottom;
+        @BindView(R.id.tv_upgrade_money)
+        TextView tv_upgrade_money;
 
         public HomeListHolder(View itemView) {
             super(itemView);

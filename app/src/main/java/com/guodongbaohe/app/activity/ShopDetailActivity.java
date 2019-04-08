@@ -542,8 +542,7 @@ public class ShopDetailActivity extends BigBaseActivity {
             }
         } else {
             /*游客*/
-            tv_share_money.setText("升级合伙人");
-            tv_buy.setText("领券购买");
+            setDataBiLi(55);
             upDateAndInviteTextView(80, "合伙人");
         }
     }
@@ -553,8 +552,8 @@ public class ShopDetailActivity extends BigBaseActivity {
         double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
         BigDecimal bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        tv_yao_zhuanqian.setText("现在升级" + content + ",最高可得佣金¥" + money);
-        tv_lijiyaoqing.setText("立即查看>>");
+        tv_yao_zhuanqian.setText("现在升级为" + content + "， 立赚" + money + "元");
+        tv_lijiyaoqing.setText("立即升级>>");
     }
 
     private void getPhotoTextData() {
@@ -967,8 +966,8 @@ public class ShopDetailActivity extends BigBaseActivity {
         double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
         BigDecimal bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        tv_share_money.setText("分享赚¥" + money);
-        tv_buy.setText("购买返¥" + money);
+        tv_share_money.setText("分享赚 ¥ " + money);
+        tv_buy.setText("购买返 ¥ " + money);
     }
 
     /*设置指示器*/

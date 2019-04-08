@@ -1,7 +1,6 @@
 package com.guodongbaohe.app.adapter;
 
 import android.content.Context;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -20,7 +19,6 @@ import com.guodongbaohe.app.util.NetImageLoadUtil;
 import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.StringCleanZeroUtil;
-import com.guodongbaohe.app.util.TextViewUtil;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -81,53 +79,64 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
         bg3 = new BigDecimal(d_price);
         double d_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         if (Double.valueOf(coupon_surplus) > 0) {
-            holder.sjizhuan.setText(StringCleanZeroUtil.DoubleFormat(d_money) + " 元券");
+            holder.tv_coupon_money.setText(StringCleanZeroUtil.DoubleFormat(d_money) + " 元券");
+            holder.tv_coupon_money_boss.setText(StringCleanZeroUtil.DoubleFormat(d_money) + " 元券");
             holder.tv_classic_type.setText("券后");
         } else {
             if (d_price > 0) {
                 double disaccount = Double.valueOf(attr_price) / Double.valueOf(attr_prime) * 10;
                 bg3 = new BigDecimal(disaccount);
                 double d_zhe = bg3.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-                holder.sjizhuan.setText(d_zhe + " 折");
+                holder.tv_coupon_money.setText(d_zhe + " 折");
+                holder.tv_coupon_money_boss.setText(d_zhe + " 折");
                 holder.tv_classic_type.setText("折后");
             } else {
-                holder.sjizhuan.setText("立即抢购");
+                holder.tv_coupon_money.setText("立即抢购");
+                holder.tv_coupon_money_boss.setText("立即抢购");
                 holder.tv_classic_type.setText("特惠价");
             }
         }
 
+        holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+        holder.tv_base_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+
+        /*红色你能赚显示文案布局*/
         if (list.get(position).isLogin()) {
+            /*登录*/
             String member_role = list.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
-                /*总裁用户*/
-                touristData(holder, 90);
-                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-                holder.tv_sale_num.getPaint().setFlags(1);
-            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
-                /*合伙人用户*/
-                touristData(holder, 80);
-                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-                holder.tv_sale_num.getPaint().setFlags(1);
-            }
-//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-//                /*vip用户*/
-//                touristData(holder, 40);
-//                holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-//                holder.tv_sale_num.getPaint().setFlags(1);
-//            }
-            else {
-                /*普通用户*/
-                touristData(holder, 55);
-                holder.tv_sale_num.getPaint().setFlags(1);
-                holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
-//                holder.tv_sale_num.setText("¥" + attr_prime);
-//                holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+                /*总裁角色*/
+                holder.tv_base_sale_num.setVisibility(View.GONE);
+                holder.tv_sale_num.setVisibility(View.VISIBLE);
+                holder.re_coupon_view.setVisibility(View.GONE);
+                holder.tv_upgrade_money.setVisibility(View.GONE);
+                holder.re_coupon_view_boss.setVisibility(View.VISIBLE);
+                NiNengZhuanViewData(holder, 90);
+            } else {
+                holder.tv_base_sale_num.setVisibility(View.VISIBLE);
+                holder.tv_sale_num.setVisibility(View.GONE);
+                holder.re_coupon_view.setVisibility(View.VISIBLE);
+                holder.tv_upgrade_money.setVisibility(View.VISIBLE);
+                holder.re_coupon_view_boss.setVisibility(View.GONE);
+                if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                    /*合伙人*/
+                    NiNengZhuanViewData(holder, 80);
+                    setUpgradeViewData(holder, 90);
+                } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                    /*VIP*/
+                    NiNengZhuanViewData(holder, 55);
+                    setUpgradeViewData(holder, 80);
+                }
             }
         } else {
             /*游客*/
-            holder.ninengzhuan.setText("月销" + NumUtil.getNum(sales_month));
-            holder.tv_sale_num.setText("¥" + attr_prime);
-            holder.tv_sale_num.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+            holder.tv_base_sale_num.setVisibility(View.VISIBLE);
+            holder.tv_sale_num.setVisibility(View.GONE);
+            holder.re_coupon_view.setVisibility(View.VISIBLE);
+            holder.tv_upgrade_money.setVisibility(View.VISIBLE);
+            holder.re_coupon_view_boss.setVisibility(View.GONE);
+            NiNengZhuanViewData(holder, 55);
+            setUpgradeViewData(holder, 80);
         }
 
         if (onItemClick != null) {
@@ -145,33 +154,61 @@ public class BaseSearchAdapter extends RecyclerView.Adapter<BaseSearchAdapter.Ba
         return list == null ? 0 : list.size();
     }
 
-    private void touristData(BaseSearchHolder holder, int num) {
+    /*你能赚显示方法*/
+    private void NiNengZhuanViewData(BaseSearchHolder holder, int num) {
         double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
         bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        String ninengzhuan_money = "你能赚 ¥" + money;
-        TextViewUtil.setTextViewSize(ninengzhuan_money, holder.ninengzhuan);
+        holder.ninengzhuan.setText("你能赚 ¥" + money);
+    }
+
+    /*升级赚显示方法*/
+    private void setUpgradeViewData(BaseSearchHolder holder, int num) {
+        double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
+        bg3 = new BigDecimal(result);
+        double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        holder.tv_upgrade_money.setText("升级赚 ¥" + money);
     }
 
     public class BaseSearchHolder extends RecyclerView.ViewHolder {
+        /*图片*/
         @BindView(R.id.iv)
         ImageView iv;
+        /*标题*/
         @BindView(R.id.title)
         TextView title;
+        /*店铺名字*/
         @BindView(R.id.dianpu_name)
         TextView dianpu_name;
+        /*价格*/
         @BindView(R.id.tv_price)
         TextView tv_price;
-        @BindView(R.id.tv_sale_num)
-        TextView tv_sale_num;
-        @BindView(R.id.ninengzhuan)
-        TextView ninengzhuan;
-        @BindView(R.id.sjizhuan)
-        TextView sjizhuan;
+        /*价格类型*/
         @BindView(R.id.tv_classic_type)
         TextView tv_classic_type;
-        @BindView(R.id.re_bottom)
-        RelativeLayout re_bottom;
+        /*销量*/
+        @BindView(R.id.tv_sale_num)
+        TextView tv_sale_num;
+        /*优惠券显示*/
+        @BindView(R.id.re_coupon_view)
+        RelativeLayout re_coupon_view;
+        /*优惠券金额*/
+        @BindView(R.id.tv_coupon_money)
+        TextView tv_coupon_money;
+        /*你能赚*/
+        @BindView(R.id.ninengzhuan)
+        TextView ninengzhuan;
+        /*升级赚*/
+        @BindView(R.id.tv_upgrade_money)
+        TextView tv_upgrade_money;
+        /*总裁优惠券显示*/
+        @BindView(R.id.re_coupon_view_boss)
+        RelativeLayout re_coupon_view_boss;
+        @BindView(R.id.tv_coupon_money_boss)
+        TextView tv_coupon_money_boss;
+        /*中间价格显示*/
+        @BindView(R.id.tv_base_sale_num)
+        TextView tv_base_sale_num;
 
         public BaseSearchHolder(View itemView) {
             super(itemView);

@@ -486,24 +486,17 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
 
     /*用户角色显示*/
     private void initUserDataView() {
-        if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
-            /*普通用户去升级vip*/
-            tv_share.setText("升级VIP");
-            tv_buy.setText("领券购买");
+        if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+            /*总裁比例*/
+            setDataBiLi(90);
+        } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+            /*合伙人比例*/
+            setDataBiLi(80);
         } else {
-            /*会员*/
-            tv_buy.setText("返佣购买");
-            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
-                /*总裁比例*/
-                setDataBiLi(90);
-            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
-                /*合伙人比例*/
-                setDataBiLi(80);
-            } else  {
-                /*vip比例*/
-                setDataBiLi(55);
-            }
+            /*vip比例*/
+            setDataBiLi(55);
         }
+
     }
 
     private void setDataBiLi(int num) {
@@ -513,6 +506,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
         BigDecimal bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         tv_share.setText("分享赚¥" + money);
+        tv_buy.setText("返佣购买");
     }
 
     /*点击购买调用高佣金接口*/

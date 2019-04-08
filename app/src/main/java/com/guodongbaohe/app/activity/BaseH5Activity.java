@@ -1,5 +1,8 @@
 package com.guodongbaohe.app.activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -169,6 +172,11 @@ public class BaseH5Activity extends BaseActivity {
                 exParams.put("isv_code", "appisvcode");
                 exParams.put("alibaba", "阿里巴巴");
                 AlibcTrade.show(BaseH5Activity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback());
+                /*清空剪切板内容*/
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm.hasPrimaryClip()) {
+                    cm.setPrimaryClip(ClipData.newPlainText(null, ""));
+                }
             } else {
                 Intent intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
                 startActivity(intent);

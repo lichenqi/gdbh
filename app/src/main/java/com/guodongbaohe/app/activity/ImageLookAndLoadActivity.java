@@ -152,7 +152,7 @@ public class ImageLookAndLoadActivity extends BigBaseActivity {
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
             ImageView imageView = new ImageView(container.getContext());
             imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            Glide.with(getApplicationContext()).load(bannerList.get(position)).into(imageView);
+            Glide.with(getApplicationContext()).load(bannerList.get(position)).placeholder(R.drawable.loading_img).into(imageView);
             container.addView(imageView);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override

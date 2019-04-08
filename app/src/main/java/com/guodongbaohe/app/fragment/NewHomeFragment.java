@@ -26,7 +26,6 @@ import android.widget.RelativeLayout;
 
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
-import com.guodongbaohe.app.activity.CeShiRecyclerviewLoadMoreActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
 import com.guodongbaohe.app.activity.SearchActivity;
 import com.guodongbaohe.app.activity.ShouRuMingXiActivity;
@@ -383,8 +382,7 @@ public class NewHomeFragment extends Fragment {
                 backgroundAlpha(0.5f);
                 break;
             case R.id.re_search:
-//                startActivity(new Intent(context, SearchActivity.class));
-                startActivity(new Intent(context, CeShiRecyclerviewLoadMoreActivity.class));
+                startActivity(new Intent(context, SearchActivity.class));
                 break;
         }
     }

@@ -755,14 +755,8 @@ public class ShopDetailActivity extends BigBaseActivity {
                     return;
                 }
                 if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
-                    if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                        /*Vip到升级合伙人界面*/
-                        intent = new Intent(getApplicationContext(), GVipToFriendActivity.class);
-                        startActivity(intent);
-                    } else {
-                        /*先调用高佣金接口*/
-                        shareGaoYongJinData();
-                    }
+                    /*先调用高佣金接口*/
+                    shareGaoYongJinData();
                 } else {
                     intent = new Intent(getApplicationContext(), LoginAndRegisterActivity.class);
                     startActivity(intent);

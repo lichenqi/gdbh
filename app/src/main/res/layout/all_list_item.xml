@@ -24,7 +24,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="130dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="6dp"
             android:paddingBottom="1dp"
             android:paddingTop="1dp">
 
@@ -32,7 +32,7 @@
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="6dp"
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"
                 android:maxLines="2"
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="6dp"
                 android:layout_marginTop="2dp"
                 android:ellipsize="end"
                 android:lineSpacingExtra="3dp"

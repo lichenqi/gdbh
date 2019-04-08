@@ -221,7 +221,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 /*布局背景图*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get(i).getUrl().equals("background")) {
-                                        Glide.with(context).load(theme_list.get(i).getImage()).into(iv_list_bg);
+//                                        Glide.with(context).load(theme_list.get(i).getImage()).into(iv_list_bg);
                                     }
                                 }
                                 /*横向列表数据显示*/

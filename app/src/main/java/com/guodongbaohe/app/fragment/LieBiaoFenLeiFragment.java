@@ -24,8 +24,18 @@ import com.guodongbaohe.app.adapter.ScrollLeftAdapter;
 import com.guodongbaohe.app.adapter.ScrollRightAdapter;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.bean.ScrollBean;
+import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.ParamUtil;
+import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.SpUtil;
+import com.guodongbaohe.app.util.ToastUtils;
+import com.guodongbaohe.app.util.VersionUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +85,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
             recLeft = (RecyclerView) view.findViewById(R.id.rec_left);
             recRight = (RecyclerView) view.findViewById(R.id.rec_right);
             rightTitle = (TextView) view.findViewById(R.id.right_title);
-
             initData();
-
             initLeft();
             initRight();
             re_search.setOnClickListener(new View.OnClickListener() {
@@ -91,9 +99,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
     }
 
     private void initRight() {
-
         rightManager = new GridLayoutManager(mContext, 3);
-
         if (rightAdapter == null) {
             rightAdapter = new ScrollRightAdapter(R.layout.scroll_right, R.layout.layout_right_title, null);
             recRight.setLayoutManager(rightManager);
@@ -111,14 +117,11 @@ public class LieBiaoFenLeiFragment extends Fragment {
         } else {
             rightAdapter.notifyDataSetChanged();
         }
-
         rightAdapter.setNewData(right);
-
         //设置右侧初始title
         if (right.get(first).isHeader) {
             rightTitle.setText(right.get(first).header);
         }
-
         recRight.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
@@ -188,9 +191,7 @@ public class LieBiaoFenLeiFragment extends Fragment {
         } else {
             leftAdapter.notifyDataSetChanged();
         }
-
         leftAdapter.setNewData(left);
-
         leftAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -211,6 +212,15 @@ public class LieBiaoFenLeiFragment extends Fragment {
     //获取数据(若请求服务端数据,请求到的列表需有序排列)
     private void initData() {
         titleList = SpUtil.getList(mContext, "head_title_list");
+        if (titleList == null) {
+            getClassicHeadTitle();
+        } else {
+            initCommonDataView();
+        }
+    }
+
+    /*公共方法*/
+    private void initCommonDataView() {
         right_data = new ArrayList<>();
         left = new ArrayList<>();
         for (int i = 0; i < titleList.size(); i++) {
@@ -219,7 +229,6 @@ public class LieBiaoFenLeiFragment extends Fragment {
                 right_data.addAll(titleList.get(i).getChild());
             }
         }
-
         right = new ArrayList<>();
         for (int i = 0; i < titleList.size(); i++) {
             if (i != 0) {
@@ -233,34 +242,57 @@ public class LieBiaoFenLeiFragment extends Fragment {
             if (right.get(i).isHeader) {
                 //遍历右侧列表,判断如果是header,则将此header在右侧列表中所在的position添加到集合中
                 tPosition.add(i);
-                Log.i("list+++++", i + "");
             }
         }
-
     }
 
-    /**
-     * 获得资源 dimens (dp)
-     *
-     * @param context
-     * @param id      资源id
-     * @return
-     */
+    /*获取分类标题数据*/
+    private void getClassicHeadTitle() {
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url(Constant.BASE_URL + Constant.GOODS_CATES)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(mContext, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(mContext, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(mContext))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(mContext, PreferUtils.getString(mContext, "member_id")))
+                .enqueue(new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess(statusCode, response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            Log.i("数据啊", response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                CommonBean bean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
+                                titleList = bean.getResult();
+                                SpUtil.putList(mContext, "head_title_list", titleList);
+                                initCommonDataView();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast(mContext, Constant.NONET);
+                    }
+                });
+    }
+
     public float getDimens(Context context, int id) {
         DisplayMetrics dm = context.getResources().getDisplayMetrics();
         float px = context.getResources().getDimension(id);
         return px / dm.density;
     }
 
-    /**
-     * dp转px
-     *
-     * @param context
-     * @param dp
-     * @return
-     */
     public int dpToPx(Context context, float dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return (int) ((dp * displayMetrics.density) + 0.5f);
     }
+
 }

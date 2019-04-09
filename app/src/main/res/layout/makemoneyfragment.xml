@@ -303,7 +303,8 @@
                             android:background="@drawable/kaitongvip"
                             android:gravity="center"
                             android:text=""
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
 
                     </RelativeLayout>
 

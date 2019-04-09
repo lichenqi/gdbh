@@ -528,7 +528,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 if (!TextUtils.isEmpty(short_title)) {
                     tv_yao_zhuanqian.setText(short_title);
                 } else {
-                    tv_yao_zhuanqian.setText("邀请好友下载APP,好友买东西，你也能挣钱.");
+                    tv_yao_zhuanqian.setText("邀请好友下载APP,好友买东西，你也能挣钱。");
                 }
                 tv_lijiyaoqing.setText("立即邀请>>");
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {

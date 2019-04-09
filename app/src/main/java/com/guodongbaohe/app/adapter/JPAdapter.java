@@ -86,13 +86,13 @@ public class JPAdapter extends RecyclerView.Adapter<JPAdapter.JPHolder> {
             String member_role = list_related.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁用户*/
-                YouMakeMoney(holder, 90);
+                YouMakeMoney(holder, Constant.BOSS_RATIO);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                YouMakeMoney(holder, 80);
+                YouMakeMoney(holder, Constant.PARTNER_RATIO);
             } else {
                 /*VIP用户*/
-                YouMakeMoney(holder, 55);
+                YouMakeMoney(holder, Constant.VIP_RATIO);
             }
         } else {
             /*游客*/

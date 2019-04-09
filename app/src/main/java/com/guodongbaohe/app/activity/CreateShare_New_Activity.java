@@ -228,14 +228,13 @@ public class CreateShare_New_Activity extends BaseActivity {
     private void initMoneyData() {
         if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
             /*总裁用户*/
-            rebateData(90);
+            rebateData(Constant.BOSS_RATIO);
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
-            rebateData(80);
+            rebateData(Constant.PARTNER_RATIO);
         } else {
-//        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*vip用户*/
-            rebateData(55);
+            rebateData(Constant.VIP_RATIO);
         }
     }
 

@@ -12,54 +12,52 @@
         android:orientation="horizontal"
         android:paddingBottom="10dp"
         android:paddingLeft="4dp"
-        android:paddingRight="4dp"
         android:paddingTop="10dp">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
             android:scaleType="centerCrop"
             app:riv_corner_radius="3dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_marginLeft="10dp">
+            android:layout_height="130dp"
+            android:layout_marginLeft="6dp"
+            android:paddingBottom="1dp"
+            android:paddingTop="1dp">
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="6dp"
                 android:ellipsize="end"
-                android:lineSpacingExtra="2dp"
+                android:lineSpacingExtra="3dp"
                 android:maxLines="2"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/dianpu_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title"
-                android:layout_marginTop="4dp">
-
-                <TextView
-                    android:id="@+id/dianpu_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:lineSpacingExtra="3dp"
-                    android:maxLines="2"
-                    android:textColor="@color/txblack"
-                    android:textSize="11sp" />
-
-            </RelativeLayout>
+                android:layout_marginRight="6dp"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:lineSpacingExtra="3dp"
+                android:maxLines="2"
+                android:textColor="@color/txblack"
+                android:textSize="12sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/re_bottom"
-                android:layout_marginBottom="6dp">
+                android:layout_marginBottom="5dp"
+                android:layout_marginRight="12dp">
 
                 <LinearLayout
                     android:id="@+id/ll_quanhou"
@@ -101,8 +99,28 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/ll_quanhou"
-                    android:textColor="@color/txgray"
-                    android:textSize="12sp" />
+                    android:textColor="@color/txblack"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/re_coupon_view"
+                    android:layout_width="74dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_coupon_money"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@mipmap/youhuiquan_bg"
+                        android:gravity="center"
+                        android:textColor="@color/quancolor"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
 
             </RelativeLayout>
 
@@ -110,33 +128,44 @@
                 android:id="@+id/re_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="12dp">
 
                 <TextView
                     android:id="@+id/ninengzhuan"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="22dp"
                     android:layout_centerVertical="true"
                     android:background="@drawable/ninengzhuan"
                     android:gravity="center"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="6dp"
-                    android:paddingTop="2dp"
                     android:textColor="#ba2336"
-                    android:textSize="11sp" />
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_upgrade_money"
+                    android:layout_width="100dp"
+                    android:layout_height="22dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/sjizhuan"
+                    android:gravity="center"
+                    android:textColor="#6f4207"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
 
                 <RelativeLayout
+                    android:id="@+id/re_coupon_view_boss"
                     android:layout_width="74dp"
                     android:layout_height="22dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@+id/ninengzhuan">
+                    android:layout_toRightOf="@+id/ninengzhuan"
+                    android:visibility="gone">
 
                     <TextView
-                        android:id="@+id/sjizhuan"
+                        android:id="@+id/tv_coupon_money_boss"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:background="@mipmap/youhuiquan_bg"
                         android:gravity="center"
                         android:textColor="@color/quancolor"
@@ -147,7 +176,6 @@
             </RelativeLayout>
 
         </RelativeLayout>
-
 
     </LinearLayout>
 

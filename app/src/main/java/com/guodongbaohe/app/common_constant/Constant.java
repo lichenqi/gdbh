@@ -208,4 +208,10 @@ public class Constant {
     public static final String SHARE_MOBAN = "share/template/taowords";
     /*新版模板数据*/
     public static final String NEW_TAMPLATE_DATA = "share/template/taowords";
+    /*总裁用户佣金比例*/
+    public static final int BOSS_RATIO = 90;
+    /*合伙人用户佣金比例*/
+    public static final int PARTNER_RATIO = 80;
+    /*VIP用户佣金比例*/
+    public static final int VIP_RATIO = 55;
 }

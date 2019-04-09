@@ -94,20 +94,13 @@ public class NinePinkageAdapter extends RecyclerView.Adapter<NinePinkageAdapter.
             String member_role = list.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁用户*/
-                YouMakeMoney(holder, 90);
+                YouMakeMoney(holder, Constant.BOSS_RATIO);
             } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                YouMakeMoney(holder, 80);
-            }
-//            else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-//                /*vip用户*/
-//                YouMakeMoney(holder, 40);
-//            }
-            else {
-                /*普通用户*/
-//                holder.ninengzhuan.setText(seller_shop);
-//                holder.ninengzhuan.setTextSize(12);
-                YouMakeMoney(holder, 55);
+                YouMakeMoney(holder, Constant.PARTNER_RATIO);
+            } else {
+                /*VIP用户*/
+                YouMakeMoney(holder, Constant.VIP_RATIO);
             }
         } else {
             /*游客*/

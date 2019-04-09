@@ -122,8 +122,7 @@
         android:paddingRight="6dp"
         android:paddingTop="2dp"
         android:textColor="#ba2336"
-        android:textSize="12sp"
-        android:visibility="gone" />
+        android:textSize="12sp" />
 
     <RelativeLayout
         android:id="@+id/re_taokouling_buju"

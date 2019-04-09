@@ -138,28 +138,20 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             });
         }
 
+        String member_role = list.get(position).getMember_role();
         if (list.get(position).isLogin()) {
-            /*登录*/
-            String member_role = list.get(position).getMember_role();
             if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
                 /*总裁用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
-                touristData(holder, 90);
-            } else if (member_role.equals("1")) {
+                touristData(holder, Constant.BOSS_RATIO);
+            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
                 /*合伙人用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
-                touristData(holder, 70);
-            } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
-                /*vip用户*/
-                holder.ninengzhuan.setVisibility(View.VISIBLE);
-                touristData(holder, 40);
+                touristData(holder, Constant.PARTNER_RATIO);
             } else {
-                /*普通用户*/
-                holder.ninengzhuan.setVisibility(View.GONE);
+                /*vip用户*/
+                touristData(holder, Constant.VIP_RATIO);
             }
         } else {
-            /*游客*/
-            holder.ninengzhuan.setVisibility(View.GONE);
+            touristData(holder, Constant.VIP_RATIO);
         }
 
     }

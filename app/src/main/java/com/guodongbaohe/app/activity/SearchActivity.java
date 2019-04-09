@@ -286,8 +286,10 @@ public class SearchActivity extends BaseActivity {
         Collections.reverse(list);
         if (list.size() > 0) {
             flow_layout.setVisibility(View.VISIBLE);
+            ll_histoy_notiy.setVisibility(View.VISIBLE);
         } else {
             flow_layout.setVisibility(View.GONE);
+            ll_histoy_notiy.setVisibility(View.GONE);
         }
         //设置标签
         flow_layout.setLables(list, false);

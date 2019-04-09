@@ -357,6 +357,11 @@ public class MineFragment extends Fragment {
         tv_ketiixan.setText("¥" + balance);
         tv_tuandui.setText("¥" + credits);
         tv_pwechat.setText(pwechat);
+        if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            gd_lingpai_rl.setVisibility(View.GONE);
+        } else {
+            gd_lingpai_rl.setVisibility(View.VISIBLE);
+        }
     }
 
     private void getCacheData() {
@@ -576,8 +581,10 @@ public class MineFragment extends Fragment {
         initAliBaiApi();
         /*初始化渠道*/
         initQuDaoWebview();
-        String string = PreferUtils.getString(context, "member_role");
-        if (!TextUtils.equals(string, Constant.COMMON_USER_LEVEL)) {
+        member_role = PreferUtils.getString(context, "member_role");
+        if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+            gd_lingpai_rl.setVisibility(View.GONE);
+        } else {
             gd_lingpai_rl.setVisibility(View.VISIBLE);
         }
         super.onResume();

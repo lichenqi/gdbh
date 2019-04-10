@@ -121,7 +121,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.HomeLi
                     /*合伙人*/
                     NiNengZhuanViewData(holder, 80);
                     setUpgradeViewData(holder, 90);
-                } else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
+                } else {
                     /*VIP*/
                     NiNengZhuanViewData(holder, 55);
                     setUpgradeViewData(holder, 80);

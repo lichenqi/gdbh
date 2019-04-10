@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -43,9 +45,11 @@ import com.guodongbaohe.app.dialogfragment.BaseNiceDialog;
 import com.guodongbaohe.app.dialogfragment.NiceDialog;
 import com.guodongbaohe.app.dialogfragment.ViewConvertListener;
 import com.guodongbaohe.app.dialogfragment.ViewHolder;
+import com.guodongbaohe.app.myokhttputils.response.DownloadResponseHandler;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.CommonUtil;
+import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
@@ -53,12 +57,14 @@ import com.guodongbaohe.app.util.ShareManager;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.Tools;
 import com.guodongbaohe.app.util.VersionUtil;
+import com.guodongbaohe.app.util.VideoSaveToPhone;
 import com.guodongbaohe.app.util.XRecyclerViewUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -95,6 +101,9 @@ public class PublicityMaterialFragment extends Fragment {
     private final int MOREPHOTO = 100;
     /*单图分享对调字段*/
     private final int ONLYPHOTO = 200;
+    /*视频分享权限回调字段*/
+    private final int VIDEO_PERMISSION = 300;
+    String videoUrl;
 
     @Nullable
     @Override
@@ -127,25 +136,37 @@ public class PublicityMaterialFragment extends Fragment {
                 public void OnItemClickListener(View view, int position) {
                     if (PreferUtils.getBoolean(getContext(), "isLogin")) {
                         which_position = position - 1;
-                        String content = list.get(position - 1).getContent();
-                        ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData mClipData = ClipData.newPlainText("Label", content);
-                        cm.setPrimaryClip(mClipData);
-                        ClipContentUtil.getInstance(getContext()).putNewSearch(content);//保存记录到数据库
-                        goods_gallery = list.get(position - 1).getGoods_gallery();
-                        if (goods_gallery.contains("||")) {
-                            /*多张图片分享用原生实现*/
-                            String[] imgs = goods_gallery.replace("||", ",").split(",");
-                            list_share_imgs = new ArrayList<>();
-                            for (int i = 0; i < imgs.length; i++) {
-                                list_share_imgs.add(imgs[i]);
+                        videoUrl = list.get(which_position).getVideo();
+                        if (!TextUtils.isEmpty(videoUrl)) {
+                            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                                    || ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                //没有存储权限
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, VIDEO_PERMISSION);
+                            } else {
+                                /*存在视频地址分享视频*/
+                                videoShareDialog(videoUrl);
                             }
-                            morePicsShareDialog();
                         } else {
-                            /*单张图片用sharesdk分享*/
-                            showShare();
+                            String content = list.get(position - 1).getContent();
+                            ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                            ClipData mClipData = ClipData.newPlainText("Label", content);
+                            cm.setPrimaryClip(mClipData);
+                            ClipContentUtil.getInstance(getContext()).putNewSearch(content);//保存记录到数据库
+                            goods_gallery = list.get(position - 1).getGoods_gallery();
+                            if (goods_gallery.contains("||")) {
+                                /*多张图片分享用原生实现*/
+                                String[] imgs = goods_gallery.replace("||", ",").split(",");
+                                list_share_imgs = new ArrayList<>();
+                                for (int i = 0; i < imgs.length; i++) {
+                                    list_share_imgs.add(imgs[i]);
+                                }
+                                morePicsShareDialog();
+                            } else {
+                                /*单张图片用sharesdk分享*/
+                                showShare();
+                            }
+                            ToastUtils.showToast(getContext(), "文案内容已复制成功");
                         }
-                        ToastUtils.showToast(getContext(), "文案内容已复制成功");
                     } else {
                         startActivity(new Intent(getContext(), LoginAndRegisterActivity.class));
                     }
@@ -192,12 +213,12 @@ public class PublicityMaterialFragment extends Fragment {
             adapter.setonFuZhiClickListener(new OnItemClick() {
                 @Override
                 public void OnItemClickListener(View view, int position) {
-                        String comment = list.get(position - 1).getComment();
-                        ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                        ClipData mClipData = ClipData.newPlainText("Label", comment);
-                        cm.setPrimaryClip(mClipData);
-                        ClipContentUtil.getInstance(getContext()).putNewSearch(comment);//保存记录到数据库
-                        ToastUtils.showToast(getContext(), "复制评论成功");
+                    String comment = list.get(position - 1).getComment();
+                    ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData mClipData = ClipData.newPlainText("Label", comment);
+                    cm.setPrimaryClip(mClipData);
+                    ClipContentUtil.getInstance(getContext()).putNewSearch(comment);//保存记录到数据库
+                    ToastUtils.showToast(getContext(), "复制评论成功");
                 }
             });
         }
@@ -607,7 +628,6 @@ public class PublicityMaterialFragment extends Fragment {
         dialog.show();
     }
 
-
     /*权限回调*/
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -638,7 +658,193 @@ public class PublicityMaterialFragment extends Fragment {
                     customShareStyle();
                 }
                 break;
+            case VIDEO_PERMISSION:
+                /*视频保存回调*/
+                if (grantResults.length == 0 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getContext(), "分享视频需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length <= 1 || grantResults[1] != PackageManager.PERMISSION_GRANTED) {
+                    ToastUtils.showToast(getContext(), "分享视频需要打开存储权限，请前往设置-应用-果冻宝盒-权限进行设置");
+                    return;
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.length > 1 && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    /*自定义九宫格样式*/
+                    videoShareDialog(videoUrl);
+                }
+                break;
         }
     }
 
+    NiceDialog niceDialog;
+
+    /*视频分享弹框*/
+    private void videoShareDialog(final String videoUrl) {
+        niceDialog = NiceDialog.init();
+        niceDialog.setLayoutId(R.layout.video_share_dialog);
+        niceDialog.setConvertListener(new ViewConvertListener() {
+            @Override
+            protected void convertView(ViewHolder holder, BaseNiceDialog dialog) {
+                LinearLayout wcaht_friend = holder.getView(R.id.wcaht_friend);
+                LinearLayout wchat_circle = holder.getView(R.id.wchat_circle);
+                LinearLayout qq_friend = holder.getView(R.id.qq_friend);
+                LinearLayout save_img = holder.getView(R.id.save_img);
+                TextView tv_cancel = holder.getView(R.id.tv_cancel);
+                tv_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                    }
+                });
+                /*微信好友*/
+                wcaht_friend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                        videoUrlDownLoad(videoUrl, 1);
+                    }
+                });
+                /*微信朋友圈*/
+                wchat_circle.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                        videoUrlDownLoad(videoUrl, 2);
+                    }
+                });
+                /*qq好友*/
+                qq_friend.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                        videoUrlDownLoad(videoUrl, 3);
+                    }
+                });
+                /*qq空间*/
+                save_img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                        videoUrlDownLoad(videoUrl, 4);
+                    }
+                });
+            }
+        });
+        niceDialog.setShowBottom(true);
+        niceDialog.setOutCancel(true);
+        niceDialog.setAnimStyle(R.style.EnterExitAnimation);
+        niceDialog.show(getFragmentManager());
+    }
+
+    Dialog loadingDialog;
+
+    private void videoUrlDownLoad(String videoUrl, final int type) {
+        loadingDialog = DialogUtil.createLoadingDialog(getContext(), "正在加载...");
+        MyApplication.getInstance().getMyOkHttp().download().tag(this)
+                .url(videoUrl)
+                .filePath(VideoSaveToPhone.saveVideoUrlToFile(getContext()))
+                .enqueue(new DownloadResponseHandler() {
+
+                    @Override
+                    public void onStart(long totalBytes) {
+                        super.onStart(totalBytes);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        super.onCancel();
+                        DialogUtil.closeDialog(loadingDialog);
+                    }
+
+                    @Override
+                    public void onFinish(File downloadFile) {
+                        DialogUtil.closeDialog(loadingDialog);
+                        getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + downloadFile.getPath())));
+                        showNoticeShareDialog(type);
+                    }
+
+                    @Override
+                    public void onProgress(long currentBytes, long totalBytes) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String error_msg) {
+                        DialogUtil.closeDialog(loadingDialog);
+                        ToastUtils.showToast(getContext(), "下载失败");
+                    }
+                });
+    }
+
+    private void showNoticeShareDialog(final int type) {
+        niceDialog = NiceDialog.init();
+        niceDialog.setLayoutId(R.layout.shownoticesharedialog);
+        niceDialog.setConvertListener(new ViewConvertListener() {
+            @Override
+            protected void convertView(ViewHolder holder, BaseNiceDialog dialog) {
+                TextView tv_content = holder.getView(R.id.tv_content);
+                switch (type) {
+                    case 1:
+                        tv_content.setText("由于微信分享机制，请到微信上传视频分享");
+                        break;
+                    case 2:
+                        tv_content.setText("由于微信朋友圈分享机制，请到微信朋友圈上传视频分享");
+                        break;
+                    case 3:
+                        tv_content.setText("由于QQ分享机制，请到QQ上传视频分享");
+                        break;
+                    case 4:
+                        tv_content.setText("由于QQ空间分享机制，请到QQ空间上传视频分享");
+                        break;
+                }
+                TextView share = holder.getView(R.id.share);
+                share.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        niceDialog.dismiss();
+                        if (type == 1 || type == 2) {
+                            if (!Tools.isAppAvilible(getContext(), "com.tencent.mm")) {
+                                ToastUtils.showToast(getContext(), "您还没有安装微信客户端,请先安转客户端");
+                                return;
+                            }
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+                            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setComponent(cmp);
+                            startActivity(intent);
+                        } else {
+                            if (!Tools.isAppAvilible(getContext(), "com.tencent.mobileqq")) {
+                                ToastUtils.showToast(getContext(), "您还没有安装QQ客户端，请先安装QQ客户端");
+                                return;
+                            }
+                            Intent intent = new Intent(Intent.ACTION_MAIN);
+                            ComponentName cmp = new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity");
+                            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.setComponent(cmp);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        });
+        niceDialog.setMargin(50);
+        niceDialog.setOutCancel(true);
+        niceDialog.show(getFragmentManager());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (niceDialog != null) {
+            niceDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (niceDialog != null) {
+            niceDialog.dismiss();
+        }
+    }
 }

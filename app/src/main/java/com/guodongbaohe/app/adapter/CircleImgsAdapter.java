@@ -101,8 +101,8 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
     public class CircleImgsHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv)
         ImageView iv;
-        @BindView(R.id.v_go) //抢光了
-                View v_go;
+        @BindView(R.id.v_go)
+        View v_go;
         @BindView(R.id.video_image)
         ImageView video_image;
 

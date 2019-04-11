@@ -57,7 +57,7 @@ public class ShopDynamicDiaplayAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ShopDynamicDiaplayHolder) {
-            ((ShopDynamicDiaplayHolder) holder).iv.setImageResource(R.mipmap.baoma_x5);
+            ((ShopDynamicDiaplayHolder) holder).iv.setImageResource(R.mipmap.green_choose);
             Glide.with(context).load(imageUrl).into(((ShopDynamicDiaplayHolder) holder).iv);
         } else if (holder instanceof ShopDynamicDiaplayHolderOfText) {
             ((ShopDynamicDiaplayHolderOfText) holder).text.setText("iOS阿检查评价是否名称我没测名称吃饭排污费传媒网吃产品摩擦我出门出门 从莫测免费吗吃吃二次");

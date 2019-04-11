@@ -341,10 +341,10 @@ public class ShopDetailActivity extends BigBaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData mClipData = ClipData.newPlainText("Label", goods_name);
+                ClipData mClipData = ClipData.newPlainText("Label", goodname.getText().toString().trim());
                 cm.setPrimaryClip(mClipData);
                 ToastUtils.showToast(getApplicationContext(), "标题复制成功");
-                ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(goods_name);//保存记录到数据库
+                ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(goodname.getText().toString().trim());//保存记录到数据库
                 return false;
             }
         });

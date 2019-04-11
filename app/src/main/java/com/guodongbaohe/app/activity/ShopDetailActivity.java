@@ -960,8 +960,8 @@ public class ShopDetailActivity extends BigBaseActivity {
         double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * app_v * num / 10000;
         BigDecimal bg3 = new BigDecimal(result);
         double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        tv_share_money.setText("分享赚 ¥ " + money);
-        tv_buy.setText("购买返 ¥ " + money);
+        tv_share_money.setText("分享赚 ¥" + money);
+        tv_buy.setText("购买返 ¥" + money);
     }
 
     /*设置指示器*/

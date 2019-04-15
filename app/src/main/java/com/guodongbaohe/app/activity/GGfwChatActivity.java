@@ -110,7 +110,7 @@ public class GGfwChatActivity extends BaseActivity {
             case R.id.cope_weixin:
                 if (!tv_gf_wechat.getText().equals("暂无官方微信")) {
                     CopyToClipboard(this, tv_gf_wechat.getText().toString());
-                    ToastUtils.showToast(getApplicationContext(), "复制成功");
+                    ToastUtils.showBackgroudCenterToast(getApplicationContext(), "复制成功");
                 }
                 break;
         }

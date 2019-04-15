@@ -348,7 +348,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                     mClipData = ClipData.newPlainText("Label", goods_name);
                 }
                 cm.setPrimaryClip(mClipData);
-                ToastUtils.showCenterToast(getApplicationContext(), "标题复制成功");
+                ToastUtils.showBackgroudCenterToast(getApplicationContext(), "标题复制成功");
                 if (TextUtils.isEmpty(goods_name)) {
                     ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(goods_short);//保存记录到数据库
                 } else {

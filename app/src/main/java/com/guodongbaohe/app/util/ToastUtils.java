@@ -2,7 +2,12 @@ package com.guodongbaohe.app.util;
 
 import android.content.Context;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.guodongbaohe.app.R;
 
 /*连续点击弹土司显示问题*/
 public class ToastUtils {
@@ -31,6 +36,20 @@ public class ToastUtils {
             }
             centerToast.setGravity(Gravity.CENTER, 0, 0);
             centerToast.show();
+        }
+    }
+
+    /*自定义背景中间显示*/
+    public static void showBackgroudCenterToast(Context context, String content) {
+        if (context != null) {
+            View view = LayoutInflater.from(context).inflate(R.layout.my_backgroud_toast, null);
+            TextView tv_content = (TextView) view.findViewById(R.id.tv_content);
+            tv_content.setText(content);
+            tv_content.getBackground().setAlpha(200);
+            Toast toast = new Toast(context);
+            toast.setView(view);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
     }
 }

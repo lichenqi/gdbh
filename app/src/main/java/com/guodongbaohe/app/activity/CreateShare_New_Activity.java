@@ -572,7 +572,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                 ClipData mClipData = ClipData.newPlainText("Label", pl_content);
                 cm.setPrimaryClip(mClipData);
                 ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(pl_content);//保存记录到数据库
-                ToastUtils.showCenterToast(getApplicationContext(), "评论复制成功");
+                ToastUtils.showBackgroudCenterToast(getApplicationContext(), "评论复制成功");
                 break;
             case R.id.tv_copy_comment_shre:/*复制文案按钮*/
                 copyWenAnFunction();
@@ -1236,7 +1236,7 @@ public class CreateShare_New_Activity extends BaseActivity {
         ClipData mClipData = ClipData.newPlainText("Label", copy_cotent);
         cm.setPrimaryClip(mClipData);
         ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(copy_cotent);//保存记录到数据库
-        ToastUtils.showCenterToast(getApplicationContext(), "文案复制成功");
+        ToastUtils.showBackgroudCenterToast(getApplicationContext(), "文案复制成功");
     }
 
     @Override

@@ -341,10 +341,19 @@ public class ShopDetailActivity extends BigBaseActivity {
             @Override
             public boolean onLongClick(View v) {
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData mClipData = ClipData.newPlainText("Label", goodname.getText().toString().trim());
+                ClipData mClipData;
+                if (TextUtils.isEmpty(goods_name)) {
+                    mClipData = ClipData.newPlainText("Label", goods_short);
+                } else {
+                    mClipData = ClipData.newPlainText("Label", goods_name);
+                }
                 cm.setPrimaryClip(mClipData);
-                ToastUtils.showToast(getApplicationContext(), "标题复制成功");
-                ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(goodname.getText().toString().trim());//保存记录到数据库
+                ToastUtils.showCenterToast(getApplicationContext(), "标题复制成功");
+                if (TextUtils.isEmpty(goods_name)) {
+                    ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(goods_short);//保存记录到数据库
+                } else {
+                    ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(goods_name);//保存记录到数据库
+                }
                 return false;
             }
         });

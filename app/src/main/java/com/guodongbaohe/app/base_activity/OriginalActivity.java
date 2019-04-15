@@ -48,13 +48,12 @@ public class OriginalActivity extends AppCompatActivity {
             ClipData.Item item = data.getItemAt(0);
             final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
             if (TextUtils.isEmpty(content)) return;
-//            if (isUpdataCode(content)) return;
             if (content.contains(bracket_one) && content.contains(bracket_two)) return;
             /*数据库数据*/
             List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
             if (clip_list == null) return;
             for (int i = 0; i < clip_list.size(); i++) {
-                if (clip_list.get(i).equals(content)) {
+                if (clip_list.get(i).toString().trim().replace("\r\n\r\n", "\r\n").equals(content)) {
                     return;
                 }
             }

@@ -1,13 +1,16 @@
 package com.guodongbaohe.app.fragment;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.view.MyRadioButton;
 
 import java.util.ArrayList;
@@ -35,6 +39,19 @@ public class SendCircleFragment extends Fragment implements ViewPager.OnPageChan
     @BindView(R.id.viewpager)
     ViewPager viewpager;
     private List<Fragment> fragments;
+    private Context context;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context = MyApplication.getInstance();
+        /*提示用户打开储存权限*/
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            //没有存储权限
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
+    }
 
     @Nullable
     @Override
@@ -109,12 +126,6 @@ public class SendCircleFragment extends Fragment implements ViewPager.OnPageChan
         public int getCount() {
             return fragments == null ? 0 : fragments.size();
         }
-    }
-
-    private void initView() {
-        Drawable drawable_news = getResources().getDrawable(R.drawable.hexian);
-        drawable_news.setBounds(0, 0, 100, 5);//第一0是距左右边距离，第二0是距上下边距离，第三长度,第四宽度
-        radio_one.setCompoundDrawables(null, null, null, drawable_news);
     }
 
 }

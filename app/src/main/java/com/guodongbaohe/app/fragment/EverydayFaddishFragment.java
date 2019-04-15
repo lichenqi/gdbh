@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -9,9 +10,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -62,6 +66,7 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.QRCodeUtil;
 import com.guodongbaohe.app.util.ShareManager;
 import com.guodongbaohe.app.util.ToastUtils;
+import com.guodongbaohe.app.util.Tools;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.util.XRecyclerViewUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -73,7 +78,12 @@ import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -138,8 +148,6 @@ public class EverydayFaddishFragment extends Fragment {
     }
 
     String content_taobao_eight;
-    String video_url;
-    int isvideo = 0;
 
     @Nullable
     @Override
@@ -183,33 +191,24 @@ public class EverydayFaddishFragment extends Fragment {
                             ToastUtils.showToast(context, "该商品抢光呢!");
                             return;
                         }
-                        if (!TextUtils.isEmpty(list.get(which_position).getVideo())) {
-
-                            video_url = list.get(which_position).getVideo();
-                            isvideo = 1;
+                        String content = list.get(which_position).getContent();
+                        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData mClipData = ClipData.newPlainText("Label", content);
+                        cm.setPrimaryClip(mClipData);
+                        ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
+                        ToastUtils.showToast(context, "文案内容已复制成功");
+                        if (goods_gallery.contains("||")) {
+                            /*多张图片用原生分享*/
+                            String[] imgs = goods_gallery.replace("||", ",").split(",");
+                            list_share_imgs = new ArrayList<>();
+                            for (int i = 0; i < imgs.length; i++) {
+                                list_share_imgs.add(imgs[i]);
+                            }
                             morePicsShareDialog();
                         } else {
-                            isvideo = 0;
-                            if (goods_gallery.contains("||")) {
-                                /*多张图片用原生分享*/
-                                String[] imgs = goods_gallery.replace("||", ",").split(",");
-                                list_share_imgs = new ArrayList<>();
-                                for (int i = 0; i < imgs.length; i++) {
-                                    list_share_imgs.add(imgs[i]);
-                                }
-                                morePicsShareDialog();
-                            } else {
-                                /*单张图片用sharesdk分享*/
-                                String content = list.get(position - 1).getContent();
-                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-                                ClipData mClipData = ClipData.newPlainText("Label", content);
-                                cm.setPrimaryClip(mClipData);
-                                ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
-                                ToastUtils.showToast(context, "文案内容已复制成功");
-                                showShare(which_position);
-                            }
+                            /*单张图片用sharesdk分享*/
+                            showShare(which_position);
                         }
-
                     } else {
                         startActivity(new Intent(context, LoginAndRegisterActivity.class));
                     }
@@ -948,9 +947,6 @@ public class EverydayFaddishFragment extends Fragment {
                 });
     }
 
-    /*分享类型*/
-    private int share_type = 0;
-
     private void morePicsShareDialog() {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -982,33 +978,25 @@ public class EverydayFaddishFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 /*微信好友分享*/
-                                share_type = 0;
                                 dialog.dismiss();
-                                if (isvideo == 1) {
-                                    wchatFriendShareVideo();
-                                } else {
-                                    sharePics(0, "wchat");
-                                }
-
+                                sharePics(0, "wchat");
                             }
                         });
                         re_wchat_circle.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 /*微信朋友圈分享*/
-                                share_type = 1;
                                 dialog.dismiss();
-                                if (isvideo == 1) {
-                                    wchatFriendShareVideo();
-                                }
-                                sharePics(1, "wchat");
+                                /*由于微信机制不让分享多图直接到微信朋友圈*/
+                                WChatCircleDialog();
+                                /*保存多张图片到朋友圈*/
+                                saveMorePhotoToLocal();
                             }
                         });
                         re_qq_friend.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 /*qq好友*/
-                                share_type = 2;
                                 dialog.dismiss();
                                 sharePics(0, "qq");
                             }
@@ -1016,10 +1004,9 @@ public class EverydayFaddishFragment extends Fragment {
                         re_qq_space.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                /*qq空间*/
-                                share_type = 3;
+                                /*保存图片*/
                                 dialog.dismiss();
-                                sharePics(1, "qq_zone");
+                                saveMorePhotoToLocal();
                             }
                         });
                     }
@@ -1031,7 +1018,7 @@ public class EverydayFaddishFragment extends Fragment {
     }
 
     private void sharePics(int i, String type) {
-        ShareManager shareManager = new ShareManager(context);
+        ShareManager shareManager = new ShareManager(getContext());
         shareManager.setShareImage(hebingBitmap, i, list_share_imgs, "", type, 100);
     }
 
@@ -1084,29 +1071,6 @@ public class EverydayFaddishFragment extends Fragment {
                 .setOutCancel(true)
                 .setAnimStyle(R.style.EnterExitAnimation)
                 .show(getFragmentManager());
-    }
-
-    private void wchatFriendShareVideo() {
-        Wechat.ShareParams shareParams = new Wechat.ShareParams();
-        shareParams.setShareType(Platform.SHARE_VIDEO);
-        shareParams.setUrl(video_url);
-        Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
-        wechat.setPlatformActionListener(new PlatformActionListener() {
-            @Override
-            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                /*保存在后台*/
-                saveData();
-            }
-
-            @Override
-            public void onError(Platform platform, int i, Throwable throwable) {
-            }
-
-            @Override
-            public void onCancel(Platform platform, int i) {
-            }
-        });
-        wechat.share(shareParams);
     }
 
     /*微信好友分享*/
@@ -1251,4 +1215,74 @@ public class EverydayFaddishFragment extends Fragment {
                 });
     }
 
+    /*保存图片*/
+    private void saveMorePhotoToLocal() {
+        /*网络路劲存储*/
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imageurl;
+                try {
+                    for (int i = 0; i < list_share_imgs.size(); i++) {
+                        imageurl = new URL(list_share_imgs.get(i));
+                        HttpURLConnection conn = (HttpURLConnection) imageurl.openConnection();
+                        conn.setDoInput(true);
+                        conn.connect();
+                        InputStream is = conn.getInputStream();
+                        Bitmap bitmap = BitmapFactory.decodeStream(is);
+                        is.close();
+                        Message msg = new Message();
+                        // 把bm存入消息中,发送到主线程
+                        msg.obj = bitmap;
+                        handler.sendMessage(msg);
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Bitmap bitmap = (Bitmap) msg.obj;
+            CommonUtil.saveBitmap2file(bitmap, context);
+        }
+    };
+
+    /*多图分享到微信时弹框到微信app*/
+    private void WChatCircleDialog() {
+        dialog = new Dialog(getContext(), R.style.transparentFrameWindowStyle);
+        dialog.setContentView(R.layout.wchatcircle_dialog_pics);
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER | Gravity.CENTER);
+        TextView dismiss = (TextView) dialog.findViewById(R.id.dismiss);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        TextView open_wx = (TextView) dialog.findViewById(R.id.open_wx);
+        open_wx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Tools.isAppAvilible(getContext(), "com.tencent.mm")) {
+                    ToastUtils.showToast(getContext(), "您还没有安装微信客户端,请先安转客户端");
+                    return;
+                }
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                ComponentName cmp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setComponent(cmp);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 }

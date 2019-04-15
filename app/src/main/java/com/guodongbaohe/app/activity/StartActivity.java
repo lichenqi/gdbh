@@ -128,6 +128,14 @@ public class StartActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (countdownTime != null) {
+            countdownTime.cancel();
+        }
+    }
+
     List<CommonBean.CommonResult> result_list;
 
     private void getClassicHeadTitle() {

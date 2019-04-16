@@ -44,7 +44,7 @@ public class YaoQingFriendAdapter extends RecyclerView.Adapter<YaoQingFriendAdap
 
     @Override
     public void onBindViewHolder(final YaoQingFriendHolder holder, int position) {
-        Glide.with(context).load(result.get(position).getImage()).asBitmap().into(holder.iv);
+        Glide.with(context).load(result.get(position).getImage()).dontAnimate().into(holder.iv);
         holder.code.setText("邀请码:" + PreferUtils.getString(context, "invite_code"));
         holder.qrcode.setImageBitmap(qrCodeBitmap);
         if (result.get(position).isChoose()) {

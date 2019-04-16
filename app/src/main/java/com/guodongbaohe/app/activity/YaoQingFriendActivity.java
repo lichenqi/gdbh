@@ -115,7 +115,6 @@ public class YaoQingFriendActivity extends BaseActivity {
     String qrcode_result;
 
     private void getQrCodeData() {
-        loadingDialog = DialogUtil.createLoadingDialog(YaoQingFriendActivity.this, "加载...");
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put(Constant.TIMELINE, String.valueOf(timelineStr));
@@ -153,7 +152,6 @@ public class YaoQingFriendActivity extends BaseActivity {
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
-                                DialogUtil.closeDialog(loadingDialog);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -163,7 +161,6 @@ public class YaoQingFriendActivity extends BaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
                     }
                 });
     }
@@ -207,7 +204,6 @@ public class YaoQingFriendActivity extends BaseActivity {
         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
             share_iv.setImageBitmap(bitmap);
             getViewBitmap(share_view);
-
         }
     };
     Bitmap hebingBitmap;
@@ -247,7 +243,6 @@ public class YaoQingFriendActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
                         Log.i("邀请有奖", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -283,7 +278,6 @@ public class YaoQingFriendActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

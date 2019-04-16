@@ -441,6 +441,7 @@
             </intent-filter>
         </receiver>
         <!--友盟推送end-->
+        <!--glide加载时背景变黑色-->
         <meta-data
             android:name="com.guodongbaohe.app.view.GlideConfiguration"
             android:value="GlideModule" />

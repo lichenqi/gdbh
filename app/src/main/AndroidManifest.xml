@@ -27,6 +27,7 @@
         android:roundIcon="@mipmap/login_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:name">
         <activity
@@ -41,6 +42,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--注：拥有最低 SDK 版本 23 或更低版本的应用需要 android:required="false" 属性，因为在 API 级别低于 24 的设备上，org.apache.http.legacy 库不可用。 （在这些设备上，Apache HTTP 类在 bootclasspath 中提供。）-->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
@@ -445,6 +450,13 @@
         <meta-data
             android:name="com.guodongbaohe.app.view.GlideConfiguration"
             android:value="GlideModule" />
+
+        <!--设置淘宝登录页面Activity的样式-->
+        <activity
+            android:name="com.ali.auth.third.ui.LoginActivity"
+            android:theme="@style/AlibcLoginTheme"
+            tools:replace="android:theme" />
+
     </application>
 
 </manifest>

@@ -330,4 +330,9 @@
         <item name="android:maxWidth">30dp</item>
     </style>
 
+    <style name="AlibcLoginTheme" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowDisablePreview">true</item>
+    </style>
+
 </resources>

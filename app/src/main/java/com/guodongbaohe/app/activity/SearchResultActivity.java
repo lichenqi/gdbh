@@ -271,8 +271,8 @@ public class SearchResultActivity extends BigBaseActivity {
         map.put("page", String.valueOf(pageNum));
         map.put("q", keyword);
         final String param = ParamUtil.getMapParam(map);
-        Log.i("搜索地址", keyword + "   " + Constant.BASE_URL + Constant.SHOP_LIST + "?" + param);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_LIST + "?" + param)
+        Log.i("搜索地址", keyword + "   " + Constant.BASE_URL + Constant.GOODS_NEW_SEARCH + "?" + param);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GOODS_NEW_SEARCH + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))

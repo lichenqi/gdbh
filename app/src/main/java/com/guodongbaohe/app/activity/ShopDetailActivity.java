@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -709,6 +710,7 @@ public class ShopDetailActivity extends BigBaseActivity {
     private void initScrollView() {
         ViewTreeObserver viewTreeObserver = re_title_parent.getViewTreeObserver();
         viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @SuppressLint("NewApi")
             @Override
             public void onGlobalLayout() {
                 re_title_parent.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -955,9 +957,10 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     private void initPicRecycler() {
-        recyclerview_pic.setHasFixedSize(true);
         recyclerview_pic.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerview_pic.setHasFixedSize(true);
         recyclerview_pic.setNestedScrollingEnabled(false);
+
         jp_recycler.setHasFixedSize(true);
         jp_recycler.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         jp_recycler.setNestedScrollingEnabled(false);
@@ -1033,6 +1036,7 @@ public class ShopDetailActivity extends BigBaseActivity {
             container.addView(view);
             return view;
         }
+
     }
 
     @Override

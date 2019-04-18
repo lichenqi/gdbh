@@ -122,6 +122,8 @@ public class Constant {
     public static final String BAOHETOYONGJIN = "wallet/exchange";
     /*商品列表接口*/
     public static final String SHOP_LIST = "goods/query";
+    /*商品列表接口*/
+    public static final String SHOP_LIST_NEW = "goods/newQuery";
     /*设备唯一标识字段*/
     public static final String PESUDOUNIQUEID = "pesudoUniqueID";
     /*网络类型字段*/
@@ -214,4 +216,8 @@ public class Constant {
     public static final int PARTNER_RATIO = 80;
     /*VIP用户佣金比例*/
     public static final int VIP_RATIO = 55;
+    /*零点商品*/
+    public static final String GOODS_ZERO = "goods/guoye";
+    /*商品新搜索接口*/
+    public static final String GOODS_NEW_SEARCH = "goods/mixed";
 }

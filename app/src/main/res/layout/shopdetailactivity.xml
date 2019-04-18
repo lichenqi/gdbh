@@ -8,6 +8,7 @@
         android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
         android:scrollbars="none">
 
         <LinearLayout
@@ -83,8 +84,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp">
 
                     <TextView
                         android:id="@+id/tv_old_price"
@@ -113,13 +114,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
                     android:background="@drawable/tianmaoandtao_bg"
-                    android:paddingBottom="8dp"
                     android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
                     android:paddingRight="8dp"
-                    android:paddingTop="8dp">
+                    android:paddingBottom="8dp">
 
                     <TextView
                         android:id="@+id/tv_yao_zhuanqian"
@@ -145,10 +146,10 @@
                     android:id="@+id/goodname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
                     android:ellipsize="end"
                     android:lineSpacingExtra="4dp"
                     android:maxLines="2"
@@ -161,10 +162,10 @@
                     android:id="@+id/ll_youhuiquan_show"
                     android:layout_width="match_parent"
                     android:layout_height="63dp"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
 
                     <RelativeLayout
@@ -244,9 +245,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/homelistitem"
-                android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:id="@+id/qijiandian"
@@ -266,8 +267,8 @@
                 android:id="@+id/recyclerview_pic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:visibility="visible" />
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none" />
 
             <TextView
                 android:id="@+id/tv_jingpingtuijian"
@@ -281,6 +282,7 @@
                 android:id="@+id/jp_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
                 android:scrollbars="none" />
 
             <TextView

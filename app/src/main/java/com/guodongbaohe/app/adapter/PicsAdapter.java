@@ -3,7 +3,6 @@ package com.guodongbaohe.app.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +48,6 @@ public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.PicsHolder> {
                         //原始图片宽高
                         int imageWidth = resource.getWidth();
                         int imageHeight = resource.getHeight();
-                        Log.i("图片高度", imageHeight + "");
                         if (imageHeight > 300) {
                             //按比例收缩图片
                             float ratio = (float) ((imageWidth * 1.0) / (widthPixels * 1.0));
@@ -65,7 +63,7 @@ public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.PicsHolder> {
 
     @Override
     public int getItemCount() {
-        return list_detail == null ? 0 : (list_detail.size() > 50 ? 50 : list_detail.size());
+        return list_detail == null ? 0 : (list_detail.size() > 30 ? 30 : list_detail.size());
     }
 
     public class PicsHolder extends RecyclerView.ViewHolder {

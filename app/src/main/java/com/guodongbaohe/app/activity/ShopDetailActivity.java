@@ -632,9 +632,8 @@ public class ShopDetailActivity extends BigBaseActivity {
         map.put("route", cate_route);
         map.put("category", cate_category);
         String param = ParamUtil.getMapParam(map);
-        Log.i("相关商品", Constant.BASE_URL + "goods/related" + "?" + param);
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + "goods/related" + "?" + param)
+                .url(Constant.BASE_URL + Constant.RECOMMENDATION + "?" + param)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))

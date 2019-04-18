@@ -280,7 +280,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("page", "1");
         map.put("rank", "day");
-        map.put("limit", "10");
+        map.put("limit", "20");
         final String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.RANKINGLIST + "?" + param)
                 .tag(this)

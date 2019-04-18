@@ -2,6 +2,7 @@ package com.guodongbaohe.app.util;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.guodongbaohe.app.common_constant.Constant;
 
@@ -14,29 +15,40 @@ import java.util.Map;
 public class ParamUtil {
 
     /*编码拼接字符串*/
+    /*try catch的目的是防止hashmap的value值为空*/
     public static String getMapParam(HashMap<String, String> map) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            try {
-                sb.append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "utf-8"));
-                sb.append("&");
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+        try {
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                try {
+                    sb.append(entry.getKey()).append("=").append(URLEncoder.encode(entry.getValue(), "utf-8"));
+                    sb.append("&");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
+            sb.deleteCharAt(sb.length() - 1);
+            return sb.toString();
+        } catch (Exception e) {
+            Log.e("tag", "异常处理");
+            return "";
         }
-        sb.deleteCharAt(sb.length() - 1);
-        return sb.toString();
     }
 
     /*直接拼接字符串*/
     public static String getQianMingMapParam(HashMap<String, String> map) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String> entry : map.entrySet()) {
-            sb.append(entry.getKey()).append("=").append(entry.getValue());
-            sb.append("&");
+        try {
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                sb.append(entry.getKey()).append("=").append(entry.getValue());
+                sb.append("&");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            return sb.toString();
+        } catch (Exception e) {
+            Log.e("tag", "异常处理");
+            return "";
         }
-        sb.deleteCharAt(sb.length() - 1);
-        return sb.toString();
     }
 
     public static String getHeadToken(HashMap<String, String> map) {

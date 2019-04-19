@@ -189,8 +189,7 @@ public class GridViewAdapter extends BaseAdapter {
                                 context.startActivity(intent);
                                 break;
                             case "upgrade":/*用户升级*/
-//                                intent = new Intent(context, GShenJiActivity.class);
-                                intent = new Intent(context, ZeroPointsGoodsActivity.class);
+                                intent = new Intent(context, GShenJiActivity.class);
                                 intent.putExtra("url", bean.extend);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);

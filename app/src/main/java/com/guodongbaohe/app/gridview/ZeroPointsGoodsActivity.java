@@ -51,6 +51,7 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
     ImageView to_top;
     List<HomeListBean.ListData> list = new ArrayList<>();
     JhsAdapter adapter;
+    String goods_type;
 
     // 声明一个订阅方法，用于接收事件
     @Subscribe
@@ -87,8 +88,13 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        String title = getIntent().getStringExtra("title");
-        setMiddleTitle("0点商品");
+        Intent intent = getIntent();
+        goods_type = intent.getStringExtra("goods_type");
+        if (goods_type.equals("ldms")) {
+            setMiddleTitle("0点秒杀");
+        } else {
+            setMiddleTitle("高佣金商品");
+        }
         getData();
         setView();
     }
@@ -269,10 +275,19 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
                                 FourIVBean bean = GsonUtil.GsonToBean(response.toString(), FourIVBean.class);
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
-                                for (int i = 0; i < four_iv_list.size(); i++) {
-                                    if (four_iv_list.get(i).getUrl().equals("gysp")) {
-                                        Glide.with(getApplicationContext()).load(four_iv_list.get(i).getImage()).into(iv_head);
-                                        return;
+                                if (goods_type.equals("ldms")) {
+                                    for (int i = 0; i < four_iv_list.size(); i++) {
+                                        if (four_iv_list.get(i).getUrl().equals("ldms")) {
+                                            Glide.with(getApplicationContext()).load(four_iv_list.get(i).getImage()).into(iv_head);
+                                            return;
+                                        }
+                                    }
+                                } else {
+                                    for (int i = 0; i < four_iv_list.size(); i++) {
+                                        if (four_iv_list.get(i).getUrl().equals("gysp")) {
+                                            Glide.with(getApplicationContext()).load(four_iv_list.get(i).getImage()).into(iv_head);
+                                            return;
+                                        }
                                     }
                                 }
                             }

@@ -457,6 +457,11 @@
             android:theme="@style/AlibcLoginTheme"
             tools:replace="android:theme" />
 
+        <!--部分安卓刷机手机webview加载闪退问题方案-->
+        <meta-data
+            android:name="android.webkit.WebView.EnableSafeBrowsing"
+            android:value="true" />
+
     </application>
 
 </manifest>

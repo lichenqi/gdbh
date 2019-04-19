@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class EverydayfaddishAdapter extends RecyclerView.Adapter<EverydayfaddishAdapter.EverydayfaddishHolder> {
     private List<EverydayHostGoodsBean.GoodsList> list;
     private Context context;
-    private OnItemClick onShareClick, onFuzhiClick, allItemClick;
+    private OnItemClick onShareClick, onFuzhiClick, allItemClick, onUserFuZhiClick;
     private FragmentActivity activity;
     List<String> list_imgs;
     private OnLongClick onLongClick;
@@ -55,6 +55,10 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
 
     public void setonLongClickListener(OnLongClick onLongClick) {
         this.onLongClick = onLongClick;
+    }
+
+    public void setOnUserFuZhiClickListener(OnItemClick onUserFuZhiClick) {
+        this.onUserFuZhiClick = onUserFuZhiClick;
     }
 
     public EverydayfaddishAdapter(List<EverydayHostGoodsBean.GoodsList> list, FragmentActivity activity) {
@@ -98,11 +102,18 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video);
         holder.recyclerview.setAdapter(circleImgsAdapter);
         String comment = list.get(position).getComment();
+        String goods_comment = list.get(position).getGoods_comment();
         if (TextUtils.isEmpty(comment)) {
             holder.re_taokouling_buju.setVisibility(View.GONE);
         } else {
             holder.re_taokouling_buju.setVisibility(View.VISIBLE);
-            holder.tv_kouling_wenben.setText(list.get(position).getComment());
+            holder.tv_kouling_wenben.setText(comment);
+        }
+        if (TextUtils.isDigitsOnly(goods_comment)) {
+            holder.re_user_view.setVisibility(View.GONE);
+        } else {
+            holder.re_user_view.setVisibility(View.VISIBLE);
+            holder.tv_user_content.setText(goods_comment);
         }
         if (onShareClick != null) {
             holder.re_share.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +128,14 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
                 @Override
                 public void onClick(View view) {
                     onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
+                }
+            });
+        }
+        if (onUserFuZhiClick != null) {
+            holder.re_user_fuzhi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onUserFuZhiClick.OnItemClickListener(holder.re_user_fuzhi, holder.getAdapterPosition());
                 }
             });
         }
@@ -191,6 +210,12 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         RelativeLayout re_taokouling_buju;
         @BindView(R.id.ninengzhuan)
         TextView ninengzhuan;
+        @BindView(R.id.re_user_view)
+        RelativeLayout re_user_view;
+        @BindView(R.id.tv_user_content)
+        TextView tv_user_content;
+        @BindView(R.id.re_user_fuzhi)
+        RelativeLayout re_user_fuzhi;
 
         public EverydayfaddishHolder(View itemView) {
             super(itemView);

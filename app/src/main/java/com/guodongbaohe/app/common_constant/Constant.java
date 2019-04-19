@@ -218,6 +218,8 @@ public class Constant {
     public static final int VIP_RATIO = 55;
     /*零点商品*/
     public static final String GOODS_ZERO = "goods/guoye";
+    /*高佣金商品*/
+    public static final String GAOYONGJINGOODS = "goods/high";
     /*商品新搜索接口*/
     public static final String GOODS_NEW_SEARCH = "goods/mixed";
     /*精品推荐接口*/

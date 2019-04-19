@@ -121,6 +121,7 @@ public class EverydayFaddishFragment extends Fragment {
     private String taokouling_sign = "{淘口令}";
     /*下单链接*/
     private String order_sign = "{下单链接}";
+    ClipboardManager cm;
 
     @Override
     public void onDestroy() {
@@ -159,6 +160,7 @@ public class EverydayFaddishFragment extends Fragment {
             context = MyApplication.getInstance();
             iwxapi = WXAPIFactory.createWXAPI(context, Constant.WCHATAPPID, true);
             iwxapi.registerApp(Constant.WCHATAPPID);
+            cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             getData();
             getTemplateData();
             xrecycler.setHasFixedSize(true);
@@ -192,7 +194,6 @@ public class EverydayFaddishFragment extends Fragment {
                             return;
                         }
                         String content = list.get(which_position).getContent();
-                        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                         ClipData mClipData = ClipData.newPlainText("Label", content);
                         cm.setPrimaryClip(mClipData);
                         ClipContentUtil.getInstance(context).putNewSearch(content);//保存记录到数据库
@@ -230,6 +231,17 @@ public class EverydayFaddishFragment extends Fragment {
                     } else {
                         startActivity(new Intent(context, LoginAndRegisterActivity.class));
                     }
+                }
+            });
+            /*用户评论内容复制点击*/
+            adapter.setOnUserFuZhiClickListener(new OnItemClick() {
+                @Override
+                public void OnItemClickListener(View view, int position) {
+                    String goods_comment = list.get(position - 1).getGoods_comment();
+                    ClipData mClipData = ClipData.newPlainText("Label", goods_comment);
+                    cm.setPrimaryClip(mClipData);
+                    ToastUtils.showCenterToast(context, "评论复制成功");
+                    ClipContentUtil.getInstance(context).putNewSearch(goods_comment);//保存记录到数据库
                 }
             });
             /*整个点击*/
@@ -277,7 +289,6 @@ public class EverydayFaddishFragment extends Fragment {
                         ToastUtils.showToast(context, "该商品抢光呢!");
                         return;
                     }
-                    ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                     ClipData mClipData = ClipData.newPlainText("Label", content);
                     cm.setPrimaryClip(mClipData);
                     ToastUtils.showToast(context, "复制成功");
@@ -399,7 +410,6 @@ public class EverydayFaddishFragment extends Fragment {
                                 String coupon_click_url = bean.getResult().getCoupon_click_url();
                                 shenchengTaoKouLing(coupon_click_url);
                             } else {
-                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData mClipData = ClipData.newPlainText("Label", list.get(which_position).getContent());
                                 cm.setPrimaryClip(mClipData);
                                 ClipContentUtil.getInstance(context).putNewSearch(list.get(which_position).getContent());//保存记录到数据库
@@ -455,7 +465,6 @@ public class EverydayFaddishFragment extends Fragment {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 String taokouling = jsonObject.getString("result");
-                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 if (!TextUtils.isEmpty(content_taobao_eight)) {
                                     tkl_content = content_taobao_eight.replace(taokouling_sign, taokouling).replace(order_sign, "").trim();
                                 } else {
@@ -470,7 +479,6 @@ public class EverydayFaddishFragment extends Fragment {
                                 ClipContentUtil.getInstance(context).putNewSearch(tkl_content);//保存记录到数据库
                                 showWeiXinDialog();
                             } else {
-                                ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                                 ClipData mClipData = ClipData.newPlainText("Label", list.get(which_position).getContent());
                                 cm.setPrimaryClip(mClipData);
                                 ClipContentUtil.getInstance(context).putNewSearch(list.get(which_position).getContent());//保存记录到数据库

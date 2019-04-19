@@ -41,6 +41,15 @@ public class EverydayHostGoodsBean {
         private String son_count;
         private String source;
         private String video;
+        private String goods_comment;
+
+        public String getGoods_comment() {
+            return goods_comment;
+        }
+
+        public void setGoods_comment(String goods_comment) {
+            this.goods_comment = goods_comment;
+        }
 
         public String getVideo() {
             return video;

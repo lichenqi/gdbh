@@ -10,10 +10,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
         android:paddingLeft="15dp"
+        android:paddingTop="10dp"
         android:paddingRight="15dp"
-        android:paddingTop="10dp">
+        android:paddingBottom="10dp">
 
         <com.guodongbaohe.app.view.CircleImageView
             android:layout_width="45dp"
@@ -55,10 +55,10 @@
             android:layout_centerVertical="true"
             android:background="@drawable/share_img_bg"
             android:gravity="center_vertical"
-            android:paddingBottom="4dp"
             android:paddingLeft="10dp"
+            android:paddingTop="4dp"
             android:paddingRight="10dp"
-            android:paddingTop="4dp">
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/iv"
@@ -117,10 +117,10 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/ninengzhuan"
         android:gravity="center"
-        android:paddingBottom="2dp"
         android:paddingLeft="6dp"
-        android:paddingRight="6dp"
         android:paddingTop="2dp"
+        android:paddingRight="6dp"
+        android:paddingBottom="2dp"
         android:textColor="#ba2336"
         android:textSize="12sp" />
 
@@ -129,8 +129,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="70dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
         android:background="#eeeeee"
         android:padding="10dp"
         android:visibility="gone">
@@ -146,15 +146,15 @@
             android:id="@+id/re_fuzhi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/tv_kouling_wenben"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/share_img_bg"
             android:gravity="center_vertical"
-            android:paddingBottom="4dp"
             android:paddingLeft="10dp"
+            android:paddingTop="4dp"
             android:paddingRight="10dp"
-            android:paddingTop="4dp">
+            android:paddingBottom="4dp">
 
             <ImageView
                 android:id="@+id/iv_p"
@@ -170,6 +170,61 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/iv_p"
+                android:gravity="center_vertical"
+                android:text="复制评论"
+                android:textColor="#85470f"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/re_user_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:background="#eeeeee"
+        android:padding="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_user_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:textColor="@color/txblack" />
+
+        <RelativeLayout
+            android:id="@+id/re_user_fuzhi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_user_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/share_img_bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingTop="4dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="4dp">
+
+            <ImageView
+                android:id="@+id/iv_p_user"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/fuzhiplun" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/iv_p_user"
                 android:gravity="center_vertical"
                 android:text="复制评论"
                 android:textColor="#85470f"

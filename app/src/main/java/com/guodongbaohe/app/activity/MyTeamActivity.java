@@ -260,7 +260,7 @@ public class MyTeamActivity extends BigBaseActivity {
                         if (dialog != null) {
                             dialog.dismiss();
                         }
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, MyTeamActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -280,7 +280,7 @@ public class MyTeamActivity extends BigBaseActivity {
                         if (dialog != null) {
                             dialog.dismiss();
                         }
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, MyTeamActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -304,4 +304,9 @@ public class MyTeamActivity extends BigBaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, MyTeamActivity.this);
+        super.onDestroy();
+    }
 }

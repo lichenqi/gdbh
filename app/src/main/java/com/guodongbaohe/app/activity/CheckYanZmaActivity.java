@@ -113,7 +113,7 @@ public class CheckYanZmaActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CheckYanZmaActivity.this);
                         Log.i("登录返回值", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -138,7 +138,7 @@ public class CheckYanZmaActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CheckYanZmaActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -263,7 +263,7 @@ public class CheckYanZmaActivity extends BigBaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("验证码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CheckYanZmaActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
@@ -285,7 +285,7 @@ public class CheckYanZmaActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CheckYanZmaActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -320,6 +320,7 @@ public class CheckYanZmaActivity extends BigBaseActivity {
         if (time != null) {
             time.cancel();
         }
+        DialogUtil.closeDialog(loadingDialog, CheckYanZmaActivity.this);
         super.onDestroy();
     }
 

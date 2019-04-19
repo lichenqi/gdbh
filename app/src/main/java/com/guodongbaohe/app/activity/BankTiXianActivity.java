@@ -257,7 +257,7 @@ public class BankTiXianActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, BankTiXianActivity.this);
                         Log.i("银行卡提现", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -278,7 +278,7 @@ public class BankTiXianActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, BankTiXianActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -302,6 +302,7 @@ public class BankTiXianActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         mUnregistrar.unregister();
+        DialogUtil.closeDialog(loadingDialog, BankTiXianActivity.this);
         super.onDestroy();
     }
 }

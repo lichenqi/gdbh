@@ -286,7 +286,7 @@ public class SearchResultActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SearchResultActivity.this);
                         Log.i("搜索数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -343,7 +343,7 @@ public class SearchResultActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SearchResultActivity.this);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
                     }

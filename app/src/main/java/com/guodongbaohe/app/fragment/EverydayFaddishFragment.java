@@ -404,7 +404,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 cm.setPrimaryClip(mClipData);
                                 ClipContentUtil.getInstance(context).putNewSearch(list.get(which_position).getContent());//保存记录到数据库
                                 showWeiXinDialog();
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, getContext());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -414,7 +414,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(context, Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                     }
                 });
     }
@@ -449,7 +449,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         Log.i("淘口令", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -483,7 +483,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
@@ -662,7 +662,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 /*转高勇接口*/
                                 shareGaoYongJiekou();
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, getContext());
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(context, result);
                             }
@@ -674,7 +674,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(context, Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                     }
                 });
     }
@@ -725,7 +725,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 }
                                 shareToukouLing(coupon_url);
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, getContext());
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(context, result);
                             }
@@ -737,7 +737,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(context, Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                     }
                 });
     }
@@ -775,7 +775,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         Log.i("淘口令", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -784,7 +784,7 @@ public class EverydayFaddishFragment extends Fragment {
                                 getQrcode(taokouling);
                             } else {
                                 String result = jsonObject.getString("result");
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, getContext());
                                 ToastUtils.showToast(context, result);
                             }
                         } catch (JSONException e) {
@@ -794,7 +794,7 @@ public class EverydayFaddishFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         ToastUtils.showToast(context, Constant.NONET);
                     }
                 });
@@ -831,7 +831,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -851,7 +851,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(context, Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                     }
                 });
     }
@@ -889,7 +889,7 @@ public class EverydayFaddishFragment extends Fragment {
         view.setDrawingCacheBackgroundColor(Color.WHITE);
         // 把一个View转换成图片
         hebingBitmap = loadBitmapFromView(view);
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, getContext());
         /*先开存储权限*/
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -1195,7 +1195,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         Log.i("打印模板看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());

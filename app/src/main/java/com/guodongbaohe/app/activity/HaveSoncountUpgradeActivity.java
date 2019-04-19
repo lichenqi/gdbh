@@ -16,7 +16,6 @@ import com.alipay.sdk.app.PayTask;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.alipay.PayResult;
 import com.guodongbaohe.app.base_activity.BaseActivity;
-import com.guodongbaohe.app.bean.APPPeiZhiBean;
 import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -29,7 +28,6 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -116,7 +114,7 @@ public class HaveSoncountUpgradeActivity extends BaseActivity {
                                 getOrderInfo(amount, appid, sn, userid, username);
                             } else {
                                 String result = jsonObject.getString("result");
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, HaveSoncountUpgradeActivity.this);
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
                         } catch (JSONException e) {
@@ -127,7 +125,7 @@ public class HaveSoncountUpgradeActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, HaveSoncountUpgradeActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -153,7 +151,7 @@ public class HaveSoncountUpgradeActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, HaveSoncountUpgradeActivity.this);
                         Log.i("订单信息", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -178,7 +176,7 @@ public class HaveSoncountUpgradeActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, HaveSoncountUpgradeActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -277,5 +275,11 @@ public class HaveSoncountUpgradeActivity extends BaseActivity {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, HaveSoncountUpgradeActivity.this);
+        super.onDestroy();
     }
 }

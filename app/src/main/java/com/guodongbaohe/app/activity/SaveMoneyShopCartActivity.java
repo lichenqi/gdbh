@@ -69,7 +69,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, SaveMoneyShopCartActivity.this);
     }
 
     @Override
@@ -126,7 +126,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SaveMoneyShopCartActivity.this);
                         Log.i("数据看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -188,7 +188,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SaveMoneyShopCartActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -251,11 +251,11 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                                 exParams.put("isv_code", "appisvcode");
                                 exParams.put("alibaba", "阿里巴巴");
                                 AlibcTrade.show(SaveMoneyShopCartActivity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback());
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, SaveMoneyShopCartActivity.this);
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, SaveMoneyShopCartActivity.this);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -265,7 +265,7 @@ public class SaveMoneyShopCartActivity extends BaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SaveMoneyShopCartActivity.this);
                     }
                 });
     }

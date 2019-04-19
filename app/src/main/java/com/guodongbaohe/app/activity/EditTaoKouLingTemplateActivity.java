@@ -77,7 +77,7 @@ public class EditTaoKouLingTemplateActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditTaoKouLingTemplateActivity.this);
                         ToastUtils.showToast(getApplicationContext(), "保存成功");
                     }
                 }, 1000);
@@ -118,7 +118,7 @@ public class EditTaoKouLingTemplateActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditTaoKouLingTemplateActivity.this);
                         Log.i("新模板数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -143,7 +143,7 @@ public class EditTaoKouLingTemplateActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditTaoKouLingTemplateActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -152,7 +152,7 @@ public class EditTaoKouLingTemplateActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, EditTaoKouLingTemplateActivity.this);
     }
 
     private void initBackListener() {

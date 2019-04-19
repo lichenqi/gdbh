@@ -26,15 +26,15 @@ public class ShareManager {
         final Dialog loadingDialog = DialogUtil.createLoadingDialog(context, "分享...");
         if (mType.equals("qq") && !Tools.isAppAvilible(context, "com.tencent.mobileqq")) {
             ToastUtils.showToast(context, "您还没有安装QQ客户端，请先安装QQ客户端");
-            DialogUtil.closeDialog(loadingDialog);
+            DialogUtil.closeDialog(loadingDialog, context);
             return;
         } else if (mType.equals("wchat") && !Tools.isAppAvilible(context, "com.tencent.mm")) {
             ToastUtils.showToast(context, "您还没有安装微信客户端,请先安转客户端");
-            DialogUtil.closeDialog(loadingDialog);
+            DialogUtil.closeDialog(loadingDialog, context);
             return;
         } else if (mType.equals("qq_zone") && !Tools.isAppAvilible(context, "com.qzone")) {
             ToastUtils.showToast(context, "您还没有安装QQ空间客户端,请先安装");
-            DialogUtil.closeDialog(loadingDialog);
+            DialogUtil.closeDialog(loadingDialog, context);
             return;
         }
         new Thread(new Runnable() {
@@ -91,7 +91,7 @@ public class ShareManager {
                     }
                 }
                 intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
-                DialogUtil.closeDialog(loadingDialog);
+                DialogUtil.closeDialog(loadingDialog, context);
                 context.startActivity(intent);
             }
         }).start();

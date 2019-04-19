@@ -107,7 +107,7 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("验证码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, NoInviteOldUserLoginActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
@@ -129,7 +129,7 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, NoInviteOldUserLoginActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -163,6 +163,7 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
         if (time != null) {
             time.cancel();
         }
+        DialogUtil.closeDialog(loadingDialog, NoInviteOldUserLoginActivity.this);
         super.onDestroy();
     }
 
@@ -194,7 +195,7 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, NoInviteOldUserLoginActivity.this);
                         Log.i("登录返回值", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -219,7 +220,7 @@ public class NoInviteOldUserLoginActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, NoInviteOldUserLoginActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

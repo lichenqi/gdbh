@@ -269,7 +269,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                                 }
                                 shareGetTaoKouLing(coupon_url);
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
@@ -280,7 +280,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -326,7 +326,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                                 String share_taokouling = jsonObject.getString("result");
                                 shareGetQrcode(share_taokouling);
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
@@ -337,7 +337,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -375,7 +375,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -408,7 +408,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                     }
                 });
     }
@@ -446,7 +446,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                         Log.i("天猫数据看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -478,7 +478,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -610,6 +610,7 @@ public class TaoBaoAndTianMaoUrlActivity extends BigBaseActivity {
             webview.destroy();
             webview = null;
         }
+        DialogUtil.closeDialog(loadingDialog, TaoBaoAndTianMaoUrlActivity.this);
         super.onDestroy();
     }
 }

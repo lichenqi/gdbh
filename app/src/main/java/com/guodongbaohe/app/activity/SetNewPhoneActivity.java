@@ -1,7 +1,6 @@
 package com.guodongbaohe.app.activity;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -17,7 +16,6 @@ import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.util.ContainsEmojiEditText;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -48,8 +46,9 @@ public class SetNewPhoneActivity extends BaseActivity {
     @BindView(R.id.old_phone)
     EditText old_phone;
 
-    String member_id,old_phones;
+    String member_id, old_phones;
     private TimeCount time = new TimeCount(60000, 1000);
+
     @Override
     public int getContainerView() {
         return R.layout.change_phone;
@@ -61,8 +60,8 @@ public class SetNewPhoneActivity extends BaseActivity {
         ButterKnife.bind(this);
         setMiddleTitle("新手机号");
         new_phone.setText("新手机号码:");
-        iv_back=(ImageView)findViewById(R.id.iv_back);
-        old_phones=getIntent().getStringExtra("old_phone");
+        iv_back = (ImageView) findViewById(R.id.iv_back);
+        old_phones = getIntent().getStringExtra("old_phone");
         member_id = PreferUtils.getString(getApplicationContext(), "member_id");
         iv_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,33 +70,36 @@ public class SetNewPhoneActivity extends BaseActivity {
             }
         });
     }
-    @OnClick({R.id.get_code,R.id.submit_btn})
-    public void OnClick(View view){
-        switch (view.getId()){
+
+    @OnClick({R.id.get_code, R.id.submit_btn})
+    public void OnClick(View view) {
+        switch (view.getId()) {
             case R.id.get_code:
-                if (TextUtils.equals(old_phones,old_phone.getText().toString())&&!TextUtils.isEmpty(old_phone.getText().toString())){
-                    ToastUtils.showToast(SetNewPhoneActivity.this,"换绑手机号不能与原手机号相同");
-                }else if (TextUtils.isEmpty(old_phone.getText().toString())){
-                    ToastUtils.showToast(SetNewPhoneActivity.this,"请输入手机号");
-                }else {
+                if (TextUtils.equals(old_phones, old_phone.getText().toString()) && !TextUtils.isEmpty(old_phone.getText().toString())) {
+                    ToastUtils.showToast(SetNewPhoneActivity.this, "换绑手机号不能与原手机号相同");
+                } else if (TextUtils.isEmpty(old_phone.getText().toString())) {
+                    ToastUtils.showToast(SetNewPhoneActivity.this, "请输入手机号");
+                } else {
                     getCodeData(old_phone.getText().toString());
                 }
                 break;
             case R.id.submit_btn:
-                if (flag==1){
-                    if (!TextUtils.isEmpty(yzm_code.getText().toString())){
-                        registerData(old_phone.getText().toString(),yzm_code.getText().toString());
-                    }else {
-                        ToastUtils.showToast(SetNewPhoneActivity.this,"请输入验证码");
+                if (flag == 1) {
+                    if (!TextUtils.isEmpty(yzm_code.getText().toString())) {
+                        registerData(old_phone.getText().toString(), yzm_code.getText().toString());
+                    } else {
+                        ToastUtils.showToast(SetNewPhoneActivity.this, "请输入验证码");
                     }
-                }else {
-                    ToastUtils.showToast(SetNewPhoneActivity.this,"请获取短信验证码");
+                } else {
+                    ToastUtils.showToast(SetNewPhoneActivity.this, "请获取短信验证码");
                 }
                 break;
         }
     }
+
     Dialog loadingDialog;
-    int flag=0;
+    int flag = 0;
+
     private void getCodeData(String phone) {
         loadingDialog = DialogUtil.createLoadingDialog(SetNewPhoneActivity.this, "正在获取验证码...");
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -124,12 +126,12 @@ public class SetNewPhoneActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("验证码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SetNewPhoneActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
                             if (aReturn >= 0) {
-                                flag=1;
+                                flag = 1;
                                 ToastUtils.showToast(getApplicationContext(), "短息验证码已发送至您的手机");
                                 time.start();
                             } else {
@@ -147,7 +149,7 @@ public class SetNewPhoneActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SetNewPhoneActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -175,13 +177,16 @@ public class SetNewPhoneActivity extends BaseActivity {
             get_code.setTextColor(0xffffffff);
         }
     }
+
     @Override
     protected void onDestroy() {
         if (time != null) {
             time.cancel();
         }
+        DialogUtil.closeDialog(loadingDialog, SetNewPhoneActivity.this);
         super.onDestroy();
     }
+
     private void registerData(String phone, String code) {
         loadingDialog = DialogUtil.createLoadingDialog(SetNewPhoneActivity.this, "修改中...");
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -195,7 +200,7 @@ public class SetNewPhoneActivity extends BaseActivity {
         String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
         String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL+Constant.SET_NEW_PHONE + "?" + param)
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SET_NEW_PHONE + "?" + param)
                 .tag(this)
                 .addHeader("x-userid", member_id)
                 .addHeader("x-appid", Constant.APPID)
@@ -209,25 +214,26 @@ public class SetNewPhoneActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SetNewPhoneActivity.this);
                         JSONObject jsonObject = null;
-                            try {
-                                jsonObject = new JSONObject(response.toString());
-                                if (jsonObject.getInt("status") >= 0) {
-                                    Log.i("设置新手机号", response.toString());
-                                    PreferUtils.putString(getApplicationContext(), "phoneNum", old_phone.getText().toString());/*存储邀请码*/
-                                    EventBus.getDefault().post("phone_change");
-                                    finish();
-                                }else {
-                                    ToastUtils.showToast(SetNewPhoneActivity.this,jsonObject.getString("result"));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                        try {
+                            jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                Log.i("设置新手机号", response.toString());
+                                PreferUtils.putString(getApplicationContext(), "phoneNum", old_phone.getText().toString());/*存储邀请码*/
+                                EventBus.getDefault().post("phone_change");
+                                finish();
+                            } else {
+                                ToastUtils.showToast(SetNewPhoneActivity.this, jsonObject.getString("result"));
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
+
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, SetNewPhoneActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

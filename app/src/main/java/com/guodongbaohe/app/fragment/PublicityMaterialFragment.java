@@ -751,12 +751,12 @@ public class PublicityMaterialFragment extends Fragment {
                     @Override
                     public void onCancel() {
                         super.onCancel();
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                     }
 
                     @Override
                     public void onFinish(File downloadFile) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + downloadFile.getPath())));
                         showNoticeShareDialog(type);
                     }
@@ -768,7 +768,7 @@ public class PublicityMaterialFragment extends Fragment {
 
                     @Override
                     public void onFailure(String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, getContext());
                         ToastUtils.showToast(getContext(), "下载失败");
                     }
                 });

@@ -64,7 +64,8 @@ public class GetTokenActivity extends BaseActivity {
     LinearLayout is_boss;
     private Timer timer = new Timer(true);
     Dialog dialog;
-     int flag=0;
+    int flag = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,20 +74,20 @@ public class GetTokenActivity extends BaseActivity {
         iv_right = (ImageView) findViewById(R.id.iv_right);
         setRightIVVisible();
         iv_right.setImageResource(R.mipmap.refish_h);
-        String user_code=getIntent().getStringExtra("user_code");
+        String user_code = getIntent().getStringExtra("user_code");
         if (TextUtils.equals(user_code, "总裁")) {
             is_boss.setVisibility(View.VISIBLE);
         }
-        shuoming.setText(PreferUtils.getString(GetTokenActivity.this,"app_token_desc"));
+        shuoming.setText(PreferUtils.getString(GetTokenActivity.this, "app_token_desc"));
         //启动定时器
-        timer.schedule(task, 0, 2*60*1000);
+        timer.schedule(task, 0, 2 * 60 * 1000);
         format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         iv_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 dialog=DialogUtil.createLoadingDialog(GetTokenActivity.this,"加载...");
+                dialog = DialogUtil.createLoadingDialog(GetTokenActivity.this, "加载...");
                 getTokenData();
-                if (flag==1){
+                if (flag == 1) {
                     ToastUtils.showToast(GetTokenActivity.this, "刷新成功！");
                 }
 
@@ -185,8 +186,8 @@ public class GetTokenActivity extends BaseActivity {
                                 exp_time = bean.getExp_time();
                                 String SSSSSS = DateUtils.getTimeToString(Long.valueOf(exp_time) * 1000);
                                 youxiaoqi.setText(SSSSSS);
-                                flag=1;
-                                DialogUtil.closeDialog(dialog);
+                                flag = 1;
+                                DialogUtil.closeDialog(dialog, GetTokenActivity.this);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -196,7 +197,7 @@ public class GetTokenActivity extends BaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getContext(), Constant.NONET);
-                        DialogUtil.closeDialog(dialog);
+                        DialogUtil.closeDialog(dialog, GetTokenActivity.this);
                     }
                 });
     }
@@ -218,5 +219,6 @@ public class GetTokenActivity extends BaseActivity {
                 task.cancel();  //将原任务从队列中移除
             }
         }
+        DialogUtil.closeDialog(dialog, GetTokenActivity.this);
     }
 }

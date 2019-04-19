@@ -124,13 +124,13 @@ public class RegisterActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, RegisterActivity.this);
                         Log.i("注册", response.toString());
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, RegisterActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -150,7 +150,7 @@ public class RegisterActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, RegisterActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             String aReturn = jsonObject.getString("return");
@@ -168,7 +168,7 @@ public class RegisterActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, RegisterActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -203,6 +203,7 @@ public class RegisterActivity extends BigBaseActivity {
         if (time != null) {
             time.cancel();
         }
+        DialogUtil.closeDialog(loadingDialog, RegisterActivity.this);
         super.onDestroy();
     }
 

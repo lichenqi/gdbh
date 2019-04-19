@@ -123,7 +123,7 @@ public class EditAlipayDataActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditAlipayDataActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -140,9 +140,15 @@ public class EditAlipayDataActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditAlipayDataActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, EditAlipayDataActivity.this);
+        super.onDestroy();
     }
 }

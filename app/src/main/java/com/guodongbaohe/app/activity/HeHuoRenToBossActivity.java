@@ -125,7 +125,7 @@ public class HeHuoRenToBossActivity extends BaseActivity {
                                 getOrderInfo(amount, appid, sn, userid, username);
                             } else {
                                 String result = jsonObject.getString("result");
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, HeHuoRenToBossActivity.this);
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
                         } catch (JSONException e) {
@@ -136,7 +136,7 @@ public class HeHuoRenToBossActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, HeHuoRenToBossActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -162,7 +162,7 @@ public class HeHuoRenToBossActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, HeHuoRenToBossActivity.this);
                         Log.i("订单信息", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -187,7 +187,7 @@ public class HeHuoRenToBossActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, HeHuoRenToBossActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -335,5 +335,11 @@ public class HeHuoRenToBossActivity extends BaseActivity {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, HeHuoRenToBossActivity.this);
+        super.onDestroy();
     }
 }

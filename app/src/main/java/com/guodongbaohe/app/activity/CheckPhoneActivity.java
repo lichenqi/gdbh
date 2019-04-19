@@ -49,6 +49,7 @@ public class CheckPhoneActivity extends BigBaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        DialogUtil.closeDialog(loadingDialog, CheckPhoneActivity.this);
     }
 
     @Override
@@ -110,7 +111,7 @@ public class CheckPhoneActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CheckPhoneActivity.this);
                         Log.i("返回值", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -162,7 +163,7 @@ public class CheckPhoneActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CheckPhoneActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

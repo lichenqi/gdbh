@@ -88,7 +88,7 @@ public class EditCodeActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(dialog);
+                        DialogUtil.closeDialog(dialog, EditCodeActivity.this);
                         Log.i("编辑结果", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -111,7 +111,7 @@ public class EditCodeActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(dialog);
+                        DialogUtil.closeDialog(dialog, EditCodeActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -129,5 +129,11 @@ public class EditCodeActivity extends BaseActivity {
                 getEditCode(content);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(dialog, EditCodeActivity.this);
+        super.onDestroy();
     }
 }

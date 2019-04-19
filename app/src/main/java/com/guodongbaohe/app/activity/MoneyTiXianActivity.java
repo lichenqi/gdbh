@@ -399,7 +399,7 @@ public class MoneyTiXianActivity extends BaseActivity {
                             if (jsonObject.getInt("status") >= 0) {
                                 getData(tixian_money, 0);
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, MoneyTiXianActivity.this);
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
@@ -410,7 +410,7 @@ public class MoneyTiXianActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, MoneyTiXianActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -449,7 +449,7 @@ public class MoneyTiXianActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, MoneyTiXianActivity.this);
                         Log.i("提现", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -475,7 +475,7 @@ public class MoneyTiXianActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, MoneyTiXianActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -500,7 +500,7 @@ public class MoneyTiXianActivity extends BaseActivity {
     protected void onDestroy() {
         mUnregistrar.unregister();
         EventBus.getDefault().unregister(this);
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, MoneyTiXianActivity.this);
         super.onDestroy();
     }
 

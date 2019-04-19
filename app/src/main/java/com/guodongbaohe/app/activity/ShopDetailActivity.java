@@ -485,7 +485,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         if (PreferUtils.getBoolean(getApplicationContext(), "isLogin")) {
             getUserData();
         }
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
     }
 
     Dialog dialog;
@@ -602,15 +602,12 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     }
                                     PicsAdapter picsAdapter = new PicsAdapter(list_detail);
                                     recyclerview_pic.setAdapter(picsAdapter);
-                                    if (loadingDialog == null) return;
-                                    DialogUtil.closeDialog(loadingDialog);
+                                    DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                                 } else {
-                                    if (loadingDialog == null) return;
-                                    DialogUtil.closeDialog(loadingDialog);
+                                    DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                                 }
                             } else {
-                                if (loadingDialog == null) return;
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -620,8 +617,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        if (loadingDialog == null) return;
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                     }
                 });
     }
@@ -925,7 +921,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     @Override
                                     public void onTradeSuccess(TradeResult tradeResult) {
                                         /*阿里百川进淘宝成功*/
-                                        DialogUtil.closeDialog(loadingDialog);
+                                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                                     }
 
                                     @Override
@@ -934,13 +930,13 @@ public class ShopDetailActivity extends BigBaseActivity {
                                         intent = new Intent(getApplicationContext(), TaoBaoFromUrlToDetailActivity.class);
                                         intent.putExtra("coupon_url", coupon_url);
                                         startActivity(intent);
-                                        DialogUtil.closeDialog(loadingDialog);
+                                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                                     }
                                 });
                             } else {
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -950,7 +946,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                     }
                 });
     }
@@ -1046,7 +1042,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         if (dialog != null) {
             dialog.dismiss();
         }
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
     }
 
     /*分享调用高拥接口*/
@@ -1114,7 +1110,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 }
                                 shareGetTaoKouLing(coupon_url);
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
@@ -1125,7 +1121,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -1171,7 +1167,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 String share_taokouling = jsonObject.getString("result");
                                 shareGetQrcode(share_taokouling);
                             } else {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                                 String result = jsonObject.getString("result");
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
@@ -1182,7 +1178,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -1220,7 +1216,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -1253,7 +1249,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ShopDetailActivity.this);
                     }
                 });
     }

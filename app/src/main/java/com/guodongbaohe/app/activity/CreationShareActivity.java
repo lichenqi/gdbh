@@ -183,6 +183,7 @@ public class CreationShareActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        DialogUtil.closeDialog(loadingDialog, CreationShareActivity.this);
     }
 
     @Override
@@ -248,7 +249,7 @@ public class CreationShareActivity extends BaseActivity {
         } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
             /*合伙人用户*/
             rebateData(80);
-        }else {
+        } else {
 //        else if (Constant.VIP_USER_LEVEL.contains(member_role)) {
             /*vip用户*/
             rebateData(55);
@@ -745,7 +746,7 @@ public class CreationShareActivity extends BaseActivity {
                 adapter.notifyItemChanged(position);
             }
         });
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, CreationShareActivity.this);
     }
 
     int click_position;

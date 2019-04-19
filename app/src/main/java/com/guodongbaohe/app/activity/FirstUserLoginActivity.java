@@ -72,8 +72,10 @@ public class FirstUserLoginActivity extends BigBaseActivity {
         phone = intent.getStringExtra("phone");
         invite_code = intent.getStringExtra("invite_code");
     }
+
     String url, getUrl;
     ConfigurationBean.PageBean list_data;
+
     @OnClick({R.id.iv_back, R.id.tv_get_code, R.id.login, R.id.iv_xieyi, R.id.ll_xieyi})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -148,7 +150,7 @@ public class FirstUserLoginActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, FirstUserLoginActivity.this);
                         Log.i("登录返回值", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -174,7 +176,7 @@ public class FirstUserLoginActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, FirstUserLoginActivity.this);
                     }
                 });
     }
@@ -207,7 +209,7 @@ public class FirstUserLoginActivity extends BigBaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("验证码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, FirstUserLoginActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
@@ -229,7 +231,7 @@ public class FirstUserLoginActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, FirstUserLoginActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -264,6 +266,7 @@ public class FirstUserLoginActivity extends BigBaseActivity {
         if (time != null) {
             time.cancel();
         }
+        DialogUtil.closeDialog(loadingDialog, FirstUserLoginActivity.this);
         super.onDestroy();
     }
 

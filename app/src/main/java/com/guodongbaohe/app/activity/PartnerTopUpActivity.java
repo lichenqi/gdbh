@@ -135,7 +135,7 @@ public class PartnerTopUpActivity extends BaseActivity {
                                 getOrderInfo(amount, appid, sn, userid, username);
                             } else {
                                 String result = jsonObject.getString("result");
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, PartnerTopUpActivity.this);
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
                         } catch (JSONException e) {
@@ -146,7 +146,7 @@ public class PartnerTopUpActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, PartnerTopUpActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -172,7 +172,7 @@ public class PartnerTopUpActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, PartnerTopUpActivity.this);
                         Log.i("订单信息", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -197,7 +197,7 @@ public class PartnerTopUpActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, PartnerTopUpActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -301,4 +301,11 @@ public class PartnerTopUpActivity extends BaseActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, PartnerTopUpActivity.this);
+        super.onDestroy();
+    }
+
 }

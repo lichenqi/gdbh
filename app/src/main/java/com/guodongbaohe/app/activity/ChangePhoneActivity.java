@@ -86,14 +86,14 @@ public class ChangePhoneActivity extends BaseActivity {
                 }
                 break;
             case R.id.submit_btn:
-                if (flag==1){
+                if (flag == 1) {
                     if (!TextUtils.isEmpty(yzm_code.getText().toString())) {
                         registerData(old_phone.getText().toString(), yzm_code.getText().toString());
                     } else {
                         ToastUtils.showToast(ChangePhoneActivity.this, "请输入验证码");
                     }
-                }else {
-                    ToastUtils.showToast(ChangePhoneActivity.this,"请获取短信验证码");
+                } else {
+                    ToastUtils.showToast(ChangePhoneActivity.this, "请获取短信验证码");
                 }
 
                 hintKeyBoard();
@@ -102,7 +102,8 @@ public class ChangePhoneActivity extends BaseActivity {
     }
 
     Dialog loadingDialog;
-    int flag=0;
+    int flag = 0;
+
     private void getCodeData(String phone) {
         loadingDialog = DialogUtil.createLoadingDialog(ChangePhoneActivity.this, "正在获取验证码...");
         long timelineStr = System.currentTimeMillis() / 1000;
@@ -129,12 +130,12 @@ public class ChangePhoneActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("验证码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ChangePhoneActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int aReturn = jsonObject.getInt("status");
                             if (aReturn >= 0) {
-                                flag=1;
+                                flag = 1;
                                 ToastUtils.showToast(getApplicationContext(), "短息验证码已发送至您的手机");
                                 time.start();
                             } else {
@@ -152,7 +153,7 @@ public class ChangePhoneActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ChangePhoneActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -186,6 +187,7 @@ public class ChangePhoneActivity extends BaseActivity {
         if (time != null) {
             time.cancel();
         }
+        DialogUtil.closeDialog(loadingDialog, ChangePhoneActivity.this);
         super.onDestroy();
     }
 
@@ -218,12 +220,12 @@ public class ChangePhoneActivity extends BaseActivity {
                         super.onSuccess(statusCode, response);
                         JSONObject jsonObject = null;
                         try {
-                            DialogUtil.closeDialog(loadingDialog);
+                            DialogUtil.closeDialog(loadingDialog, ChangePhoneActivity.this);
                             jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
                                 Log.i("注册", response.toString());
                                 Intent intent = new Intent(ChangePhoneActivity.this, SetNewPhoneActivity.class);
-                                intent.putExtra("old_phone",old_phone.getText().toString());
+                                intent.putExtra("old_phone", old_phone.getText().toString());
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -238,7 +240,7 @@ public class ChangePhoneActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, ChangePhoneActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

@@ -227,14 +227,14 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, TaobaoShoppingCartActivity.this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         AlibcTradeSDK.destory();
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, TaobaoShoppingCartActivity.this);
     }
 
     @Override

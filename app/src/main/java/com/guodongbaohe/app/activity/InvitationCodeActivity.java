@@ -58,6 +58,7 @@ public class InvitationCodeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        DialogUtil.closeDialog(loadingDialog, InvitationCodeActivity.this);
     }
 
     @Override
@@ -171,7 +172,7 @@ public class InvitationCodeActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("邀请码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, InvitationCodeActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             int status = jsonObject.getInt("status");
@@ -224,7 +225,7 @@ public class InvitationCodeActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, InvitationCodeActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

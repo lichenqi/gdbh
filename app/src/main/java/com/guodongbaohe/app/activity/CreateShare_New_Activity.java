@@ -326,7 +326,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CreateShare_New_Activity.this);
                         Log.i("打印模板看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -374,7 +374,7 @@ public class CreateShare_New_Activity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CreateShare_New_Activity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -396,7 +396,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CreateShare_New_Activity.this);
                         Log.i("打印模板看看", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -420,7 +420,7 @@ public class CreateShare_New_Activity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, CreateShare_New_Activity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -1299,13 +1299,13 @@ public class CreateShare_New_Activity extends BaseActivity {
         buidePoster = 1;
         choose_poition.clear();
         choose_poition.put(0, 0);
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, CreateShare_New_Activity.this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, CreateShare_New_Activity.this);
     }
 
     @Override

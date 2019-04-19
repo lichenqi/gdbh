@@ -269,6 +269,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
             webview.destroy();
             webview = null;
         }
+        DialogUtil.closeDialog(loadingDialog, XinShouJiaoChengActivity.this);
         super.onDestroy();
 
     }
@@ -349,9 +350,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
     }
 
     private void loginOutData(final String url) {
-        if (loadingDialog != null) {
-            DialogUtil.closeDialog(loadingDialog);
-        }
+        DialogUtil.closeDialog(loadingDialog, XinShouJiaoChengActivity.this);
         dialog = new Dialog(XinShouJiaoChengActivity.this, R.style.transparentFrameWindowStyle);
         dialog.setContentView(R.layout.download_vedio);
         Window window = dialog.getWindow();

@@ -233,7 +233,7 @@ public class ChangeQRCodePicActivity extends BaseActivity {
             PreferUtils.putString(getApplicationContext(), "bitmap_s", s);
             PreferUtils.putInt(getApplicationContext(), "click_position", click_position);
             EventBus.getDefault().post("changeBitmap_s");
-            DialogUtil.closeDialog(loadingDialog);
+            DialogUtil.closeDialog(loadingDialog, ChangeQRCodePicActivity.this);
         }
     }
 
@@ -241,7 +241,7 @@ public class ChangeQRCodePicActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (loadingDialog != null) {
-            DialogUtil.closeDialog(loadingDialog);
+            DialogUtil.closeDialog(loadingDialog, ChangeQRCodePicActivity.this);
         }
     }
 }

@@ -219,7 +219,7 @@ public class YaoQingFriendActivity extends BaseActivity {
         Canvas c = new Canvas(hebingBitmap);
         c.drawColor(Color.WHITE);
         addViewContent.draw(c);
-        DialogUtil.closeDialog(loadingDialog);
+        DialogUtil.closeDialog(loadingDialog, YaoQingFriendActivity.this);
         /*自定义九宫格样式*/
         customShareStyle();
     }
@@ -444,5 +444,11 @@ public class YaoQingFriendActivity extends BaseActivity {
             }
         });
         qq.share(sp);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DialogUtil.closeDialog(loadingDialog, YaoQingFriendActivity.this);
     }
 }

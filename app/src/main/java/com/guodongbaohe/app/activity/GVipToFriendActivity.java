@@ -163,7 +163,7 @@ public class GVipToFriendActivity extends BaseActivity {
         map.put("member_id", member_id);
         map.put("method", "alipay");
         map.put("is_new", "ture");
-        map.put("newest","yes");
+        map.put("newest", "yes");
         String param = ParamUtil.getQianMingMapParam(map);
         String token = EncryptUtil.encrypt(param + Constant.NETKEY);
         map.put(Constant.TOKEN, token);
@@ -187,7 +187,7 @@ public class GVipToFriendActivity extends BaseActivity {
                         try {
                             jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getString("result").equals("升级成功")) {
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, GVipToFriendActivity.this);
                                 Intent intent = new Intent(getApplicationContext(), PaySuccessActivity.class);
                                 startActivity(intent);
                                 finish();
@@ -203,7 +203,7 @@ public class GVipToFriendActivity extends BaseActivity {
                                 getOrderInfo(amount, appid, sn, userid, username);
                             } else {
                                 String result = jsonObject.getString("result");
-                                DialogUtil.closeDialog(loadingDialog);
+                                DialogUtil.closeDialog(loadingDialog, GVipToFriendActivity.this);
                                 ToastUtils.showToast(getApplicationContext(), result);
                             }
                         } catch (JSONException e) {
@@ -214,7 +214,7 @@ public class GVipToFriendActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, GVipToFriendActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -240,7 +240,7 @@ public class GVipToFriendActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, GVipToFriendActivity.this);
                         Log.i("订单信息", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -265,7 +265,7 @@ public class GVipToFriendActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, GVipToFriendActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -344,6 +344,7 @@ public class GVipToFriendActivity extends BaseActivity {
             webview.destroy();
             webview = null;
         }
+        DialogUtil.closeDialog(loadingDialog, GVipToFriendActivity.this);
         super.onDestroy();
     }
 }

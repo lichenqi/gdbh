@@ -114,7 +114,7 @@ public class WChatYaoQingMaActivity extends BaseActivity {
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
                         Log.i("邀请码", response.toString());
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, WChatYaoQingMaActivity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             String aReturn = jsonObject.getString("status");
@@ -134,7 +134,7 @@ public class WChatYaoQingMaActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, WChatYaoQingMaActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -146,5 +146,11 @@ public class WChatYaoQingMaActivity extends BaseActivity {
             finish();
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, WChatYaoQingMaActivity.this);
+        super.onDestroy();
     }
 }

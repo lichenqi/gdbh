@@ -36,8 +36,8 @@ public class DialogUtil {
         return loadingDialog;
     }
 
-    public static void closeDialog(Dialog mDialogUtils) {
-        if (mDialogUtils != null) {
+    public static void closeDialog(Dialog mDialogUtils, Context context) {
+        if (mDialogUtils != null && context != null) {
             mDialogUtils.dismiss();
         }
     }

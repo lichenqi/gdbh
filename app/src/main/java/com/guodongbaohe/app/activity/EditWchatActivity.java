@@ -111,7 +111,7 @@ public class EditWchatActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditWchatActivity.this);
                         Log.i("编辑结果", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -136,7 +136,7 @@ public class EditWchatActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, EditWchatActivity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });
@@ -157,4 +157,10 @@ public class EditWchatActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        DialogUtil.closeDialog(loadingDialog, EditWchatActivity.this);
+        super.onDestroy();
+    }
 }

@@ -120,7 +120,7 @@ public class BankXinXiEditActviity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, BankXinXiEditActviity.this);
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {
@@ -137,7 +137,7 @@ public class BankXinXiEditActviity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog(loadingDialog);
+                        DialogUtil.closeDialog(loadingDialog, BankXinXiEditActviity.this);
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
                     }
                 });

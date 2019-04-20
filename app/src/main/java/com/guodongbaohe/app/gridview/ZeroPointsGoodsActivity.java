@@ -52,6 +52,8 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
     List<HomeListBean.ListData> list = new ArrayList<>();
     JhsAdapter adapter;
     String goods_type;
+    private String goods_url;
+
 
     // 声明一个订阅方法，用于接收事件
     @Subscribe
@@ -92,8 +94,10 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
         goods_type = intent.getStringExtra("goods_type");
         if (goods_type.equals("ldms")) {
             setMiddleTitle("0点秒杀");
+            goods_url = Constant.GOODS_ZERO;
         } else {
             setMiddleTitle("高佣金商品");
+            goods_url = Constant.GAOYONGJINGOODS;
         }
         getData();
         setView();
@@ -181,9 +185,9 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
     private void getData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("page", String.valueOf(pageNUm));
-        map.put("limit", "12");
+        map.put("limit", "20");
         String mapParam = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GAOYONGJINGOODS + "?" + mapParam)
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + goods_url + "?" + mapParam)
                 .tag(this)
                 .addHeader("x-appid", Constant.APPID)
                 .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
@@ -197,7 +201,7 @@ public class ZeroPointsGoodsActivity extends BaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        Log.i("0点商品", response.toString());
+                        Log.i("商品数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             if (jsonObject.getInt("status") >= 0) {

@@ -3,6 +3,8 @@ package com.guodongbaohe.app.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.http.SslError;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,6 +32,7 @@ import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.util.CommonUtil;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -41,6 +44,11 @@ import com.guodongbaohe.app.util.WebViewUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -126,11 +134,56 @@ public class TaoBaoWebViewActivity extends BaseActivity {
 
     public class DemoJavascriptInterface {
 
+        /*支付*/
         @JavascriptInterface
         public void pay() {
             payData();
         }
+
+        /*图片长按保存*/
+        @JavascriptInterface
+        public void preserve(String img) {
+            saveImgToLocal(img);
+        }
+
     }
+
+    /*保存图片至相册*/
+    private void saveImgToLocal(String img) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imageurl = null;
+                try {
+                    imageurl = new URL(img);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection conn = (HttpURLConnection) imageurl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                    Message msg = new Message();
+                    // 把bm存入消息中,发送到主线程
+                    msg.obj = bitmap;
+                    handler.sendMessage(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Bitmap bitmap = (Bitmap) msg.obj;
+            CommonUtil.saveBitmap2file(bitmap, getApplicationContext());
+        }
+    };
 
     Dialog loadingDialog;
     JSONObject jsonObject;

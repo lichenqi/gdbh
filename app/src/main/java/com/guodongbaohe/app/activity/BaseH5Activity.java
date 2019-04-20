@@ -1,11 +1,16 @@
 package com.guodongbaohe.app.activity;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,6 +47,7 @@ import com.guodongbaohe.app.dialogfragment.ViewHolder;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.port.DemoTradeCallback;
 import com.guodongbaohe.app.util.ClipContentUtil;
+import com.guodongbaohe.app.util.CommonUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -53,6 +59,11 @@ import com.guodongbaohe.app.util.WebViewUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -220,6 +231,12 @@ public class BaseH5Activity extends BaseActivity {
             share_img = img;
             /*自定义九宫格样式*/
             customShareStyle();
+        }
+
+        /*图片长按保存*/
+        @JavascriptInterface
+        public void preserve(String img) {
+            saveImgToLocal(img);
         }
 
     }
@@ -511,6 +528,43 @@ public class BaseH5Activity extends BaseActivity {
         });
         qq.share(sp);
     }
+
+    /*保存图片至相册*/
+    private void saveImgToLocal(String img) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                URL imageurl = null;
+                try {
+                    imageurl = new URL(img);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    HttpURLConnection conn = (HttpURLConnection) imageurl.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    is.close();
+                    Message msg = new Message();
+                    // 把bm存入消息中,发送到主线程
+                    msg.obj = bitmap;
+                    handler.sendMessage(msg);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    @SuppressLint("HandlerLeak")
+    Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            Bitmap bitmap = (Bitmap) msg.obj;
+            CommonUtil.saveBitmap2file(bitmap, getApplicationContext());
+        }
+    };
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

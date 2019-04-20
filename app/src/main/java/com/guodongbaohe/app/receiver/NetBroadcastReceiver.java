@@ -15,6 +15,7 @@ import com.guodongbaohe.app.util.NetUtil;
  */
 
 public class NetBroadcastReceiver extends BroadcastReceiver {
+
     public NetEvevt evevt = BigBaseActivity.evevt;
 
     @Override

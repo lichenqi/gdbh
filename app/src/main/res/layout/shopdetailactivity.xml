@@ -263,6 +263,49 @@
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_tuijian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingTop="10dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/recommend_word_bg"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="3dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="3dp"
+                    android:text="推荐词"
+                    android:textColor="#DE5B60"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_recommend_word"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="卧底华为的【的我【的温度计为但我觉得我的温度计为定位d"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/view_tuijian"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/homelistitem"
+                android:visibility="gone" />
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_pic"
                 android:layout_width="match_parent"

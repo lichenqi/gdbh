@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -363,33 +362,14 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
     /*商品详情头部信息*/
     private void getShopBasicData(int pos) {
         GCollectionBean.ResultBean result = list.get(pos);
-        String cate_category = result.getCate_category();
-        if (!TextUtils.isEmpty(cate_category)) {
-            Intent intent = new Intent(getContext(), ShopDetailActivity.class);
-            intent.putExtra("goods_id", result.getGoods_id());
-            intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
-            intent.putExtra("cate_category", result.getCate_category());/*类目id*/
-            intent.putExtra("attr_price", result.getAttr_price());
-            intent.putExtra("attr_prime", result.getAttr_prime());
-            intent.putExtra("attr_ratio", result.getAttr_ratio());
-            intent.putExtra("sales_month", result.getSales_month());
-            intent.putExtra("goods_name", result.getGoods_name());/*长标题*/
-            intent.putExtra("goods_short", result.getGoods_short());/*短标题*/
-            intent.putExtra("seller_shop", result.getSeller_shop());/*店铺姓名*/
-            intent.putExtra("goods_thumb", result.getGoods_thumb());/*单图*/
-            intent.putExtra("goods_gallery", result.getGoods_gallery());/*多图*/
-            intent.putExtra("coupon_begin", result.getCoupon_begin());/*开始时间*/
-            intent.putExtra("coupon_final", result.getCoupon_final());/*结束时间*/
-            intent.putExtra("coupon_surplus", result.getCoupon_surplus());/*是否有券*/
-            intent.putExtra("coupon_explain", "");/*推荐理由*/
-            intent.putExtra("attr_site", result.getAttr_site());/*天猫或者淘宝*/
-            intent.putExtra("coupon_total", result.getCoupon_total());
-            intent.putExtra(Constant.SHOP_REFERER, "favorite");/*商品来源*/
-            intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
-            startActivity(intent);
-        } else {
-            ToastUtils.showToast(getContext(), "商品信息不全，请试试其他商品");
-        }
+        String goods_id = result.getGoods_id();
+        String goods_name = result.getGoods_name();
+        String goods_short = result.getGoods_short();
+        Intent intent = new Intent(getApplicationContext(), CollectShopDetailActivity.class);
+        intent.putExtra("shop_id", goods_id);
+        intent.putExtra("goods_name", goods_name);
+        intent.putExtra("goods_short", goods_short);
+        startActivity(intent);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class StartActivity extends AppCompatActivity {
     TextView time;
     @BindView(R.id.re_parent)
     RelativeLayout re_parent;
-    private TimeCount countdownTime = new TimeCount(3000, 1000);
+    private TimeCount countdownTime;
     boolean isFirst;
 
     @Override
@@ -71,6 +71,7 @@ public class StartActivity extends AppCompatActivity {
         /*获取app配置信息*/
         getPeiZhiData();
         isFirst = PreferUtils.getBoolean(getApplicationContext(), "isFirst");
+        countdownTime = new TimeCount(3000, 1000);
         countdownTime.start();
         time.setOnClickListener(new View.OnClickListener() {
             @Override

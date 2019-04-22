@@ -416,6 +416,9 @@
         <activity
             android:name=".gridview.ZeroPointsGoodsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CollectShopDetailActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

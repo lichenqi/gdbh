@@ -199,6 +199,12 @@ public class ShopDetailActivity extends BigBaseActivity {
     TextView tv_lijiyaoqing;
     @BindView(R.id.re_viewpager_parent)
     RelativeLayout re_viewpager_parent;
+    @BindView(R.id.view_tuijian)
+    View view_tuijian;
+    @BindView(R.id.ll_tuijian)
+    LinearLayout ll_tuijian;
+    @BindView(R.id.tv_recommend_word)
+    TextView tv_recommend_word;
     /*开关字段*/
     private String is_pop_window, upgrade_vip_invite, money_upgrade_switch, is_show_money_vip, is_pop_window_vip;
     private boolean isShopCollect = false;
@@ -435,6 +441,25 @@ public class ShopDetailActivity extends BigBaseActivity {
         StringCleanZeroUtil.StringFormatWithYuan(attr_prime, tv_old_price);
         tv_sale_num.setText("月销" + NumUtil.getNum(sales_month));
         setSellShopName(seller_shop);
+        if (TextUtils.isEmpty(coupon_explain)) {
+            view_tuijian.setVisibility(View.GONE);
+            ll_tuijian.setVisibility(View.GONE);
+        } else {
+            view_tuijian.setVisibility(View.VISIBLE);
+            ll_tuijian.setVisibility(View.VISIBLE);
+            tv_recommend_word.setText(coupon_explain);
+        }
+        ll_tuijian.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData mClipData = ClipData.newPlainText("Label", coupon_explain);
+                cm.setPrimaryClip(mClipData);
+                ToastUtils.showBackgroudCenterToast(getApplicationContext(), "推荐词复制成功");
+                ClipContentUtil.getInstance(getApplicationContext()).putNewSearch(coupon_explain);//保存记录到数据库
+                return false;
+            }
+        });
     }
 
     private void setSellShopName(CharSequence charSequence) {

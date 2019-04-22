@@ -159,7 +159,6 @@ public class TaobaoShoppingCartActivity extends BaseActivity {
                 Log.i("购物车地址", url);
             }
         }
-
     }
 
     private String shop_ids = "";

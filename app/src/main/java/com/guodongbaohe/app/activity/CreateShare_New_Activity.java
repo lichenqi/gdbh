@@ -149,6 +149,11 @@ public class CreateShare_New_Activity extends BaseActivity {
     /*保存图片*/
     @BindView(R.id.re_qq_space)
     RelativeLayout re_qq_space;
+    /*你能返布局*/
+    @BindView(R.id.re_ninengfan_show)
+    RelativeLayout re_ninengfan_show;
+    @BindView(R.id.iv_fan_show)
+    ImageView iv_fan_show;
     /*商品资源*/
     String goods_thumb, goods_gallery, goods_name, promo_slogan, attr_price, attr_prime,
             attr_site, good_short, attr_ratio, goods_id, share_taokouling, share_qrcode, coupon_surplus;
@@ -173,6 +178,7 @@ public class CreateShare_New_Activity extends BaseActivity {
     String order_address_sign = "{下单链接}";
     String taokouling_sign = "{淘口令}";
     String tuijian_sign = "{推荐理由}";
+    String ninengfan_sign = "{返佣}";
     /*微信朋友圈单张图片*/
     private List<String> wchatCirclePicsList;
     private int ainteger;
@@ -181,6 +187,8 @@ public class CreateShare_New_Activity extends BaseActivity {
     private boolean isBuyAddress = true;
     /*淘口令默认为true*/
     private boolean isTaoKouling = true;
+    /*你能返默认为true*/
+    private boolean isNinengfan = true;
     /*定义一个默认变量 表示没有读模板*/
     private int readMuBan = -1;
     String official_content, taokouling_content;
@@ -188,6 +196,9 @@ public class CreateShare_New_Activity extends BaseActivity {
     int buy_address_select = 1;
     /*淘口令选中是 1   没有选中是-1*/
     int taokouling_select = 1;
+    /*你能返选中是 1 没有选中是-1*/
+    int ninengfan_select = 1;
+    double ninnegfan_money;
 
     @Override
     public int getContainerView() {
@@ -218,6 +229,9 @@ public class CreateShare_New_Activity extends BaseActivity {
         share_qrcode = intent.getStringExtra("share_qrcode");
         coupon_surplus = intent.getStringExtra("coupon_surplus");
         v = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
+        double ninengfan = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * Constant.VIP_RATIO / 10000 * app_v;
+        bg3 = new BigDecimal(ninengfan);
+        ninnegfan_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
         initRecyclerView();/*图片初始化*/
         initPosterLayoutView();/*二维码海报布局*/
         initTemplateDataView();/*初始化文案数据*/
@@ -277,6 +291,15 @@ public class CreateShare_New_Activity extends BaseActivity {
                 isTaoKouling = false;
                 taokouling_select = -1;
             }
+            if (official_content.contains(ninengfan_sign)) {
+                iv_fan_show.setImageResource(R.mipmap.xainshiyjin);
+                isNinengfan = true;
+                ninengfan_select = 1;
+            } else {
+                iv_fan_show.setImageResource(R.mipmap.buxianshiyjin);
+                isNinengfan = false;
+                ninengfan_select = -1;
+            }
             if (TextUtils.isEmpty(good_short)) {
                 official_content = official_content.replace(title_sign, goods_name);
             } else {
@@ -284,6 +307,7 @@ public class CreateShare_New_Activity extends BaseActivity {
             }
             official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
             official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+            official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
             official_content = official_content.replace(order_address_sign, share_qrcode);
             if (!TextUtils.isEmpty(promo_slogan)) {
                 official_content = official_content.replace(tuijian_sign, promo_slogan);
@@ -343,6 +367,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                                 official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
                                 official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                                official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
                                 official_content = official_content.replace(order_address_sign, share_qrcode);
                                 if (!TextUtils.isEmpty(promo_slogan)) {
                                     official_content = official_content.replace(tuijian_sign, promo_slogan);
@@ -354,14 +379,17 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 if (mode == 0 || mode == 1) {
                                     iv_buy_show.setImageResource(R.mipmap.xainshiyjin);
                                     iv_taokou_ling_show.setImageResource(R.mipmap.xainshiyjin);
+                                    iv_fan_show.setImageResource(R.mipmap.xainshiyjin);
                                 }
                                 if (mode == 1) {
                                     ToastUtils.showToast(getApplicationContext(), "已恢复");
                                 }
                                 isBuyAddress = true;
                                 isTaoKouling = true;
+                                isNinengfan = true;
                                 buy_address_select = 1;
                                 taokouling_select = 1;
+                                ninengfan_select = 1;
                                 PreferUtils.putInt(getApplicationContext(), "template_is_save", -1);
                             } else {
                                 String result = jsonObject.getString("result");
@@ -532,7 +560,7 @@ public class CreateShare_New_Activity extends BaseActivity {
 
     @OnClick({R.id.tv_buide_poster, R.id.edit_comment_template, R.id.tkl_copy_comment, R.id.tv_copy_comment_shre
             , R.id.re_wchat_friend, R.id.re_wchat_circle, R.id.re_qq_friend, R.id.re_qq_space, R.id.re_guize
-            , R.id.tv_huifu_moren, R.id.re_buy_address_show, R.id.re_taokou_ling_show, R.id.tv_edit_taokling_muban})
+            , R.id.tv_huifu_moren, R.id.re_buy_address_show, R.id.re_taokou_ling_show, R.id.tv_edit_taokling_muban, R.id.re_ninengfan_show})
     public void OnClick(View view) {
         switch (view.getId()) {
             case R.id.tv_buide_poster:/*点击生成海报按钮*/
@@ -694,6 +722,11 @@ public class CreateShare_New_Activity extends BaseActivity {
                         } else {/*淘口令隐藏在*/
                             official_content = official_content.replace("\n长按復至" + taokouling_sign + "，➡[掏✔寳]即可抢购", "");
                         }
+                        if (ninengfan_select == 1) {/*你能返显示在*/
+                            official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                        } else {/*你能返隐藏在*/
+                            official_content = official_content.replace("\n【下载果冻宝盒再省】{返佣}元", "");
+                        }
 
                     } else {/*模板更改过*/
                         if (official_content.contains(order_address_sign)) {
@@ -724,6 +757,20 @@ public class CreateShare_New_Activity extends BaseActivity {
                                     official_content = official_content.replace(taokouling_sign, "");
                                 } else {/*编辑模板不包含淘口令*/
                                     official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
+                                }
+                            }
+
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
                                 }
                             }
 
@@ -758,6 +805,20 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                             }
 
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                         }
                     }
 
@@ -786,6 +847,11 @@ public class CreateShare_New_Activity extends BaseActivity {
                             official_content = official_content.replace(taokouling_sign, share_taokouling);
                         } else {/*淘口令隐藏在*/
                             official_content = official_content.replace("\n长按復至" + taokouling_sign + "，➡[掏✔寳]即可抢购", "");
+                        }
+                        if (ninengfan_select == 1) {/*你能返显示在*/
+                            official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                        } else {/*你能返隐藏在*/
+                            official_content = official_content.replace("\n【下载果冻宝盒再省】{返佣}元", "");
                         }
                         tv_official_content.setText(official_content);
 
@@ -818,6 +884,21 @@ public class CreateShare_New_Activity extends BaseActivity {
                                     official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
                                 }
                             }
+
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                         } else {/*模板不包含下单链接*/
                             if (TextUtils.isEmpty(good_short)) {
                                 official_content = official_content.replace(title_sign, goods_name);
@@ -844,6 +925,21 @@ public class CreateShare_New_Activity extends BaseActivity {
                                     official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
                                 }
                             }
+
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                             official_content = official_content + "\n【下单链接】" + share_qrcode;
                         }
                     }
@@ -871,6 +967,11 @@ public class CreateShare_New_Activity extends BaseActivity {
                             official_content = official_content.replace(order_address_sign, share_qrcode);
                         } else {/*购买地址隐藏在*/
                             official_content = official_content.replace("\n【下单链接】" + order_address_sign, "");
+                        }
+                        if (ninengfan_select == 1) {/*你能返显示在*/
+                            official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                        } else {/*你能返隐藏在*/
+                            official_content = official_content.replace("\n【下载果冻宝盒再省】{返佣}元", "");
                         }
                         if (!TextUtils.isEmpty(promo_slogan)) {
                             official_content = official_content.replace(tuijian_sign, promo_slogan);
@@ -911,6 +1012,20 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                             }
 
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                         } else {
 
                             /*编辑模板不包含淘口令标识*/
@@ -942,6 +1057,20 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                             }
 
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                         }
 
                     }
@@ -965,6 +1094,11 @@ public class CreateShare_New_Activity extends BaseActivity {
                             official_content = official_content.replace(order_address_sign, share_qrcode);
                         } else {/*购买地址隐藏在*/
                             official_content = official_content.replace("\n【下单链接】" + order_address_sign, "");
+                        }
+                        if (ninengfan_select == 1) {/*你能返显示在*/
+                            official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                        } else {/*你能返隐藏在*/
+                            official_content = official_content.replace("\n【下载果冻宝盒再省】{返佣}元", "");
                         }
                         if (!TextUtils.isEmpty(promo_slogan)) {
                             official_content = official_content.replace(tuijian_sign, promo_slogan);
@@ -1006,6 +1140,20 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                             }
 
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                         } else {
 
                             /*编辑模板不包含淘口令标识*/
@@ -1037,6 +1185,20 @@ public class CreateShare_New_Activity extends BaseActivity {
                                 }
                             }
 
+                            if (ninengfan_select == 1) {/*你能返显示在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+                                }
+                            } else {/*你能返隐藏在*/
+                                if (official_content.contains(ninengfan_sign)) {/*编辑模板包含你能返*/
+                                    official_content = official_content.replace(ninengfan_sign, "");
+                                } else {/*编辑模板不包含你能返*/
+                                    official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+                                }
+                            }
+
                         }
                     }
                 }
@@ -1046,6 +1208,263 @@ public class CreateShare_New_Activity extends BaseActivity {
             case R.id.tv_edit_taokling_muban:/*编辑淘口令模板*/
                 intent = new Intent(getApplicationContext(), EditTaoKouLingTemplateActivity.class);
                 startActivityForResult(intent, 100);
+                break;
+            case R.id.re_ninengfan_show:/*你能返点击*/
+                official_content = PreferUtils.getString(getApplicationContext(), "official_content");/*获取模板内容*/
+                if (isNinengfan) {/*现在是隐藏*/
+                    iv_fan_show.setImageResource(R.mipmap.buxianshiyjin);
+                    ninengfan_select = -1;
+
+                    if (readMuBan == -1) {/*模板初始化状态*/
+
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        official_content = official_content.replace("\n【下载果冻宝盒再省】{返佣}元", "");
+                        if (buy_address_select == 1) {/*购买地址显示在*/
+                            official_content = official_content.replace(order_address_sign, share_qrcode);
+                        } else {/*购买地址隐藏在*/
+                            official_content = official_content.replace("\n【下单链接】{下单链接}", "");
+                        }
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+                        if (taokouling_select == 1) {/*淘口令显示在*/
+                            official_content = official_content.replace(taokouling_sign, share_taokouling);
+                        } else {/*淘口令隐藏在*/
+                            official_content = official_content.replace("\n长按復至{淘口令}，➡[掏✔寳]即可抢购", "");
+                        }
+
+                    } else {/*模板更改后的状态*/
+
+                        /*编辑模板包含你能返标识*/
+                        if (official_content.contains(ninengfan_sign)) {
+
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace("\n" + tuijian_sign, "");
+                            }
+                            official_content = official_content.replace(ninengfan_sign, "");
+                            if (buy_address_select == 1) {/*购买地址显示在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, share_qrcode);
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content + "\n【下单链接】" + share_qrcode;
+                                }
+                            } else {/*购买地址隐藏在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, "");
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                                }
+                            }
+
+                            if (taokouling_select == 1) {/*淘口令显示在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, share_taokouling);
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购";
+                                }
+                            } else {/*淘口令隐藏在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, "");
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
+                                }
+                            }
+
+                        } else {
+                            /*编辑模板不包含你能返标识*/
+
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace("\n" + tuijian_sign, "");
+                            }
+                            official_content = official_content.replace("\n【下载果冻宝盒再省】" + ninnegfan_money + "元", "");
+
+                            if (buy_address_select == 1) {/*购买地址显示在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, share_qrcode);
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content + "\n【下单链接】" + share_qrcode;
+                                }
+                            } else {/*购买地址隐藏在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, "");
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                                }
+                            }
+
+                            if (taokouling_select == 1) {/*淘口令显示在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, share_taokouling);
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购";
+                                }
+                            } else {/*淘口令隐藏在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, "");
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
+                                }
+                            }
+
+                        }
+
+                    }
+
+                } else {/*现在是显示*/
+
+                    iv_fan_show.setImageResource(R.mipmap.xainshiyjin);
+                    ninengfan_select = 1;
+
+                    if (readMuBan == -1) {/*模板初始化状态*/
+
+                        if (TextUtils.isEmpty(good_short)) {
+                            official_content = official_content.replace(title_sign, goods_name);
+                        } else {
+                            official_content = official_content.replace(title_sign, good_short);
+                        }
+                        official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                        official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                        official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+                        if (buy_address_select == 1) {/*购买地址显示在*/
+                            official_content = official_content.replace(order_address_sign, share_qrcode);
+                        } else {/*购买地址隐藏在*/
+                            official_content = official_content.replace("\n【下单链接】" + order_address_sign, "");
+                        }
+                        if (!TextUtils.isEmpty(promo_slogan)) {
+                            official_content = official_content.replace(tuijian_sign, promo_slogan);
+                        } else {
+                            official_content = official_content.replace("\n" + tuijian_sign, "");
+                        }
+
+                        if (taokouling_select == 1) {/*淘口令显示在*/
+                            official_content = official_content.replace(taokouling_sign, share_taokouling);
+                        } else {/*淘口令隐藏在*/
+                            official_content = official_content.replace("\n长按復至" + taokouling_sign + "，➡[掏✔寳]即可抢购", "");
+                        }
+
+                    } else {
+                        /*模板更改后*/
+
+                        if (official_content.contains(ninengfan_sign)) {
+                            /*编辑模板包含你能返*/
+
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace("\n" + tuijian_sign, "");
+                            }
+                            official_content = official_content.replace(ninengfan_sign, String.valueOf(ninnegfan_money));
+
+                            if (buy_address_select == 1) {/*购买地址显示在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, share_qrcode);
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content + "\n【下单链接】" + share_qrcode;
+                                }
+                            } else {/*购买地址隐藏在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, "");
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                                }
+                            }
+
+                            if (taokouling_select == 1) {/*淘口令显示在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, share_taokouling);
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购";
+                                }
+                            } else {/*淘口令隐藏在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, "");
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
+                                }
+                            }
+
+                        } else {
+                            /*编辑模板不包含你能返标识*/
+
+                            if (TextUtils.isEmpty(good_short)) {
+                                official_content = official_content.replace(title_sign, goods_name);
+                            } else {
+                                official_content = official_content.replace(title_sign, good_short);
+                            }
+                            official_content = official_content.replace(shop_old_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_prime)));
+                            official_content = official_content.replace(shop_coupon_price, StringCleanZeroUtil.DoubleFormat(Double.valueOf(attr_price)));
+                            if (!TextUtils.isEmpty(promo_slogan)) {
+                                official_content = official_content.replace(tuijian_sign, promo_slogan);
+                            } else {
+                                official_content = official_content.replace("\n" + tuijian_sign, "");
+                            }
+                            official_content = official_content + "\n【下载果冻宝盒再省】" + ninnegfan_money + "元";
+
+                            if (buy_address_select == 1) {/*购买地址显示在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, share_qrcode);
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content + "\n【下单链接】" + share_qrcode;
+                                }
+                            } else {/*购买地址隐藏在*/
+                                if (official_content.contains(order_address_sign)) {/*编辑模板包含下单链接*/
+                                    official_content = official_content.replace(order_address_sign, "");
+                                } else {/*编辑模板不包含下单链接*/
+                                    official_content = official_content.replace("\n【下单链接】" + share_qrcode, "");
+                                }
+                            }
+
+                            if (taokouling_select == 1) {/*淘口令显示在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, share_taokouling);
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content + "\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购";
+                                }
+                            } else {/*淘口令隐藏在*/
+                                if (official_content.contains(taokouling_sign)) {/*编辑模板包含淘口令*/
+                                    official_content = official_content.replace(taokouling_sign, "");
+                                } else {/*编辑模板不包含淘口令*/
+                                    official_content = official_content.replace("\n长按復至" + share_taokouling + "，➡[掏✔寳]即可抢购", "");
+                                }
+                            }
+                        }
+                    }
+                }
+                tv_official_content.setText(official_content);
+                isNinengfan = !isNinengfan;
                 break;
         }
     }

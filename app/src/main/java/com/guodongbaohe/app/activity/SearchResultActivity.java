@@ -100,6 +100,7 @@ public class SearchResultActivity extends BigBaseActivity {
     private String has_coupon = "false";
     boolean isLogin;
     int space;
+    int search_type;
 
     @Override
     protected void onResume() {
@@ -130,6 +131,7 @@ public class SearchResultActivity extends BigBaseActivity {
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
         keyword = getIntent().getStringExtra("keyword");
+        search_type = getIntent().getIntExtra("search_type", 0);
         isLogin = PreferUtils.getBoolean(getApplicationContext(), "isLogin");
         son_count = PreferUtils.getString(getApplicationContext(), "son_count");
         member_role = PreferUtils.getString(getApplicationContext(), "member_role");
@@ -270,6 +272,7 @@ public class SearchResultActivity extends BigBaseActivity {
         map.put("coupon", has_coupon);
         map.put("page", String.valueOf(pageNum));
         map.put("q", keyword);
+        map.put("type", String.valueOf(search_type));
         final String param = ParamUtil.getMapParam(map);
         Log.i("搜索地址", keyword + "   " + Constant.BASE_URL + Constant.GOODS_NEW_SEARCH + "?" + param);
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GOODS_NEW_SEARCH + "?" + param)

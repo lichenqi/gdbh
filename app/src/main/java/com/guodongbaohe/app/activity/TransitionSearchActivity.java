@@ -109,6 +109,7 @@ public class TransitionSearchActivity extends BigBaseActivity {
                     return;
                 }
                 intent = new Intent(getApplicationContext(), SearchResultActivity.class);
+                intent.putExtra("search_type", 1);
                 intent.putExtra("keyword", trim);
                 startActivity(intent);
                 overridePendingTransition(R.anim.ap2, R.anim.ap1);
@@ -174,6 +175,7 @@ public class TransitionSearchActivity extends BigBaseActivity {
                                     //TODO
                                     intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                                     intent.putExtra("keyword", result.get(position).get(0));
+                                    intent.putExtra("search_type", 1);
                                     startActivityForResult(intent, 1);
                                 }
                             });
@@ -208,6 +210,7 @@ public class TransitionSearchActivity extends BigBaseActivity {
                     } else {
                         intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                         intent.putExtra("keyword", content);
+                        intent.putExtra("search_type", 1);
                         startActivityForResult(intent, 1);
                     }
                     return true;
@@ -258,6 +261,7 @@ public class TransitionSearchActivity extends BigBaseActivity {
                                         //TODO
                                         intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                                         intent.putExtra("keyword", hot_list.get(position).getWord());
+                                        intent.putExtra("search_type", 1);
                                         startActivityForResult(intent, 1);
                                     }
                                 });

@@ -207,9 +207,9 @@ public class Constant {
     /*官方微信客服*/
     public static final String WEIXIN_KEFU = "assets/upgradeCourse";
     /*分享模板*/
-    public static final String SHARE_MOBAN = "share/template/taowords";
+    public static final String SHARE_MOBAN = "share/template/new_words";
     /*新版模板数据*/
-    public static final String NEW_TAMPLATE_DATA = "share/template/taowords";
+    public static final String NEW_TAMPLATE_DATA = "share/template/new_words";
     /*总裁用户佣金比例*/
     public static final int BOSS_RATIO = 90;
     /*合伙人用户佣金比例*/

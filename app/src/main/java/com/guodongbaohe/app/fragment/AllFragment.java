@@ -129,6 +129,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     Intent intent;
     public static int item_grid_num = 10;//每一页中GridView中item的数量
     public static int number_columns = 5;//gridview一行展示的数目
+    private int api_mode = 0;
 
     public AllFragment() {
 
@@ -160,7 +161,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             notice_url = PreferUtils.getString(context, "notice_url");
             is_index_activity = PreferUtils.getString(context, "is_index_activity");
             initRecyclerview();
-            getListData();
+            getListData(api_mode);
             if (TextUtils.isEmpty(notice_title)) {
                 re_notice.setVisibility(View.INVISIBLE);
             } else {
@@ -426,11 +427,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     }
 
     /*列表数据*/
-    private void getListData() {
+    private void getListData(int mode) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put("limit", "12");
-        map.put("supid", cate_id);
+        map.put("limit", "20");
+        if (mode == 0) {
+            map.put("supid", cate_id);
+        }
         map.put("page", String.valueOf(pageNum));
+        map.put("label", "today");
         String param = ParamUtil.getMapParam(map);
         Log.i("列表数据参数", Constant.BASE_URL + Constant.SHOP_LIST + "?" + param);
         MyApplication.getInstance().getMyOkHttp().post()
@@ -448,9 +452,12 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
+                        Log.i("参数信息", PreferUtils.getString(context, Constant.PESUDOUNIQUEID) + "\n" + PreferUtils.getString(context, Constant.NETWORKTYPE)
+                                + "\n" + VersionUtil.getVersionCode(context) + "\n" + Constant.IMEI + "\n" + ParamUtil.GroupMap(context, ""));
                         Log.i("列表数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
+                            int pagecount = jsonObject.getInt("pagecount");
                             if (jsonObject.getInt("status") >= 0) {
                                 HomeListBean bean = GsonUtil.GsonToBean(response.toString(), HomeListBean.class);
                                 if (bean == null) return;
@@ -479,6 +486,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                         xrecycler.loadMoreComplete();
                                     }
                                 }
+                            } else if (jsonObject.getInt("status") == -1003) {/*超出最大页码*/
+                                getListData(-1);
                             } else {
                                 xrecycler.refreshComplete();
                                 xrecycler.loadMoreComplete();
@@ -633,7 +642,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             @Override
             public void onRefresh() {
                 pageNum = 1;
-                getListData();/*列表数据*/
+                getListData(api_mode);/*列表数据*/
                 if (bannerDataBean == null) {
                     getBannerData();/*轮播图数据*/
                 }
@@ -655,7 +664,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             @Override
             public void onLoadMore() {
                 pageNum++;
-                getListData();
+                getListData(api_mode);
             }
         });
         adapter.setOnClickListener(new OnItemClick() {
@@ -728,17 +737,17 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             case Constant.LOGIN_OUT:
                 /*用户退出*/
                 pageNum = 1;
-                getListData();
+                getListData(api_mode);
                 break;
             case Constant.LOGINSUCCESS:
                 /*登录成功*/
                 pageNum = 1;
-                getListData();
+                getListData(api_mode);
                 break;
             case Constant.USER_LEVEL_UPGRADE:
                 /*用户等级升级成功*/
                 pageNum = 1;
-                getListData();
+                getListData(api_mode);
                 break;
             case "timeStart":
                 initTimer();

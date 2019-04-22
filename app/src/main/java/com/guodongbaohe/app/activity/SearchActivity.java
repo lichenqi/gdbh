@@ -170,6 +170,7 @@ public class SearchActivity extends BaseActivity {
                                     HistorySearchUtil.getInstance(SearchActivity.this).putNewSearch(result.get(position).get(0));//保存记录到数据库
                                     intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                                     intent.putExtra("keyword", result.get(position).get(0));
+                                    intent.putExtra("search_type", 1);
                                     startActivityForResult(intent, 1);
                                     getHistoryList();
                                 }
@@ -229,6 +230,7 @@ public class SearchActivity extends BaseActivity {
                                 //TODO
                                 intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                                 intent.putExtra("keyword", hot_list.get(position).getWord());
+                                intent.putExtra("search_type", 1);
                                 startActivityForResult(intent, 1);
                             }
                         });
@@ -270,6 +272,7 @@ public class SearchActivity extends BaseActivity {
                         getHistoryList();
                         intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                         intent.putExtra("keyword", content);
+                        intent.putExtra("search_type", 1);
                         startActivityForResult(intent, 1);
                     }
                     return true;
@@ -298,6 +301,7 @@ public class SearchActivity extends BaseActivity {
             public void OnItemClick(String name) {
                 intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                 intent.putExtra("keyword", name);
+                intent.putExtra("search_type", 1);
                 startActivityForResult(intent, 1);
             }
         });
@@ -319,6 +323,7 @@ public class SearchActivity extends BaseActivity {
                     getHistoryList();
                     intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                     intent.putExtra("keyword", content);
+                    intent.putExtra("search_type", 1);
                     startActivityForResult(intent, 1);
                 }
                 break;

@@ -68,10 +68,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/deeply_yellow_bg"
-                android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="生成海报"
                 android:textColor="@color/black" />
 
@@ -79,8 +79,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/create_share_copy_bg"
                 android:orientation="vertical"
                 android:padding="10dp">
@@ -96,45 +96,41 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_huifu_moren"
+                    <RelativeLayout
+                        android:id="@+id/re_ninengfan_show"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/fuzhifenxiangwenan"
-                        android:gravity="center"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="5dp"
-                        android:text="恢复默认"
-                        android:textColor="#6f4207"
-                        android:textSize="12sp" />
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/edit_comment_template"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/fuzhifenxiangwenan"
-                        android:gravity="center"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="5dp"
-                        android:text="编辑模板"
-                        android:textColor="#6f4207"
-                        android:textSize="12sp" />
+                        <ImageView
+                            android:id="@+id/iv_fan_show"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_centerVertical="true"
+                            android:scaleType="centerCrop"
+                            android:src="@mipmap/xainshiyjin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/iv_fan_show"
+                            android:text="省钱提示"
+                            android:textColor="@color/txblack"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/re_buy_address_show"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
                         android:layout_weight="1">
 
                         <ImageView
@@ -185,19 +181,57 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_copy_comment_shre"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/deeply_yellow_bg"
-                android:paddingBottom="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingTop="5dp"
-                android:text="仅复制文案分享"
-                android:textColor="@color/black" />
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:id="@+id/tv_huifu_moren"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/fuzhifenxiangwenan"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="5dp"
+                    android:text="恢复默认"
+                    android:textColor="#6f4207"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_copy_comment_shre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/deeply_yellow_bg"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="5dp"
+                    android:text="仅复制文案分享"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/edit_comment_template"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/fuzhifenxiangwenan"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="5dp"
+                    android:text="编辑模板"
+                    android:textColor="#6f4207"
+                    android:textSize="12sp" />
+
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/re_plun"
@@ -205,10 +239,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@drawable/create_share_copy_bg"
-                android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:visibility="visible">
 
                 <TextView
@@ -223,14 +257,14 @@
                     android:id="@+id/tv_edit_taokling_muban"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_below="@+id/tv_tkl_content"
+                    android:layout_alignParentRight="true"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/fuzhifenxiangwenan"
-                    android:paddingBottom="5dp"
                     android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
                     android:paddingTop="5dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="5dp"
                     android:text="编辑模板"
                     android:textColor="#6f4207"
                     android:textSize="12sp" />
@@ -244,10 +278,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/deeply_yellow_bg"
-                android:paddingBottom="5dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="5dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="5dp"
                 android:text="复制评论"
                 android:textColor="@color/black" />
 

@@ -51,10 +51,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/deeply_yellow_bg"
                 android:gravity="center"
-                android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="8dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="8dp"
                 android:text="恢复"
                 android:textColor="@color/black" />
 
@@ -66,10 +66,10 @@
                 android:layout_weight="1"
                 android:background="@drawable/deeply_yellow_bg"
                 android:gravity="center"
-                android:paddingBottom="8dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
                 android:paddingTop="8dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="8dp"
                 android:text="保存"
                 android:textColor="@color/black" />
 
@@ -163,6 +163,15 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="10dp"
             android:text="{推荐理由}表示推荐理由,可为空"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:text="{下载果冻宝盒再省}表示能返利多少钱,可为空"
             android:textColor="@color/black" />
 
         <TextView

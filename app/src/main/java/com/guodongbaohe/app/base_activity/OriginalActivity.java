@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.SearchResultActivity;
 import com.guodongbaohe.app.util.ClipContentUtil;
+import com.guodongbaohe.app.util.HistorySearchUtil;
 
 import java.util.List;
 
@@ -92,8 +93,10 @@ public class OriginalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                HistorySearchUtil.getInstance(OriginalActivity.this).putNewSearch(content);//保存记录到数据库
                 Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
                 intent.putExtra("keyword", content);
+                intent.putExtra("search_type", 0);
                 startActivity(intent);
             }
         });

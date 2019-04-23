@@ -282,7 +282,7 @@
                 android:paddingTop="5dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="5dp"
-                android:text="复制评论"
+                android:text="复制淘口令"
                 android:textColor="@color/black" />
 
         </LinearLayout>

@@ -817,7 +817,11 @@ public class ShopDetailActivity extends BigBaseActivity {
                 tv_baobei.setTextColor( 0xffffffff );
                 tv_xiangqing.setTextColor( 0xffffffff );
                 tv_tuijian.setTextColor( 0xfff6c15b );
-                nestedscrollview.scrollTo( 0, recyclerview_pic.getBottom() - tv_jingpingtuijian_height );
+                if (isShopDetailPhotoShow) {
+                    nestedscrollview.scrollTo( 0, recyclerview_pic.getBottom() - tv_jingpingtuijian_height );
+                } else {
+                    nestedscrollview.scrollTo( 0, re_look_shop_detail.getBottom() - tv_jingpingtuijian_height );
+                }
                 break;
             case R.id.tv_baobei:
                 tv_baobei.setTextColor( 0xfff6c15b );

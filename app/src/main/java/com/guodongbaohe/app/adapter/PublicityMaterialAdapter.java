@@ -72,7 +72,7 @@ public class PublicityMaterialAdapter extends RecyclerView.Adapter<PublicityMate
         }
         holder.recyclerview.setHasFixedSize(true);
         holder.recyclerview.setLayoutManager(new GridLayoutManager(context, 3));
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video_url);
+        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video_url, "publictyMaterial");
         holder.recyclerview.setAdapter(circleImgsAdapter);
         String comment = list.get(position).getComment();
         if (TextUtils.isEmpty(comment)) {

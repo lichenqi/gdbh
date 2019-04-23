@@ -229,7 +229,7 @@ public class PublicityMaterialFragment extends Fragment {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("page", String.valueOf(pageNum));
         map.put("type", "material");
-        map.put("limit", "10");
+        map.put("limit", "5");
         final String param = ParamUtil.getMapParam(map);
         MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.EVERYDAYHOSTGOODS + "?" + param)
                 .tag(this)

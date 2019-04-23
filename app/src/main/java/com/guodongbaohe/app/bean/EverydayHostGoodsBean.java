@@ -42,6 +42,15 @@ public class EverydayHostGoodsBean {
         private String source;
         private String video;
         private String goods_comment;
+        private String video_cover;
+
+        public String getVideo_cover() {
+            return video_cover;
+        }
+
+        public void setVideo_cover(String video_cover) {
+            this.video_cover = video_cover;
+        }
 
         public String getGoods_comment() {
             return goods_comment;

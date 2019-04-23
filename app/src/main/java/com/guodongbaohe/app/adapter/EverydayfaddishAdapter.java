@@ -8,10 +8,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.bean.EverydayHostGoodsBean;
@@ -29,7 +31,7 @@ import butterknife.ButterKnife;
 public class EverydayfaddishAdapter extends RecyclerView.Adapter<EverydayfaddishAdapter.EverydayfaddishHolder> {
     private List<EverydayHostGoodsBean.GoodsList> list;
     private Context context;
-    private OnItemClick onShareClick, onFuzhiClick, allItemClick, onUserFuZhiClick;
+    private OnItemClick onShareClick, onFuzhiClick, allItemClick, onUserFuZhiClick, onVideoClick;
     private FragmentActivity activity;
     List<String> list_imgs;
     private OnLongClick onLongClick;
@@ -61,6 +63,10 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         this.onUserFuZhiClick = onUserFuZhiClick;
     }
 
+    public void setOnVideoClickListener(OnItemClick onVideoClick) {
+        this.onVideoClick = onVideoClick;
+    }
+
     public EverydayfaddishAdapter(List<EverydayHostGoodsBean.GoodsList> list, FragmentActivity activity) {
         this.list = list;
         this.activity = activity;
@@ -81,6 +87,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         }
         status = list.get(position).getStatus();
         video = list.get(position).getVideo();
+        String goods_thumb = list.get(position).getVideo_cover();
         attr_price = list.get(position).getAttr_price();
         attr_prime = list.get(position).getAttr_prime();
         attr_ratio = list.get(position).getAttr_ratio();
@@ -99,7 +106,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         }
         holder.recyclerview.setHasFixedSize(true);
         holder.recyclerview.setLayoutManager(new GridLayoutManager(context, 3));
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video);
+        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video, "everyday");
         holder.recyclerview.setAdapter(circleImgsAdapter);
         String comment = list.get(position).getComment();
         String goods_comment = list.get(position).getGoods_comment();
@@ -109,11 +116,22 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
             holder.re_taokouling_buju.setVisibility(View.VISIBLE);
             holder.tv_kouling_wenben.setText(comment);
         }
-        if (TextUtils.isDigitsOnly(goods_comment)) {
+        if (TextUtils.isEmpty(goods_comment)) {
             holder.re_user_view.setVisibility(View.GONE);
         } else {
             holder.re_user_view.setVisibility(View.VISIBLE);
             holder.tv_user_content.setText(goods_comment);
+        }
+        if (TextUtils.isEmpty(video)) {
+            holder.re_video.setVisibility(View.GONE);
+        } else {
+            holder.re_video.setVisibility(View.VISIBLE);
+            holder.re_bg_translate.getBackground().setAlpha(120);
+            if (!TextUtils.isEmpty(goods_thumb)) {
+                Glide.with(context).load(goods_thumb).into(holder.iv_video);
+            } else {
+                Glide.with(context).load(R.drawable.loading_img).into(holder.iv_video);
+            }
         }
         if (onShareClick != null) {
             holder.re_share.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +154,14 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
                 @Override
                 public void onClick(View v) {
                     onUserFuZhiClick.OnItemClickListener(holder.re_user_fuzhi, holder.getAdapterPosition());
+                }
+            });
+        }
+        if (onVideoClick != null) {
+            holder.re_video.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onVideoClick.OnItemClickListener(holder.re_video, holder.getAdapterPosition());
                 }
             });
         }
@@ -216,6 +242,12 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         TextView tv_user_content;
         @BindView(R.id.re_user_fuzhi)
         RelativeLayout re_user_fuzhi;
+        @BindView(R.id.re_video)
+        RelativeLayout re_video;
+        @BindView(R.id.iv_video)
+        ImageView iv_video;
+        @BindView(R.id.re_bg_translate)
+        RelativeLayout re_bg_translate;
 
         public EverydayfaddishHolder(View itemView) {
             super(itemView);

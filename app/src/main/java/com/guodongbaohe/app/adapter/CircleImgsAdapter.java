@@ -29,14 +29,15 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
     private DisplayMetrics displayMetrics;
     private int width;
     private FragmentActivity activity;
-    private String status, video;
+    private String status, video, isVideoShow;
 
-    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, String video_url) {
+    public CircleImgsAdapter(List<String> list_imgs, Context context, FragmentActivity activity, String status, String video_url, String isVideoShow) {
         this.list_imgs = list_imgs;
         this.context = context;
         this.activity = activity;
         this.status = status;
         this.video = video_url;
+        this.isVideoShow = isVideoShow;
         displayMetrics = context.getResources().getDisplayMetrics();
         int dip2px = DensityUtils.dip2px(this.context, 95);
         width = (displayMetrics.widthPixels - dip2px) / 3;
@@ -59,7 +60,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         holder.iv.setLayoutParams(layoutParams);
         holder.v_go.setLayoutParams(layoutParams1);
         Glide.with(context).load(list_imgs.get(position)).placeholder(R.drawable.loading_img).into(holder.iv);
-        if (!TextUtils.isEmpty(video)) {
+        if (!TextUtils.isEmpty(video) && isVideoShow.equals("publictyMaterial")) {
             holder.video_image.setVisibility(View.VISIBLE);
         } else {
             holder.video_image.setVisibility(View.GONE);
@@ -77,11 +78,19 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
             @Override
             public void onClick(View view) {
                 Intent intent;
-                if (!TextUtils.isEmpty(video)) {
-                    intent = new Intent(context, VideoPlayActivity.class);
-                    intent.putExtra("url", video);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                if (isVideoShow.contains("publictyMaterial")) {/*宣传素材过来*/
+                    if (!TextUtils.isEmpty(video)) {
+                        intent = new Intent(context, VideoPlayActivity.class);
+                        intent.putExtra("url", video);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    } else {
+                        intent = new Intent(context, PicsLookActivity.class);
+                        intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);
+                        intent.putExtra("position", position);
+                        context.startActivity(intent);
+                        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    }
                 } else {
                     intent = new Intent(context, PicsLookActivity.class);
                     intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);

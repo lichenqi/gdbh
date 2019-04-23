@@ -419,6 +419,9 @@
         <activity
             android:name=".activity.CollectShopDetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.VideoSurfaceViewActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

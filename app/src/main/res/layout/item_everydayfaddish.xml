@@ -101,6 +101,39 @@
         android:text="查看详情"
         android:textColor="#85470f" />
 
+    <RelativeLayout
+        android:id="@+id/re_video"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="5dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_video"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/bankuai_share_img" />
+
+        <RelativeLayout
+            android:id="@+id/re_bg_translate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/blackbase">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/video_icon" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"

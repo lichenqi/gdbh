@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#ff1a1a1a">
 
         <TextView
             android:id="@+id/tv_title"
@@ -125,10 +126,10 @@
                                         android:layout_marginLeft="10dp"
                                         android:layout_toRightOf="@+id/tv_id"
                                         android:background="@drawable/fuzhi"
-                                        android:paddingBottom="2dp"
                                         android:paddingLeft="10dp"
-                                        android:paddingRight="10dp"
                                         android:paddingTop="2dp"
+                                        android:paddingRight="10dp"
+                                        android:paddingBottom="2dp"
                                         android:text="复制"
                                         android:textColor="@color/white"
                                         android:textSize="10sp" />
@@ -145,8 +146,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:layout_marginTop="80dp"
+                        android:layout_marginRight="15dp"
                         android:background="@drawable/personal_money_bg"
                         android:gravity="center_vertical"
                         android:orientation="vertical">
@@ -191,8 +192,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:paddingBottom="10dp"
-                            android:paddingTop="10dp">
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp">
 
                             <RelativeLayout
                                 android:layout_width="0dp"
@@ -258,12 +259,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/shouyi_beijing"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
 
                     <RelativeLayout
                         android:id="@+id/re_order"
@@ -347,14 +348,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/shouyi_beijing"
                     android:orientation="horizontal"
-                    android:paddingBottom="10dp"
                     android:paddingLeft="15dp"
+                    android:paddingTop="10dp"
                     android:paddingRight="15dp"
-                    android:paddingTop="10dp">
+                    android:paddingBottom="10dp">
 
                     <RelativeLayout
                         android:id="@+id/re_taobao_gwuche"
@@ -363,8 +364,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/taobao_beijin"
                         android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp">
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
 
                         <ImageView
                             android:id="@+id/spp"
@@ -394,8 +395,8 @@
                         android:layout_weight="1"
                         android:background="@drawable/taobao_beijin"
                         android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp">
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp">
 
                         <ImageView
                             android:id="@+id/asccc"
@@ -423,8 +424,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/shouyi_beijing"
                     android:orientation="vertical">
 
@@ -636,10 +637,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/shouyi_beijing"
                     android:orientation="vertical">
 

@@ -239,12 +239,17 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/homelistitem" />
+
             <RelativeLayout
                 android:id="@+id/re_detail_show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/homelistitem"
+                android:background="@color/white"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
@@ -262,6 +267,11 @@
                     android:textSize="14sp" />
 
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/homelistitem" />
 
             <LinearLayout
                 android:id="@+id/ll_tuijian"
@@ -306,20 +316,82 @@
                 android:background="@color/homelistitem"
                 android:visibility="gone" />
 
+            <RelativeLayout
+                android:id="@+id/re_look_shop_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="查看商品详情" />
+
+                <ImageView
+                    android:id="@+id/iv_shop_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/xianghshang" />
+
+            </RelativeLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_pic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_jingpingtuijian"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/homelistitem" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:gravity="center"
-                android:text="---- 精品推荐 ----"
-                android:textColor="@color/txblack" />
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="1dp"
+                        android:background="@color/red" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:src="@mipmap/you_like" />
+
+                    <TextView
+                        android:id="@+id/tv_jingpingtuijian"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="猜你喜欢"
+                        android:textColor="@color/red" />
+
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="10dp"
+                        android:background="@color/red" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/jp_recycler"

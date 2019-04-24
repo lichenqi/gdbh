@@ -35,6 +35,7 @@
             android:alwaysRetainTaskState="true"
             android:clearTaskOnLaunch="false"
             android:launchMode="standard"
+            android:screenOrientation="portrait"
             android:theme="@style/StartActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

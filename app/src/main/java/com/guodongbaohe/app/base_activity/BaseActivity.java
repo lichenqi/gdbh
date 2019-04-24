@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
-import com.noober.background.BackgroundLibrary;
 import com.umeng.analytics.MobclickAgent;
 
 public abstract class BaseActivity extends BigBaseActivity {
@@ -21,7 +20,6 @@ public abstract class BaseActivity extends BigBaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        BackgroundLibrary.inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baseactivity);
         rl_parent = (RelativeLayout) findViewById(R.id.rl_parent);

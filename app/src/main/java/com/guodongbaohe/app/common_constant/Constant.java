@@ -31,7 +31,7 @@ public class Constant {
     //服务器地址
     public static final String BASE_URL = "https://jellybox.mopland.com/";
     /*测试服务*/
-//    public static final String HUANGLE_URL = "http://c34d4cee.ngrok.io/";
+//    public static final String HUANGLE_URL = "http://8ff40370.ngrok.io/";
     /*订单图像字段*/
     public static final String ORDER_PHOTO = "assets/thumb/";
     //首页轮播图

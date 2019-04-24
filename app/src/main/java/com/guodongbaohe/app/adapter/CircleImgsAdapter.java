@@ -39,14 +39,14 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         this.video = video_url;
         this.isVideoShow = isVideoShow;
         displayMetrics = context.getResources().getDisplayMetrics();
-        int dip2px = DensityUtils.dip2px(this.context, 95);
+        int dip2px = DensityUtils.dip2px( this.context, 95 );
         width = (displayMetrics.widthPixels - dip2px) / 3;
     }
 
     @Override
     public CircleImgsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.circleimgsadapter, parent, false);
-        return new CircleImgsHolder(view);
+        View view = LayoutInflater.from( context ).inflate( R.layout.circleimgsadapter, parent, false );
+        return new CircleImgsHolder( view );
     }
 
     @Override
@@ -57,49 +57,49 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         layoutParams1.height = width;
         layoutParams.width = width;
         layoutParams.height = width;
-        holder.iv.setLayoutParams(layoutParams);
-        holder.v_go.setLayoutParams(layoutParams1);
-        Glide.with(context).load(list_imgs.get(position)).placeholder(R.drawable.loading_img).into(holder.iv);
-        if (!TextUtils.isEmpty(video) && isVideoShow.equals("publictyMaterial")) {
-            holder.video_image.setVisibility(View.VISIBLE);
+        holder.iv.setLayoutParams( layoutParams );
+        holder.v_go.setLayoutParams( layoutParams1 );
+        Glide.with( context ).load( list_imgs.get( position ) ).placeholder( R.drawable.loading_img ).into( holder.iv );
+        if (!TextUtils.isEmpty( video ) && isVideoShow.equals( "publictyMaterial" )) {
+            holder.video_image.setVisibility( View.VISIBLE );
         } else {
-            holder.video_image.setVisibility(View.GONE);
+            holder.video_image.setVisibility( View.GONE );
         }
-        if (!TextUtils.isEmpty(status)) {
-            if (Double.valueOf(status) > 0) {
-                holder.v_go.setVisibility(View.GONE);
+        if (!TextUtils.isEmpty( status )) {
+            if (Double.valueOf( status ) > 0) {
+                holder.v_go.setVisibility( View.GONE );
             } else {
-                holder.v_go.setVisibility(View.VISIBLE);
+                holder.v_go.setVisibility( View.VISIBLE );
             }
         } else {
-            holder.v_go.setVisibility(View.VISIBLE);
+            holder.v_go.setVisibility( View.VISIBLE );
         }
-        holder.iv.setOnClickListener(new View.OnClickListener() {
+        holder.iv.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent;
-                if (isVideoShow.contains("publictyMaterial")) {/*宣传素材过来*/
-                    if (!TextUtils.isEmpty(video)) {
-                        intent = new Intent(context, VideoPlayActivity.class);
-                        intent.putExtra("url", video);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
+                if (isVideoShow.contains( "publictyMaterial" )) {/*宣传素材过来*/
+                    if (!TextUtils.isEmpty( video )) {
+                        intent = new Intent( context, VideoPlayActivity.class );
+                        intent.putExtra( "url", video );
+                        intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                        context.startActivity( intent );
                     } else {
-                        intent = new Intent(context, PicsLookActivity.class);
-                        intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);
-                        intent.putExtra("position", position);
-                        context.startActivity(intent);
-                        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        intent = new Intent( context, PicsLookActivity.class );
+                        intent.putStringArrayListExtra( "split", (ArrayList<String>) list_imgs );
+                        intent.putExtra( "position", position );
+                        context.startActivity( intent );
+                        activity.overridePendingTransition( R.anim.fade_in, R.anim.fade_out );
                     }
                 } else {
-                    intent = new Intent(context, PicsLookActivity.class);
-                    intent.putStringArrayListExtra("split", (ArrayList<String>) list_imgs);
-                    intent.putExtra("position", position);
-                    context.startActivity(intent);
-                    activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                    intent = new Intent( context, PicsLookActivity.class );
+                    intent.putStringArrayListExtra( "split", (ArrayList<String>) list_imgs );
+                    intent.putExtra( "position", position );
+                    context.startActivity( intent );
+                    activity.overridePendingTransition( R.anim.fade_in, R.anim.fade_out );
                 }
             }
-        });
+        } );
     }
 
     @Override
@@ -116,8 +116,8 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         ImageView video_image;
 
         public CircleImgsHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            super( itemView );
+            ButterKnife.bind( this, itemView );
         }
     }
 

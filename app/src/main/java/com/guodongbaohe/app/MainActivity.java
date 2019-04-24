@@ -165,7 +165,6 @@ public class MainActivity extends OriginalActivity {
         normal_iv_size = DensityUtils.dip2px( getApplicationContext(), 20 );
         replaceFragment( curIndex );
 
-
         if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
             /*获取用户信息*/
             getConfigurationData();

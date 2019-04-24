@@ -9,9 +9,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.guodongbaohe.app.R;
+import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.DownloadResponseHandler;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -32,7 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class VideoPlayActivity extends AppCompatActivity {
+public class VideoPlayActivity extends BigBaseActivity {
     @BindView(R.id.iv_back)
     ImageView iv_back;
     @BindView(R.id.videoView)
@@ -42,7 +43,7 @@ public class VideoPlayActivity extends AppCompatActivity {
     String videoUrl;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.video_view );
         ButterKnife.bind( this );

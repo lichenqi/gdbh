@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blackbase">
+    android:background="#1a1a1a">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
@@ -26,8 +26,8 @@
             android:layout_weight="1"
             android:background="@color/txgray"
             android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:id="@+id/sjjjf"
@@ -54,8 +54,8 @@
             android:layout_weight="1"
             android:background="#f6cc7b"
             android:gravity="center"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:id="@+id/ownwon"

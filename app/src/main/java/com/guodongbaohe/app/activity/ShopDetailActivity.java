@@ -63,6 +63,7 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.DateUtils;
+import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
@@ -170,7 +171,7 @@ public class ShopDetailActivity extends BigBaseActivity {
     /*头部信息view*/
     @BindView(R.id.ll_head_view)
     LinearLayout ll_head_view;
-    int ll_head_view_height, re_detail_show_height, tv_jingpingtuijian_height;
+    int re_detail_show_height;
     /*精品推荐*/
     @BindView(R.id.tv_jingpingtuijian)
     TextView tv_jingpingtuijian;
@@ -209,6 +210,10 @@ public class ShopDetailActivity extends BigBaseActivity {
     RelativeLayout re_look_shop_detail;
     @BindView(R.id.iv_shop_show)
     ImageView iv_shop_show;
+    @BindView(R.id.view_detail_below_line)
+    View view_detail_below_line;
+    @BindView(R.id.re_you_like)
+    RelativeLayout re_you_like;
     private boolean isShopDetailPhotoShow = false;
     /*开关字段*/
     private String is_pop_window, upgrade_vip_invite, money_upgrade_switch, is_show_money_vip, is_pop_window_vip;
@@ -410,28 +415,12 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     private void getViewHight() {
-        ViewTreeObserver viewTreeObserver = ll_head_view.getViewTreeObserver();
-        viewTreeObserver.addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                ll_head_view.getViewTreeObserver().removeOnGlobalLayoutListener( this );
-                ll_head_view_height = ll_head_view.getHeight();
-            }
-        } );
         ViewTreeObserver re_detail_show_observe = re_detail_show.getViewTreeObserver();
         re_detail_show_observe.addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 re_detail_show.getViewTreeObserver().removeOnGlobalLayoutListener( this );
                 re_detail_show_height = re_detail_show.getHeight();
-            }
-        } );
-        ViewTreeObserver tv_jingpingtuijian_observe = tv_jingpingtuijian.getViewTreeObserver();
-        tv_jingpingtuijian_observe.addOnGlobalLayoutListener( new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                tv_jingpingtuijian.getViewTreeObserver().removeOnGlobalLayoutListener( this );
-                tv_jingpingtuijian_height = tv_jingpingtuijian.getHeight();
             }
         } );
     }
@@ -817,11 +806,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 tv_baobei.setTextColor( 0xffffffff );
                 tv_xiangqing.setTextColor( 0xffffffff );
                 tv_tuijian.setTextColor( 0xfff6c15b );
-                if (isShopDetailPhotoShow) {
-                    nestedscrollview.scrollTo( 0, recyclerview_pic.getBottom() - tv_jingpingtuijian_height );
-                } else {
-                    nestedscrollview.scrollTo( 0, re_look_shop_detail.getBottom() - tv_jingpingtuijian_height );
-                }
+                nestedscrollview.scrollTo( 0, re_you_like.getTop() - DensityUtils.dip2px( getApplicationContext(), 60 ) );
                 break;
             case R.id.tv_baobei:
                 tv_baobei.setTextColor( 0xfff6c15b );

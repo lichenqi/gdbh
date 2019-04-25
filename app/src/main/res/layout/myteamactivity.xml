@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blackbase"
+        android:background="@color/my_yia_color"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -20,10 +20,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:paddingBottom="10dp"
                 android:paddingLeft="15dp"
-                android:paddingRight="25dp"
                 android:paddingTop="10dp"
+                android:paddingRight="25dp"
+                android:paddingBottom="10dp"
                 android:src="@drawable/back" />
 
             <RelativeLayout
@@ -34,9 +34,9 @@
                 android:layout_marginRight="25dp"
                 android:layout_toRightOf="@+id/back"
                 android:background="@drawable/shichang_search_bg"
-                android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
-                android:paddingTop="5dp">
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp">
 
                 <ImageView
                     android:id="@+id/huisesearch"

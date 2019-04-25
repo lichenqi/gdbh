@@ -2,15 +2,17 @@ package com.guodongbaohe.app.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.session.MediaController;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 
 import com.guodongbaohe.app.R;
@@ -20,21 +22,22 @@ import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class VideoSurfaceViewActivity extends BigBaseActivity implements SurfaceHolder.Callback {
+public class VideoSurfaceViewActivity extends BigBaseActivity implements SurfaceHolder.Callback, MediaPlayer.OnBufferingUpdateListener, MediaController.MediaPlayerControl {
     @BindView(R.id.re_parent)
-    RelativeLayout re_parent;
+    LinearLayout re_parent;
     @BindView(R.id.iv_back)
     ImageView iv_back;
     @BindView(R.id.iv_video_download)
     ImageView iv_video_download;
     @BindView(R.id.videoView)
-    SurfaceView videoView;
-    private MediaPlayer player;
-    private SurfaceHolder holder;
+    SurfaceView surfaceView;
     String videoUrl;
     int widthPixels, heightPixels;
-    private MediaController mediaController;
+    MediaPlayer mediaPlayer;
+    MediaController mediaController;
+    private int bufferPercentage = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,38 +49,73 @@ public class VideoSurfaceViewActivity extends BigBaseActivity implements Surface
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         widthPixels = displayMetrics.widthPixels;
         heightPixels = displayMetrics.heightPixels;
-        holder = videoView.getHolder();
-        holder.addCallback( this );
-        holder.setKeepScreenOn( true );
-        player = new MediaPlayer();
-        player.setAudioStreamType( AudioManager.STREAM_MUSIC );
-        player.setOnPreparedListener( new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                if (!player.isPlaying()) {
-                    player.start();
-                }
-            }
-        } );
-        player.setOnVideoSizeChangedListener( new MediaPlayer.OnVideoSizeChangedListener() {
-            @Override
-            public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
-                changeVideoSize();
-            }
-        } );
+        mediaPlayer = new MediaPlayer();
+        mediaController = new MediaController( this );
+        mediaController.setAnchorView( re_parent );
+        surfaceView.setZOrderOnTop( false );
+        surfaceView.getHolder().setType( SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS );
+        surfaceView.getHolder().addCallback( this );
+        surfaceView.requestFocus();
         try {
-            player.setDataSource( videoUrl );
-            player.setVideoScalingMode( MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING );
-            player.setLooping( true );
-            player.prepare();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+            mediaPlayer.setDataSource( videoUrl );
+            mediaPlayer.setOnBufferingUpdateListener( this );
+            mediaController.setMediaPlayer( this );
+            mediaController.setEnabled( true );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @OnClick({R.id.iv_back})
+    public void OnClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                finish();
+                break;
         }
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (null != mediaPlayer) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        mediaController.show();
+        return super.onTouchEvent( event );
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+        bufferPercentage = percent;
+    }
+
+    @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        player.setDisplay( holder );
+        mediaPlayer.setDisplay( holder );
+        mediaPlayer.prepareAsync();
     }
 
     @Override
@@ -90,25 +128,9 @@ public class VideoSurfaceViewActivity extends BigBaseActivity implements Surface
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (player != null) {
-            player.release();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (player != null) {
-            player.release();
-        }
-    }
-
     public void changeVideoSize() {
-        int videoWidth = player.getVideoWidth();
-        int videoHeight = player.getVideoHeight();
+        int videoWidth = mediaPlayer.getVideoWidth();
+        int videoHeight = mediaPlayer.getVideoHeight();
         //根据视频尺寸去计算->视频可以在sufaceView中放大的最大倍数。
         float max;
         if (getResources().getConfiguration().orientation == ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
@@ -122,6 +144,70 @@ public class VideoSurfaceViewActivity extends BigBaseActivity implements Surface
         videoWidth = (int) Math.ceil( (float) videoWidth / max );
         videoHeight = (int) Math.ceil( (float) videoHeight / max );
         //无法直接设置视频尺寸，将计算出的视频尺寸设置到surfaceView 让视频自动填充。
-        videoView.setLayoutParams( new RelativeLayout.LayoutParams( videoWidth, videoHeight ) );
+        surfaceView.setLayoutParams( new RelativeLayout.LayoutParams( videoWidth, videoHeight ) );
     }
+
+    @Override
+    public void start() {
+        if (null != mediaPlayer) {
+            mediaPlayer.start();
+        }
+    }
+
+    @Override
+    public void pause() {
+        if (null != mediaPlayer) {
+            mediaPlayer.pause();
+        }
+    }
+
+    @Override
+    public int getDuration() {
+        return mediaPlayer.getDuration();
+    }
+
+    @Override
+    public int getCurrentPosition() {
+        return mediaPlayer.getCurrentPosition();
+    }
+
+    @Override
+    public void seekTo(int pos) {
+        mediaPlayer.seekTo( pos );
+    }
+
+    @Override
+    public boolean isPlaying() {
+        if (mediaPlayer.isPlaying()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int getBufferPercentage() {
+        return bufferPercentage;
+    }
+
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekBackward() {
+        return true;
+    }
+
+    @Override
+    public boolean canSeekForward() {
+        return true;
+    }
+
+    @Override
+    public int getAudioSessionId() {
+        return 0;
+    }
+
+
 }

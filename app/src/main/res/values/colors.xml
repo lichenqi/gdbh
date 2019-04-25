@@ -8,7 +8,7 @@
     <color name="appthemetitle">#FF6088</color>
     <color name="homelistitem">#F4F4F4</color>
     <color name="txblack">#585858</color>
-    <color name="black">#ff000000</color>
+    <color name="black">#1a1a1a</color>
     <color name="txgray">#939393</color>
     <color name="xianhui">#eeeeee</color>
     <color name="red">#f40000</color>
@@ -29,4 +29,6 @@
     <color name="left_words">#888888</color>
     <color name="fenxiang_gray">#333433</color>
     <color name="miaoshu">#1B79C7</color>
+    <color name="my_black_base">#1a1a1a</color>
+    <color name="my_yia_color">#1a1a1a</color>
 </resources>

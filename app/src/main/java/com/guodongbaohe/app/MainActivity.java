@@ -447,11 +447,11 @@ public class MainActivity extends OriginalActivity {
                     break;
                 case 2:
                     window.setBackgroundDrawableResource( R.drawable.jianbian_zqian );
-                    window.setStatusBarColor( 0x00000000 );
+                    window.setStatusBarColor( 0xff1a1a1a );
                     break;
                 case 3:
                     window.setBackgroundDrawableResource( R.mipmap.faquan_bg );
-                    window.setStatusBarColor( 0x00000000 );
+                    window.setStatusBarColor( 0xff1a1a1a );
                     break;
                 case 4:
                     window.setStatusBarColor( 0xff1a1a1a );

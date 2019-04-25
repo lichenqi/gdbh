@@ -75,128 +75,127 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
     @Override
     public EverydayfaddishHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_everydayfaddish, parent, false);
-        return new EverydayfaddishHolder(view);
+        View view = LayoutInflater.from( context ).inflate( R.layout.item_everydayfaddish, parent, false );
+        return new EverydayfaddishHolder( view );
     }
 
     @Override
     public void onBindViewHolder(final EverydayfaddishHolder holder, int position) {
-        tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
-        if (!TextUtils.isEmpty(tax_rate)) {
-            app_v = 1 - Double.valueOf(tax_rate);
+        tax_rate = PreferUtils.getString( context, "tax_rate" );/*配置比例*/
+        if (!TextUtils.isEmpty( tax_rate )) {
+            app_v = 1 - Double.valueOf( tax_rate );
         }
-        status = list.get(position).getStatus();
-        video = list.get(position).getVideo();
-        String goods_thumb = list.get(position).getVideo_cover();
-        attr_price = list.get(position).getAttr_price();
-        attr_prime = list.get(position).getAttr_prime();
-        attr_ratio = list.get(position).getAttr_ratio();
-        holder.share_nums.setText("分享" + list.get(position).getTimes());
-        holder.title.setText(list.get(position).getContent());
-        holder.time.setText(TimeShowUtil.getTimeShow(list.get(position).getDateline(), System.currentTimeMillis()));
-        String img = list.get(position).getGoods_gallery();
+        status = list.get( position ).getStatus();
+        video = list.get( position ).getVideo();
+        String goods_thumb = list.get( position ).getVideo_cover();
+        attr_price = list.get( position ).getAttr_price();
+        attr_prime = list.get( position ).getAttr_prime();
+        attr_ratio = list.get( position ).getAttr_ratio();
+        holder.share_nums.setText( "分享" + list.get( position ).getTimes() );
+        holder.title.setText( list.get( position ).getContent() );
+        holder.time.setText( TimeShowUtil.getTimeShow( list.get( position ).getDateline(), System.currentTimeMillis() ) );
+        String img = list.get( position ).getGoods_gallery();
         list_imgs = new ArrayList<>();
-        if (img.contains("||")) {
-            String[] imgs = img.replace("||", ",").split(",");
+        if (img.contains( "||" )) {
+            String[] imgs = img.replace( "||", "," ).split( "," );
             for (int i = 0; i < imgs.length; i++) {
-                list_imgs.add(imgs[i]);
+                list_imgs.add( imgs[i] );
             }
         } else {
-            list_imgs.add(img);
+            list_imgs.add( img );
         }
-        holder.recyclerview.setHasFixedSize(true);
-        holder.recyclerview.setLayoutManager(new GridLayoutManager(context, 3));
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter(list_imgs, context, activity, status, video, "everyday");
-        holder.recyclerview.setAdapter(circleImgsAdapter);
-        String comment = list.get(position).getComment();
-        String goods_comment = list.get(position).getGoods_comment();
-        if (TextUtils.isEmpty(comment)) {
-            holder.re_taokouling_buju.setVisibility(View.GONE);
+        holder.recyclerview.setHasFixedSize( true );
+        holder.recyclerview.setLayoutManager( new GridLayoutManager( context, 3 ) );
+        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter( list_imgs, context, activity, status, video, "everyday" );
+        holder.recyclerview.setAdapter( circleImgsAdapter );
+        String comment = list.get( position ).getComment();
+        String goods_comment = list.get( position ).getGoods_comment();
+        if (TextUtils.isEmpty( comment )) {
+            holder.re_taokouling_buju.setVisibility( View.GONE );
         } else {
-            holder.re_taokouling_buju.setVisibility(View.VISIBLE);
-            holder.tv_kouling_wenben.setText(comment);
+            holder.re_taokouling_buju.setVisibility( View.VISIBLE );
+            holder.tv_kouling_wenben.setText( comment );
         }
-        if (TextUtils.isEmpty(goods_comment)) {
-            holder.re_user_view.setVisibility(View.GONE);
+        if (TextUtils.isEmpty( goods_comment )) {
+            holder.re_user_view.setVisibility( View.GONE );
         } else {
-            holder.re_user_view.setVisibility(View.VISIBLE);
-            holder.tv_user_content.setText(goods_comment);
+            holder.re_user_view.setVisibility( View.VISIBLE );
+            holder.tv_user_content.setText( goods_comment );
         }
-        if (TextUtils.isEmpty(video)) {
-            holder.re_video.setVisibility(View.GONE);
+        if (TextUtils.isEmpty( video )) {
+            holder.re_video.setVisibility( View.GONE );
         } else {
-            holder.re_video.setVisibility(View.VISIBLE);
-            holder.re_bg_translate.getBackground().setAlpha(120);
-            if (!TextUtils.isEmpty(goods_thumb)) {
-                Glide.with(context).load(goods_thumb).into(holder.iv_video);
+            holder.re_video.setVisibility( View.VISIBLE );
+            if (!TextUtils.isEmpty( goods_thumb )) {
+                Glide.with( context ).load( goods_thumb ).into( holder.iv_video );
             } else {
-                Glide.with(context).load(R.drawable.loading_img).into(holder.iv_video);
+                Glide.with( context ).load( R.drawable.loading_img ).into( holder.iv_video );
             }
         }
         if (onShareClick != null) {
-            holder.re_share.setOnClickListener(new View.OnClickListener() {
+            holder.re_share.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onShareClick.OnItemClickListener(holder.re_share, holder.getAdapterPosition());
+                    onShareClick.OnItemClickListener( holder.re_share, holder.getAdapterPosition() );
                 }
-            });
+            } );
         }
         if (onFuzhiClick != null) {
-            holder.re_fuzhi.setOnClickListener(new View.OnClickListener() {
+            holder.re_fuzhi.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onFuzhiClick.OnItemClickListener(holder.re_fuzhi, holder.getAdapterPosition());
+                    onFuzhiClick.OnItemClickListener( holder.re_fuzhi, holder.getAdapterPosition() );
                 }
-            });
+            } );
         }
         if (onUserFuZhiClick != null) {
-            holder.re_user_fuzhi.setOnClickListener(new View.OnClickListener() {
+            holder.re_user_fuzhi.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onUserFuZhiClick.OnItemClickListener(holder.re_user_fuzhi, holder.getAdapterPosition());
+                    onUserFuZhiClick.OnItemClickListener( holder.re_user_fuzhi, holder.getAdapterPosition() );
                 }
-            });
+            } );
         }
         if (onVideoClick != null) {
-            holder.re_video.setOnClickListener(new View.OnClickListener() {
+            holder.re_video.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onVideoClick.OnItemClickListener(holder.re_video, holder.getAdapterPosition());
+                    onVideoClick.OnItemClickListener( holder.re_video, holder.getAdapterPosition() );
                 }
-            });
+            } );
         }
         if (allItemClick != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    allItemClick.OnItemClickListener(holder.itemView, holder.getAdapterPosition());
+                    allItemClick.OnItemClickListener( holder.itemView, holder.getAdapterPosition() );
                 }
-            });
+            } );
         }
         if (onLongClick != null) {
-            holder.title.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.title.setOnLongClickListener( new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    onLongClick.OnLongClickListener(holder.title, holder.getAdapterPosition());
+                    onLongClick.OnLongClickListener( holder.title, holder.getAdapterPosition() );
                     return false;
                 }
-            });
+            } );
         }
 
-        String member_role = list.get(position).getMember_role();
-        if (list.get(position).isLogin()) {
-            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+        String member_role = list.get( position ).getMember_role();
+        if (list.get( position ).isLogin()) {
+            if (Constant.BOSS_USER_LEVEL.contains( member_role )) {
                 /*总裁用户*/
-                touristData(holder, Constant.BOSS_RATIO);
-            } else if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                touristData( holder, Constant.BOSS_RATIO );
+            } else if (Constant.PARTNER_USER_LEVEL.contains( member_role )) {
                 /*合伙人用户*/
-                touristData(holder, Constant.PARTNER_RATIO);
+                touristData( holder, Constant.PARTNER_RATIO );
             } else {
                 /*vip用户*/
-                touristData(holder, Constant.VIP_RATIO);
+                touristData( holder, Constant.VIP_RATIO );
             }
         } else {
-            touristData(holder, Constant.VIP_RATIO);
+            touristData( holder, Constant.VIP_RATIO );
         }
 
     }
@@ -207,11 +206,11 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
     }
 
     private void touristData(EverydayfaddishHolder holder, int num) {
-        if (!TextUtils.isEmpty(attr_ratio)) {
-            double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
-            bg3 = new BigDecimal(result);
-            double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            holder.ninengzhuan.setText("你能赚¥" + money);
+        if (!TextUtils.isEmpty( attr_ratio )) {
+            double result = Double.valueOf( attr_price ) * Double.valueOf( attr_ratio ) * num / 10000 * app_v;
+            bg3 = new BigDecimal( result );
+            double money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
+            holder.ninengzhuan.setText( "你能赚¥" + money );
         }
     }
 
@@ -246,12 +245,10 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         RelativeLayout re_video;
         @BindView(R.id.iv_video)
         ImageView iv_video;
-        @BindView(R.id.re_bg_translate)
-        RelativeLayout re_bg_translate;
 
         public EverydayfaddishHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            super( itemView );
+            ButterKnife.bind( this, itemView );
         }
     }
 

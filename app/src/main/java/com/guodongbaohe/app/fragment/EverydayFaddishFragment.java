@@ -252,6 +252,7 @@ public class EverydayFaddishFragment extends Fragment {
                     String video = list.get( position - 1 ).getVideo();
                     Intent intent = new Intent( context, VideoPlayActivity.class );
                     intent.putExtra( "url", video );
+                    intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                     startActivity( intent );
                 }
             } );

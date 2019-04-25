@@ -41,6 +41,7 @@ public class VideoPlayActivity extends BigBaseActivity {
     @BindView(R.id.iv_video_download)
     ImageView iv_video_download;
     String videoUrl;
+    MediaController mediaController;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,10 +51,11 @@ public class VideoPlayActivity extends BigBaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags( WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS );
         }
+        videoView.setZOrderMediaOverlay( false );
         videoUrl = getIntent().getStringExtra( "url" );
         videoView.setVideoPath( videoUrl );
         //创建MediaController对象
-        MediaController mediaController = new MediaController( this );
+        mediaController = new MediaController( this );
         //VideoView与MediaController建立关联
         videoView.setMediaController( mediaController );
         //让VideoView获取焦点
@@ -152,4 +154,29 @@ public class VideoPlayActivity extends BigBaseActivity {
         }
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (videoView != null) {
+            videoView.suspend();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (videoView != null) {
+            videoView.suspend();
+        }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (videoView != null) {
+            videoView.suspend();
+        }
+    }
 }

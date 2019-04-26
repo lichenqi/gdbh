@@ -390,7 +390,7 @@ public class MainActivity extends OriginalActivity {
         }
 
         if (currentFragment != null) {
-            getSupportFragmentManager().beginTransaction().hide( currentFragment ).commit();
+            getSupportFragmentManager().beginTransaction().hide( currentFragment ).commitAllowingStateLoss();
         }
         currentFragment = getSupportFragmentManager().findFragmentByTag( String.valueOf( tag ) );
         if (currentFragment == null) {
@@ -411,9 +411,9 @@ public class MainActivity extends OriginalActivity {
                     currentFragment = new MineFragment();
                     break;
             }
-            getSupportFragmentManager().beginTransaction().add( R.id.fl_container, currentFragment, String.valueOf( tag ) ).commit();
+            getSupportFragmentManager().beginTransaction().add( R.id.fl_container, currentFragment, String.valueOf( tag ) ).commitAllowingStateLoss();
         } else {
-            getSupportFragmentManager().beginTransaction().show( currentFragment ).commit();
+            getSupportFragmentManager().beginTransaction().show( currentFragment ).commitAllowingStateLoss();
         }
     }
 

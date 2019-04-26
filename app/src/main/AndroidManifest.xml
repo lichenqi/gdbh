@@ -340,7 +340,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.MipushTestActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.TaoBaoWebViewActivity"

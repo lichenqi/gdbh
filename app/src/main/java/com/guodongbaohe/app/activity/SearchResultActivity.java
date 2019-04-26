@@ -1,6 +1,5 @@
 package com.guodongbaohe.app.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,7 +25,6 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.itemdecoration.VipItemDecoration;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.DensityUtils;
-import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
@@ -95,7 +93,6 @@ public class SearchResultActivity extends BigBaseActivity {
     List<AllNetBean.AllNetData> list = new ArrayList<>();
     BaseSearchAdapter adapter;
     Intent intent;
-    Dialog loadingDialog;
     /*优惠券显示字段*/
     private String has_coupon = "false";
     boolean isLogin;
@@ -107,8 +104,6 @@ public class SearchResultActivity extends BigBaseActivity {
         super.onResume();
         userLevelChange();
     }
-
-    Dialog dialog;
 
     // 声明一个订阅方法，用于接收事件
     @Subscribe
@@ -136,7 +131,7 @@ public class SearchResultActivity extends BigBaseActivity {
         son_count = PreferUtils.getString(getApplicationContext(), "son_count");
         member_role = PreferUtils.getString(getApplicationContext(), "member_role");
         tv_search_name.setText(keyword);
-        getAllNet(0);
+        getAllNet();
         initXrecycler();
         initSwitch();
         relevanceView();
@@ -263,10 +258,7 @@ public class SearchResultActivity extends BigBaseActivity {
         }
     }
 
-    private void getAllNet(int mode) {
-        if (mode == 0) {
-            loadingDialog = DialogUtil.createLoadingDialog(SearchResultActivity.this, "加载中...");
-        }
+    private void getAllNet() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put("sort", type);
         map.put("coupon", has_coupon);
@@ -289,7 +281,6 @@ public class SearchResultActivity extends BigBaseActivity {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess(statusCode, response);
-                        DialogUtil.closeDialog(loadingDialog, SearchResultActivity.this);
                         Log.i("搜索数据", response.toString());
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
@@ -346,7 +337,6 @@ public class SearchResultActivity extends BigBaseActivity {
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast(getApplicationContext(), Constant.NONET);
-                        DialogUtil.closeDialog(loadingDialog, SearchResultActivity.this);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
                     }
@@ -363,13 +353,13 @@ public class SearchResultActivity extends BigBaseActivity {
             @Override
             public void onRefresh() {
                 pageNum = 1;
-                getAllNet(1);
+                getAllNet();
             }
 
             @Override
             public void onLoadMore() {
                 pageNum++;
-                getAllNet(1);
+                getAllNet();
             }
         });
         adapter.setonclicklistener(new OnItemClick() {

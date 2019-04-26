@@ -111,7 +111,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         @BindView(R.id.iv)
         ImageView iv;
         @BindView(R.id.v_go)
-        View v_go;
+        ImageView v_go;
         @BindView(R.id.video_image)
         ImageView video_image;
 

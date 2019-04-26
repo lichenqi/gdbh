@@ -59,7 +59,7 @@ public class HoursHortAdapter extends RecyclerView.Adapter<HoursHortAdapter.Hour
         StringCleanZeroUtil.StringFormatWithYuan(attr_price, holder.sale_price);
         holder.old_price.setText("¥" + attr_prime);
         holder.old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
-        holder.num.getBackground().setAlpha(150);
+        holder.num.getBackground().setAlpha(180);
         holder.num.setText("月销" + NumUtil.getNum(hoursList.get(position).getSales_month()));
         if (onItemClick != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

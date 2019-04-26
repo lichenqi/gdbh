@@ -55,7 +55,7 @@ public class GridViewAdapter extends BaseAdapter {
         int start = page * AllFragment.item_grid_num;
         int end = start + AllFragment.item_grid_num;
         while ((start < datas.size()) && (start < end)) {
-            dataList.add(datas.get(start));
+            dataList.add( datas.get( start ) );
             start++;
         }
     }
@@ -67,7 +67,7 @@ public class GridViewAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return dataList.get(i);
+        return dataList.get( i );
     }
 
     @Override
@@ -80,129 +80,141 @@ public class GridViewAdapter extends BaseAdapter {
         ViewHolder mHolder;
         if (itemView == null) {
             mHolder = new ViewHolder();
-            itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.home_classic_item, viewGroup, false);
-            mHolder.iv = (ImageView) itemView.findViewById(R.id.iv);
-            mHolder.name = (TextView) itemView.findViewById(R.id.name);
-            itemView.setTag(mHolder);
+            itemView = LayoutInflater.from( viewGroup.getContext() ).inflate( R.layout.home_classic_item, viewGroup, false );
+            mHolder.iv = (ImageView) itemView.findViewById( R.id.iv );
+            mHolder.name = (TextView) itemView.findViewById( R.id.name );
+            itemView.setTag( mHolder );
         } else {
             mHolder = (ViewHolder) itemView.getTag();
         }
-        final NewBanDataBean bean = dataList.get(i);
+        final NewBanDataBean bean = dataList.get( i );
         final String title = bean.title;
         final String url = bean.url;
         final String type = bean.type;
         if (bean != null) {
-            Glide.with(viewGroup.getContext()).load(bean.image).into(mHolder.iv);
-            mHolder.name.setText(title);
+            Glide.with( viewGroup.getContext() ).load( bean.image ).into( mHolder.iv );
+            mHolder.name.setText( title );
         }
-        itemView.setOnClickListener(new View.OnClickListener() {
+        itemView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 context = viewGroup.getContext();
-                if (PreferUtils.getBoolean(context, "isLogin")) {
-                    if (!TextUtils.isEmpty(type)) {
+                if (PreferUtils.getBoolean( context, "isLogin" )) {
+                    if (!TextUtils.isEmpty( type )) {
                         switch (type) {
                             case "app_theme":
-                                intent = new Intent(context, BaseH5Activity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, BaseH5Activity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "tmall":
-                                intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, TaoBaoAndTianMaoUrlActivity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "normal":
-                                intent = new Intent(context, BaseH5Activity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, BaseH5Activity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "xinshou":
                                 /*新手教程界面*/
-                                intent = new Intent(context, XinShouJiaoChengActivity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, XinShouJiaoChengActivity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "local_goods":
                                 /*实例商品到商品详情*/
-                                getShopBasicData(bean.extend);
+                                getShopBasicData( bean.extend );
                                 break;
                             case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
-                                intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, TaobaoTianMaoHolidayOfActivity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
+                                break;
+                            case "ldms":/*0点秒杀*/
+                                intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                                intent.putExtra( "goods_type", "ldms" );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
+                                break;
+                            case "gysp":/*高佣金商品*/
+                                intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                                intent.putExtra( "goods_type", "gysp" );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                         }
                     } else {
                         switch (url) {
                             case "jkj":
                                 /*9.9包邮*/
-                                intent = new Intent(context, NinePinkageActivity.class);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, NinePinkageActivity.class );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "fqb":
                                 /*疯抢榜*/
-                                intent = new Intent(context, ShopRangingClassicActivity.class);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, ShopRangingClassicActivity.class );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "jhs":
                                 /*聚划算*/
-                                intent = new Intent(context, KesalanPathActivity.class);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, KesalanPathActivity.class );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "tqg":
                                 /*淘抢购*/
-                                intent = new Intent(context, SuperMakeActivity.class);
-                                intent.putExtra("title", title);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, SuperMakeActivity.class );
+                                intent.putExtra( "title", title );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "gwc":
                                 /*淘宝购物车*/
-                                intent = new Intent(context, TaobaoShoppingCartActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, TaobaoShoppingCartActivity.class );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "yqtz":
-                                intent = new Intent(context, YaoQingFriendActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, YaoQingFriendActivity.class );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "tgsc":
-                                intent = new Intent(context, BaseH5Activity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, BaseH5Activity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                             case "upgrade":/*用户升级*/
-                                intent = new Intent(context, GShenJiActivity.class);
-                                intent.putExtra("url", bean.extend);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                intent = new Intent( context, GShenJiActivity.class );
+                                intent.putExtra( "url", bean.extend );
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                                 break;
                         }
                     }
                 } else {
-                    intent = new Intent(context, LoginAndRegisterActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    intent = new Intent( context, LoginAndRegisterActivity.class );
+                    intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                    context.startActivity( intent );
                 }
             }
-        });
+        } );
         return itemView;
     }
 
@@ -214,55 +226,55 @@ public class GridViewAdapter extends BaseAdapter {
     /*商品详情头部信息*/
     private void getShopBasicData(String shopId) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put("goods_id", shopId);
-        String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(context))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
-                .enqueue(new JsonResponseHandler() {
+        map.put( "goods_id", shopId );
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( context, "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
+                        super.onSuccess( statusCode, response );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                ShopBasicBean bean = GsonUtil.GsonToBean(response.toString(), ShopBasicBean.class);
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                ShopBasicBean bean = GsonUtil.GsonToBean( response.toString(), ShopBasicBean.class );
                                 if (bean == null) return;
                                 ShopBasicBean.ShopBasicData result = bean.getResult();
-                                Intent intent = new Intent(context, ShopDetailActivity.class);
-                                intent.putExtra("goods_id", result.getGoods_id());
-                                intent.putExtra("cate_route", result.getCate_route());/*类目名称*/
-                                intent.putExtra("cate_category", result.getCate_category());/*类目id*/
-                                intent.putExtra("attr_price", result.getAttr_price());
-                                intent.putExtra("attr_prime", result.getAttr_prime());
-                                intent.putExtra("attr_ratio", result.getAttr_ratio());
-                                intent.putExtra("sales_month", result.getSales_month());
-                                intent.putExtra("goods_name", result.getGoods_name());/*长标题*/
-                                intent.putExtra("goods_short", result.getGoods_short());/*短标题*/
-                                intent.putExtra("seller_shop", result.getSeller_shop());/*店铺姓名*/
-                                intent.putExtra("goods_thumb", result.getGoods_thumb());/*单图*/
-                                intent.putExtra("goods_gallery", result.getGoods_gallery());/*多图*/
-                                intent.putExtra("coupon_begin", result.getCoupon_begin());/*开始时间*/
-                                intent.putExtra("coupon_final", result.getCoupon_final());/*结束时间*/
-                                intent.putExtra("coupon_surplus", result.getCoupon_surplus());/*是否有券*/
-                                intent.putExtra("coupon_explain", result.getGoods_slogan());/*推荐理由*/
-                                intent.putExtra("attr_site", result.getAttr_site());/*天猫或者淘宝*/
-                                intent.putExtra("coupon_total", result.getCoupon_total());
-                                intent.putExtra("coupon_id", result.getCoupon_id());
-                                intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
-                                intent.putExtra(Constant.GAOYONGJIN_SOURCE, result.getSource());/*高佣金来源*/
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                context.startActivity(intent);
+                                Intent intent = new Intent( context, ShopDetailActivity.class );
+                                intent.putExtra( "goods_id", result.getGoods_id() );
+                                intent.putExtra( "cate_route", result.getCate_route() );/*类目名称*/
+                                intent.putExtra( "cate_category", result.getCate_category() );/*类目id*/
+                                intent.putExtra( "attr_price", result.getAttr_price() );
+                                intent.putExtra( "attr_prime", result.getAttr_prime() );
+                                intent.putExtra( "attr_ratio", result.getAttr_ratio() );
+                                intent.putExtra( "sales_month", result.getSales_month() );
+                                intent.putExtra( "goods_name", result.getGoods_name() );/*长标题*/
+                                intent.putExtra( "goods_short", result.getGoods_short() );/*短标题*/
+                                intent.putExtra( "seller_shop", result.getSeller_shop() );/*店铺姓名*/
+                                intent.putExtra( "goods_thumb", result.getGoods_thumb() );/*单图*/
+                                intent.putExtra( "goods_gallery", result.getGoods_gallery() );/*多图*/
+                                intent.putExtra( "coupon_begin", result.getCoupon_begin() );/*开始时间*/
+                                intent.putExtra( "coupon_final", result.getCoupon_final() );/*结束时间*/
+                                intent.putExtra( "coupon_surplus", result.getCoupon_surplus() );/*是否有券*/
+                                intent.putExtra( "coupon_explain", result.getGoods_slogan() );/*推荐理由*/
+                                intent.putExtra( "attr_site", result.getAttr_site() );/*天猫或者淘宝*/
+                                intent.putExtra( "coupon_total", result.getCoupon_total() );
+                                intent.putExtra( "coupon_id", result.getCoupon_id() );
+                                intent.putExtra( Constant.SHOP_REFERER, "local" );/*商品来源*/
+                                intent.putExtra( Constant.GAOYONGJIN_SOURCE, result.getSource() );/*高佣金来源*/
+                                intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                                context.startActivity( intent );
                             } else {
-                                String result = jsonObject.getString("result");
-                                ToastUtils.showToast(context, result);
+                                String result = jsonObject.getString( "result" );
+                                ToastUtils.showToast( context, result );
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -271,8 +283,8 @@ public class GridViewAdapter extends BaseAdapter {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(context, Constant.NONET);
+                        ToastUtils.showToast( context, Constant.NONET );
                     }
-                });
+                } );
     }
 }

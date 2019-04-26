@@ -64,7 +64,6 @@ public class VideoSurfaceViewActivity extends BigBaseActivity implements Surface
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @OnClick({R.id.iv_back})

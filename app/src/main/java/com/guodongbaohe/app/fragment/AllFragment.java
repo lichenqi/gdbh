@@ -1438,6 +1438,18 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                             context.startActivity( intent );
                             break;
+                        case "ldms":/*0点秒杀*/
+                            intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                            intent.putExtra( "goods_type", "ldms" );
+                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                            context.startActivity( intent );
+                            break;
+                        case "gysp":/*高佣金商品*/
+                            intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                            intent.putExtra( "goods_type", "gysp" );
+                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                            context.startActivity( intent );
+                            break;
                     }
                 } else {
                     startToLoginActivity();
@@ -1494,6 +1506,18 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                             intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                             context.startActivity( intent );
                             break;
+                        case "ldms":/*0点秒杀*/
+                            intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                            intent.putExtra( "goods_type", "ldms" );
+                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                            context.startActivity( intent );
+                            break;
+                        case "gysp":/*高佣金商品*/
+                            intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                            intent.putExtra( "goods_type", "gysp" );
+                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                            context.startActivity( intent );
+                            break;
                     }
                 } else {
                     startToLoginActivity();
@@ -1547,6 +1571,18 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                         case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
                             intent = new Intent( context, TaobaoTianMaoHolidayOfActivity.class );
                             intent.putExtra( "url", extend );
+                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                            context.startActivity( intent );
+                            break;
+                        case "ldms":/*0点秒杀*/
+                            intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                            intent.putExtra( "goods_type", "ldms" );
+                            intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
+                            context.startActivity( intent );
+                            break;
+                        case "gysp":/*高佣金商品*/
+                            intent = new Intent( context, ZeroPointsGoodsActivity.class );
+                            intent.putExtra( "goods_type", "gysp" );
                             intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                             context.startActivity( intent );
                             break;

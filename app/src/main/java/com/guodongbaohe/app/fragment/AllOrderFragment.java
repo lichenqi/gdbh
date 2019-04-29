@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -15,13 +16,15 @@ import android.widget.ImageView;
 
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
-import com.guodongbaohe.app.activity.SearchResultActivity;
+import com.guodongbaohe.app.activity.ShopDetailActivity;
 import com.guodongbaohe.app.adapter.OrderAdaptr;
+import com.guodongbaohe.app.bean.AllNetBean;
 import com.guodongbaohe.app.bean.OrderBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.ClipContentUtil;
+import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -109,12 +112,9 @@ public class AllOrderFragment extends android.support.v4.app.Fragment {
         adaptr.setonshopdetailclicklistener( new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
-                /*跳转到商品搜索列表*/
+                /*走搜索接口之后跳转到商品详情*/
                 String num_iid = list.get( position - 1 ).getNum_iid();
-                Intent intent = new Intent( getContext(), SearchResultActivity.class );
-                intent.putExtra( "keyword", itemUrl + num_iid );
-                intent.putExtra( "search_type", 1 );
-                startActivityForResult( intent, 1 );
+                getShopDetail( itemUrl + num_iid );
             }
         } );
     }
@@ -188,6 +188,82 @@ public class AllOrderFragment extends android.support.v4.app.Fragment {
                         nodata.setVisibility( View.VISIBLE );
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
+                        ToastUtils.showToast( getContext(), Constant.NONET );
+                    }
+                } );
+    }
+
+    Dialog loadingDialog;
+
+    private void getShopDetail(String keyword) {
+        loadingDialog = DialogUtil.createLoadingDialog( getContext(), "加载中..." );
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put( "sort", "" );
+        map.put( "coupon", "false" );
+        map.put( "page", "1" );
+        map.put( "q", keyword );
+        map.put( "type", "1" );
+        final String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.GOODS_NEW_SEARCH + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        DialogUtil.closeDialog( loadingDialog, getContext() );
+                        Log.i( "搜索数据", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            int aReturn = jsonObject.getInt( "status" );
+                            if (aReturn >= 0) {
+                                AllNetBean bean = GsonUtil.GsonToBean( response.toString(), AllNetBean.class );
+                                if (bean == null) return;
+                                List<AllNetBean.AllNetData> list = bean.getResult();
+                                if (list.size() > 0) {
+                                    Intent intent = new Intent( getContext(), ShopDetailActivity.class );
+                                    intent.putExtra( "goods_id", list.get( 0 ).getGoods_id() );
+                                    intent.putExtra( "cate_route", list.get( 0 ).getCate_route() );/*类目名称*/
+                                    intent.putExtra( "cate_category", list.get( 0 ).getCate_category() );
+                                    intent.putExtra( "attr_price", list.get( 0 ).getAttr_price() );
+                                    intent.putExtra( "attr_prime", list.get( 0 ).getAttr_prime() );
+                                    intent.putExtra( "attr_ratio", list.get( 0 ).getAttr_ratio() );
+                                    intent.putExtra( "sales_month", list.get( 0 ).getSales_month() );
+                                    intent.putExtra( "goods_name", list.get( 0 ).getGoods_name() );/*长标题*/
+                                    intent.putExtra( "goods_short", list.get( 0 ).getGoods_short() );/*短标题*/
+                                    intent.putExtra( "seller_shop", list.get( 0 ).getSeller_shop() );/*店铺姓名*/
+                                    intent.putExtra( "goods_thumb", list.get( 0 ).getGoods_thumb() );/*单图*/
+                                    intent.putExtra( "goods_gallery", list.get( 0 ).getGoods_gallery() );/*多图*/
+                                    intent.putExtra( "coupon_begin", list.get( 0 ).getCoupon_begin() );/*开始时间*/
+                                    intent.putExtra( "coupon_final", list.get( 0 ).getCoupon_final() );/*结束时间*/
+                                    intent.putExtra( "coupon_surplus", list.get( 0 ).getCoupon_surplus() );/*是否有券*/
+                                    intent.putExtra( "coupon_explain", list.get( 0 ).getGoods_slogan() );/*推荐理由*/
+                                    intent.putExtra( "attr_site", list.get( 0 ).getAttr_site() );/*天猫或者淘宝*/
+                                    intent.putExtra( "coupon_total", list.get( 0 ).getCoupon_total() );
+                                    intent.putExtra( "coupon_id", list.get( 0 ).getCoupon_id() );
+                                    intent.putExtra( Constant.SHOP_REFERER, "search" );/*商品来源*/
+                                    intent.putExtra( Constant.GAOYONGJIN_SOURCE, list.get( 0 ).getSource() );/*高佣金来源*/
+                                    startActivity( intent );
+                                }
+                            } else {
+                                String result = jsonObject.getString( "result" );
+                                ToastUtils.showToast( getContext(), result );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog( loadingDialog, getContext() );
                         ToastUtils.showToast( getContext(), Constant.NONET );
                     }
                 } );

@@ -53,53 +53,58 @@ public class StartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         if (!isTaskRoot()) {
             Intent intent = getIntent();
             String action = intent.getAction();
-            if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+            if (intent.hasCategory( Intent.CATEGORY_LAUNCHER ) && Intent.ACTION_MAIN.equals( action )) {
                 finish();
                 return;
             }
         }
-        setContentView(R.layout.advertisementactivity);
-        ButterKnife.bind(this);
+        setContentView( R.layout.advertisementactivity );
+        ButterKnife.bind( this );
         /*获取头部分类标题*/
         getClassicHeadTitle();
         /*获取小提示数据*/
         getNoticeData();
         /*获取app配置信息*/
         getPeiZhiData();
-        isFirst = PreferUtils.getBoolean(getApplicationContext(), "isFirst");
-        countdownTime = new TimeCount(3000, 1000);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isFirst = PreferUtils.getBoolean( getApplicationContext(), "isFirst" );
+        countdownTime = new TimeCount( 3000, 1000 );
         countdownTime.start();
-        time.setOnClickListener(new View.OnClickListener() {
+        time.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toMainActivity();
             }
-        });
-        re_parent.setOnClickListener(new View.OnClickListener() {
+        } );
+        re_parent.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 toMainActivity();
             }
-        });
-        time.getBackground().setAlpha(150);
+        } );
+        time.getBackground().setAlpha( 150 );
     }
 
     private void toMainActivity() {
         if (!isFirst) {
-            intent = new Intent(getApplicationContext(), GuideActivity.class);
+            intent = new Intent( getApplicationContext(), GuideActivity.class );
             //app状态改为正常
-            AppStatusManager.getInstance().setAppStatus(AppStatus.STATUS_NORMAL);
-            startActivity(intent);
-            PreferUtils.putBoolean(getApplicationContext(), "isFirst", true);
+            AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
+            startActivity( intent );
+            PreferUtils.putBoolean( getApplicationContext(), "isFirst", true );
         } else {
-            intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent = new Intent( getApplicationContext(), MainActivity.class );
             //app状态改为正常
-            AppStatusManager.getInstance().setAppStatus(AppStatus.STATUS_NORMAL);
-            startActivity(intent);
+            AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
+            startActivity( intent );
         }
         finish();
     }
@@ -107,12 +112,12 @@ public class StartActivity extends AppCompatActivity {
     private class TimeCount extends CountDownTimer {
 
         public TimeCount(long millisInFuture, long countDownInterval) {
-            super(millisInFuture, countDownInterval);
+            super( millisInFuture, countDownInterval );
         }
 
         @Override
         public void onTick(long millisUntilFinished) {
-            time.setText("跳过\n" + millisUntilFinished / 1000);
+            time.setText( "跳过\n" + millisUntilFinished / 1000 );
         }
 
         @Override
@@ -141,28 +146,28 @@ public class StartActivity extends AppCompatActivity {
 
     private void getClassicHeadTitle() {
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.GOODS_CATES)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+                .url( Constant.BASE_URL + Constant.GOODS_CATES )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
+                        super.onSuccess( statusCode, response );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            Log.i("数据啊", response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                CommonBean bean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            Log.i( "数据啊", response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                CommonBean bean = GsonUtil.GsonToBean( response.toString(), CommonBean.class );
                                 if (bean == null) return;
                                 result_list = bean.getResult();
-                                SpUtil.putList(getApplicationContext(), "head_title_list", result_list);
+                                SpUtil.putList( getApplicationContext(), "head_title_list", result_list );
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,40 +176,40 @@ public class StartActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        Toast.makeText(getApplicationContext(), Constant.NONET, Toast.LENGTH_LONG);
+                        Toast.makeText( getApplicationContext(), Constant.NONET, Toast.LENGTH_LONG );
                     }
-                });
+                } );
     }
 
     private void getNoticeData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("type", "notice");
-        String param = ParamUtil.getMapParam(map);
+        map.put( "type", "notice" );
+        String param = ParamUtil.getMapParam( map );
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.NOTICE + param)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+                .url( Constant.BASE_URL + Constant.NOTICE + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("小提示数据", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "小提示数据", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            int status = jsonObject.getInt("status");
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            int status = jsonObject.getInt( "status" );
                             if (status >= 0) {
-                                NoticeBean bean = GsonUtil.GsonToBean(response.toString(), NoticeBean.class);
+                                NoticeBean bean = GsonUtil.GsonToBean( response.toString(), NoticeBean.class );
                                 if (bean == null) return;
                                 String title = bean.getResult().getTitle();
-                                PreferUtils.putString(getApplicationContext(), "notice_title", title);
-                                PreferUtils.putString(getApplicationContext(), "notice_url", bean.getResult().getUrl());
+                                PreferUtils.putString( getApplicationContext(), "notice_title", title );
+                                PreferUtils.putString( getApplicationContext(), "notice_url", bean.getResult().getUrl() );
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -215,37 +220,37 @@ public class StartActivity extends AppCompatActivity {
                     public void onFailure(int statusCode, String error_msg) {
 
                     }
-                });
+                } );
     }
 
     private void getPeiZhiData() {
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.APPPEIZHIDATA)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.APPPEIZHIDATA )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("app配置信息", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "app配置信息", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            int status = jsonObject.getInt("status");
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            int status = jsonObject.getInt( "status" );
                             if (status >= 0) {
-                                ConfigurationBean bean = GsonUtil.GsonToBean(response.toString(), ConfigurationBean.class);
+                                ConfigurationBean bean = GsonUtil.GsonToBean( response.toString(), ConfigurationBean.class );
                                 if (bean == null) return;
                                 /*H5地址*/
                                 ConfigurationBean.PageBean http_list = bean.getPage();
                                 Gson gson = new Gson();
-                                String http_list_data = gson.toJson(http_list);
+                                String http_list_data = gson.toJson( http_list );
                                 //保存h5地址信息
-                                PreferUtils.putString(getApplicationContext(), "http_list_data", http_list_data);
+                                PreferUtils.putString( getApplicationContext(), "http_list_data", http_list_data );
                                 /*邀请说明*/
                                 String invite_friends = bean.getResult().getInvite_friends();
                                 /*最低支付宝提现金额*/
@@ -267,56 +272,56 @@ public class StartActivity extends AppCompatActivity {
                                 /*vip邀请人数限制字段*/
                                 String upgrade_invite_num = bean.getResult().getUpgrade_invite_num();
                                 /*存储比例数据*/
-                                PreferUtils.putString(getApplicationContext(), "tax_rate", tax_rate);
+                                PreferUtils.putString( getApplicationContext(), "tax_rate", tax_rate );
                                 /*存储二维码信息*/
-                                PreferUtils.putString(getApplicationContext(), "share_friends_title", share_friends_title);
+                                PreferUtils.putString( getApplicationContext(), "share_friends_title", share_friends_title );
                                 /*存储邀请标题*/
-                                PreferUtils.putString(getApplicationContext(), "short_title", short_title);
+                                PreferUtils.putString( getApplicationContext(), "short_title", short_title );
                                 /*存储最低提现金额*/
-                                PreferUtils.putString(getApplicationContext(), "min_withdraw_alipay", min_withdraw_alipay);
+                                PreferUtils.putString( getApplicationContext(), "min_withdraw_alipay", min_withdraw_alipay );
                                 /*存储最低银行卡提现金额*/
-                                PreferUtils.putString(getApplicationContext(), "min_withdraw_card", min_withdraw_card);
+                                PreferUtils.putString( getApplicationContext(), "min_withdraw_card", min_withdraw_card );
                                 /*存储新手教程*/
-                                PreferUtils.putString(getApplicationContext(), "order_new", order_new);
+                                PreferUtils.putString( getApplicationContext(), "order_new", order_new );
                                 /*存储常见问题*/
-                                PreferUtils.putString(getApplicationContext(), "question", question);
+                                PreferUtils.putString( getApplicationContext(), "question", question );
                                 /*存储vip邀请人数字段*/
-                                PreferUtils.putString(getApplicationContext(), "upgrade_invite_num", upgrade_invite_num);
+                                PreferUtils.putString( getApplicationContext(), "upgrade_invite_num", upgrade_invite_num );
                                 /*新手教程*/
-                                PreferUtils.putString(getApplicationContext(), "course", course);
+                                PreferUtils.putString( getApplicationContext(), "course", course );
                                 /*存储分享说明*/
-                                PreferUtils.putString(getApplicationContext(), "invite_friends", invite_friends);
-                                PreferUtils.putString(getApplicationContext(), "online_switch_android", online_switch_android);
+                                PreferUtils.putString( getApplicationContext(), "invite_friends", invite_friends );
+                                PreferUtils.putString( getApplicationContext(), "online_switch_android", online_switch_android );
                                 /*存储用户协议*/
-                                PreferUtils.putString(getApplicationContext(), "agreement", bean.getResult().getAgreement());
+                                PreferUtils.putString( getApplicationContext(), "agreement", bean.getResult().getAgreement() );
                                 /*存储分享说明*/
-                                PreferUtils.putString(getApplicationContext(), "share_goods", bean.getResult().getShare_goods());
-                                PreferUtils.putString(getApplicationContext(), "about_us", bean.getResult().getAbout_us());
+                                PreferUtils.putString( getApplicationContext(), "share_goods", bean.getResult().getShare_goods() );
+                                PreferUtils.putString( getApplicationContext(), "about_us", bean.getResult().getAbout_us() );
                                 /*存储详情是否显示优惠券*/
-                                PreferUtils.putString(getApplicationContext(), "shopdetail_show_cpupon", bean.getResult().getIs_show_coupon());
+                                PreferUtils.putString( getApplicationContext(), "shopdetail_show_cpupon", bean.getResult().getIs_show_coupon() );
                                 /*存储商品首页是否显示优惠券*/
-                                PreferUtils.putString(getApplicationContext(), "shop_home_show_coupon", bean.getResult().getIs_show_ratio());
+                                PreferUtils.putString( getApplicationContext(), "shop_home_show_coupon", bean.getResult().getIs_show_ratio() );
                                 /*存储商品详情点击分享赚和购买返弹窗显示*/
-                                PreferUtils.putString(getApplicationContext(), "is_pop_window", bean.getResult().getIs_pop_window());
+                                PreferUtils.putString( getApplicationContext(), "is_pop_window", bean.getResult().getIs_pop_window() );
                                 /*存储普通用户到VIP需要的邀请人数字段*/
-                                PreferUtils.putString(getApplicationContext(), "upgrade_vip_invite", bean.getResult().getUpgrade_vip_invite());
+                                PreferUtils.putString( getApplicationContext(), "upgrade_vip_invite", bean.getResult().getUpgrade_vip_invite() );
                                 /*对付华为 oppo上线开关*/
-                                PreferUtils.putString(getApplicationContext(), "money_upgrade_switch", bean.getResult().getMoney_upgrade_switch());
+                                PreferUtils.putString( getApplicationContext(), "money_upgrade_switch", bean.getResult().getMoney_upgrade_switch() );
                                 /*商品详情页是否显示弹框*/
-                                PreferUtils.putString(getApplicationContext(), "is_show_money_vip", bean.getResult().getIs_show_money_vip());
-                                PreferUtils.putString(getApplicationContext(), "is_pop_window_vip", bean.getResult().getIs_pop_window_vip());
+                                PreferUtils.putString( getApplicationContext(), "is_show_money_vip", bean.getResult().getIs_show_money_vip() );
+                                PreferUtils.putString( getApplicationContext(), "is_pop_window_vip", bean.getResult().getIs_pop_window_vip() );
                                 /*Android启动引导登录*/
-                                PreferUtils.putString(getApplicationContext(), "start_guide_to_login", bean.getResult().getStart_guide_to_login());
+                                PreferUtils.putString( getApplicationContext(), "start_guide_to_login", bean.getResult().getStart_guide_to_login() );
                                 /*vip要升级合伙人需要的人数*/
-                                PreferUtils.putString(getApplicationContext(), "upgrade_partner_vips", bean.getResult().getUpgrade_partner_vips());
+                                PreferUtils.putString( getApplicationContext(), "upgrade_partner_vips", bean.getResult().getUpgrade_partner_vips() );
                                 /*合伙人升级总裁需要的人数*/
-                                PreferUtils.putString(getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners());
+                                PreferUtils.putString( getApplicationContext(), "upgrade_boss_partners", bean.getResult().getUpgrade_boss_partners() );
                                 /*令牌说明*/
-                                PreferUtils.putString(getApplicationContext(), "app_token_desc", bean.getResult().getApp_token_desc());
+                                PreferUtils.putString( getApplicationContext(), "app_token_desc", bean.getResult().getApp_token_desc() );
                                 /*存储首页主题活动状态*/
-                                PreferUtils.putString(getApplicationContext(), "is_index_activity", bean.getResult().getIs_index_activity());
+                                PreferUtils.putString( getApplicationContext(), "is_index_activity", bean.getResult().getIs_index_activity() );
                             } else {
-                                ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                                ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -325,9 +330,9 @@ public class StartActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                     }
-                });
+                } );
     }
 
     @Override
@@ -338,7 +343,7 @@ public class StartActivity extends AppCompatActivity {
             return false;
 
         }
-        return super.onKeyDown(keyCode, event);
+        return super.onKeyDown( keyCode, event );
     }
 
     @Override
@@ -347,7 +352,7 @@ public class StartActivity extends AppCompatActivity {
             //非默认值
             getResources();
         }
-        super.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged( newConfig );
     }
 
     @Override
@@ -356,7 +361,7 @@ public class StartActivity extends AppCompatActivity {
         if (res.getConfiguration().fontScale != 1) {//非默认值
             Configuration newConfig = new Configuration();
             newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+            res.updateConfiguration( newConfig, res.getDisplayMetrics() );
         }
         return res;
     }

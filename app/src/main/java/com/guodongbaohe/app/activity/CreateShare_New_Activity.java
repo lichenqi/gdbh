@@ -55,6 +55,7 @@ import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetPicsToBitmap;
 import com.guodongbaohe.app.util.NetUtil;
+import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.QRCodeUtil;
@@ -156,7 +157,7 @@ public class CreateShare_New_Activity extends BaseActivity {
     @BindView(R.id.iv_fan_show)
     ImageView iv_fan_show;
     /*商品资源*/
-    String goods_thumb, goods_gallery, goods_name, promo_slogan, attr_price, attr_prime,
+    String goods_thumb, goods_gallery, goods_name, promo_slogan, attr_price, attr_prime, sale_num,
             attr_site, good_short, attr_ratio, goods_id, share_taokouling, share_qrcode, coupon_surplus;
     Intent intent;
     private List<String> pics_list;
@@ -229,6 +230,7 @@ public class CreateShare_New_Activity extends BaseActivity {
         share_taokouling = intent.getStringExtra( "share_taokouling" );
         share_qrcode = intent.getStringExtra( "share_qrcode" );
         coupon_surplus = intent.getStringExtra( "coupon_surplus" );
+        sale_num = intent.getStringExtra( "sale_num" );
         v = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
         double ninengfan = Double.valueOf( attr_price ) * Double.valueOf( attr_ratio ) * Constant.VIP_RATIO / 10000 * app_v;
         bg3 = new BigDecimal( ninengfan );
@@ -561,6 +563,7 @@ public class CreateShare_New_Activity extends BaseActivity {
                 tv_coupon_money.setText( "立即抢购" );
             }
         }
+        p_sale_num.setText( "销量: " + NumUtil.getNum( sale_num ) );
         IconAndTextGroupUtil.setTextView( getApplicationContext(), p_title, goods_name, attr_site );
         p_coupon_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_price ) ) );
         p_old_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_prime ) ) );
@@ -1695,13 +1698,14 @@ public class CreateShare_New_Activity extends BaseActivity {
 
     /*看不见的view转化成bitmap*/
     public Bitmap createBitmapOfNew(View v, int width, int height) {
+        int viewWidth = DensityUtils.dip2px( getApplicationContext(), 350 );
         //测量使得view指定大小
-        int measuredWidth = View.MeasureSpec.makeMeasureSpec( width, View.MeasureSpec.EXACTLY );
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec( viewWidth, View.MeasureSpec.EXACTLY );
         int measuredHeight = View.MeasureSpec.makeMeasureSpec( height, View.MeasureSpec.AT_MOST );
         v.measure( measuredWidth, measuredHeight );
         //调用layout方法布局后，可以得到view的尺寸大小
-        v.layout( 0, 0, v.getMeasuredWidth(), v.getMeasuredHeight() );
-        Bitmap bmp = Bitmap.createBitmap( v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888 );
+        v.layout( 0, 0, viewWidth, v.getMeasuredHeight() );
+        Bitmap bmp = Bitmap.createBitmap( viewWidth, v.getHeight(), Bitmap.Config.ARGB_8888 );
         Canvas c = new Canvas( bmp );
         c.drawColor( Color.WHITE );
         v.draw( c );

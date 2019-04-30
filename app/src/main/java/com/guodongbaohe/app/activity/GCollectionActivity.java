@@ -503,6 +503,8 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
                                     intent.putExtra( Constant.SHOP_REFERER, "search" );/*商品来源*/
                                     intent.putExtra( Constant.GAOYONGJIN_SOURCE, list.get( 0 ).getSource() );/*高佣金来源*/
                                     startActivity( intent );
+                                } else {
+                                    ToastUtils.showToast( getContext(), "该商品已下架" );
                                 }
                             } else {
                                 String result = jsonObject.getString( "result" );

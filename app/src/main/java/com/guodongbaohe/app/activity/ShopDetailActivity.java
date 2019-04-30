@@ -1265,6 +1265,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 intent.putExtra( "share_taokouling", share_taokouling );
                                 intent.putExtra( "share_qrcode", result );
                                 intent.putExtra( "coupon_surplus", coupon_surplus );
+                                intent.putExtra( "sale_num", sales_month );
                                 startActivity( intent );
                             } else {
                                 String result = jsonObject.getString( "result" );

@@ -858,8 +858,8 @@ public class MainActivity extends OriginalActivity {
                                     ImageView cancel = (ImageView) dialogs.findViewById( R.id.close_dialog_im );
                                     LinearLayout close_dialog_lv = (LinearLayout) dialogs.findViewById( R.id.close_dialog_lv );
                                     if (sure == null || cancel == null) return;
-                                    Glide.with( MainActivity.this ).load( four_iv_list.get( 0 ).getImage() ).into( sure );
-                                    Glide.with( MainActivity.this ).load( R.mipmap.close_dialog ).into( cancel );
+                                    Glide.with( getApplicationContext() ).load( four_iv_list.get( 0 ).getImage() ).into( sure );
+                                    Glide.with( getApplicationContext() ).load( R.mipmap.close_dialog ).into( cancel );
                                     sure.setOnClickListener( new View.OnClickListener() {
                                         @Override
                                         public void onClick(View view) {

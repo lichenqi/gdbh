@@ -20,12 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.adapter.FuzzyAdater;
 import com.guodongbaohe.app.adapter.HotSearchAdapter;
 import com.guodongbaohe.app.adapter.SearchAdapter;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.FuzzyData;
 import com.guodongbaohe.app.bean.HotBean;
 import com.guodongbaohe.app.common_constant.Constant;
@@ -78,18 +81,21 @@ public class SearchActivity extends BaseActivity {
     LinearLayout ll_hot_and_histoy;
     @BindView(R.id.iv_cancel)
     RelativeLayout iv_cancel;
+    @BindView(R.id.re_look_book)
+    RelativeLayout re_look_book;
     Intent intent;
+    ConfigurationBean.PageBean list_data;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister( this );
     }
 
     // 声明一个订阅方法，用于接收事件
     @Subscribe
     public void onEvent(String msg) {
-        if (msg.equals(Constant.SEARCH_BACK)) {
+        if (msg.equals( Constant.SEARCH_BACK )) {
             finish();
         }
     }
@@ -101,10 +107,10 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        setMiddleTitle("搜索");
+        super.onCreate( savedInstanceState );
+        ButterKnife.bind( this );
+        EventBus.getDefault().register( this );
+        setMiddleTitle( "搜索" );
         getHistoryList();
         /*监听键盘输入的字*/
         setEditWatch();
@@ -116,7 +122,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initEditTextView() {
-        ed_keyword.addTextChangedListener(new TextWatcher() {
+        ed_keyword.addTextChangedListener( new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -129,209 +135,220 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s.toString())) {
-                    getFuzzyData(s.toString());
-                    iv_cancel.setVisibility(View.VISIBLE);
+                if (!TextUtils.isEmpty( s.toString() )) {
+                    getFuzzyData( s.toString() );
+                    iv_cancel.setVisibility( View.VISIBLE );
                 } else {
-                    fuzzy_recycler.setVisibility(View.GONE);
-                    ll_hot_and_histoy.setVisibility(View.VISIBLE);
-                    iv_cancel.setVisibility(View.GONE);
+                    fuzzy_recycler.setVisibility( View.GONE );
+                    ll_hot_and_histoy.setVisibility( View.VISIBLE );
+                    iv_cancel.setVisibility( View.GONE );
                 }
             }
-        });
+        } );
     }
 
     private void getFuzzyData(String s) {
         HashMap<String, String> map = new HashMap<>();
-        map.put("q", s);
-        map.put("code", "utf-8");
-        String param = ParamUtil.getMapParam(map);
-        Log.i("搜索词组", s);
+        map.put( "q", s );
+        map.put( "code", "utf-8" );
+        String param = ParamUtil.getMapParam( map );
+        Log.i( "搜索词组", s );
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.FUZZY_DATA + param)
-                .tag(this)
-                .enqueue(new JsonResponseHandler() {
+                .url( Constant.FUZZY_DATA + param )
+                .tag( this )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("模糊", response.toString());
-                        FuzzyData fuzzyData = GsonUtil.GsonToBean(response.toString(), FuzzyData.class);
+                        super.onSuccess( statusCode, response );
+                        Log.i( "模糊", response.toString() );
+                        FuzzyData fuzzyData = GsonUtil.GsonToBean( response.toString(), FuzzyData.class );
                         final List<List<String>> result = fuzzyData.getResult();
                         if (result.size() > 0) {
-                            fuzzy_recycler.setVisibility(View.VISIBLE);
-                            ll_hot_and_histoy.setVisibility(View.GONE);
-                            FuzzyAdater fuzzyAdater = new FuzzyAdater(getApplicationContext(), result);
-                            fuzzy_recycler.setAdapter(fuzzyAdater);
-                            fuzzyAdater.setonclicklistener(new OnItemClick() {
+                            fuzzy_recycler.setVisibility( View.VISIBLE );
+                            ll_hot_and_histoy.setVisibility( View.GONE );
+                            FuzzyAdater fuzzyAdater = new FuzzyAdater( getApplicationContext(), result );
+                            fuzzy_recycler.setAdapter( fuzzyAdater );
+                            fuzzyAdater.setonclicklistener( new OnItemClick() {
                                 @Override
                                 public void OnItemClickListener(View view, int position) {
                                     //TODO
-                                    HistorySearchUtil.getInstance(SearchActivity.this).putNewSearch(result.get(position).get(0));//保存记录到数据库
-                                    intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                                    intent.putExtra("keyword", result.get(position).get(0));
-                                    intent.putExtra("search_type", 1);
-                                    startActivityForResult(intent, 1);
+                                    HistorySearchUtil.getInstance( SearchActivity.this ).putNewSearch( result.get( position ).get( 0 ) );//保存记录到数据库
+                                    intent = new Intent( getApplicationContext(), SearchResultActivity.class );
+                                    intent.putExtra( "keyword", result.get( position ).get( 0 ) );
+                                    intent.putExtra( "search_type", 1 );
+                                    startActivityForResult( intent, 1 );
                                     getHistoryList();
                                 }
-                            });
+                            } );
                         } else {
-                            fuzzy_recycler.setVisibility(View.GONE);
-                            ll_hot_and_histoy.setVisibility(View.VISIBLE);
+                            fuzzy_recycler.setVisibility( View.GONE );
+                            ll_hot_and_histoy.setVisibility( View.VISIBLE );
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                     }
-                });
+                } );
     }
 
     private void initFuzzyView() {
-        hot_recyclerview.setHasFixedSize(true);
-        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
-        fuzzy_recycler.setLayoutManager(manager);
+        LinearLayoutManager manager = new LinearLayoutManager( getApplicationContext() );
+        fuzzy_recycler.setLayoutManager( manager );
     }
 
     private void initHotView() {
-        hot_recyclerview.setHasFixedSize(true);
-        GridLayoutManager manager = new GridLayoutManager(getApplicationContext(), 4);
-        TimeItemDecoration itemDecoration = new TimeItemDecoration(DensityUtils.dip2px(getApplicationContext(), 10), DensityUtils.dip2px(getApplicationContext(), 5));
-        hot_recyclerview.addItemDecoration(itemDecoration);
-        hot_recyclerview.setLayoutManager(manager);
+        hot_recyclerview.setHasFixedSize( true );
+        GridLayoutManager manager = new GridLayoutManager( getApplicationContext(), 4 );
+        TimeItemDecoration itemDecoration = new TimeItemDecoration( DensityUtils.dip2px( getApplicationContext(), 10 ), DensityUtils.dip2px( getApplicationContext(), 5 ) );
+        hot_recyclerview.addItemDecoration( itemDecoration );
+        hot_recyclerview.setLayoutManager( manager );
         getHotData();
     }
 
     private void getHotData() {
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.HOT_SEARCH)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.HOT_SEARCH )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("热门", response.toString());
-                        HotBean hotBean = GsonUtil.GsonToBean(response.toString(), HotBean.class);
+                        super.onSuccess( statusCode, response );
+                        Log.i( "热门", response.toString() );
+                        HotBean hotBean = GsonUtil.GsonToBean( response.toString(), HotBean.class );
                         if (hotBean == null) return;
                         final List<HotBean.HotBeanData> hot_list = hotBean.getResult();
-                        HotSearchAdapter hotSearchAdapter = new HotSearchAdapter(getApplicationContext(), hot_list);
-                        hot_recyclerview.setAdapter(hotSearchAdapter);
-                        hotSearchAdapter.setonclicklistener(new OnItemClick() {
+                        HotSearchAdapter hotSearchAdapter = new HotSearchAdapter( getApplicationContext(), hot_list );
+                        hot_recyclerview.setAdapter( hotSearchAdapter );
+                        hotSearchAdapter.setonclicklistener( new OnItemClick() {
                             @Override
                             public void OnItemClickListener(View view, int position) {
                                 //TODO
-                                intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                                intent.putExtra("keyword", hot_list.get(position).getWord());
-                                intent.putExtra("search_type", 1);
-                                startActivityForResult(intent, 1);
+                                intent = new Intent( getApplicationContext(), SearchResultActivity.class );
+                                intent.putExtra( "keyword", hot_list.get( position ).getWord() );
+                                intent.putExtra( "search_type", 1 );
+                                startActivityForResult( intent, 1 );
                             }
-                        });
+                        } );
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                     }
-                });
+                } );
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ed_keyword.setFocusable(true);
-        ed_keyword.setFocusableInTouchMode(true);
+        ed_keyword.setFocusable( true );
+        ed_keyword.setFocusableInTouchMode( true );
         ed_keyword.requestFocus();
         Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        timer.schedule( new TimerTask() {
             public void run() {
-                InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                inputManager.showSoftInput(ed_keyword, 0);
+                InputMethodManager inputManager = (InputMethodManager) getSystemService( Context.INPUT_METHOD_SERVICE );
+                inputManager.showSoftInput( ed_keyword, 0 );
             }
-        }, 100);
+        }, 100 );
     }
 
     private void setEditWatch() {
-        ed_keyword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        ed_keyword.setOnEditorActionListener( new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     String content = ed_keyword.getText().toString().trim();
-                    if (TextUtils.isEmpty(content)) {
-                        ToastUtils.showToast(getApplicationContext(), "请先输入搜索关键字");
+                    if (TextUtils.isEmpty( content )) {
+                        ToastUtils.showToast( getApplicationContext(), "请先输入搜索关键字" );
                     } else {
-                        HistorySearchUtil.getInstance(SearchActivity.this).putNewSearch(content);//保存记录到数据库
+                        HistorySearchUtil.getInstance( SearchActivity.this ).putNewSearch( content );//保存记录到数据库
                         getHistoryList();
-                        intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                        intent.putExtra("keyword", content);
-                        intent.putExtra("search_type", 1);
-                        startActivityForResult(intent, 1);
+                        intent = new Intent( getApplicationContext(), SearchResultActivity.class );
+                        intent.putExtra( "keyword", content );
+                        intent.putExtra( "search_type", 1 );
+                        startActivityForResult( intent, 1 );
                     }
                     return true;
                 }
                 return false;
             }
-        });
+        } );
     }
 
     SearchAdapter adapter;
 
     private void getHistoryList() {
-        final List<String> list = HistorySearchUtil.getInstance(getApplicationContext()).queryHistorySearchList();
-        Collections.reverse(list);
+        final List<String> list = HistorySearchUtil.getInstance( getApplicationContext() ).queryHistorySearchList();
+        Collections.reverse( list );
         if (list.size() > 0) {
-            flow_layout.setVisibility(View.VISIBLE);
-            ll_histoy_notiy.setVisibility(View.VISIBLE);
+            flow_layout.setVisibility( View.VISIBLE );
+            ll_histoy_notiy.setVisibility( View.VISIBLE );
         } else {
-            flow_layout.setVisibility(View.GONE);
-            ll_histoy_notiy.setVisibility(View.GONE);
+            flow_layout.setVisibility( View.GONE );
+            ll_histoy_notiy.setVisibility( View.GONE );
         }
         //设置标签
-        flow_layout.setLables(list, false);
-        flow_layout.setOnClickListener(new FlowLayout.OnItem() {
+        flow_layout.setLables( list, false );
+        flow_layout.setOnClickListener( new FlowLayout.OnItem() {
             @Override
             public void OnItemClick(String name) {
-                intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", name);
-                intent.putExtra("search_type", 1);
-                startActivityForResult(intent, 1);
+                intent = new Intent( getApplicationContext(), SearchResultActivity.class );
+                intent.putExtra( "keyword", name );
+                intent.putExtra( "search_type", 1 );
+                startActivityForResult( intent, 1 );
             }
-        });
+        } );
     }
 
-    @OnClick({R.id.ll_histoy_notiy, R.id.finish, R.id.iv_cancel})
+    @OnClick({R.id.ll_histoy_notiy, R.id.finish, R.id.iv_cancel, R.id.re_look_book})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_histoy_notiy:
-                HistorySearchUtil.getInstance(getApplicationContext()).deleteAllHistorySearch();
+                HistorySearchUtil.getInstance( getApplicationContext() ).deleteAllHistorySearch();
                 getHistoryList();
                 break;
             case R.id.finish:
                 String content = ed_keyword.getText().toString().trim();
-                if (TextUtils.isEmpty(content)) {
-                    ToastUtils.showToast(getApplicationContext(), "请先输入搜索关键字");
+                if (TextUtils.isEmpty( content )) {
+                    ToastUtils.showToast( getApplicationContext(), "请先输入搜索关键字" );
                 } else {
-                    HistorySearchUtil.getInstance(SearchActivity.this).putNewSearch(content);//保存记录到数据库
+                    HistorySearchUtil.getInstance( SearchActivity.this ).putNewSearch( content );//保存记录到数据库
                     getHistoryList();
-                    intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                    intent.putExtra("keyword", content);
-                    intent.putExtra("search_type", 1);
-                    startActivityForResult(intent, 1);
+                    intent = new Intent( getApplicationContext(), SearchResultActivity.class );
+                    intent.putExtra( "keyword", content );
+                    intent.putExtra( "search_type", 1 );
+                    startActivityForResult( intent, 1 );
                 }
                 break;
             case R.id.iv_cancel:
                 String content1 = ed_keyword.getText().toString().trim();
-                if (!TextUtils.isEmpty(content1)) {
-                    ed_keyword.setText("");
-                    iv_cancel.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty( content1 )) {
+                    ed_keyword.setText( "" );
+                    iv_cancel.setVisibility( View.GONE );
+                }
+                break;
+            case R.id.re_look_book:
+                String getUrl = PreferUtils.getString( getApplicationContext(), "http_list_data" );
+                if (!TextUtils.isEmpty( getUrl )) {
+                    Gson gson = new Gson();
+                    list_data = gson.fromJson( getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+                    }.getType() );
+                    String url = list_data.getCourse().getUrl();
+                    intent = new Intent( getApplicationContext(), XinShouJiaoChengActivity.class );
+                    intent.putExtra( "url", url );
+                    startActivity( intent );
                 }
                 break;
         }
@@ -340,10 +357,10 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1 && resultCode == 1) {
-            String keyword = data.getStringExtra("keyword");
-            ed_keyword.setText(keyword);
-            ed_keyword.setSelection(keyword.length());
+            String keyword = data.getStringExtra( "keyword" );
+            ed_keyword.setText( keyword );
+            ed_keyword.setSelection( keyword.length() );
         }
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult( requestCode, resultCode, data );
     }
 }

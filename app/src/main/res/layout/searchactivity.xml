@@ -9,8 +9,8 @@
         android:id="@+id/re_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/finish"
@@ -18,10 +18,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:paddingBottom="5dp"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp"
             android:paddingTop="5dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="5dp"
             android:text="搜索" />
 
         <RelativeLayout
@@ -50,7 +50,7 @@
                 android:layout_toLeftOf="@+id/iv_cancel"
                 android:layout_toRightOf="@+id/huisesearch"
                 android:background="@null"
-                android:hint="请输入搜索关键字"
+                android:hint="搜索商品名或粘贴宝贝标题"
                 android:imeOptions="actionSearch"
                 android:singleLine="true"
                 android:textSize="14sp" />
@@ -78,67 +78,175 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_hot_and_histoy"
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/re_title"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.guodongbaohe.app.view.MyRadioButton
+            android:id="@+id/radio_one"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableBottom="@drawable/order_tab"
+            android:gravity="center"
+            android:tag="0"
+            android:text="淘宝"
+            android:textColor="@color/tab_color_order_search"
+            app:rb_height="2dp"
+            app:rb_width="30dp" />
+
+        <com.guodongbaohe.app.view.MyRadioButton
+            android:id="@+id/radio_two"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableBottom="@drawable/order_tab"
+            android:gravity="center"
+            android:tag="1"
+            android:text="拼多多"
+            android:textColor="@color/tab_color_order_search"
+            app:rb_height="2dp"
+            app:rb_width="30dp" />
+
+        <com.guodongbaohe.app.view.MyRadioButton
+            android:id="@+id/radio_three"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableBottom="@drawable/order_tab"
+            android:gravity="center"
+            android:tag="0"
+            android:text="京东"
+            android:textColor="@color/tab_color_order_search"
+            app:rb_height="2dp"
+            app:rb_width="30dp" />
+
+    </RadioGroup>
+
+    <View
+        android:id="@+id/view_line_one"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:layout_below="@+id/radiogroup"
+        android:background="@color/gray" />
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/re_title"
-        android:orientation="vertical">
+        android:layout_below="@+id/view_line_one"
+        android:scrollbars="none">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/ll_hot_and_histoy"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:gravity="center_vertical"
-            android:text="热门搜索"
-            android:textColor="@color/black" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/hot_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
+            <RelativeLayout
+                android:id="@+id/re_look_book"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
 
-        <RelativeLayout
-            android:id="@+id/ll_histoy_notiy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="15dp"
-            android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="三步轻松获取优惠券/返现"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/iv_look"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/search_look_book" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/iv_look"
+                    android:text="查看教程"
+                    android:textColor="#D39600" />
+
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/search_long_iv" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
-                android:text="历史搜索"
+                android:text="大家都在搜"
                 android:textColor="@color/black" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/hot_recyclerview"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:text="清除"
-                android:textColor="@color/txblack" />
+                android:layout_marginTop="5dp" />
 
-        </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/ll_histoy_notiy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="15dp"
+                android:visibility="gone">
 
-        <com.guodongbaohe.app.view.FlowLayout
-            android:id="@+id/flow_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:visibility="gone"
-            app:lineSpace="10dp"
-            app:rowSpace="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="历史搜索"
+                    android:textColor="@color/black" />
 
-    </LinearLayout>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/search_history_clean" />
+
+            </RelativeLayout>
+
+            <com.guodongbaohe.app.view.FlowLayout
+                android:id="@+id/flow_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                app:lineSpace="10dp"
+                app:rowSpace="10dp" />
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fuzzy_recycler"

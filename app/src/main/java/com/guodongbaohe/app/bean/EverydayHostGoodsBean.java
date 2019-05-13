@@ -43,6 +43,34 @@ public class EverydayHostGoodsBean {
         private String video;
         private String goods_comment;
         private String video_cover;
+        private String flag;
+        private String goods_id_list;
+        private String attr_price_list;
+        private String member_role;
+
+        public String getFlag() {
+            return flag;
+        }
+
+        public void setFlag(String flag) {
+            this.flag = flag;
+        }
+
+        public String getGoods_id_list() {
+            return goods_id_list;
+        }
+
+        public void setGoods_id_list(String goods_id_list) {
+            this.goods_id_list = goods_id_list;
+        }
+
+        public String getAttr_price_list() {
+            return attr_price_list;
+        }
+
+        public void setAttr_price_list(String attr_price_list) {
+            this.attr_price_list = attr_price_list;
+        }
 
         public String getVideo_cover() {
             return video_cover;
@@ -99,8 +127,6 @@ public class EverydayHostGoodsBean {
         public void setMember_role(String member_role) {
             this.member_role = member_role;
         }
-
-        private String member_role;
 
         public String getActivity_type() {
             return activity_type;

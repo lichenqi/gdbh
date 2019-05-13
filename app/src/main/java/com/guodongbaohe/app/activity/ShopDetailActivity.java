@@ -114,9 +114,6 @@ public class ShopDetailActivity extends BigBaseActivity {
     /*优惠券使用时间*/
     @BindView(R.id.tv_coupon_time)
     TextView tv_coupon_time;
-    /*立即领取按钮*/
-    @BindView(R.id.tv_get_coupon)
-    TextView tv_get_coupon;
     /*图文详情*/
     @BindView(R.id.re_detail_show)
     RelativeLayout re_detail_show;
@@ -214,6 +211,10 @@ public class ShopDetailActivity extends BigBaseActivity {
     View view_detail_below_line;
     @BindView(R.id.re_you_like)
     RelativeLayout re_you_like;
+    @BindView(R.id.tv_rule)
+    TextView tv_rule;
+    @BindView(R.id.iv_fanyong)
+    ImageView iv_fanyong;
     private boolean isShopDetailPhotoShow = false;
     /*开关字段*/
     private String is_pop_window, upgrade_vip_invite, money_upgrade_switch, is_show_money_vip, is_pop_window_vip;
@@ -510,11 +511,12 @@ public class ShopDetailActivity extends BigBaseActivity {
     Dialog dialog;
     BigDecimal bg;
     String start_time;
+    double youhuiquan;
 
     private void initCouponView() {
         double v = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
         bg = new BigDecimal( v );
-        double youhuiquan = bg.setScale( 0, BigDecimal.ROUND_HALF_UP ).doubleValue();
+        youhuiquan = bg.setScale( 0, BigDecimal.ROUND_HALF_UP ).doubleValue();
         if (Double.valueOf( coupon_surplus ) > 0) {
             tv_classic_type.setText( "券后" );
         } else {
@@ -526,28 +528,19 @@ public class ShopDetailActivity extends BigBaseActivity {
         }
 
         if (Double.valueOf( coupon_surplus ) > 0) {
+            ll_youhuiquan_show.setVisibility( View.VISIBLE );
             /*有券显示*/
             if (TextUtils.isEmpty( coupon_begin ) || TextUtils.isEmpty( coupon_final )) {
                 return;
             }
             start_time = coupon_begin.substring( 0, 4 ) + "." + coupon_begin.substring( 4, 6 ) + "." + coupon_begin.substring( 6, 8 );
-            String end_time = coupon_final.substring( 0, 4 ) + "." + coupon_final.substring( 4, 6 ) + "." + coupon_final.substring( 6, 8 );
-            coupon_money.setText( StringCleanZeroUtil.DoubleFormat( youhuiquan ) + "元优惠券" );
-            tv_coupon_time.setText( "有效期:" + start_time + "-" + end_time );
-            tv_get_coupon.setText( "立即领取" );
+            String start_time_new = coupon_begin.substring( 4, 6 ) + "月" + coupon_begin.substring( 6, 8 ) + "日";
+            String end_time = coupon_final.substring( 4, 6 ) + "月" + coupon_final.substring( 6, 8 ) + "日";
+            coupon_money.setText( StringCleanZeroUtil.DoubleFormat( youhuiquan ) );
+            tv_coupon_time.setText( start_time_new + "-" + end_time );
         } else {
-            /*折扣显示*/
-            if (v > 0) {
-                bg = new BigDecimal( Double.valueOf( attr_price ) / Double.valueOf( attr_prime ) * 10 );
-                double zhekou = bg.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
-                coupon_money.setText( zhekou + "折" );
-                tv_coupon_time.setText( "使用期限:商品优惠时间解释权归店铺所有" );
-                tv_get_coupon.setText( "立即抢购" );
-            } else {
-                coupon_money.setText( "特惠价" + attr_price + "元" );
-                tv_coupon_time.setText( "使用期限:商品优惠时间解释权归店铺所有" );
-                tv_get_coupon.setText( "立即抢购" );
-            }
+            /*无券显示样式*/
+            ll_youhuiquan_show.setVisibility( View.GONE );
         }
 
         if (isLogin) {
@@ -559,7 +552,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                 } else {
                     tv_yao_zhuanqian.setText( "邀请好友下载APP,好友买东西，你也能挣钱。" );
                 }
-                tv_lijiyaoqing.setText( "立即邀请>>" );
+                tv_lijiyaoqing.setText( "立即邀请" );
             } else if (Constant.PARTNER_USER_LEVEL.contains( member_role )) {
                 /*合伙人比例*/
                 setDataBiLi( 80 );
@@ -582,7 +575,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         BigDecimal bg3 = new BigDecimal( result );
         double money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
         tv_yao_zhuanqian.setText( "现在升级为" + content + "， 立赚" + money + "元" );
-        tv_lijiyaoqing.setText( "立即升级>>" );
+        tv_lijiyaoqing.setText( "立即升级" );
     }
 
     private void getPhotoTextData() {
@@ -763,7 +756,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
     @OnClick({R.id.iv_back, R.id.tv_buy, R.id.tv_share_money, R.id.tv_tuijian, R.id.tv_baobei, R.id.re_yao_zhuanqian,
             R.id.ll_youhuiquan_show, R.id.to_home, R.id.tv_xiangqing, R.id.iv_yuanxing_back, R.id.re_look_shop_detail,
-            R.id.to_top, R.id.re_collect, R.id.collect_list, R.id.ll_most_bottom})
+            R.id.to_top, R.id.re_collect, R.id.collect_list, R.id.ll_most_bottom, R.id.tv_rule, R.id.iv_fanyong})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -871,6 +864,16 @@ public class ShopDetailActivity extends BigBaseActivity {
                     recyclerview_pic.setVisibility( View.VISIBLE );
                 }
                 isShopDetailPhotoShow = !isShopDetailPhotoShow;
+                break;
+            case R.id.iv_fanyong:
+                intent = new Intent( getApplicationContext(), BaseH5Activity.class );
+                intent.putExtra( "url", "http://app.mopland.com/question/comis" );
+                startActivity( intent );
+                break;
+            case R.id.tv_rule:
+                intent = new Intent( getApplicationContext(), BaseH5Activity.class );
+                intent.putExtra( "url", "http://app.mopland.com/question/comis" );
+                startActivity( intent );
                 break;
         }
     }
@@ -996,8 +999,13 @@ public class ShopDetailActivity extends BigBaseActivity {
         double result = Double.valueOf( attr_price ) * Double.valueOf( attr_ratio ) * app_v * num / 10000;
         BigDecimal bg3 = new BigDecimal( result );
         double money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
-        tv_share_money.setText( "分享赚 ¥" + money );
-        tv_buy.setText( "购买返 ¥" + money );
+        tv_share_money.setText( "分享赚 ¥ " + money );
+        double total_buy_sheng = money + youhuiquan;
+        if (Double.valueOf( coupon_surplus ) > 0) {
+            tv_buy.setText( "购买省 ¥ " + StringCleanZeroUtil.DoubleFormat( total_buy_sheng ) );
+        } else {
+            tv_buy.setText( "购买省 ¥ " + money );
+        }
     }
 
     /*设置指示器*/

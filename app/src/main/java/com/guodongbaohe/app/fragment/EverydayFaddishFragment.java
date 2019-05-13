@@ -550,8 +550,8 @@ public class EverydayFaddishFragment extends Fragment {
         map.put( "type", "goods" );
         map.put( "limit", "5" );
         String param = ParamUtil.getMapParam( map );
-        Log.i( "每日爆款地址", Constant.BASE_URL + Constant.EVERYDAYHOSTGOODS + "?" + param );
-        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.EVERYDAYHOSTGOODS + "?" + param )
+        Log.i( "每日爆款地址", Constant.BASE_URL + Constant.EVERYDAY_NEW_API + "?" + param );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.EVERYDAY_NEW_API + "?" + param )
                 .tag( this )
                 .addHeader( "x-appid", Constant.APPID )
                 .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )

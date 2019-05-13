@@ -38,7 +38,7 @@ public class HotSearchAdapter extends RecyclerView.Adapter<HotSearchAdapter.HotS
 
     @Override
     public void onBindViewHolder(final HotSearchHolder holder, int position) {
-        holder.title.setTextColor(0xffD5A7DD);
+        holder.title.setTextColor(0xff585858);
         holder.title.setText(list.get(position).getWord());
         if (onItemClick != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -224,4 +224,6 @@ public class Constant {
     public static final String GOODS_NEW_SEARCH = "goods/mixed";
     /*精品推荐接口*/
     public static final String RECOMMENDATION = "goods/related";
+    /*每日爆款新接口*/
+    public static final String EVERYDAY_NEW_API = "assets/circle_new";
 }

@@ -107,6 +107,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+            android:checked="false"
             android:drawableBottom="@drawable/order_tab"
             android:gravity="center"
             android:tag="1"
@@ -121,7 +122,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
-            android:checked="true"
+            android:checked="false"
             android:drawableBottom="@drawable/order_tab"
             android:gravity="center"
             android:tag="0"
@@ -223,6 +224,7 @@
                     android:textColor="@color/black" />
 
                 <ImageView
+                    android:id="@+id/iv_clean_histoy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -236,10 +238,7 @@
                 android:id="@+id/flow_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="10dp"
                 android:visibility="gone"
                 app:lineSpace="10dp"
                 app:rowSpace="10dp" />

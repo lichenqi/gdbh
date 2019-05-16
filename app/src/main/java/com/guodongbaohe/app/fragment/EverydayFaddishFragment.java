@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -56,16 +57,20 @@ import com.guodongbaohe.app.dialogfragment.NiceDialog;
 import com.guodongbaohe.app.dialogfragment.ViewConvertListener;
 import com.guodongbaohe.app.dialogfragment.ViewHolder;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.util.BitmapShareManager;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.CommonUtil;
 import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.IconAndTextGroupUtil;
+import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.QRCodeUtil;
 import com.guodongbaohe.app.util.ShareManager;
+import com.guodongbaohe.app.util.StringCleanZeroUtil;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.Tools;
 import com.guodongbaohe.app.util.VersionUtil;
@@ -150,6 +155,7 @@ public class EverydayFaddishFragment extends Fragment {
     }
 
     String content_taobao_eight;
+    List<String> goodIdList;
 
     @Nullable
     @Override
@@ -190,27 +196,51 @@ public class EverydayFaddishFragment extends Fragment {
                         which_position = position - 1;
                         goods_gallery = list.get( which_position ).getGoods_gallery();
                         String status = list.get( which_position ).getStatus();
-                        if (TextUtils.isEmpty( status ) || status.equals( "0" )) {
-                            ToastUtils.showToast( context, "该商品抢光呢!" );
-                            return;
-                        }
+                        String flag = list.get( which_position ).getFlag();
                         String content = list.get( which_position ).getContent();
+
                         ClipData mClipData = ClipData.newPlainText( "Label", content );
                         cm.setPrimaryClip( mClipData );
                         ClipContentUtil.getInstance( context ).putNewSearch( content );//保存记录到数据库
                         ToastUtils.showToast( context, "文案内容已复制成功" );
-                        if (goods_gallery.contains( "||" )) {
-                            /*多张图片用原生分享*/
-                            String[] imgs = goods_gallery.replace( "||", "," ).split( "," );
-                            list_share_imgs = new ArrayList<>();
-                            for (int i = 0; i < imgs.length; i++) {
-                                list_share_imgs.add( imgs[i] );
+
+                        /*好货专场*/
+                        if (flag.equals( "goods_sub" )) {
+                            String goods_id_list = list.get( which_position ).getGoods_id_list();
+                            String[] good_id_old = goods_id_list.replace( "||", "," ).split( "," );
+                            goodIdList = new ArrayList<>();
+                            for (int i = 0; i < good_id_old.length; i++) {
+                                if (!good_id_old[i].equals( "0" )) {
+                                    goodIdList.add( good_id_old[i] );
+                                }
                             }
-                            morePicsShareDialog();
+                            eachbitmapList = new ArrayList<>();
+                            /*获取每个商品对应的一些信息*/
+                            loadingDialog = DialogUtil.createLoadingDialog( getContext(), "加载中..." );
+                            for (int i = 0; i < goodIdList.size(); i++) {
+                                getEachShopData( goodIdList.get( i ) );
+                            }
+
                         } else {
-                            /*单张图片用sharesdk分享*/
-                            showShare( which_position );
+                            /*普通图片*/
+                            if (TextUtils.isEmpty( status ) || status.equals( "0" )) {
+                                ToastUtils.showToast( context, "该商品抢光呢!" );
+                                return;
+                            }
+                            if (goods_gallery.contains( "||" )) {
+                                /*多张图片用原生分享*/
+                                String[] imgs = goods_gallery.replace( "||", "," ).split( "," );
+                                list_share_imgs = new ArrayList<>();
+                                for (int i = 0; i < imgs.length; i++) {
+                                    list_share_imgs.add( imgs[i] );
+                                }
+                                morePicsShareDialog();
+                            } else {
+                                /*单张图片用sharesdk分享*/
+                                showShare( list.get( which_position ).getGoods_id() );
+                            }
                         }
+
                     } else {
                         startActivity( new Intent( context, LoginAndRegisterActivity.class ) );
                     }
@@ -615,32 +645,48 @@ public class EverydayFaddishFragment extends Fragment {
     }
 
     View share_view;
-    TextView p_title, p_coupon_price, tv_coupon, p_one_price;
-    ImageView p_iv, iv_qr_code;
+    /*中间的大图*/
+    ImageView p_iv;
+    /*标题*/
+    TextView p_title;
+    /*销量*/
+    TextView p_sale_num;
+    /*原价*/
+    TextView p_old_price;
+    /*券类型 1*/
+    TextView tv_coupon_type;
+    /*多少元券*/
+    TextView tv_coupon_money;
+    /*优惠券类型*/
+    TextView tv_jia_type;
+    /*券后价*/
+    TextView p_coupon_price;
+    /*二维码图片*/
+    ImageView iv_qr_code;
 
-    private void showShare(int which_position) {
+    /*单张图片生成二维码组图样式*/
+    private void showShare(String shopId) {
         loadingDialog = DialogUtil.createLoadingDialog( getContext(), "加载中..." );
-        share_view = LayoutInflater.from( context ).inflate( R.layout.creation_erweima_pic, null );
-        /*标题*/
-        p_title = (TextView) share_view.findViewById( R.id.p_title );
-        /*券后价*/
-        p_coupon_price = (TextView) share_view.findViewById( R.id.p_coupon_price );
-        /*券后*/
-        tv_coupon = (TextView) share_view.findViewById( R.id.tv_coupon );
-        /*主图*/
-        p_iv = (ImageView) share_view.findViewById( R.id.p_iv );
-        /*主图售价*/
-        p_one_price = (TextView) share_view.findViewById( R.id.p_one_price );
-        /*二维码图片*/
-        iv_qr_code = (ImageView) share_view.findViewById( R.id.iv_qr_code );
-        shareGetShopDetailData( which_position );
+        share_view = LayoutInflater.from( context ).inflate( R.layout.creation_second_share_poster, null );
+        p_iv = share_view.findViewById( R.id.p_iv );
+        p_title = share_view.findViewById( R.id.p_title );
+        p_sale_num = share_view.findViewById( R.id.p_sale_num );
+        p_old_price = share_view.findViewById( R.id.p_old_price );
+        tv_coupon_type = share_view.findViewById( R.id.tv_coupon_type );
+        tv_coupon_money = share_view.findViewById( R.id.tv_coupon_money );
+        tv_jia_type = share_view.findViewById( R.id.tv_jia_type );
+        p_coupon_price = share_view.findViewById( R.id.p_coupon_price );
+        iv_qr_code = share_view.findViewById( R.id.iv_qr_code );
+        shareGetShopDetailData( shopId );
     }
 
     String goods_thumb, attr_price, attr_prime, goods_short, goods_name, goods_id;
+    BigDecimal bg3;
+    double v;
 
-    private void shareGetShopDetailData(int pos) {
+    private void shareGetShopDetailData(String shopId) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put( "goods_id", list.get( pos ).getGoods_id() );
+        map.put( "goods_id", shopId );
         String param = ParamUtil.getMapParam( map );
         MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param )
                 .tag( this )
@@ -668,17 +714,37 @@ public class EverydayFaddishFragment extends Fragment {
                                 goods_short = result.getGoods_short();
                                 goods_name = result.getGoods_name();
                                 goods_id = result.getGoods_id();
-                                if (TextUtils.isEmpty( goods_short )) {
-                                    p_title.setText( goods_name );
+                                String coupon_surplus = result.getCoupon_surplus();
+                                String sale_num = result.getSales_month();
+                                String attr_site = result.getAttr_site();
+                                v = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
+                                if (Double.valueOf( coupon_surplus ) > 0) {
+                                    tv_coupon_type.setText( "券" );
+                                    tv_jia_type.setText( "券后价" );
+                                    double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
+                                    bg3 = new BigDecimal( d_price );
+                                    double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
+                                    tv_coupon_money.setText( "¥ " + StringCleanZeroUtil.DoubleFormat( d_money ) );
                                 } else {
-                                    p_title.setText( goods_short );
+                                    if (v > 0) {
+                                        tv_coupon_type.setText( "折" );
+                                        tv_jia_type.setText( "折后价" );
+                                        double disaccount = Double.valueOf( attr_price ) / Double.valueOf( attr_prime ) * 10;
+                                        bg3 = new BigDecimal( disaccount );
+                                        double d_zhe = bg3.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
+                                        tv_coupon_money.setText( d_zhe + "折" );
+                                    } else {
+                                        tv_coupon_type.setText( "特" );
+                                        tv_jia_type.setText( "特惠价" );
+                                        tv_coupon_money.setText( "立即抢购" );
+                                    }
                                 }
-                                p_coupon_price.setText( attr_price );
-                                double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
-                                BigDecimal bg3 = new BigDecimal( d_price );
-                                double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
-                                tv_coupon.setText( d_money + "元券" );
-                                p_one_price.setText( "¥" + attr_price );
+                                p_sale_num.setText( "销量: " + NumUtil.getNum( sale_num ) );
+                                IconAndTextGroupUtil.setTextView( context, p_title, goods_name, attr_site );
+                                p_coupon_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_price ) ) );
+                                p_old_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_prime ) ) );
+                                p_old_price.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG ); //中间横线
+                                p_old_price.getPaint().setAntiAlias( true );// 抗锯齿
                                 /*转高勇接口*/
                                 shareGaoYongJiekou();
                             } else {
@@ -880,35 +946,34 @@ public class EverydayFaddishFragment extends Fragment {
         @Override
         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
             p_iv.setImageBitmap( bitmap );
-            getViewToPics( share_view );
+            viewSaveToImage( share_view );
         }
     };
 
-    private void getViewToPics(View view) {
-        DisplayMetrics metric = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics( metric );
-        int width = metric.widthPixels;
-        int height = metric.heightPixels;
-        layoutView( view, width, height );
-    }
-
-    private void layoutView(View v, int width, int height) {
-        v.layout( 0, 0, width, height );
-        int measuredWidth = View.MeasureSpec.makeMeasureSpec( width, View.MeasureSpec.EXACTLY );
+    /*看不见的view转化成bitmap*/
+    public Bitmap createBitmapOfNew(View v, int width, int height) {
+        int viewWidth = DensityUtils.dip2px( context, 350 );
+        //测量使得view指定大小
+        int measuredWidth = View.MeasureSpec.makeMeasureSpec( viewWidth, View.MeasureSpec.EXACTLY );
         int measuredHeight = View.MeasureSpec.makeMeasureSpec( height, View.MeasureSpec.AT_MOST );
         v.measure( measuredWidth, measuredHeight );
-        v.layout( 0, 0, v.getMeasuredWidth(), v.getMeasuredHeight() );
-        viewSaveToImage( v );
+        //调用layout方法布局后，可以得到view的尺寸大小
+        v.layout( 0, 0, viewWidth, v.getMeasuredHeight() );
+        Bitmap bmp = Bitmap.createBitmap( viewWidth, v.getHeight(), Bitmap.Config.ARGB_8888 );
+        Canvas c = new Canvas( bmp );
+        c.drawColor( Color.WHITE );
+        v.draw( c );
+        return bmp;
     }
 
     Bitmap hebingBitmap;
 
     private void viewSaveToImage(View view) {
-        view.setDrawingCacheEnabled( true );
-        view.setDrawingCacheQuality( View.DRAWING_CACHE_QUALITY_HIGH );
-        view.setDrawingCacheBackgroundColor( Color.WHITE );
-        // 把一个View转换成图片
-        hebingBitmap = loadBitmapFromView( view );
+        DisplayMetrics metric = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics( metric );
+        int width = metric.widthPixels;
+        int height = metric.heightPixels;
+        hebingBitmap = createBitmapOfNew( view, width, height );
         DialogUtil.closeDialog( loadingDialog, getContext() );
         /*先开存储权限*/
         if (ContextCompat.checkSelfPermission( context, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
@@ -919,17 +984,6 @@ public class EverydayFaddishFragment extends Fragment {
             /*自定义九宫格样式*/
             customShareStyle();
         }
-    }
-
-    private Bitmap loadBitmapFromView(View v) {
-        int w = v.getWidth();
-        int h = v.getHeight();
-        Bitmap bmp = Bitmap.createBitmap( w, h, Bitmap.Config.ARGB_8888 );
-        Canvas c = new Canvas( bmp );
-        c.drawColor( Color.WHITE );
-        v.layout( 0, 0, w, h );
-        v.draw( c );
-        return bmp;
     }
 
     private void saveData() {
@@ -967,6 +1021,7 @@ public class EverydayFaddishFragment extends Fragment {
                 } );
     }
 
+    /*普通多张图片用原生分享*/
     private void morePicsShareDialog() {
         if (ContextCompat.checkSelfPermission( context, Manifest.permission.READ_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission( context, Manifest.permission.WRITE_EXTERNAL_STORAGE ) != PackageManager.PERMISSION_GRANTED) {
@@ -1042,6 +1097,7 @@ public class EverydayFaddishFragment extends Fragment {
         shareManager.setShareImage( hebingBitmap, i, list_share_imgs, "", type, 100 );
     }
 
+    /*单张图片生成组图分享*/
     private void customShareStyle() {
         NiceDialog.init().setLayoutId( R.layout.custom_share_style )
                 .setConvertListener( new ViewConvertListener() {
@@ -1305,4 +1361,359 @@ public class EverydayFaddishFragment extends Fragment {
         } );
         dialog.show();
     }
+
+    private void getEachShopData(String shopId) {
+        getEachIdData( shopId );
+    }
+
+    private void getEachIdData(String shopId) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put( "goods_id", shopId );
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.SHOP_HEAD_BASIC + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( context, "" ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                ShopBasicBean bean = GsonUtil.GsonToBean( response.toString(), ShopBasicBean.class );
+                                if (bean == null) return;
+                                ShopBasicBean.ShopBasicData result = bean.getResult();
+                                /*转高佣接口*/
+                                getEachGaoYongData( result );
+                            } else {
+                                DialogUtil.closeDialog( loadingDialog, getContext() );
+                                String result = jsonObject.getString( "result" );
+                                ToastUtils.showToast( context, result );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast( context, Constant.NONET );
+                        DialogUtil.closeDialog( loadingDialog, getContext() );
+                    }
+                } );
+
+    }
+
+    /*高拥接口*/
+    private void getEachGaoYongData(ShopBasicBean.ShopBasicData result) {
+        long timelineStr = System.currentTimeMillis() / 1000;
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "member_id", PreferUtils.getString( context, "member_id" ) );
+        map.put( "goods_id", result.getGoods_id() );
+        map.put( Constant.SHOP_REFERER, "circle" );
+        if (!TextUtils.isEmpty( result.getSource() )) {
+            map.put( Constant.GAOYONGJIN_SOURCE, result.getSource() );
+        }
+        String qianMingMapParam = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( qianMingMapParam + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url( Constant.BASE_URL + Constant.GAOYONGIN + "?" + param )
+                .addHeader( "x-userid", PreferUtils.getString( context, "member_id" ) )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( context, PreferUtils.getString( context, "member_id" ) ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        Log.i( "分享高勇", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                GaoYongJinBean bean = GsonUtil.GsonToBean( response.toString(), GaoYongJinBean.class );
+                                if (bean == null) return;
+                                String coupon_remain_count = bean.getResult().getCoupon_remain_count();
+                                if (!TextUtils.isEmpty( coupon_remain_count ) && Double.valueOf( coupon_remain_count ) > 0) {
+                                    coupon_url = bean.getResult().getCoupon_click_url();
+                                } else {
+                                    coupon_url = bean.getResult().getItem_url();
+                                }
+                                getEachTaoKouLingData( coupon_url, result );
+                            } else {
+                                DialogUtil.closeDialog( loadingDialog, getContext() );
+                                String result = jsonObject.getString( "result" );
+                                ToastUtils.showToast( context, result );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast( context, Constant.NONET );
+                        DialogUtil.closeDialog( loadingDialog, getContext() );
+                    }
+                } );
+    }
+
+    private void getEachTaoKouLingData(String coupon_url, ShopBasicBean.ShopBasicData result) {
+        long timelineStr = System.currentTimeMillis() / 1000;
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "member_id", PreferUtils.getString( context, "member_id" ) );
+        map.put( "url", coupon_url );
+        map.put( "goods_id", result.getGoods_id() );
+        map.put( "attr_prime", result.getAttr_prime() );
+        map.put( "attr_price", result.getAttr_price() );
+        map.put( "text", result.getGoods_name() );
+        map.put( "logo", result.getGoods_thumb() );
+        String qianMingMapParam = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( qianMingMapParam + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url( Constant.BASE_URL + Constant.GETTAOKOULING + "?" + param )
+                .tag( this )
+                .addHeader( "x-userid", PreferUtils.getString( context, "member_id" ) )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( context, PreferUtils.getString( context, "member_id" ) ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        Log.i( "淘口令", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                String taokouling = jsonObject.getString( "result" );
+                                getEachQrcode( taokouling, result );
+                            } else {
+                                String result = jsonObject.getString( "result" );
+                                DialogUtil.closeDialog( loadingDialog, getContext() );
+                                ToastUtils.showToast( context, result );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        DialogUtil.closeDialog( loadingDialog, getContext() );
+                        ToastUtils.showToast( context, Constant.NONET );
+                    }
+                } );
+    }
+
+    private void getEachQrcode(String taokouling, ShopBasicBean.ShopBasicData result) {
+        long timelineStr = System.currentTimeMillis() / 1000;
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "type", "goods" );
+        map.put( "words", taokouling );
+        map.put( "attr_prime", result.getAttr_prime() );
+        map.put( "attr_price", result.getAttr_price() );
+        map.put( "platform", "android" );
+        map.put( "member_id", PreferUtils.getString( context, "member_id" ) );
+        String qianMingMapParam = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( qianMingMapParam + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url( Constant.BASE_URL + Constant.ERWEIMAA + "?" + param )
+                .tag( this )
+                .addHeader( "x-userid", PreferUtils.getString( context, "member_id" ) )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( context, PreferUtils.getString( context, "member_id" ) ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        Log.i( "淘口令结果啊", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                String result_qrcode = jsonObject.getString( "result" );
+                                /*这里开始进行布局赋值*/
+                                View each_share_view = LayoutInflater.from( context ).inflate( R.layout.creation_second_share_poster, null );
+                                ImageView each_p_iv = each_share_view.findViewById( R.id.p_iv );
+                                TextView p_title = each_share_view.findViewById( R.id.p_title );
+                                TextView p_sale_num = each_share_view.findViewById( R.id.p_sale_num );
+                                TextView p_old_price = each_share_view.findViewById( R.id.p_old_price );
+                                TextView tv_coupon_type = each_share_view.findViewById( R.id.tv_coupon_type );
+                                TextView tv_coupon_money = each_share_view.findViewById( R.id.tv_coupon_money );
+                                TextView tv_jia_type = each_share_view.findViewById( R.id.tv_jia_type );
+                                TextView p_coupon_price = each_share_view.findViewById( R.id.p_coupon_price );
+                                ImageView iv_qr_code = each_share_view.findViewById( R.id.iv_qr_code );
+                                v = Double.valueOf( result.getAttr_prime() ) - Double.valueOf( result.getAttr_price() );
+                                if (Double.valueOf( result.getCoupon_surplus() ) > 0) {
+                                    tv_coupon_type.setText( "券" );
+                                    tv_jia_type.setText( "券后价" );
+                                    double d_price = Double.valueOf( result.getAttr_prime() ) - Double.valueOf( result.getAttr_price() );
+                                    bg3 = new BigDecimal( d_price );
+                                    double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
+                                    tv_coupon_money.setText( "¥ " + StringCleanZeroUtil.DoubleFormat( d_money ) );
+                                } else {
+                                    if (v > 0) {
+                                        tv_coupon_type.setText( "折" );
+                                        tv_jia_type.setText( "折后价" );
+                                        double disaccount = Double.valueOf( result.getAttr_price() ) / Double.valueOf( result.getAttr_prime() ) * 10;
+                                        bg3 = new BigDecimal( disaccount );
+                                        double d_zhe = bg3.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
+                                        tv_coupon_money.setText( d_zhe + "折" );
+                                    } else {
+                                        tv_coupon_type.setText( "特" );
+                                        tv_jia_type.setText( "特惠价" );
+                                        tv_coupon_money.setText( "立即抢购" );
+                                    }
+                                }
+                                p_sale_num.setText( "销量: " + NumUtil.getNum( result.getSales_month() ) );
+                                IconAndTextGroupUtil.setTextView( context, p_title, result.getGoods_name(), result.getAttr_site() );
+                                p_coupon_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( result.getAttr_price() ) ) );
+                                p_old_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( result.getAttr_prime() ) ) );
+                                p_old_price.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG ); //中间横线
+                                p_old_price.getPaint().setAntiAlias( true );// 抗锯齿
+                                Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap( result_qrcode, DensityUtils.dip2px( context, 100 ) );
+                                iv_qr_code.setImageBitmap( mBitmap );
+                                Glide.with( context ).load( result.getGoods_thumb() ).asBitmap().into( new SimpleTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                                        each_p_iv.setImageBitmap( resource );
+                                        viewSaveToImageOfEach( each_share_view );
+                                    }
+                                } );
+                            } else {
+                                String result = jsonObject.getString( "result" );
+                                ToastUtils.showToast( context, result );
+                                DialogUtil.closeDialog( loadingDialog, getContext() );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+                        ToastUtils.showToast( context, Constant.NONET );
+                        DialogUtil.closeDialog( loadingDialog, getContext() );
+                    }
+                } );
+    }
+
+    Bitmap each_hebingBitmap;
+    List<Bitmap> eachbitmapList;
+
+    private void viewSaveToImageOfEach(View view) {
+        DisplayMetrics metric = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics( metric );
+        int width = metric.widthPixels;
+        int height = metric.heightPixels;
+        each_hebingBitmap = createBitmapOfNew( view, width, height );
+        eachbitmapList.add( each_hebingBitmap );
+        if (goodIdList.size() == eachbitmapList.size()) {
+            /*弹出分享窗口*/
+            DialogUtil.closeDialog( loadingDialog, getContext() );
+            showEachDialogShow();
+        }
+    }
+
+    private void showEachDialogShow() {
+        NiceDialog.init().setLayoutId( R.layout.morepicssharedialog )
+                .setConvertListener( new ViewConvertListener() {
+                    @Override
+                    public void convertView(ViewHolder holder, final BaseNiceDialog dialog) {
+                        holder.setOnClickListener( R.id.tv_cancel, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        } );
+                        RelativeLayout re_wchat_friend = holder.getView( R.id.re_wchat_friend );
+                        RelativeLayout re_wchat_circle = holder.getView( R.id.re_wchat_circle );
+                        RelativeLayout re_qq_friend = holder.getView( R.id.re_qq_friend );
+                        RelativeLayout re_qq_space = holder.getView( R.id.re_qq_space );
+                        re_wchat_friend.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                /*微信好友分享*/
+                                dialog.dismiss();
+                                sharePicsOfEach( 0, "wchat" );
+                            }
+                        } );
+                        re_wchat_circle.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                /*微信朋友圈分享*/
+                                dialog.dismiss();
+                                /*由于微信机制不让分享多图直接到微信朋友圈*/
+                                WChatCircleDialog();
+                                /*保存多张图片到朋友圈*/
+                                for (int i = 0; i < eachbitmapList.size(); i++) {
+                                    CommonUtil.saveBitmap2file( eachbitmapList.get( i ), context );
+                                }
+                            }
+                        } );
+                        re_qq_friend.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                /*qq好友*/
+                                dialog.dismiss();
+                                sharePicsOfEach( 0, "qq" );
+                            }
+                        } );
+                        re_qq_space.setOnClickListener( new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                /*保存图片*/
+                                dialog.dismiss();
+                                for (int i = 0; i < eachbitmapList.size(); i++) {
+                                    CommonUtil.saveBitmap2file( eachbitmapList.get( i ), context );
+                                }
+                                ToastUtils.showBackgroudCenterToast( context, "图片已保存至手机图库" );
+                            }
+                        } );
+                    }
+                } )
+                .setShowBottom( true )
+                .setOutCancel( true )
+                .setAnimStyle( R.style.EnterExitAnimation )
+                .show( getFragmentManager() );
+    }
+
+    private void sharePicsOfEach(int i, String type) {
+        BitmapShareManager shareManager = new BitmapShareManager( getContext() );
+        shareManager.setShareImage( eachbitmapList, i, type );
+    }
+
 }

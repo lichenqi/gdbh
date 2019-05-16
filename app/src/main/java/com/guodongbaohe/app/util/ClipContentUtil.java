@@ -17,15 +17,15 @@ public class ClipContentUtil {
 
     private ClipContentUtil(Context context) {
         this.mContext = context;
-        mMyDatabaseHelper = new MyDatabaseHelper(context, TABLE_NAME + ".db", null, 1);
+        mMyDatabaseHelper = new MyDatabaseHelper( context, TABLE_NAME + ".db", null, 1 );
     }
 
     public static ClipContentUtil getInstance(Context context) {
         //得到一个实例
         if (mHistorySearchUtil == null) {
-            mHistorySearchUtil = new ClipContentUtil(context);
-        } else if ((!mHistorySearchUtil.mContext.getClass().equals(context.getClass()))) {////判断两个context是否相同
-            mHistorySearchUtil = new ClipContentUtil(context);
+            mHistorySearchUtil = new ClipContentUtil( context );
+        } else if ((!mHistorySearchUtil.mContext.getClass().equals( context.getClass() ))) {////判断两个context是否相同
+            mHistorySearchUtil = new ClipContentUtil( context );
         }
         return mHistorySearchUtil;
     }
@@ -40,19 +40,19 @@ public class ClipContentUtil {
     /*添加一条新纪录*/
     public void putNewSearch(String name) {
         SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(String.format("select * from %s where name=?", TABLE_NAME), new String[]{name});
-        if (cursor.moveToFirst()) {/* 如果存在 */
-            db.delete(TABLE_NAME, "name = " + "'" + name + "'", null);
-        }
+        Cursor cursor = db.rawQuery( String.format( "select * from %s where name=?", TABLE_NAME ), new String[]{name} );
+//        if (cursor.moveToFirst()) {/* 如果存在 */
+//            db.delete( TABLE_NAME, "name = " + "'" + name + "'", null );
+//        }
         ContentValues values = new ContentValues();
-        values.put("name", name);
-        db.insert(TABLE_NAME, null, values);
+        values.put( "name", name );
+        db.insert( TABLE_NAME, null, values );
     }
 
     /*判断记录是否存在*/
     public boolean isExist(String name) {
         SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
-        Cursor cursor = db.rawQuery(String.format("select * from %s where name=?", TABLE_NAME), new String[]{name});
+        Cursor cursor = db.rawQuery( String.format( "select * from %s where name=?", TABLE_NAME ), new String[]{name} );
         if (cursor.moveToFirst()) {/* 如果存在 */
             return true;
         } else {
@@ -64,11 +64,11 @@ public class ClipContentUtil {
     public List<String> queryHistorySearchList() {
         SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
         List<String> list = new ArrayList<String>();
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query( TABLE_NAME, null, null, null, null, null, null );
         if (cursor.moveToFirst()) {
             do {
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                list.add(name);
+                String name = cursor.getString( cursor.getColumnIndex( "name" ) );
+                list.add( name );
             } while (cursor.moveToNext());
         }
         return list;
@@ -77,21 +77,21 @@ public class ClipContentUtil {
     /*删除单条记录*/
     public void deleteHistorySearch(String name) {
         SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
-        if (isExist(name)) {
-            db.delete(TABLE_NAME, "name = " + "'" + name + "'", null);
+        if (isExist( name )) {
+            db.delete( TABLE_NAME, "name = " + "'" + name + "'", null );
         }
     }
 
     /*删除所有记录*/
     public void deleteAllHistorySearch() {
         SQLiteDatabase db = mMyDatabaseHelper.getWritableDatabase();
-        db.delete(TABLE_NAME, null, null);
+        db.delete( TABLE_NAME, null, null );
     }
 
     public class MyDatabaseHelper extends SQLiteOpenHelper {
 
         public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factoty, int version) {
-            super(context, name, factoty, version);
+            super( context, name, factoty, version );
         }
 
         @Override
@@ -99,7 +99,7 @@ public class ClipContentUtil {
             /*建表语句*/
             String create_da_name = "create table " + TABLE_NAME + "(" + "id integer primary key autoincrement, " + "name text)";
             /*建表*/
-            db.execSQL(create_da_name);
+            db.execSQL( create_da_name );
         }
 
         @Override

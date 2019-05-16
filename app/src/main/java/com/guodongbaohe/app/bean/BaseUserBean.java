@@ -31,6 +31,15 @@ public class BaseUserBean {
         private String wechat;
         private String validity;
         private String status;
+        private String openid;
+
+        public String getOpenid() {
+            return openid;
+        }
+
+        public void setOpenid(String openid) {
+            this.openid = openid;
+        }
 
         public String getStatus() {
             return status;

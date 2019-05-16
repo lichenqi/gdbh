@@ -212,8 +212,11 @@ public class BaseH5Activity extends BaseActivity {
         /*地推物料复制按钮交互*/
         @JavascriptInterface
         public void copy(String url) {
+            Log.i( "看看地址", url + " 值 " );
             if (!TextUtils.isEmpty( url )) {
                 ClipContentUtil.getInstance( getApplicationContext() ).putNewSearch( url );//保存记录到数据库
+                ClipboardManager systemService = (ClipboardManager) getSystemService( Context.CLIPBOARD_SERVICE );
+                systemService.setPrimaryClip( ClipData.newPlainText( "text", url ) );
             }
         }
 

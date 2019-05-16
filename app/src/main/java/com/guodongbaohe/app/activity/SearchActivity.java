@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -83,6 +84,8 @@ public class SearchActivity extends BaseActivity {
     RelativeLayout iv_cancel;
     @BindView(R.id.re_look_book)
     RelativeLayout re_look_book;
+    @BindView(R.id.iv_clean_histoy)
+    ImageView iv_clean_histoy;
     Intent intent;
     ConfigurationBean.PageBean list_data;
 
@@ -312,10 +315,10 @@ public class SearchActivity extends BaseActivity {
         } );
     }
 
-    @OnClick({R.id.ll_histoy_notiy, R.id.finish, R.id.iv_cancel, R.id.re_look_book})
+    @OnClick({R.id.finish, R.id.iv_cancel, R.id.re_look_book, R.id.iv_clean_histoy})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_histoy_notiy:
+            case R.id.iv_clean_histoy:
                 HistorySearchUtil.getInstance( getApplicationContext() ).deleteAllHistorySearch();
                 getHistoryList();
                 break;

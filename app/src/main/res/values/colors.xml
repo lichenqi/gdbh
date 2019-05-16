@@ -8,14 +8,14 @@
     <color name="appthemetitle">#FF6088</color>
     <color name="homelistitem">#F4F4F4</color>
     <color name="txblack">#585858</color>
-    <color name="black">#1a1a1a</color>
+    <color name="black">#000000</color>
     <color name="txgray">#939393</color>
     <color name="xianhui">#eeeeee</color>
     <color name="red">#f40000</color>
     <color name="gray_one">#E6E6E6</color>
     <color name="title_red">#FF6088</color>
     <color name="yellow">#c6881b</color>
-    <color name="blackbase">#1a1a1a</color>
+    <color name="blackbase">#000000</color>
     <color name="tx_yellow">#85470f</color>
     <color name="shouyiyellow">#f5c971</color>
     <color name="shouyititle">#444444</color>
@@ -29,6 +29,7 @@
     <color name="left_words">#888888</color>
     <color name="fenxiang_gray">#333433</color>
     <color name="miaoshu">#1B79C7</color>
-    <color name="my_black_base">#1a1a1a</color>
-    <color name="my_yia_color">#1a1a1a</color>
+    <color name="my_black_base">#000000</color>
+    <color name="my_yia_color">#000000</color>
+    <color name="tutor_color">#FF7D0F</color>
 </resources>

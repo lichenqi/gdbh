@@ -38,6 +38,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
     BigDecimal bg3;
     String attr_price, attr_prime, attr_ratio, tax_rate, status, video;
     double app_v;
+    EverydayImageAdapter circleImgsAdapter;
 
     public interface OnLongClick {
         void OnLongClickListener(View view, int position);
@@ -85,6 +86,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         if (!TextUtils.isEmpty( tax_rate )) {
             app_v = 1 - Double.valueOf( tax_rate );
         }
+        String flag = list.get( position ).getFlag();/*是商品图片  还是商品本体*/
         status = list.get( position ).getStatus();
         video = list.get( position ).getVideo();
         String goods_thumb = list.get( position ).getVideo_cover();
@@ -106,22 +108,45 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
         }
         holder.recyclerview.setHasFixedSize( true );
         holder.recyclerview.setLayoutManager( new GridLayoutManager( context, 3 ) );
-        CircleImgsAdapter circleImgsAdapter = new CircleImgsAdapter( list_imgs, context, activity, status, video, "everyday" );
+        if (flag.equals( "goods" )) {/*普通图片商品*/
+            circleImgsAdapter = new EverydayImageAdapter( list_imgs, context, activity, status, "", "" );
+        } else if (flag.equals( "goods_sub" )) {/*带好货专场图片*/
+            String goods_id_list = list.get( position ).getGoods_id_list();
+            String attr_price_list = list.get( position ).getAttr_price_list();
+            circleImgsAdapter = new EverydayImageAdapter( list_imgs, context, activity, status, goods_id_list, attr_price_list );
+        }
         holder.recyclerview.setAdapter( circleImgsAdapter );
         String comment = list.get( position ).getComment();
         String goods_comment = list.get( position ).getGoods_comment();
-        if (TextUtils.isEmpty( comment )) {
+
+        if (flag.equals( "goods_sub" )) {
+            holder.ninengzhuan.setVisibility( View.GONE );
+        } else {
+            holder.ninengzhuan.setVisibility( View.VISIBLE );
+        }
+
+        if (flag.equals( "goods_sub" )) {
             holder.re_taokouling_buju.setVisibility( View.GONE );
         } else {
-            holder.re_taokouling_buju.setVisibility( View.VISIBLE );
-            holder.tv_kouling_wenben.setText( comment );
+            if (TextUtils.isEmpty( comment )) {
+                holder.re_taokouling_buju.setVisibility( View.GONE );
+            } else {
+                holder.re_taokouling_buju.setVisibility( View.VISIBLE );
+                holder.tv_kouling_wenben.setText( comment );
+            }
         }
-        if (TextUtils.isEmpty( goods_comment )) {
+
+        if (flag.equals( "goods_sub" )) {
             holder.re_user_view.setVisibility( View.GONE );
         } else {
-            holder.re_user_view.setVisibility( View.VISIBLE );
-            holder.tv_user_content.setText( goods_comment );
+            if (TextUtils.isEmpty( goods_comment )) {
+                holder.re_user_view.setVisibility( View.GONE );
+            } else {
+                holder.re_user_view.setVisibility( View.VISIBLE );
+                holder.tv_user_content.setText( goods_comment );
+            }
         }
+
         if (TextUtils.isEmpty( video )) {
             holder.re_video.setVisibility( View.GONE );
         } else {
@@ -132,6 +157,7 @@ public class EverydayfaddishAdapter extends RecyclerView.Adapter<Everydayfaddish
                 Glide.with( context ).load( R.drawable.loading_img ).into( holder.iv_video );
             }
         }
+
         if (onShareClick != null) {
             holder.re_share.setOnClickListener( new View.OnClickListener() {
                 @Override

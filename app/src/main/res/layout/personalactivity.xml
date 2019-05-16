@@ -43,10 +43,10 @@
             android:id="@+id/re_change_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 style="@style/pdata_tv"
@@ -76,10 +76,10 @@
             android:id="@+id/re_change_cdoe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp"
             android:visibility="gone">
 
             <TextView
@@ -110,10 +110,10 @@
             android:id="@+id/re_change_sex"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 style="@style/pdata_tv"
@@ -142,10 +142,10 @@
             android:id="@+id/re_change_wchat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 style="@style/pdata_tv"
@@ -172,13 +172,35 @@
             android:background="@color/line_eee" />
 
         <RelativeLayout
+            android:id="@+id/re_unbind_wchat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                style="@style/pdata_tv"
+                android:text="解绑微信" />
+
+            <ImageView style="@style/imageview_jiantou" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/line_eee" />
+
+        <RelativeLayout
             android:id="@+id/change_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 style="@style/pdata_tv"
@@ -205,10 +227,10 @@
             android:id="@+id/re_taobao_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/tv_taobao"
@@ -244,10 +266,10 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="15dp"
             android:paddingLeft="10dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="15dp">
+            android:paddingBottom="15dp">
 
             <TextView
                 style="@style/pdata_tv"
@@ -274,12 +296,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="80dp"
-            android:layout_marginRight="80dp"
             android:layout_marginTop="50dp"
+            android:layout_marginRight="80dp"
             android:background="@drawable/yellow_bg_base"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="退出登录"
             android:textColor="@color/white" />
 

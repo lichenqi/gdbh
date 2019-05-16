@@ -7,19 +7,19 @@ import java.text.NumberFormat;
 public class StringCleanZeroUtil {
     public static void StringFormat(String content, TextView textView) {
         NumberFormat nf = NumberFormat.getInstance();
-        String format = nf.format(Double.valueOf(content));
-        textView.setText(format);
+        String format = nf.format( Double.valueOf( content ) ).replace( ",", "" ).trim();
+        textView.setText( format );
     }
 
     public static void StringFormatWithYuan(String content, TextView textView) {
         NumberFormat nf = NumberFormat.getInstance();
-        String format = nf.format(Double.valueOf(content));
-        textView.setText("¥" + format);
+        String format = nf.format( Double.valueOf( content ) ).replace( ",", "" ).trim();
+        textView.setText( "¥" + format );
     }
 
     public static String DoubleFormat(Double money) {
         NumberFormat nf = NumberFormat.getInstance();
-        String format = nf.format(money);
+        String format = nf.format( money ).replace( ",", "" ).trim();
         return format;
     }
 }

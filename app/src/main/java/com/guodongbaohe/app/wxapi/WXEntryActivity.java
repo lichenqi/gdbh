@@ -50,8 +50,8 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
      */
     public void onGetMessageFromWXReq(WXMediaMessage msg) {
         if (msg != null) {
-            Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
-            startActivity(iLaunchMyself);
+            Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage( getPackageName() );
+            startActivity( iLaunchMyself );
         }
     }
 
@@ -76,10 +76,10 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
         //接收到分享以及登录的intent传递handleIntent方法，处理结果
-        iwxapi = WXAPIFactory.createWXAPI(this, Constant.WCHATAPPID, false);
-        iwxapi.handleIntent(getIntent(), this);
+        iwxapi = WXAPIFactory.createWXAPI( this, Constant.WCHATAPPID, false );
+        iwxapi.handleIntent( getIntent(), this );
         num = (int) ((Math.random() * 9 + 1) * 10000000);
     }
 
@@ -96,8 +96,8 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
                 String code = ((SendAuth.Resp) baseResp).code;
                 //获取用户信息
                 int type = baseResp.getType();
-                Log.i("微信返回值", code + "  " + type);
-                wchatLoginData(code);
+                Log.i( "微信返回值", code + "  " + type );
+                wchatLoginData( code );
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED://用户拒绝授权
                 finish();
@@ -114,39 +114,39 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
     private void wchatLoginData(String code) {
         final LinkedHashMap<String, String> map = new LinkedHashMap<>();
         long timelineStr = System.currentTimeMillis() / 1000;
-        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-        map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("code", code);
-        String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
-        String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
-        map.put(Constant.TOKEN, token);
-        final String param = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.WCHATLOGIN + "?" + param)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "code", code );
+        String qianMingMapParam = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( qianMingMapParam + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        final String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.WCHATLOGIN + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("后台返回值微信", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "后台返回值微信", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            int status = jsonObject.getInt("status");
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            int status = jsonObject.getInt( "status" );
                             if (status >= 0) {
                                 /*微信登录*/
-                                String member_id = jsonObject.getString("result");
-                                getConfigurationData(member_id);
+                                String member_id = jsonObject.getString( "result" );
+                                getConfigurationData( member_id );
                             } else {
-                                String special = jsonObject.getString("special");
-                                if (!TextUtils.isEmpty(special) && special.equals("wechat")) {
-                                    WchatLoginBean wchatLoginBean = GsonUtil.GsonToBean(response.toString(), WchatLoginBean.class);
+                                String special = jsonObject.getString( "special" );
+                                if (!TextUtils.isEmpty( special ) && special.equals( "wechat" )) {
+                                    WchatLoginBean wchatLoginBean = GsonUtil.GsonToBean( response.toString(), WchatLoginBean.class );
                                     if (wchatLoginBean != null) {
                                         WchatLoginBean.WchatLoginResult result = wchatLoginBean.getResult();
                                         String avatar = result.getAvatar();/*微信头像*/
@@ -156,19 +156,19 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
                                         String unionid = result.getUnionid();
                                         String province = result.getProvince();
                                         String gender = result.getGender();
-                                        Intent intent = new Intent(getApplicationContext(), PhoneLoginActivity.class);
-                                        intent.putExtra("avatar", avatar);
-                                        intent.putExtra("member_name", member_name);
-                                        intent.putExtra("city", city);
-                                        intent.putExtra("openid", openid);
-                                        intent.putExtra("unionid", unionid);
-                                        intent.putExtra("province", province);
-                                        intent.putExtra("gender", gender);
-                                        startActivity(intent);
+                                        Intent intent = new Intent( getApplicationContext(), PhoneLoginActivity.class );
+                                        intent.putExtra( "avatar", avatar );
+                                        intent.putExtra( "member_name", member_name );
+                                        intent.putExtra( "city", city );
+                                        intent.putExtra( "openid", openid );
+                                        intent.putExtra( "unionid", unionid );
+                                        intent.putExtra( "province", province );
+                                        intent.putExtra( "gender", gender );
+                                        startActivity( intent );
                                         finish();
                                     }
                                 } else {
-                                    ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                                    ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                                     finish();
                                 }
                             }
@@ -179,46 +179,46 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                         finish();
                     }
-                });
+                } );
     }
 
     /*获取用户信息*/
     private void getConfigurationData(String member_id) {
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-        map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", member_id);
-        map.put("field", Constant.USER_DATA_PARA);
-        String param = ParamUtil.getQianMingMapParam(map);
-        String token = EncryptUtil.encrypt(param + Constant.NETKEY);
-        map.put(Constant.TOKEN, token);
-        String mapParam = ParamUtil.getMapParam(map);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.USER_BASIC_INFO + "?" + mapParam)
-                .tag(this)
-                .addHeader("x-userid", member_id)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), member_id))
-                .addHeader("x-userid", member_id)
-                .enqueue(new JsonResponseHandler() {
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "member_id", member_id );
+        map.put( "field", Constant.USER_DATA_PARA );
+        String param = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( param + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        String mapParam = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.USER_BASIC_INFO + "?" + mapParam )
+                .tag( this )
+                .addHeader( "x-userid", member_id )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), member_id ) )
+                .addHeader( "x-userid", member_id )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("用户信息", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "用户信息", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            int status = jsonObject.getInt("status");
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            int status = jsonObject.getInt( "status" );
                             if (status >= 0) {
-                                BaseUserBean bean = GsonUtil.GsonToBean(response.toString(), BaseUserBean.class);
+                                BaseUserBean bean = GsonUtil.GsonToBean( response.toString(), BaseUserBean.class );
                                 if (bean == null) return;
                                 BaseUserBean.BaseUserData result = bean.getResult();
                                 String avatar = result.getAvatar();/*用户头像*/
@@ -233,38 +233,40 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
                                 String pwechat = result.getPwechat();/*用户父微信号（邀请人微信号）*/
                                 String balance = result.getBalance();/*可提现余额*/
                                 String credits = result.getCredits();/*盒子余额*/
-                                PreferUtils.putString(getApplicationContext(), "userImg", avatar);/*存储头像*/
-                                PreferUtils.putString(getApplicationContext(), "member_id", user_id);/*存储用户id*/
-                                PreferUtils.putString(getApplicationContext(), "sex", gender);/*存储性别*/
-                                PreferUtils.putString(getApplicationContext(), "phoneNum", phone);/*存储电话号码*/
-                                if (EmjoyAndTeShuUtil.containsEmoji(member_name)) {
-                                    PreferUtils.putString(getApplicationContext(), "userName", "果冻" + num);/*存储用户名*/
+                                String openid = result.getOpenid();/*微信id*/
+                                PreferUtils.putString( getApplicationContext(), "userImg", avatar );/*存储头像*/
+                                PreferUtils.putString( getApplicationContext(), "member_id", user_id );/*存储用户id*/
+                                PreferUtils.putString( getApplicationContext(), "sex", gender );/*存储性别*/
+                                PreferUtils.putString( getApplicationContext(), "phoneNum", phone );/*存储电话号码*/
+                                if (EmjoyAndTeShuUtil.containsEmoji( member_name )) {
+                                    PreferUtils.putString( getApplicationContext(), "userName", "果冻" + num );/*存储用户名*/
                                 } else {
-                                    PreferUtils.putString(getApplicationContext(), "userName", member_name);/*存储用户名*/
+                                    PreferUtils.putString( getApplicationContext(), "userName", member_name );/*存储用户名*/
                                 }
-                                PreferUtils.putString(getApplicationContext(), "wchatname", wechat);/*存储微信号*/
-                                PreferUtils.putString(getApplicationContext(), "invite_code", invite_code);/*存储邀请码*/
-                                PreferUtils.putString(getApplicationContext(), "member_role", member_role);/*存储用户等级*/
-                                PreferUtils.putString(getApplicationContext(), "son_count", fans);/*存储下级个数*/
-                                PreferUtils.putString(getApplicationContext(), "pwechat", pwechat);/*存储父微信号*/
-                                PreferUtils.putString(getApplicationContext(), "balance", balance);/*存储可提现余额*/
-                                PreferUtils.putString(getApplicationContext(), "credits", credits);/*存储盒子余额*/
-                                PreferUtils.putBoolean(getApplicationContext(), "isLogin", true);
-                                ToastUtils.showToast(getApplicationContext(), "登录成功");
-                                EventBus.getDefault().post("loginSuccess");
+                                PreferUtils.putString( getApplicationContext(), "wchatname", wechat );/*存储微信号*/
+                                PreferUtils.putString( getApplicationContext(), "invite_code", invite_code );/*存储邀请码*/
+                                PreferUtils.putString( getApplicationContext(), "member_role", member_role );/*存储用户等级*/
+                                PreferUtils.putString( getApplicationContext(), "son_count", fans );/*存储下级个数*/
+                                PreferUtils.putString( getApplicationContext(), "pwechat", pwechat );/*存储父微信号*/
+                                PreferUtils.putString( getApplicationContext(), "balance", balance );/*存储可提现余额*/
+                                PreferUtils.putString( getApplicationContext(), "credits", credits );/*存储盒子余额*/
+                                PreferUtils.putString( getApplicationContext(), "openWchatId", openid );/*存储微信id*/
+                                PreferUtils.putBoolean( getApplicationContext(), "isLogin", true );
+                                ToastUtils.showToast( getApplicationContext(), "登录成功" );
+                                EventBus.getDefault().post( "loginSuccess" );
                                 Intent intent = new Intent();
-                                intent.setAction("wchatloginfinish");
-                                sendBroadcast(intent);
+                                intent.setAction( "wchatloginfinish" );
+                                sendBroadcast( intent );
                                 finish();
-                                PushAgent mPushAgent = PushAgent.getInstance(getApplicationContext());
-                                mPushAgent.addAlias(user_id, Constant.YOUMENGPUSH, new UTrack.ICallBack() {
+                                PushAgent mPushAgent = PushAgent.getInstance( getApplicationContext() );
+                                mPushAgent.addAlias( user_id, Constant.YOUMENGPUSH, new UTrack.ICallBack() {
                                     @Override
                                     public void onMessage(boolean isSuccess, String message) {
-                                        Log.i("推送别名测试", message);
+                                        Log.i( "推送别名测试", message );
                                     }
-                                });
+                                } );
                             } else {
-                                ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                                ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                                 finish();
                             }
                         } catch (JSONException e) {
@@ -274,9 +276,9 @@ public class WXEntryActivity extends WechatHandlerActivity implements IWXAPIEven
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                         finish();
                     }
-                });
+                } );
     }
 }

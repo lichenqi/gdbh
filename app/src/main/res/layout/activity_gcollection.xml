@@ -33,7 +33,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/ivdeng"
-                android:text="果冻收藏夹商品信息每日凌晨更新"
+                android:text="收藏夹商品仅为收藏时历史信息"
                 android:textColor="#f6c15b" />
 
 

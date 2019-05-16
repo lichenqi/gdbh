@@ -422,6 +422,12 @@
         <activity
             android:name=".activity.VideoSurfaceViewActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UnBindWChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ExclusiveTutorActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

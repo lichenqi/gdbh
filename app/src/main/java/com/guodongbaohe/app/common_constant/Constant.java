@@ -99,7 +99,7 @@ public class Constant {
     /*获取app配置信息*/
     public static final String APPPEIZHIDATA = "assets/appConfig";
     /*用户信息基本参数拼接*/
-    public static final String USER_DATA_PARA = "member_id,member_name,member_role,invite_code,gender,wechat,qq,province,city,avatar,balance,credits,phone,platform,validity,dateline,lasttime,fans,income,status";
+    public static final String USER_DATA_PARA = "member_id,member_name,member_role,invite_code,gender,wechat,qq,province,city,avatar,balance,credits,phone,platform,validity,dateline,lasttime,fans,income,status,openid";
     /*我的界面数据*/
     public static final String MINE_DATA = "member/mine";
     /*登录成功字符*/
@@ -226,4 +226,8 @@ public class Constant {
     public static final String RECOMMENDATION = "goods/related";
     /*每日爆款新接口*/
     public static final String EVERYDAY_NEW_API = "assets/circle_new";
+    /*解绑微信接口*/
+    public static final String UNBINDWCHAT = "member/unbindOpenid";
+    /*导师微信*/
+    public static final String EXCLUSIVETUTOR_API = "member/proWeChat";
 }

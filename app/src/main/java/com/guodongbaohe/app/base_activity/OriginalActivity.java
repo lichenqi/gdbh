@@ -31,7 +31,7 @@ public class OriginalActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
     }
 
     @Override
@@ -42,32 +42,32 @@ public class OriginalActivity extends AppCompatActivity {
     }
 
     private void getClipContent() {
-        cm = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        cm = (ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
         if (cm.hasPrimaryClip()) {
             ClipData data = cm.getPrimaryClip();
             if (data == null) return;
-            ClipData.Item item = data.getItemAt(0);
-            final String content = item.coerceToText(getApplicationContext()).toString().trim().replace("\r\n\r\n", "\r\n");
-            if (TextUtils.isEmpty(content)) return;
-            if (content.contains(bracket_one) && content.contains(bracket_two)) return;
+            ClipData.Item item = data.getItemAt( 0 );
+            final String content = item.coerceToText( getApplicationContext() ).toString().trim().replace( "\r\n\r\n", "\r\n" );
+            if (TextUtils.isEmpty( content )) return;
+            if (content.contains( bracket_one ) && content.contains( bracket_two )) return;
             /*数据库数据*/
-            List<String> clip_list = ClipContentUtil.getInstance(getApplicationContext()).queryHistorySearchList();
+            List<String> clip_list = ClipContentUtil.getInstance( getApplicationContext() ).queryHistorySearchList();
             if (clip_list == null) return;
             for (int i = 0; i < clip_list.size(); i++) {
-                if (clip_list.get(i).toString().trim().replace("\r\n\r\n", "\r\n").equals(content)) {
+                if (clip_list.get( i ).toString().trim().replace( "\r\n\r\n", "\r\n" ).equals( content )) {
                     return;
                 }
             }
-            showDialog(content);
+            showDialog( content );
         }
     }
 
     private void showDialog(final String content) {
         /*清空剪切板内容*/
         if (cm.hasPrimaryClip()) {
-            cm.setPrimaryClip(ClipData.newPlainText(null, ""));
+            cm.setPrimaryClip( ClipData.newPlainText( null, "" ) );
         }
-        guoDuTanKuang(content);
+        guoDuTanKuang( content );
     }
 
     /*过渡弹框*/
@@ -75,38 +75,40 @@ public class OriginalActivity extends AppCompatActivity {
         if (dialog != null) {
             dialog.dismiss();
         }
-        dialog = new Dialog(OriginalActivity.this, R.style.transparentFrameWindowStyle);
-        dialog.setContentView(R.layout.clip_search_dialog);
+        dialog = new Dialog( OriginalActivity.this, R.style.transparentFrameWindowStyle );
+        dialog.setContentView( R.layout.clip_search_dialog );
         Window window = dialog.getWindow();
-        window.setGravity(Gravity.CENTER | Gravity.CENTER);
-        TextView sure = (TextView) dialog.findViewById(R.id.sure);
-        TextView cancel = (TextView) dialog.findViewById(R.id.cancel);
-        TextView title = (TextView) dialog.findViewById(R.id.content);
-        title.setText(content);
-        cancel.setOnClickListener(new View.OnClickListener() {
+        window.setGravity( Gravity.CENTER | Gravity.CENTER );
+        TextView sure = (TextView) dialog.findViewById( R.id.sure );
+        TextView cancel = (TextView) dialog.findViewById( R.id.cancel );
+        TextView title = (TextView) dialog.findViewById( R.id.content );
+        title.setText( content );
+        cancel.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
-        });
-        sure.setOnClickListener(new View.OnClickListener() {
+        } );
+        sure.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
-                HistorySearchUtil.getInstance(OriginalActivity.this).putNewSearch(content);//保存记录到数据库
-                Intent intent = new Intent(getApplicationContext(), SearchResultActivity.class);
-                intent.putExtra("keyword", content);
-                intent.putExtra("search_type", 0);
-                startActivity(intent);
+                HistorySearchUtil.getInstance( OriginalActivity.this ).putNewSearch( content );//保存记录到数据库
+                Intent intent = new Intent( getApplicationContext(), SearchResultActivity.class );
+                intent.putExtra( "keyword", content );
+                intent.putExtra( "search_type", 0 );
+                startActivity( intent );
             }
-        });
+        } );
+        dialog.setCancelable( false );
+        dialog.setCanceledOnTouchOutside( false );
         dialog.show();
     }
 
     //判断是否是升级码
     private boolean isUpdataCode(String msg) {
         boolean isture = false;
-        if (msg.matches("^(?![^a-zA-Z0-9]+$)(?!\\\\D+$).{16}$")) {
+        if (msg.matches( "^(?![^a-zA-Z0-9]+$)(?!\\\\D+$).{16}$" )) {
             isture = true;
         }
         return isture;
@@ -126,7 +128,7 @@ public class OriginalActivity extends AppCompatActivity {
             //非默认值
             getResources();
         }
-        super.onConfigurationChanged(newConfig);
+        super.onConfigurationChanged( newConfig );
     }
 
     @Override
@@ -135,7 +137,7 @@ public class OriginalActivity extends AppCompatActivity {
         if (res.getConfiguration().fontScale != 1) {//非默认值
             Configuration newConfig = new Configuration();
             newConfig.setToDefaults();//设置默认
-            res.updateConfiguration(newConfig, res.getDisplayMetrics());
+            res.updateConfiguration( newConfig, res.getDisplayMetrics() );
         }
         return res;
     }

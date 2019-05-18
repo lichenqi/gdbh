@@ -57,6 +57,8 @@ import butterknife.OnClick;
 
 public class NewHomeFragment extends Fragment {
     private View view;
+    @BindView(R.id.re_space_line)
+    RelativeLayout re_space_line;
     /*搜索布局*/
     @BindView(R.id.re_search_title)
     RelativeLayout re_search_title;
@@ -140,7 +142,7 @@ public class NewHomeFragment extends Fragment {
     /*tablayout头部赋值操作*/
     private void setTabLayoutDataView() {
         fragments = new ArrayList<>();
-        AllFragment allFragment = new AllFragment( re_tablayout_parent, re_search_title, re_parent_title );
+        AllFragment allFragment = new AllFragment( re_tablayout_parent, re_search_title, re_parent_title,re_space_line );
         bundle = new Bundle();
         bundle.putString( "cate_id", titleList.get( 0 ).getCate_id() );
         allFragment.setArguments( bundle );
@@ -268,6 +270,7 @@ public class NewHomeFragment extends Fragment {
             re_tablayout_parent.setBackgroundColor( i );
             re_search_title.setBackgroundColor( i );
             re_parent_title.setBackgroundColor( i );
+            re_space_line.setBackgroundColor( i );
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getActivity().getWindow();
                 window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );

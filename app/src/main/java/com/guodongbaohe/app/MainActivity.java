@@ -60,6 +60,7 @@ import com.guodongbaohe.app.fragment.LieBiaoFenLeiFragment;
 import com.guodongbaohe.app.fragment.MakeMoneyFragment;
 import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
+import com.guodongbaohe.app.fragment.NewIdentityLimitsFragment;
 import com.guodongbaohe.app.fragment.SendCircleFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.CleanDataUtil;
@@ -402,7 +403,7 @@ public class MainActivity extends OriginalActivity {
                     currentFragment = new LieBiaoFenLeiFragment();
                     break;
                 case 2:
-                    currentFragment = new MakeMoneyFragment();
+                    currentFragment = new NewIdentityLimitsFragment();
                     break;
                 case 3:
                     currentFragment = new SendCircleFragment();

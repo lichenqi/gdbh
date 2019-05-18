@@ -64,9 +64,9 @@ public class OriginalActivity extends AppCompatActivity {
 
     private void showDialog(final String content) {
         /*清空剪切板内容*/
-        if (cm.hasPrimaryClip()) {
-            cm.setPrimaryClip( ClipData.newPlainText( null, "" ) );
-        }
+//        if (cm.hasPrimaryClip()) {
+//            cm.setPrimaryClip( ClipData.newPlainText( null, "" ) );
+//        }
         guoDuTanKuang( content );
     }
 
@@ -87,6 +87,9 @@ public class OriginalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
+                if (cm.hasPrimaryClip()) {
+                    cm.setPrimaryClip( ClipData.newPlainText( null, "" ) );
+                }
             }
         } );
         sure.setOnClickListener( new View.OnClickListener() {
@@ -98,6 +101,9 @@ public class OriginalActivity extends AppCompatActivity {
                 intent.putExtra( "keyword", content );
                 intent.putExtra( "search_type", 0 );
                 startActivity( intent );
+                if (cm.hasPrimaryClip()) {
+                    cm.setPrimaryClip( ClipData.newPlainText( null, "" ) );
+                }
             }
         } );
         dialog.setCancelable( false );

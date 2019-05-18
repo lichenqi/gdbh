@@ -119,6 +119,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     private RelativeLayout re_tablayout_parent;
     private RelativeLayout re_search_title;
     private RelativeLayout re_parent_title;
+    private RelativeLayout re_space_line;
     String notice_url, is_index_activity;
     Context context;
     ViewPager viewpager, viewpager_xin;
@@ -135,10 +136,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
     }
 
-    public AllFragment(RelativeLayout re_tablayout_parent, RelativeLayout re_search_title, RelativeLayout re_parent_title) {
+    public AllFragment(RelativeLayout re_tablayout_parent, RelativeLayout re_search_title, RelativeLayout re_parent_title, RelativeLayout re_space_line) {
         this.re_tablayout_parent = re_tablayout_parent;
         this.re_search_title = re_search_title;
         this.re_parent_title = re_parent_title;
+        this.re_space_line = re_space_line;
     }
 
     @Override
@@ -1124,6 +1126,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             if (re_parent_title != null) {
                 re_parent_title.setBackgroundColor( i );
             }
+            if (re_space_line != null) {
+                re_space_line.setBackgroundColor( i );
+            }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getActivity().getWindow();
                 window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
@@ -1223,6 +1228,9 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             }
             if (re_parent_title != null) {
                 re_parent_title.setBackgroundColor( colorChange );
+            }
+            if (re_space_line != null) {
+                re_space_line.setBackgroundColor( colorChange );
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = getActivity().getWindow();

@@ -548,7 +548,7 @@ public class CreateShare_New_Activity extends BaseActivity {
             double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
             bg3 = new BigDecimal( d_price );
             double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
-            tv_coupon_money.setText( "¥ " + StringCleanZeroUtil.DoubleFormat( d_money ) );
+            tv_coupon_money.setText( StringCleanZeroUtil.DoubleFormat( d_money ) + "元券" );
         } else {
             if (v > 0) {
                 tv_coupon_type.setText( "折" );

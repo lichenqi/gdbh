@@ -427,10 +427,20 @@ public class ShopDetailActivity extends BigBaseActivity {
     }
 
     private void initGoodHeadView() {
-        if (TextUtils.isEmpty( goods_name )) {
-            setVerticalCenterIconSpan( goods_short );
+        if (TextUtils.isEmpty( source )) {
+            /*不是本地库 用goods_name*/
+            if (TextUtils.isEmpty( goods_name )) {
+                setVerticalCenterIconSpan( goods_short );
+            } else {
+                setVerticalCenterIconSpan( goods_name );
+            }
         } else {
-            setVerticalCenterIconSpan( goods_name );
+            /*本地商品 用goods_short*/
+            if (TextUtils.isEmpty( goods_short )) {
+                setVerticalCenterIconSpan( goods_name );
+            } else {
+                setVerticalCenterIconSpan( goods_short );
+            }
         }
         StringCleanZeroUtil.StringFormat( attr_price, tv_price );
         StringCleanZeroUtil.StringFormatWithYuan( attr_prime, tv_old_price );
@@ -816,16 +826,11 @@ public class ShopDetailActivity extends BigBaseActivity {
                         /*总裁角色*/
                         intent = new Intent( getApplicationContext(), YaoQingFriendActivity.class );
                         startActivity( intent );
-                    } else if (Constant.PARTNER_USER_LEVEL.contains( member_role )) {
-                        /* 合伙人角色*/
-                        /*合伙人升级总裁*/
-                        intent = new Intent( getApplicationContext(), GFriendToBossActivity.class );
-                        startActivity( intent );
                     } else {
-                        /*VIP角色*/
-                        /*VIP升级合伙人*/
-                        intent = new Intent( getApplicationContext(), GVipToFriendActivity.class );
+                        intent = new Intent( getApplicationContext(), MainActivity.class );
+                        intent.putExtra( "loginout", "newidentitylimitsfragment" );
                         startActivity( intent );
+                        finish();
                     }
                 } else {
                     startActivity( new Intent( getApplicationContext(), LoginAndRegisterActivity.class ) );

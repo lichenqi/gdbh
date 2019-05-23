@@ -2,7 +2,6 @@ package com.guodongbaohe.app.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.guodongbaohe.app.util.IconAndTextGroupUtil;
 import com.guodongbaohe.app.util.NetImageLoadUtil;
 import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.PreferUtils;
+import com.guodongbaohe.app.util.ShopTitleSetUtil;
 import com.guodongbaohe.app.util.StringCleanZeroUtil;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -45,107 +45,102 @@ public class JhsAdapter extends RecyclerView.Adapter<JhsAdapter.JhsHolder> {
 
     @Override
     public JhsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.search_list_item, parent, false);
-        return new JhsHolder(view);
+        View view = LayoutInflater.from( context ).inflate( R.layout.search_list_item, parent, false );
+        return new JhsHolder( view );
     }
 
     @Override
     public void onBindViewHolder(final JhsHolder holder, int position) {
-        sales_month = list.get(position).getSales_month();/*月销*/
-        attr_prime = list.get(position).getAttr_prime();/*原价*/
-        attr_ratio = list.get(position).getAttr_ratio();/*比例*/
-        attr_price = list.get(position).getAttr_price();
-        tax_rate = PreferUtils.getString(context, "tax_rate");/*配置比例*/
-        app_v = 1 - Double.valueOf(tax_rate);
-        NetImageLoadUtil.loadImage(list.get(position).getGoods_thumb(), context, holder.iv);
-        String goods_short = list.get(position).getGoods_short();/*短标题*/
-        String goods_name = list.get(position).getGoods_name();/*长标题*/
-        if (!TextUtils.isEmpty(goods_short)) {
-            holder.title.setText(goods_short);
-            holder.title.setMaxLines(2);
-        } else {
-            holder.title.setText(goods_name);
-            holder.title.setMaxLines(1);
-        }
-        StringCleanZeroUtil.StringFormat(attr_price, holder.tv_price);
-        String attr_site = list.get(position).getAttr_site();
-        IconAndTextGroupUtil.setTextView(context, holder.dianpu_name, list.get(position).getSeller_shop(), attr_site);
+        sales_month = list.get( position ).getSales_month();/*月销*/
+        attr_prime = list.get( position ).getAttr_prime();/*原价*/
+        attr_ratio = list.get( position ).getAttr_ratio();/*比例*/
+        attr_price = list.get( position ).getAttr_price();
+        String source = list.get( position ).getSource();/*商品来源*/
+        tax_rate = PreferUtils.getString( context, "tax_rate" );/*配置比例*/
+        app_v = 1 - Double.valueOf( tax_rate );
+        NetImageLoadUtil.loadImage( list.get( position ).getGoods_thumb(), context, holder.iv );
+        String goods_short = list.get( position ).getGoods_short();/*短标题*/
+        String goods_name = list.get( position ).getGoods_name();/*长标题*/
+        ShopTitleSetUtil.setShopTitle( source, goods_name, goods_short, holder.title );
+        StringCleanZeroUtil.StringFormat( attr_price, holder.tv_price );
+        String attr_site = list.get( position ).getAttr_site();
+        IconAndTextGroupUtil.setTextView( context, holder.dianpu_name, list.get( position ).getSeller_shop(), attr_site );
         /*黄色优惠券显示文案布局*/
-        String coupon_surplus = list.get(position).getCoupon_surplus();
-        if (Double.valueOf(coupon_surplus) > 0) {
+        String coupon_surplus = list.get( position ).getCoupon_surplus();
+        if (Double.valueOf( coupon_surplus ) > 0) {
             /*有券显示*/
-            double d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
-            bg3 = new BigDecimal(d_price);
-            double d_money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-            holder.tv_coupon_money.setText(StringCleanZeroUtil.DoubleFormat(d_money) + " 元券");
-            holder.tv_coupon_money_boss.setText(StringCleanZeroUtil.DoubleFormat(d_money) + " 元券");
-            TvClassicType(holder, "券后");
+            double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
+            bg3 = new BigDecimal( d_price );
+            double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
+            holder.tv_coupon_money.setText( StringCleanZeroUtil.DoubleFormat( d_money ) + " 元券" );
+            holder.tv_coupon_money_boss.setText( StringCleanZeroUtil.DoubleFormat( d_money ) + " 元券" );
+            TvClassicType( holder, "券后" );
         } else {
             /*无券显示 显示折扣或者抢购价*/
-            double d_price = Double.valueOf(attr_prime) - Double.valueOf(attr_price);
+            double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
             if (d_price > 0) {
-                double disaccount = Double.valueOf(attr_price) / Double.valueOf(attr_prime) * 10;
-                bg3 = new BigDecimal(disaccount);
-                double d_zhe = bg3.setScale(1, BigDecimal.ROUND_HALF_UP).doubleValue();
-                holder.tv_coupon_money.setText(d_zhe + " 折");
-                holder.tv_coupon_money_boss.setText(d_zhe + " 折");
-                TvClassicType(holder, "折后");
+                double disaccount = Double.valueOf( attr_price ) / Double.valueOf( attr_prime ) * 10;
+                bg3 = new BigDecimal( disaccount );
+                double d_zhe = bg3.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
+                holder.tv_coupon_money.setText( d_zhe + " 折" );
+                holder.tv_coupon_money_boss.setText( d_zhe + " 折" );
+                TvClassicType( holder, "折后" );
             } else {
-                holder.tv_coupon_money.setText("立即抢购");
-                holder.tv_coupon_money_boss.setText("立即抢购");
-                TvClassicType(holder, "特惠价");
+                holder.tv_coupon_money.setText( "立即抢购" );
+                holder.tv_coupon_money_boss.setText( "立即抢购" );
+                TvClassicType( holder, "特惠价" );
             }
         }
 
-        holder.tv_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
-        holder.tv_base_sale_num.setText("月销" + NumUtil.getNum(sales_month) + "件");
+        holder.tv_sale_num.setText( "月销" + NumUtil.getNum( sales_month ) + "件" );
+        holder.tv_base_sale_num.setText( "月销" + NumUtil.getNum( sales_month ) + "件" );
 
         /*红色你能赚显示文案布局*/
-        if (list.get(position).isLogin()) {
+        if (list.get( position ).isLogin()) {
             /*登录*/
-            String member_role = list.get(position).getMember_role();
-            if (Constant.BOSS_USER_LEVEL.contains(member_role)) {
+            String member_role = list.get( position ).getMember_role();
+            if (Constant.BOSS_USER_LEVEL.contains( member_role )) {
                 /*总裁角色*/
-                holder.tv_base_sale_num.setVisibility(View.GONE);
-                holder.tv_sale_num.setVisibility(View.VISIBLE);
-                holder.re_coupon_view.setVisibility(View.GONE);
-                holder.tv_upgrade_money.setVisibility(View.GONE);
-                holder.re_coupon_view_boss.setVisibility(View.VISIBLE);
-                NiNengZhuanViewData(holder, 90);
+                holder.tv_base_sale_num.setVisibility( View.GONE );
+                holder.tv_sale_num.setVisibility( View.VISIBLE );
+                holder.re_coupon_view.setVisibility( View.GONE );
+                holder.tv_upgrade_money.setVisibility( View.GONE );
+                holder.re_coupon_view_boss.setVisibility( View.VISIBLE );
+                NiNengZhuanViewData( holder, 90 );
             } else {
-                holder.tv_base_sale_num.setVisibility(View.VISIBLE);
-                holder.tv_sale_num.setVisibility(View.GONE);
-                holder.re_coupon_view.setVisibility(View.VISIBLE);
-                holder.tv_upgrade_money.setVisibility(View.VISIBLE);
-                holder.re_coupon_view_boss.setVisibility(View.GONE);
-                if (Constant.PARTNER_USER_LEVEL.contains(member_role)) {
+                holder.tv_base_sale_num.setVisibility( View.VISIBLE );
+                holder.tv_sale_num.setVisibility( View.GONE );
+                holder.re_coupon_view.setVisibility( View.VISIBLE );
+                holder.tv_upgrade_money.setVisibility( View.VISIBLE );
+                holder.re_coupon_view_boss.setVisibility( View.GONE );
+                if (Constant.PARTNER_USER_LEVEL.contains( member_role )) {
                     /*合伙人*/
-                    NiNengZhuanViewData(holder, 80);
-                    setUpgradeViewData(holder, 90);
+                    NiNengZhuanViewData( holder, 80 );
+                    setUpgradeViewData( holder, 90 );
                 } else {
                     /*VIP*/
-                    NiNengZhuanViewData(holder, 55);
-                    setUpgradeViewData(holder, 80);
+                    NiNengZhuanViewData( holder, 55 );
+                    setUpgradeViewData( holder, 80 );
                 }
             }
         } else {
             /*游客*/
-            holder.tv_base_sale_num.setVisibility(View.VISIBLE);
-            holder.tv_sale_num.setVisibility(View.GONE);
-            holder.re_coupon_view.setVisibility(View.VISIBLE);
-            holder.tv_upgrade_money.setVisibility(View.VISIBLE);
-            holder.re_coupon_view_boss.setVisibility(View.GONE);
-            NiNengZhuanViewData(holder, 55);
-            setUpgradeViewData(holder, 80);
+            holder.tv_base_sale_num.setVisibility( View.VISIBLE );
+            holder.tv_sale_num.setVisibility( View.GONE );
+            holder.re_coupon_view.setVisibility( View.VISIBLE );
+            holder.tv_upgrade_money.setVisibility( View.VISIBLE );
+            holder.re_coupon_view_boss.setVisibility( View.GONE );
+            NiNengZhuanViewData( holder, 55 );
+            setUpgradeViewData( holder, 80 );
         }
 
         if (onItemClick != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClick.OnItemClickListener(holder.itemView, holder.getAdapterPosition());
+                    onItemClick.OnItemClickListener( holder.itemView, holder.getAdapterPosition() );
                 }
-            });
+            } );
         }
     }
 
@@ -156,24 +151,24 @@ public class JhsAdapter extends RecyclerView.Adapter<JhsAdapter.JhsHolder> {
 
     /*你能赚显示*/
     private void NiNengZhuanViewData(JhsHolder holder, int num) {
-        double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
-        bg3 = new BigDecimal(result);
-        double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        double result = Double.valueOf( attr_price ) * Double.valueOf( attr_ratio ) * num / 10000 * app_v;
+        bg3 = new BigDecimal( result );
+        double money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
         String ninengzhuan_money = "你能赚 ¥" + money;
-        holder.ninengzhuan.setText(ninengzhuan_money);
+        holder.ninengzhuan.setText( ninengzhuan_money );
     }
 
     /*升级赚显示方法*/
     private void setUpgradeViewData(JhsHolder holder, int num) {
-        double result = Double.valueOf(attr_price) * Double.valueOf(attr_ratio) * num / 10000 * app_v;
-        bg3 = new BigDecimal(result);
-        double money = bg3.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-        holder.tv_upgrade_money.setText("升级赚 ¥" + money);
+        double result = Double.valueOf( attr_price ) * Double.valueOf( attr_ratio ) * num / 10000 * app_v;
+        bg3 = new BigDecimal( result );
+        double money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
+        holder.tv_upgrade_money.setText( "升级赚 ¥" + money );
     }
 
     /*券后  折后  特惠价显示*/
     private void TvClassicType(JhsHolder holder, String content) {
-        holder.tv_classic_type.setText(content);
+        holder.tv_classic_type.setText( content );
     }
 
     public class JhsHolder extends RecyclerView.ViewHolder {
@@ -217,8 +212,8 @@ public class JhsAdapter extends RecyclerView.Adapter<JhsAdapter.JhsHolder> {
         TextView tv_coupon_money_boss;
 
         public JhsHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            super( itemView );
+            ButterKnife.bind( this, itemView );
         }
     }
 

@@ -239,7 +239,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="¥"
                                     android:textColor="#C10013"
-                                    android:textSize="15sp" />
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:id="@+id/coupon_money"
@@ -345,7 +346,7 @@
                     android:paddingTop="3dp"
                     android:paddingRight="8dp"
                     android:paddingBottom="3dp"
-                    android:text="推荐词"
+                    android:text="推荐语"
                     android:textColor="#DE5B60"
                     android:textSize="12sp" />
 

@@ -57,7 +57,6 @@ import com.guodongbaohe.app.bean.VersionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.fragment.LieBiaoFenLeiFragment;
-import com.guodongbaohe.app.fragment.MakeMoneyFragment;
 import com.guodongbaohe.app.fragment.MineFragment;
 import com.guodongbaohe.app.fragment.NewHomeFragment;
 import com.guodongbaohe.app.fragment.NewIdentityLimitsFragment;
@@ -470,39 +469,23 @@ public class MainActivity extends OriginalActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent( intent );
         String loginout = intent.getStringExtra( "loginout" );
-        String shopdetail_upgrade = intent.getStringExtra( "shopdetail_upgrade" );
         if (!TextUtils.isEmpty( loginout )) {
-            if (loginout.equals( "loginout" )) {
+            if (loginout.equals( "loginout" )) {/*首页*/
                 setStatusColor( 0 );
                 setBackSize();
                 curIndex = 0;
                 replaceFragment( curIndex );
-            }
-        }
-        if (!TextUtils.isEmpty( loginout )) {
-            if (loginout.equals( "loginout" )) {
-                setStatusColor( 0 );
-                setBackSize();
-                curIndex = 0;
+            } else if (loginout.equals( "newidentitylimitsfragment" )) {/*用户升级页*/
+                setStatusColor( 2 );
+                ViewGroup.LayoutParams layoutParams = ll_money.getLayoutParams();
+                layoutParams.height = size;
+                ll_money.setLayoutParams( layoutParams );
+                ViewGroup.LayoutParams layoutParams1 = iv_money.getLayoutParams();
+                layoutParams1.height = size;
+                layoutParams1.width = size;
+                iv_money.setLayoutParams( layoutParams1 );
+                curIndex = 2;
                 replaceFragment( curIndex );
-            }
-        }
-        if (!TextUtils.isEmpty( shopdetail_upgrade )) {
-            if (shopdetail_upgrade.equals( "shopdetail_upgrade" )) {
-                if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
-                    setStatusColor( 2 );
-                    ViewGroup.LayoutParams layoutParams = ll_money.getLayoutParams();
-                    layoutParams.height = size;
-                    ll_money.setLayoutParams( layoutParams );
-                    ViewGroup.LayoutParams layoutParams1 = iv_money.getLayoutParams();
-                    layoutParams1.height = size;
-                    layoutParams1.width = size;
-                    iv_money.setLayoutParams( layoutParams1 );
-                    curIndex = 2;
-                    replaceFragment( curIndex );
-                } else {
-                    startActivity( new Intent( getApplicationContext(), LoginAndRegisterActivity.class ) );
-                }
             }
         }
     }

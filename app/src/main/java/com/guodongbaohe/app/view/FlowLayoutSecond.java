@@ -33,9 +33,9 @@ public class FlowLayoutSecond extends ViewGroup {
     public FlowLayoutSecond(Context context, AttributeSet attrs, int defStyleAttr) {
         super( context, attrs, defStyleAttr );
         //获取自定义属性
-        TypedArray a = context.obtainStyledAttributes( attrs, R.styleable.FlowLayout );
-        LINE_SPACE = a.getDimensionPixelSize( R.styleable.FlowLayout_lineSpace, 10 );
-        ROW_SPACE = a.getDimensionPixelSize( R.styleable.FlowLayout_rowSpace, 10 );
+        TypedArray a = context.obtainStyledAttributes( attrs, R.styleable.FlowLayoutSecond );
+        LINE_SPACE = a.getDimensionPixelSize( R.styleable.FlowLayoutSecond_lineSpaceSecond, 20 );
+        ROW_SPACE = a.getDimensionPixelSize( R.styleable.FlowLayoutSecond_rowSpaceSecond, 20 );
         a.recycle();
     }
 
@@ -127,10 +127,8 @@ public class FlowLayoutSecond extends ViewGroup {
                 //减去两边间距
                 widthSpace -= LINE_SPACE;
             }
-            //获取子控件的高度
-            int childH = getChildAt( 0 ).getMeasuredHeight();
-            //测算最终所需要的高度
-            height = (childH * row) + (row - 1) * ROW_SPACE;
+            //测算最终所需要的高度  每行按90个单位计算
+            height = (90 * row) + (row - 1) * ROW_SPACE;
         }
         //保存测量高度
         setMeasuredDimension( width, height );
@@ -164,9 +162,9 @@ public class FlowLayoutSecond extends ViewGroup {
         void OnItemClick(String name);
     }
 
-    private FlowLayout.OnItem onItem;
+    private OnItem onItem;
 
-    public void setOnClickListener(FlowLayout.OnItem onItem) {
+    public void setOnClickListener(OnItem onItem) {
         this.onItem = onItem;
     }
 }

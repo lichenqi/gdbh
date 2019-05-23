@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swiperefreshlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_one"
@@ -35,58 +37,268 @@
                     android:background="@drawable/oval_bg">
 
                     <com.guodongbaohe.app.view.CircleImageView
-                        android:id="@+id/circleimageview"
+                        android:id="@+id/user_iv"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_centerInParent="true"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/login_logo" />
+                        android:scaleType="centerCrop" />
 
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/tv_name"
+                    android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/re_oval"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:text="会员123"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
 
                 <ImageView
+                    android:id="@+id/iv_user_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_name"
+                    android:layout_below="@+id/tv_user_name"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/new_vip_level" />
+                    android:scaleType="centerCrop" />
 
             </RelativeLayout>
 
-            <com.makeramen.roundedimageview.RoundedImageView
+            <ImageView
+                android:id="@+id/roundimageview_big"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="-30dp"
-                android:layout_marginRight="10dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/upgrade_partern"
-                app:riv_corner_radius="5dp" />
+                android:layout_marginRight="10dp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/five_radius_white"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
+                android:id="@+id/ll_partern_promote_task"
+                style="@style/role_parent_ll"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_promote_partner"
+                        style="@style/promote_iv" />
+
+                    <TextView
+                        android:id="@+id/tv_promote_one"
+                        style="@style/green_iv_right_tv"
+                        android:layout_toRightOf="@+id/iv_promote_partner" />
+
+                    <TextView
+                        android:id="@+id/tv_upgrade_explain_parener"
+                        style="@style/upgrade_explain_tv"
+                        android:text="升级说明" />
+
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/promote_tv"
+                    android:layout_marginTop="15dp"
+                    android:text="方式" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_promote_two"
+                            style="@style/invite_text_tv" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar_mode_zhishu"
+                                style="@style/progressbar" />
+
+                            <TextView
+                                android:id="@+id/tv_promote_threee"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_zhishu" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_promote_go_invite"
+                        style="@style/go_action_tv"
+                        android:text="去邀请" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/tv_upgrade_boss"
+                    style="@style/commit_task"
+                    android:text="我已完成任务，立即升级总裁" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_partern_team_person"
+                style="@style/role_parent_ll"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_team_partner"
+                        style="@style/promote_iv" />
+
+                    <TextView
+                        style="@style/green_iv_right_tv"
+                        android:layout_toRightOf="@+id/iv_team_partner"
+                        android:text="团队人数(非任务)" />
+
+                    <TextView
+                        android:id="@+id/tv_team_explain"
+                        style="@style/upgrade_explain_tv"
+                        android:text="团队说明" />
+
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/promote_tv"
+                    android:layout_marginTop="15dp"
+                    android:text="自我挑战" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/invite_text_tv"
+                            android:text="一线团队+二线团队" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar_mode_tean_person"
+                                style="@style/progressbar" />
+
+                            <TextView
+                                android:id="@+id/tv_team_person_num"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_tean_person" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_team_go_invite"
+                        style="@style/go_action_tv"
+                        android:text="去邀请" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_partern_income"
+                style="@style/role_parent_ll"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_income_partner"
+                        style="@style/promote_iv" />
+
+                    <TextView
+                        style="@style/green_iv_right_tv"
+                        android:layout_toRightOf="@+id/iv_income_partner"
+                        android:text="累计总收益(非任务)" />
+
+                    <TextView
+                        android:id="@+id/tv_income_explain"
+                        style="@style/upgrade_explain_tv"
+                        android:text="收益说明" />
+
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/promote_tv"
+                    android:layout_marginTop="15dp"
+                    android:text="自我挑战" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:paddingRight="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/invite_text_tv"
+                            android:text="今日收益+历史收益" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <ProgressBar
+                                android:id="@+id/progressBar_mode_income"
+                                style="@style/progressbar" />
+
+                            <TextView
+                                android:id="@+id/tv_income_num"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_income" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_vip_parent"
+                style="@style/role_parent_ll"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -94,52 +306,28 @@
 
                     <ImageView
                         android:id="@+id/iv_promote"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:src="@mipmap/promote" />
+                        style="@style/promote_iv" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
+                        style="@style/green_iv_right_tv"
                         android:layout_toRightOf="@+id/iv_promote"
-                        android:text="晋升任务(任务满其一即可升级)"
-                        android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:text="晋升任务(任务满其一即可升级)" />
 
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="15dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:background="@mipmap/mode"
-                        android:gravity="center"
-                        android:text="方式一"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        style="@style/promote_tv"
+                        android:text="方式一" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/upgrade_explain"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
-                        android:text="升级说明"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_upgrade_explain_one"
+                        style="@style/upgrade_explain_tv"
+                        android:text="升级说明" />
 
                 </RelativeLayout>
 
@@ -156,11 +344,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="邀请50个直属用户下载注册"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:id="@+id/tv_text_one"
+                            style="@style/invite_text_tv" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -169,43 +354,21 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar_mode_one"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="10dp"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shouyiyellow_bg"
-                                android:max="100"
-                                android:progress="50"
-                                android:progressDrawable="@drawable/progress_yellow" />
+                                style="@style/progressbar" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/progressBar_mode_one"
-                                android:text="0/50(人)"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:id="@+id/tv_text_two"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_one" />
 
                         </RelativeLayout>
 
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/go_invited"
-                        android:gravity="center"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="去邀请"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_go_invite_one"
+                        style="@style/go_action_tv"
+                        android:text="去邀请" />
 
                 </RelativeLayout>
 
@@ -222,11 +385,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="累计结算收益达到1000元"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:id="@+id/tv_text_three"
+                            style="@style/invite_text_tv" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -235,43 +395,21 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar_mode_two"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="10dp"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shouyiyellow_bg"
-                                android:max="100"
-                                android:progress="90"
-                                android:progressDrawable="@drawable/progress_yellow" />
+                                style="@style/progressbar" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/progressBar_mode_two"
-                                android:text="0.00/1000(元)"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:id="@+id/tv_text_four"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_two" />
 
                         </RelativeLayout>
 
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/go_invited"
-                        android:gravity="center"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="去赚佣"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_go_make_commission_one"
+                        style="@style/go_action_tv"
+                        android:text="去赚佣" />
 
                 </RelativeLayout>
 
@@ -281,29 +419,13 @@
                     android:layout_marginTop="25dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:background="@mipmap/mode"
-                        android:gravity="center"
-                        android:text="方式二"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        style="@style/promote_tv"
+                        android:text="方式二" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/upgrade_explain"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
-                        android:text="升级说明"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_upgrade_explain_two"
+                        style="@style/upgrade_explain_tv"
+                        android:text="升级说明" />
 
                 </RelativeLayout>
 
@@ -320,11 +442,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="直接邀请用户50人以上"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:id="@+id/tv_text_five"
+                            style="@style/invite_text_tv" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -333,43 +452,21 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar_mode_three"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="10dp"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shouyiyellow_bg"
-                                android:max="100"
-                                android:progress="40"
-                                android:progressDrawable="@drawable/progress_yellow" />
+                                style="@style/progressbar" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/progressBar_mode_three"
-                                android:text="1/50(人)"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:id="@+id/tv_text_six"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_three" />
 
                         </RelativeLayout>
 
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/go_invited"
-                        android:gravity="center"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="去邀请"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_go_invite_two"
+                        style="@style/go_action_tv"
+                        android:text="去邀请" />
 
                 </RelativeLayout>
 
@@ -386,11 +483,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="间接邀请用户100人以上"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:id="@+id/tv_text_seven"
+                            style="@style/invite_text_tv" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -399,24 +493,12 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar_mode_four"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="10dp"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shouyiyellow_bg"
-                                android:max="100"
-                                android:progress="30"
-                                android:progressDrawable="@drawable/progress_yellow" />
+                                style="@style/progressbar" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/progressBar_mode_four"
-                                android:text="0/100(人)"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:id="@+id/tv_text_eight"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_four" />
 
                         </RelativeLayout>
 
@@ -437,11 +519,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="累计结算收益达到300元"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:id="@+id/tv_text_nine"
+                            style="@style/invite_text_tv" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -450,43 +529,21 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar_mode_five"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="10dp"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shouyiyellow_bg"
-                                android:max="100"
-                                android:progress="20"
-                                android:progressDrawable="@drawable/progress_yellow" />
+                                style="@style/progressbar" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/progressBar_mode_five"
-                                android:text="0.00/300(元)"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:id="@+id/tv_text_ten"
+                                style="@style/progress_tv_explain"
+                                android:layout_toRightOf="@+id/progressBar_mode_five" />
 
                         </RelativeLayout>
 
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/go_invited"
-                        android:gravity="center"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="去赚佣"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_go_make_commission_two"
+                        style="@style/go_action_tv"
+                        android:text="去赚佣" />
 
                 </RelativeLayout>
 
@@ -496,29 +553,13 @@
                     android:layout_marginTop="25dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:background="@mipmap/mode"
-                        android:gravity="center"
-                        android:text="方式三"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        style="@style/promote_tv"
+                        android:text="方式三" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/upgrade_explain"
-                        android:gravity="center"
-                        android:paddingLeft="10dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="10dp"
-                        android:paddingBottom="5dp"
-                        android:text="升级说明"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_upgrade_explain_three"
+                        style="@style/upgrade_explain_tv"
+                        android:text="升级说明" />
 
                 </RelativeLayout>
 
@@ -535,11 +576,8 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="购买智慧大脑软件，赠送合伙人权限"
-                            android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            style="@style/invite_text_tv"
+                            android:text="购买智慧大脑软件，赠送合伙人权限" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -548,67 +586,39 @@
 
                             <ProgressBar
                                 android:id="@+id/progressBar_mode_six"
-                                style="@android:style/Widget.ProgressBar.Horizontal"
-                                android:layout_width="200dp"
-                                android:layout_height="10dp"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/shouyiyellow_bg"
-                                android:max="100"
-                                android:progress="30"
-                                android:progressDrawable="@drawable/progress_yellow" />
+                                style="@style/progressbar" />
 
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="5dp"
+                                android:id="@+id/tv_text_eleven"
+                                style="@style/progress_tv_explain"
                                 android:layout_toRightOf="@+id/progressBar_mode_six"
-                                android:text="1/3(件)"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:text="0/1(件)" />
 
                         </RelativeLayout>
 
                     </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:background="@drawable/go_invited"
-                        android:gravity="center"
-                        android:paddingLeft="12dp"
-                        android:paddingTop="4dp"
-                        android:paddingRight="12dp"
-                        android:paddingBottom="4dp"
-                        android:text="去购买"
-                        android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:id="@+id/tv_go_buy"
+                        style="@style/go_action_tv"
+                        android:text="去购买" />
 
                 </RelativeLayout>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginBottom="15dp"
-                    android:background="@drawable/yellow_bg"
-                    android:gravity="center"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:text="我已完成任务，立即升级合伙人"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:id="@+id/tv_vip_task"
+                    style="@style/commit_task"
+                    android:text="我已完成任务，立即升级合伙人" />
 
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/re_vip_view_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -619,24 +629,24 @@
                     android:background="@drawable/five_radius_white">
 
                     <com.guodongbaohe.app.view.CircleImageView
-                        android:id="@+id/cscsc"
+                        android:id="@+id/wchat_img"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="45dp"
-                        android:scaleType="centerCrop"
-                        android:src="@mipmap/login_logo" />
+                        android:scaleType="centerCrop" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/cscsc"
+                        android:layout_below="@+id/wchat_img"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
                         android:layout_marginBottom="20dp"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tv_wchat_num"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/weixin_bg"
@@ -645,17 +655,17 @@
                             android:paddingTop="6dp"
                             android:paddingRight="20dp"
                             android:paddingBottom="6dp"
-                            android:text="微信: 1564564654"
                             android:textColor="@color/black" />
 
                         <TextView
+                            android:id="@+id/tv_achat_copy"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/fuzhi_bg"
                             android:gravity="center"
-                            android:paddingLeft="10dp"
+                            android:paddingLeft="14dp"
                             android:paddingTop="6dp"
-                            android:paddingRight="10dp"
+                            android:paddingRight="14dp"
                             android:paddingBottom="6dp"
                             android:text="复制"
                             android:textColor="@color/black"
@@ -671,18 +681,20 @@
                     android:layout_centerHorizontal="true"
                     android:background="@mipmap/zhuanshukefu"
                     android:gravity="center"
-                    android:text="专属客服" />
+                    android:text="专属客服"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
             <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/murcielago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="20dp"
-                android:scaleType="centerCrop"
                 android:src="@mipmap/daniu"
                 app:riv_corner_radius="5dp" />
 

@@ -188,7 +188,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
     private void getThemeData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put( "type", "index_activity" );
+        map.put( "type", "index_activity_test" );
         String param = ParamUtil.getMapParam( map );
         MyApplication.getInstance().getMyOkHttp().post()
                 .url( Constant.BASE_URL + Constant.BANNER + "?" + param )
@@ -795,22 +795,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 ll_theme_parent.setVisibility( View.VISIBLE );
             }
         }
-        iv_theme = (ImageView) headView.findViewById( R.id.iv_theme );
-        iv_list_bg = (ImageView) headView.findViewById( R.id.iv_list_bg );
+        iv_theme = headView.findViewById( R.id.iv_theme );
+        iv_list_bg = headView.findViewById( R.id.iv_list_bg );
         /*横向布局*/
-        recyclerview_horizontal = (RecyclerView) headView.findViewById( R.id.recyclerview_horizontal );
+        recyclerview_horizontal = headView.findViewById( R.id.recyclerview_horizontal );
         recyclerview_horizontal.setHasFixedSize( true );
         recyclerview_horizontal.setLayoutManager( new GridLayoutManager( context, 2 ) );
-        int space = DensityUtils.dip2px( context, 10 );
+        int space = DensityUtils.dip2px( context, 6 );
         recyclerview_horizontal.addItemDecoration( new HorizontalItem( space ) );
         /*竖直布局*/
-        recyclerview_vertical = (RecyclerView) headView.findViewById( R.id.recyclerview_vertical );
+        recyclerview_vertical = headView.findViewById( R.id.recyclerview_vertical );
         recyclerview_vertical.setHasFixedSize( true );
-        recyclerview_vertical.setLayoutManager( new GridLayoutManager( context, 4 ) );
-        space = DensityUtils.dip2px( context, 10 );
+        recyclerview_vertical.setLayoutManager( new GridLayoutManager( context, 3 ) );
         recyclerview_vertical.addItemDecoration( new HorizontalItem( space ) );
         /*24小时热播榜*/
-        recyclerview_hours_hot = (RecyclerView) headView.findViewById( R.id.recyclerview_hours_hot );
+        recyclerview_hours_hot = headView.findViewById( R.id.recyclerview_hours_hot );
         recyclerview_hours_hot.setHasFixedSize( true );
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager( context );
         linearLayoutManager.setOrientation( LinearLayoutManager.HORIZONTAL );

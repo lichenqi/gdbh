@@ -11,11 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.PicsLookActivity;
 import com.guodongbaohe.app.activity.VideoPlayActivity;
 import com.guodongbaohe.app.util.DensityUtils;
+import com.guodongbaohe.app.util.NetImageLoadUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +59,7 @@ public class CircleImgsAdapter extends RecyclerView.Adapter<CircleImgsAdapter.Ci
         layoutParams.height = width;
         holder.iv.setLayoutParams( layoutParams );
         holder.v_go.setLayoutParams( layoutParams1 );
-        Glide.with( context ).load( list_imgs.get( position ) ).placeholder( R.drawable.loading_img ).into( holder.iv );
+        NetImageLoadUtil.loadImage( list_imgs.get( position ), context, holder.iv );
         if (!TextUtils.isEmpty( video ) && isVideoShow.equals( "publictyMaterial" )) {
             holder.video_image.setVisibility( View.VISIBLE );
         } else {

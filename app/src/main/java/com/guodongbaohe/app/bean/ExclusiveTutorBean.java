@@ -20,6 +20,16 @@ public class ExclusiveTutorBean {
             this.wechat = wechat;
         }
 
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
         private String wechat;
+        private String avatar;
+
     }
 }

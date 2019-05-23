@@ -128,11 +128,18 @@ public class EverydayFaddishFragment extends Fragment {
     /*下单链接*/
     private String order_sign = "{下单链接}";
     ClipboardManager cm;
+    String content_taobao_eight;
+    List<String> goodIdList;
+    TextView tv_content;
+    int screen_width, screen_height;
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister( this );
+        if (notice_dialog != null) {
+            notice_dialog.dismiss();
+        }
     }
 
     // 声明一个订阅方法，用于接收事件
@@ -154,9 +161,6 @@ public class EverydayFaddishFragment extends Fragment {
         }
     }
 
-    String content_taobao_eight;
-    List<String> goodIdList;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -170,6 +174,8 @@ public class EverydayFaddishFragment extends Fragment {
             cm = (ClipboardManager) context.getSystemService( Context.CLIPBOARD_SERVICE );
             getData();
             getTemplateData();
+            initNoticeDialog();
+            getScreenSize();
             xrecycler.setHasFixedSize( true );
             xrecycler.setLayoutManager( new LinearLayoutManager( context ) );
             XRecyclerViewUtil.setView( xrecycler );
@@ -339,6 +345,23 @@ public class EverydayFaddishFragment extends Fragment {
             } );
         }
         return view;
+    }
+
+    /*获取屏幕的宽高*/
+    private void getScreenSize() {
+        DisplayMetrics metric = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics( metric );
+        screen_width = metric.widthPixels;
+        screen_height = metric.heightPixels;
+    }
+
+    /*小提示弹框*/
+    private void initNoticeDialog() {
+        notice_dialog = new Dialog( getContext(), R.style.transparentFrameWindowStyle );
+        notice_dialog.setContentView( R.layout.my_backgroud_toast );
+        Window window = notice_dialog.getWindow();
+        window.setGravity( Gravity.CENTER | Gravity.CENTER );
+        tv_content = notice_dialog.findViewById( R.id.tv_content );
     }
 
     /*商品详情头部信息*/
@@ -1384,6 +1407,7 @@ public class EverydayFaddishFragment extends Fragment {
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess( statusCode, response );
+                        Log.i( "商品详情数据", response.toString() );
                         try {
                             JSONObject jsonObject = new JSONObject( response.toString() );
                             if (jsonObject.getInt( "status" ) >= 0) {
@@ -1606,7 +1630,11 @@ public class EverydayFaddishFragment extends Fragment {
                                 p_old_price.getPaint().setAntiAlias( true );// 抗锯齿
                                 Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap( result_qrcode, DensityUtils.dip2px( context, 100 ) );
                                 iv_qr_code.setImageBitmap( mBitmap );
-                                Glide.with( context ).load( result.getGoods_thumb() ).asBitmap().into( new SimpleTarget<Bitmap>() {
+                                String goods_thumb = result.getGoods_thumb();
+                                if (goods_thumb.contains( "alicdn" ) || goods_thumb.contains( "tbcdn" ) || goods_thumb.contains( "taobaocdn" )) {
+                                    goods_thumb = goods_thumb + "_400x400.jpg";
+                                }
+                                Glide.with( context ).load( goods_thumb ).asBitmap().into( new SimpleTarget<Bitmap>() {
                                     @Override
                                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                                         each_p_iv.setImageBitmap( resource );
@@ -1633,17 +1661,19 @@ public class EverydayFaddishFragment extends Fragment {
 
     Bitmap each_hebingBitmap;
     List<Bitmap> eachbitmapList;
+    Dialog notice_dialog;
 
     private void viewSaveToImageOfEach(View view) {
-        DisplayMetrics metric = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics( metric );
-        int width = metric.widthPixels;
-        int height = metric.heightPixels;
-        each_hebingBitmap = createBitmapOfNew( view, width, height );
+        each_hebingBitmap = createBitmapOfNew( view, screen_width, screen_height );
         eachbitmapList.add( each_hebingBitmap );
+        DialogUtil.closeDialog( loadingDialog, getContext() );
+        tv_content.setText( " 正在生成第" + eachbitmapList.size() + "张图片" );
+        if (!notice_dialog.isShowing()) {
+            notice_dialog.show();
+        }
         if (goodIdList.size() == eachbitmapList.size()) {
+            notice_dialog.dismiss();
             /*弹出分享窗口*/
-            DialogUtil.closeDialog( loadingDialog, getContext() );
             showEachDialogShow();
         }
     }

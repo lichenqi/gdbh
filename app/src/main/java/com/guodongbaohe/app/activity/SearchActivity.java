@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -26,7 +25,6 @@ import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.adapter.FuzzyAdater;
-import com.guodongbaohe.app.adapter.HotSearchAdapter;
 import com.guodongbaohe.app.adapter.SearchAdapter;
 import com.guodongbaohe.app.base_activity.BaseActivity;
 import com.guodongbaohe.app.bean.ConfigurationBean;
@@ -34,9 +32,7 @@ import com.guodongbaohe.app.bean.FuzzyData;
 import com.guodongbaohe.app.bean.HotBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
-import com.guodongbaohe.app.itemdecoration.TimeItemDecoration;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.GsonUtil;
 import com.guodongbaohe.app.util.HistorySearchUtil;
 import com.guodongbaohe.app.util.ParamUtil;
@@ -44,6 +40,7 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.FlowLayout;
+import com.guodongbaohe.app.view.FlowLayoutSecond;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -67,8 +64,8 @@ public class SearchActivity extends BaseActivity {
     @BindView(R.id.ed_keyword)
     EditText ed_keyword;
     /*r热门搜索*/
-    @BindView(R.id.hot_recyclerview)
-    RecyclerView hot_recyclerview;
+    @BindView(R.id.flow_layout_second)
+    FlowLayoutSecond flow_layout_second;
     /*历史搜索布局*/
     @BindView(R.id.ll_histoy_notiy)
     RelativeLayout ll_histoy_notiy;
@@ -117,7 +114,7 @@ public class SearchActivity extends BaseActivity {
         getHistoryList();
         /*监听键盘输入的字*/
         setEditWatch();
-        /*热门搜索布局*/
+        /*大家都在搜*/
         initHotView();
         /*模糊查询布局*/
         initFuzzyView();
@@ -203,11 +200,6 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void initHotView() {
-        hot_recyclerview.setHasFixedSize( true );
-        GridLayoutManager manager = new GridLayoutManager( getApplicationContext(), 4 );
-        TimeItemDecoration itemDecoration = new TimeItemDecoration( DensityUtils.dip2px( getApplicationContext(), 10 ), DensityUtils.dip2px( getApplicationContext(), 5 ) );
-        hot_recyclerview.addItemDecoration( itemDecoration );
-        hot_recyclerview.setLayoutManager( manager );
         getHotData();
     }
 
@@ -230,14 +222,12 @@ public class SearchActivity extends BaseActivity {
                         HotBean hotBean = GsonUtil.GsonToBean( response.toString(), HotBean.class );
                         if (hotBean == null) return;
                         final List<HotBean.HotBeanData> hot_list = hotBean.getResult();
-                        HotSearchAdapter hotSearchAdapter = new HotSearchAdapter( getApplicationContext(), hot_list );
-                        hot_recyclerview.setAdapter( hotSearchAdapter );
-                        hotSearchAdapter.setonclicklistener( new OnItemClick() {
+                        flow_layout_second.setLables( hot_list, false );
+                        flow_layout_second.setOnClickListener( new FlowLayoutSecond.OnItem() {
                             @Override
-                            public void OnItemClickListener(View view, int position) {
-                                //TODO
+                            public void OnItemClick(String name) {
                                 intent = new Intent( getApplicationContext(), SearchResultActivity.class );
-                                intent.putExtra( "keyword", hot_list.get( position ).getWord() );
+                                intent.putExtra( "keyword", name );
                                 intent.putExtra( "search_type", 1 );
                                 startActivityForResult( intent, 1 );
                             }

@@ -49,6 +49,7 @@ public class ExclusiveTutorActivity extends BaseActivity {
     @BindView(R.id.tv_num)
     TextView tv_num;
     String member_role, member_id;
+    String wechat;
 
     @Override
     public int getContainerView() {
@@ -62,12 +63,7 @@ public class ExclusiveTutorActivity extends BaseActivity {
         setMiddleTitle( "专属导师" );
         member_role = PreferUtils.getString( getApplicationContext(), "member_role" );
         member_id = PreferUtils.getString( getApplicationContext(), "member_id" );
-        if (Constant.BOSS_USER_LEVEL.contains( member_role )) {
-            tv_num.setText( "有问题找花楼: 719809980" );
-            showDialog();
-        } else {
-            getData();
-        }
+        getData();
     }
 
     private void getData() {
@@ -101,7 +97,7 @@ public class ExclusiveTutorActivity extends BaseActivity {
                             if (jsonObject.getInt( "status" ) >= 0) {
                                 ExclusiveTutorBean bean = GsonUtil.GsonToBean( response.toString(), ExclusiveTutorBean.class );
                                 if (bean == null) return;
-                                String wechat = bean.getResult().getWechat();
+                                wechat = bean.getResult().getWechat();
                                 tv_num.setText( wechat );
                                 showDialog();
                             } else {
@@ -173,18 +169,9 @@ public class ExclusiveTutorActivity extends BaseActivity {
 
     private void copyFunction(int mode) {
         ClipboardManager cm = (ClipboardManager) getSystemService( Context.CLIPBOARD_SERVICE );
-        ClipData mClipData;
-        if (Constant.BOSS_USER_LEVEL.contains( member_role )) {
-            mClipData = ClipData.newPlainText( "Label", "719809980" );
-        } else {
-            mClipData = ClipData.newPlainText( "Label", tv_num.getText().toString().trim() );
-        }
+        ClipData mClipData = ClipData.newPlainText( "Label", tv_num.getText().toString().trim() );
         cm.setPrimaryClip( mClipData );
-        if (Constant.BOSS_USER_LEVEL.contains( member_role )) {
-            ClipContentUtil.getInstance( getApplicationContext() ).putNewSearch( "719809980" );//保存记录到数据库
-        } else {
-            ClipContentUtil.getInstance( getApplicationContext() ).putNewSearch( tv_num.getText().toString().trim() );//保存记录到数据库
-        }
+        ClipContentUtil.getInstance( getApplicationContext() ).putNewSearch( tv_num.getText().toString().trim() );//保存记录到数据库
         if (mode == 1) {
             ToastUtils.showBackgroudCenterToast( getApplicationContext(), "复制成功" );
         }

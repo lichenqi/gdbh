@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.activity.PicsLookActivity;
 import com.guodongbaohe.app.activity.ShopDetailActivity;
@@ -24,6 +23,7 @@ import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.NetImageLoadUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -87,8 +87,7 @@ public class EverydayImageAdapter extends RecyclerView.Adapter<EverydayImageAdap
         holder.v_go.setLayoutParams( layoutParams1 );
         holder.tv_price.setLayoutParams( layoutParams_tv );
         holder.re_parent.setLayoutParams( layoutParams_pa );
-        Glide.with( context ).load( list_imgs.get( position ) ).placeholder( R.drawable.loading_img ).into( holder.iv );
-
+        NetImageLoadUtil.loadImage( list_imgs.get( position ), context, holder.iv );
         /*商品图片判断*/
         if (TextUtils.isEmpty( goods_id_list )) {/*普通商品*/
             holder.tv_price.setVisibility( View.GONE );

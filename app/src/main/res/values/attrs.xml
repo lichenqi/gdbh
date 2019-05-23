@@ -59,4 +59,11 @@
         <attr name="rowSpace" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="FlowLayoutSecond">
+        <!--标签之间的间距-->
+        <attr name="lineSpaceSecond" format="dimension" />
+        <!-- 每一行之间的间距-->
+        <attr name="rowSpaceSecond" format="dimension" />
+    </declare-styleable>
+
 </resources>

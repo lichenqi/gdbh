@@ -230,4 +230,12 @@ public class Constant {
     public static final String UNBINDWCHAT = "member/unbindOpenid";
     /*导师微信*/
     public static final String EXCLUSIVETUTOR_API = "member/proWeChat";
+    /*用户级别数据接口*/
+    public static final String USER_LEVEL_NEW_DATA = "upgrade/condition";
+    /*刷新字段*/
+    public static final String SWIPEREFRESHLAYOUT = "swiperefreshlayout";
+    /*用户等级字段刷新*/
+    public static final String NEWIDENTITYLIMITSFRAGMENT_REFRESH = "newidentitylimitsfragment_refresh";
+    /*免费升级接口*/
+    public static final String FREE_UPGRADE_API = "upgrade/free";
 }

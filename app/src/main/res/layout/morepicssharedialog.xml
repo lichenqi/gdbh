@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp">
 
         <RelativeLayout
             android:id="@+id/re_wchat_friend"
@@ -106,7 +106,7 @@
                 android:layout_below="@+id/iv_qq_area"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
-                android:text="保存图片"
+                android:text="批量存图"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 

@@ -354,7 +354,8 @@
                     android:paddingLeft="15dp"
                     android:paddingTop="10dp"
                     android:paddingRight="15dp"
-                    android:paddingBottom="10dp">
+                    android:paddingBottom="10dp"
+                    android:visibility="gone">
 
                     <RelativeLayout
                         android:id="@+id/re_taobao_gwuche"

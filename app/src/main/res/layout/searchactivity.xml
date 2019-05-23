@@ -22,7 +22,9 @@
             android:paddingTop="5dp"
             android:paddingRight="15dp"
             android:paddingBottom="5dp"
-            android:text="搜索" />
+            android:text="搜索"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -98,6 +100,7 @@
             android:tag="0"
             android:text="淘宝"
             android:textColor="@color/tab_color_order_search"
+            android:textSize="16sp"
             app:rb_height="2dp"
             app:rb_width="30dp" />
 
@@ -113,6 +116,7 @@
             android:tag="1"
             android:text="拼多多"
             android:textColor="@color/tab_color_order_search"
+            android:textSize="16sp"
             app:rb_height="2dp"
             app:rb_width="30dp" />
 
@@ -128,6 +132,7 @@
             android:tag="0"
             android:text="京东"
             android:textColor="@color/tab_color_order_search"
+            android:textSize="16sp"
             app:rb_height="2dp"
             app:rb_width="30dp" />
 
@@ -163,7 +168,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="三步轻松获取优惠券/返现"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/iv_look"
@@ -199,13 +206,17 @@
                 android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
                 android:text="大家都在搜"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/hot_recyclerview"
+            <com.guodongbaohe.app.view.FlowLayoutSecond
+                android:id="@+id/flow_layout_second"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp" />
 
             <RelativeLayout
                 android:id="@+id/ll_histoy_notiy"
@@ -221,12 +232,14 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="历史搜索"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/iv_clean_histoy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="20dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:scaleType="centerCrop"
@@ -239,9 +252,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:visibility="gone"
-                app:lineSpace="10dp"
-                app:rowSpace="10dp" />
+                android:visibility="gone" />
 
         </LinearLayout>
 

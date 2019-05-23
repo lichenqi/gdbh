@@ -254,11 +254,16 @@ public class BaseH5Activity extends BaseActivity {
         /*淘宝会场*/
         @JavascriptInterface
         public void goShopping(String myUrl) {
-            AlibcBasePage page = new AlibcPage( myUrl );
-            HashMap<String, String> exParams = new HashMap<>();
-            exParams.put( "isv_code", "appisvcode" );
-            exParams.put( "alibaba", "阿里巴巴" );
-            AlibcTrade.show( BaseH5Activity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback() );
+            runOnUiThread( new Runnable() {
+                @Override
+                public void run() {
+                    AlibcBasePage page = new AlibcPage( myUrl );
+                    HashMap<String, String> exParams = new HashMap<>();
+                    exParams.put( "isv_code", "appisvcode" );
+                    exParams.put( "alibaba", "阿里巴巴" );
+                    AlibcTrade.show( BaseH5Activity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback() );
+                }
+            } );
         }
 
     }

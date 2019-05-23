@@ -266,6 +266,19 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 homeVerticalAdapter = new HomeVerticalAdapter( context, verticalList );
                                 recyclerview_vertical.setAdapter( homeVerticalAdapter );
                                 setHomeVerticalAdapterListener();
+                                ViewGroup.LayoutParams layoutParams = iv_list_bg.getLayoutParams();
+                                DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                                int widthPixels = displayMetrics.widthPixels;
+                                int second_hight = (widthPixels - DensityUtils.dip2px( context, 24 )) / 3 / 25 * 37 * verticalList.size() / 3;
+                                int first_height = (widthPixels - DensityUtils.dip2px( context, 18 )) / 2 * 47 / 100 * 2;
+                                int space_height;
+                                if (verticalList.size() / 3 == 1) {
+                                    space_height = DensityUtils.dip2px( getContext(), 32 );
+                                } else {
+                                    space_height = DensityUtils.dip2px( getContext(), 38 );
+                                }
+                                layoutParams.height = second_hight + first_height + space_height;
+                                iv_list_bg.setLayoutParams( layoutParams );
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -711,22 +724,22 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 int i = recyclerView.computeVerticalScrollOffset();
                 if (dy != 0 && i > 3000) {
                     to_top.setVisibility( View.VISIBLE );
-                    int black_color = Color.parseColor( "#000000" );
-                    setColorChange( black_color );
-                    PreferUtils.putString( context, "scrollToWhere", "bottom" );
+//                    int black_color = Color.parseColor( "#000000" );
+//                    setColorChange( black_color );
+//                    PreferUtils.putString( context, "scrollToWhere", "bottom" );
                 } else {
-                    PreferUtils.putString( context, "scrollToWhere", "top" );
+//                    PreferUtils.putString( context, "scrollToWhere", "top" );
                     to_top.setVisibility( View.GONE );
-                    String currentColor = PreferUtils.getString( context, "currentColor" );
-                    if (!TextUtils.isEmpty( currentColor )) {
-                        if (currentColor.length() == 7 && currentColor.substring( 0, 1 ).equals( "#" )) {
-                            setColorChange( Color.parseColor( currentColor ) );
-                        } else {
-                            setColorChange( Color.parseColor( "#000000" ) );
-                        }
-                    } else {
-                        setColorChange( Color.parseColor( "#000000" ) );
-                    }
+//                    String currentColor = PreferUtils.getString( context, "currentColor" );
+//                    if (!TextUtils.isEmpty( currentColor )) {
+//                        if (currentColor.length() == 7 && currentColor.substring( 0, 1 ).equals( "#" )) {
+//                            setColorChange( Color.parseColor( currentColor ) );
+//                        } else {
+//                            setColorChange( Color.parseColor( "#000000" ) );
+//                        }
+//                    } else {
+//                        setColorChange( Color.parseColor( "#000000" ) );
+//                    }
                 }
             }
         } );
@@ -835,15 +848,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         initViewPagerXin();
         adapters = new GViewPagerAdapter();
         screen_viewpager.setAdapter( adapters );
-
-        ViewGroup.LayoutParams layoutParams = iv_list_bg.getLayoutParams();
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        int widthPixels = displayMetrics.widthPixels;
-        int second_hight = (widthPixels - DensityUtils.dip2px( context, 24 )) / 3 / 25 * 37;
-        int first_height = (widthPixels - DensityUtils.dip2px( context, 18 )) / 2 * 47 / 100 * 2;
-        int space_height = DensityUtils.dip2px( getContext(), 32 );
-        layoutParams.height = second_hight + first_height + space_height;
-        iv_list_bg.setLayoutParams( layoutParams );
     }
 
     private void initViewPagerXin() {

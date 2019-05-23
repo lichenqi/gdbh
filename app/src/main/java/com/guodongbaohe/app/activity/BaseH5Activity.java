@@ -127,17 +127,11 @@ public class BaseH5Activity extends BaseActivity {
                 handler.proceed();
             }
 
-//            @androidx.annotation.Nullable
 //            @Nullable
 //            @Override
 //            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+//                webview.loadUrl( request.getUrl(), WebViewUtil.getWebViewHead( getApplicationContext() ) );
 //                return super.shouldInterceptRequest( view, request );
-//                if (url.contains(".js")) {
-//                    return getWebResourceResponseFromString();
-//                } else {
-//                    return super.shouldInterceptRequest(view, url);
-//                }
-//
 //            }
 
         } );
@@ -255,6 +249,16 @@ public class BaseH5Activity extends BaseActivity {
         @JavascriptInterface
         public void preserve(String img) {
             saveImgToLocal( img );
+        }
+
+        /*淘宝会场*/
+        @JavascriptInterface
+        public void goShopping(String myUrl) {
+            AlibcBasePage page = new AlibcPage( myUrl );
+            HashMap<String, String> exParams = new HashMap<>();
+            exParams.put( "isv_code", "appisvcode" );
+            exParams.put( "alibaba", "阿里巴巴" );
+            AlibcTrade.show( BaseH5Activity.this, page, alibcShowParams, null, exParams, new DemoTradeCallback() );
         }
 
     }

@@ -18,6 +18,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -226,7 +227,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 /*布局背景图*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get( i ).getUrl().equals( "background" )) {
-//                                        Glide.with(context).load(theme_list.get(i).getImage()).into(iv_list_bg);
+                                        Glide.with( context ).load( theme_list.get( i ).getImage() ).into( iv_list_bg );
                                     }
                                 }
                                 /*横向列表数据显示*/
@@ -777,15 +778,15 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 
     private void initbannerview() {
         view_color = headView.findViewById( R.id.view_color );
-        viewpager = (ViewPager) headView.findViewById( R.id.viewpager );
-        llpoint = (LinearLayout) headView.findViewById( R.id.llpoint );
-        upmarqueeview = (UPMarqueeView) headView.findViewById( R.id.upmarqueeview );
-        viewpager_xin = (ViewPager) headView.findViewById( R.id.viewpager_xin );
-        llpoint_xin = (LinearLayout) headView.findViewById( R.id.llpoint_xin );
-        screen_viewpager = (DecoratorViewPager) headView.findViewById( R.id.screen_viewpager );
-        screen_point = (LinearLayout) headView.findViewById( R.id.screen_point );
+        viewpager = headView.findViewById( R.id.viewpager );
+        llpoint = headView.findViewById( R.id.llpoint );
+        upmarqueeview = headView.findViewById( R.id.upmarqueeview );
+        viewpager_xin = headView.findViewById( R.id.viewpager_xin );
+        llpoint_xin = headView.findViewById( R.id.llpoint_xin );
+        screen_viewpager = headView.findViewById( R.id.screen_viewpager );
+        screen_point = headView.findViewById( R.id.screen_point );
         /*活动主题大布局*/
-        ll_theme_parent = (LinearLayout) headView.findViewById( R.id.ll_theme_parent );
+        ll_theme_parent = headView.findViewById( R.id.ll_theme_parent );
         if (TextUtils.isEmpty( is_index_activity )) {
             ll_theme_parent.setVisibility( View.GONE );
         } else {
@@ -834,6 +835,15 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         initViewPagerXin();
         adapters = new GViewPagerAdapter();
         screen_viewpager.setAdapter( adapters );
+
+        ViewGroup.LayoutParams layoutParams = iv_list_bg.getLayoutParams();
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        int widthPixels = displayMetrics.widthPixels;
+        int second_hight = (widthPixels - DensityUtils.dip2px( context, 24 )) / 3 / 25 * 37;
+        int first_height = (widthPixels - DensityUtils.dip2px( context, 18 )) / 2 * 47 / 100 * 2;
+        int space_height = DensityUtils.dip2px( getContext(), 32 );
+        layoutParams.height = second_hight + first_height + space_height;
+        iv_list_bg.setLayoutParams( layoutParams );
     }
 
     private void initViewPagerXin() {

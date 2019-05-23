@@ -34,7 +34,7 @@ public class HomeHorizontalAdapter extends RecyclerView.Adapter<HomeHorizontalAd
         this.context = context;
         this.horizontalList = horizontalList;
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        height = (displayMetrics.widthPixels - DensityUtils.dip2px( context, 18 )) * 9 / 40;
+        height = (displayMetrics.widthPixels - DensityUtils.dip2px( context, 18 )) / 2 * 47 / 100;
     }
 
     @Override

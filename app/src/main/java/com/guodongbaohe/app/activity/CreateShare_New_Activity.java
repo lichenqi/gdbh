@@ -544,7 +544,7 @@ public class CreateShare_New_Activity extends BaseActivity {
         iv_qr_code = qrcode_poster_view.findViewById( R.id.iv_qr_code );
         if (Double.valueOf( coupon_surplus ) > 0) {
             tv_coupon_type.setText( "券" );
-            tv_jia_type.setText( "券后价" );
+            tv_jia_type.setText( "券后价 ¥ " );
             double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
             bg3 = new BigDecimal( d_price );
             double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
@@ -552,20 +552,20 @@ public class CreateShare_New_Activity extends BaseActivity {
         } else {
             if (v > 0) {
                 tv_coupon_type.setText( "折" );
-                tv_jia_type.setText( "折后价" );
+                tv_jia_type.setText( "折后价 ¥ " );
                 double disaccount = Double.valueOf( attr_price ) / Double.valueOf( attr_prime ) * 10;
                 bg3 = new BigDecimal( disaccount );
                 double d_zhe = bg3.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
                 tv_coupon_money.setText( d_zhe + "折" );
             } else {
                 tv_coupon_type.setText( "特" );
-                tv_jia_type.setText( "特惠价" );
+                tv_jia_type.setText( "特惠价 ¥ " );
                 tv_coupon_money.setText( "立即抢购" );
             }
         }
         p_sale_num.setText( "销量: " + NumUtil.getNum( sale_num ) );
         IconAndTextGroupUtil.setTextView( getApplicationContext(), p_title, goods_name, attr_site );
-        p_coupon_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_price ) ) );
+        p_coupon_price.setText( StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_price ) ) );
         p_old_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_prime ) ) );
         p_old_price.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG ); //中间横线
         p_old_price.getPaint().setAntiAlias( true );// 抗锯齿

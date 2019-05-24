@@ -142,7 +142,7 @@ public class NewHomeFragment extends Fragment {
     /*tablayout头部赋值操作*/
     private void setTabLayoutDataView() {
         fragments = new ArrayList<>();
-        AllFragment allFragment = new AllFragment( re_tablayout_parent, re_search_title, re_parent_title,re_space_line );
+        AllFragment allFragment = new AllFragment( re_tablayout_parent, re_search_title, re_parent_title, re_space_line );
         bundle = new Bundle();
         bundle.putString( "cate_id", titleList.get( 0 ).getCate_id() );
         allFragment.setArguments( bundle );

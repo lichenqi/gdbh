@@ -458,6 +458,8 @@ public class MainActivity extends OriginalActivity {
         String loginout = intent.getStringExtra( "loginout" );
         if (!TextUtils.isEmpty( loginout )) {
             if (loginout.equals( "loginout" )) {/*首页*/
+                EventBus.getDefault().post( "toFirst" );
+                setHomeClickColor();
                 setStatusColor( 0 );
                 setBackSize();
                 curIndex = 0;

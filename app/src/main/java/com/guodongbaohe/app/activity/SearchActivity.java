@@ -17,11 +17,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.guodongbaohe.app.OnItemClick;
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.adapter.FuzzyAdater;
@@ -41,6 +40,7 @@ import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.FlowLayout;
 import com.guodongbaohe.app.view.FlowLayoutSecond;
+import com.guodongbaohe.app.view.MyRadioButton;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,6 +57,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SearchActivity extends BaseActivity {
+    @BindView(R.id.radiogroup)
+    RadioGroup radiogroup;
+    @BindView(R.id.radio_one)
+    MyRadioButton radio_one;
+    @BindView(R.id.radio_two)
+    MyRadioButton radio_two;
+    @BindView(R.id.radio_three)
+    MyRadioButton radio_three;
     /*取消按钮*/
     @BindView(R.id.finish)
     TextView finish;
@@ -119,6 +127,35 @@ public class SearchActivity extends BaseActivity {
         /*模糊查询布局*/
         initFuzzyView();
         initEditTextView();
+        /*导航栏点击效果*/
+        initRadioGroupView();
+    }
+
+    private void initRadioGroupView() {
+        radiogroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_one:
+                        radio_one.setChecked( true );
+                        radio_two.setChecked( false );
+                        radio_three.setChecked( false );
+                        break;
+                    case R.id.radio_two:
+                        ToastUtils.showBackgroudCenterToast( getApplicationContext(), "即将上线" );
+                        radio_one.setChecked( true );
+                        radio_two.setChecked( false );
+                        radio_three.setChecked( false );
+                        break;
+                    case R.id.radio_three:
+                        ToastUtils.showBackgroudCenterToast( getApplicationContext(), "即将上线" );
+                        radio_one.setChecked( true );
+                        radio_two.setChecked( false );
+                        radio_three.setChecked( false );
+                        break;
+                }
+            }
+        } );
     }
 
     private void initEditTextView() {
@@ -333,15 +370,12 @@ public class SearchActivity extends BaseActivity {
                 }
                 break;
             case R.id.re_look_book:
-                String getUrl = PreferUtils.getString( getApplicationContext(), "http_list_data" );
-                if (!TextUtils.isEmpty( getUrl )) {
-                    Gson gson = new Gson();
-                    list_data = gson.fromJson( getUrl, new TypeToken<ConfigurationBean.PageBean>() {
-                    }.getType() );
-                    String url = list_data.getCourse().getUrl();
+                if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
                     intent = new Intent( getApplicationContext(), XinShouJiaoChengActivity.class );
-                    intent.putExtra( "url", url );
+                    intent.putExtra( "url", "http://app.mopland.com/help/save" );
                     startActivity( intent );
+                } else {
+                    startActivity( new Intent( getApplicationContext(), LoginAndRegisterActivity.class ) );
                 }
                 break;
         }

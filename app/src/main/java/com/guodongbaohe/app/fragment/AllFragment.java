@@ -1,5 +1,6 @@
 package com.guodongbaohe.app.fragment;
 
+import android.animation.ArgbEvaluator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -1097,43 +1098,49 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         }
     }
 
+    String first_color, second_color;
+
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        String s = "#" + banner_result.get( position % banner_result.size() ).getTitle();
-        int i;
-        if (!TextUtils.isEmpty( s )) {
-            if (s.length() == 7 && s.substring( 0, 1 ).equals( "#" )) {
-                PreferUtils.putString( context, "currentColor", s );
-                i = Color.parseColor( s );
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();
+        first_color = "#" + banner_result.get( position % banner_result.size() ).getTitle();
+        if (position % banner_result.size() == banner_result.size() - 1) {
+            second_color = "#" + banner_result.get( 0 ).getTitle();
+        } else {
+            second_color = "#" + banner_result.get( position % banner_result.size() + 1 ).getTitle();
+        }
+        int one_color = Color.parseColor( first_color );
+        int two_color = Color.parseColor( second_color );
+        int evaluate = (Integer) argbEvaluator.evaluate( positionOffset, one_color, two_color );
+        view_color.setBackgroundColor( evaluate );
+        ll_parent.setBackgroundColor( evaluate );
+        if (re_tablayout_parent != null) {
+            re_tablayout_parent.setBackgroundColor( evaluate );
+        }
+        if (re_search_title != null) {
+            re_search_title.setBackgroundColor( evaluate );
+        }
+        if (re_parent_title != null) {
+            re_parent_title.setBackgroundColor( evaluate );
+        }
+        if (re_space_line != null) {
+            re_space_line.setBackgroundColor( evaluate );
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getActivity().getWindow();
+            window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
+            /*状态栏*/
+            window.setStatusBarColor( evaluate );
+        }
+
+        if (!TextUtils.isEmpty( first_color )) {
+            if (first_color.length() == 7 && first_color.substring( 0, 1 ).equals( "#" )) {
+                PreferUtils.putString( context, "currentColor", first_color );
             } else {
                 PreferUtils.putString( context, "currentColor", "#000000" );
-                i = Color.parseColor( "#000000" );
             }
         } else {
             PreferUtils.putString( context, "currentColor", "#000000" );
-            i = Color.parseColor( "#000000" );
-        }
-        if (!TextUtils.isEmpty( i + "" )) {
-            view_color.setBackgroundColor( i );
-            ll_parent.setBackgroundColor( i );
-            if (re_tablayout_parent != null) {
-                re_tablayout_parent.setBackgroundColor( i );
-            }
-            if (re_search_title != null) {
-                re_search_title.setBackgroundColor( i );
-            }
-            if (re_parent_title != null) {
-                re_parent_title.setBackgroundColor( i );
-            }
-            if (re_space_line != null) {
-                re_space_line.setBackgroundColor( i );
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getActivity().getWindow();
-                window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
-                /*状态栏*/
-                window.setStatusBarColor( i );
-            }
         }
     }
 

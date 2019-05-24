@@ -127,8 +127,8 @@ public class FlowLayoutSecond extends ViewGroup {
                 //减去两边间距
                 widthSpace -= LINE_SPACE;
             }
-            //测算最终所需要的高度  每行按90个单位计算
-            height = (90 * row) + (row - 1) * ROW_SPACE;
+            //测算最终所需要的高度  每行按100个单位计算
+            height = (100 * row) + (row - 1) * ROW_SPACE;
         }
         //保存测量高度
         setMeasuredDimension( width, height );

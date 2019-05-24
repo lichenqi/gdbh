@@ -743,28 +743,28 @@ public class EverydayFaddishFragment extends Fragment {
                                 v = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
                                 if (Double.valueOf( coupon_surplus ) > 0) {
                                     tv_coupon_type.setText( "券" );
-                                    tv_jia_type.setText( "券后价" );
+                                    tv_jia_type.setText( "券后价 ¥ " );
                                     double d_price = Double.valueOf( attr_prime ) - Double.valueOf( attr_price );
                                     bg3 = new BigDecimal( d_price );
                                     double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
-                                    tv_coupon_money.setText( "¥ " + StringCleanZeroUtil.DoubleFormat( d_money ) );
+                                    tv_coupon_money.setText( StringCleanZeroUtil.DoubleFormat( d_money ) + "元券" );
                                 } else {
                                     if (v > 0) {
                                         tv_coupon_type.setText( "折" );
-                                        tv_jia_type.setText( "折后价" );
+                                        tv_jia_type.setText( "折后价 ¥ " );
                                         double disaccount = Double.valueOf( attr_price ) / Double.valueOf( attr_prime ) * 10;
                                         bg3 = new BigDecimal( disaccount );
                                         double d_zhe = bg3.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
                                         tv_coupon_money.setText( d_zhe + "折" );
                                     } else {
                                         tv_coupon_type.setText( "特" );
-                                        tv_jia_type.setText( "特惠价" );
+                                        tv_jia_type.setText( "特惠价 ¥ " );
                                         tv_coupon_money.setText( "立即抢购" );
                                     }
                                 }
                                 p_sale_num.setText( "销量: " + NumUtil.getNum( sale_num ) );
                                 IconAndTextGroupUtil.setTextView( context, p_title, goods_name, attr_site );
-                                p_coupon_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_price ) ) );
+                                p_coupon_price.setText( StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_price ) ) );
                                 p_old_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( attr_prime ) ) );
                                 p_old_price.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG ); //中间横线
                                 p_old_price.getPaint().setAntiAlias( true );// 抗锯齿
@@ -1603,28 +1603,28 @@ public class EverydayFaddishFragment extends Fragment {
                                 v = Double.valueOf( result.getAttr_prime() ) - Double.valueOf( result.getAttr_price() );
                                 if (Double.valueOf( result.getCoupon_surplus() ) > 0) {
                                     tv_coupon_type.setText( "券" );
-                                    tv_jia_type.setText( "券后价" );
+                                    tv_jia_type.setText( "券后价 ¥ " );
                                     double d_price = Double.valueOf( result.getAttr_prime() ) - Double.valueOf( result.getAttr_price() );
                                     bg3 = new BigDecimal( d_price );
                                     double d_money = bg3.setScale( 2, BigDecimal.ROUND_HALF_UP ).doubleValue();
-                                    tv_coupon_money.setText( "¥ " + StringCleanZeroUtil.DoubleFormat( d_money ) );
+                                    tv_coupon_money.setText( StringCleanZeroUtil.DoubleFormat( d_money ) + "元券" );
                                 } else {
                                     if (v > 0) {
                                         tv_coupon_type.setText( "折" );
-                                        tv_jia_type.setText( "折后价" );
+                                        tv_jia_type.setText( "折后价 ¥ " );
                                         double disaccount = Double.valueOf( result.getAttr_price() ) / Double.valueOf( result.getAttr_prime() ) * 10;
                                         bg3 = new BigDecimal( disaccount );
                                         double d_zhe = bg3.setScale( 1, BigDecimal.ROUND_HALF_UP ).doubleValue();
                                         tv_coupon_money.setText( d_zhe + "折" );
                                     } else {
                                         tv_coupon_type.setText( "特" );
-                                        tv_jia_type.setText( "特惠价" );
+                                        tv_jia_type.setText( "特惠价 ¥ " );
                                         tv_coupon_money.setText( "立即抢购" );
                                     }
                                 }
                                 p_sale_num.setText( "销量: " + NumUtil.getNum( result.getSales_month() ) );
                                 IconAndTextGroupUtil.setTextView( context, p_title, result.getGoods_name(), result.getAttr_site() );
-                                p_coupon_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( result.getAttr_price() ) ) );
+                                p_coupon_price.setText( StringCleanZeroUtil.DoubleFormat( Double.valueOf( result.getAttr_price() ) ) );
                                 p_old_price.setText( " ¥" + StringCleanZeroUtil.DoubleFormat( Double.valueOf( result.getAttr_prime() ) ) );
                                 p_old_price.getPaint().setFlags( Paint.STRIKE_THRU_TEXT_FLAG ); //中间横线
                                 p_old_price.getPaint().setAntiAlias( true );// 抗锯齿

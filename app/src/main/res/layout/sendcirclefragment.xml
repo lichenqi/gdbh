@@ -13,8 +13,7 @@
         android:gravity="center"
         android:text="发圈"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <RadioGroup
         android:id="@+id/radiogroup"

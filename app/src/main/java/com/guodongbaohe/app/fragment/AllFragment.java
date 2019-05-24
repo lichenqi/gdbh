@@ -724,22 +724,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 int i = recyclerView.computeVerticalScrollOffset();
                 if (dy != 0 && i > 3000) {
                     to_top.setVisibility( View.VISIBLE );
-//                    int black_color = Color.parseColor( "#000000" );
-//                    setColorChange( black_color );
-//                    PreferUtils.putString( context, "scrollToWhere", "bottom" );
                 } else {
-//                    PreferUtils.putString( context, "scrollToWhere", "top" );
                     to_top.setVisibility( View.GONE );
-//                    String currentColor = PreferUtils.getString( context, "currentColor" );
-//                    if (!TextUtils.isEmpty( currentColor )) {
-//                        if (currentColor.length() == 7 && currentColor.substring( 0, 1 ).equals( "#" )) {
-//                            setColorChange( Color.parseColor( currentColor ) );
-//                        } else {
-//                            setColorChange( Color.parseColor( "#000000" ) );
-//                        }
-//                    } else {
-//                        setColorChange( Color.parseColor( "#000000" ) );
-//                    }
                 }
             }
         } );
@@ -1227,31 +1213,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             xinTimer.cancel();
         }
         EventBus.getDefault().unregister( this );
-    }
-
-    private void setColorChange(int colorChange) {
-        if (!TextUtils.isEmpty( colorChange + "" )) {
-            view_color.setBackgroundColor( colorChange );
-            ll_parent.setBackgroundColor( colorChange );
-            if (re_tablayout_parent != null) {
-                re_tablayout_parent.setBackgroundColor( colorChange );
-            }
-            if (re_search_title != null) {
-                re_search_title.setBackgroundColor( colorChange );
-            }
-            if (re_parent_title != null) {
-                re_parent_title.setBackgroundColor( colorChange );
-            }
-            if (re_space_line != null) {
-                re_space_line.setBackgroundColor( colorChange );
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Window window = getActivity().getWindow();
-                window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
-                /*状态栏*/
-                window.setStatusBarColor( colorChange );
-            }
-        }
     }
 
     /*商品详情头部信息*/

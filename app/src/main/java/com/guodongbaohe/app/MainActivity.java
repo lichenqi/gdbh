@@ -350,19 +350,6 @@ public class MainActivity extends OriginalActivity {
 
     private void setHomeClickColor() {
         currentColor = PreferUtils.getString( getApplicationContext(), "currentColor" );
-        String scrollToWhere = PreferUtils.getString( getApplicationContext(), "scrollToWhere" );
-        if (!TextUtils.isEmpty( scrollToWhere )) {
-            if (scrollToWhere.equals( "bottom" )) {
-                home_color = Color.parseColor( "#000000" );
-            } else {
-                setColorChangeCommon();
-            }
-        } else {
-            setColorChangeCommon();
-        }
-    }
-
-    private void setColorChangeCommon() {
         if (!TextUtils.isEmpty( currentColor )) {
             if (currentColor.length() == 7 && currentColor.substring( 0, 1 ).equals( "#" )) {
                 home_color = Color.parseColor( currentColor );

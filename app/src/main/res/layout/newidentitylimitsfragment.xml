@@ -178,9 +178,9 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/tv_challenge_one"
                     style="@style/promote_tv"
-                    android:layout_marginTop="15dp"
-                    android:text="自我挑战" />
+                    android:layout_marginTop="15dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -220,7 +220,8 @@
                     <TextView
                         android:id="@+id/tv_team_go_invite"
                         style="@style/go_action_tv"
-                        android:text="去邀请" />
+                        android:text="去邀请"
+                        android:visibility="gone" />
 
                 </RelativeLayout>
 
@@ -252,9 +253,9 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/tv_challenge_two"
                     style="@style/promote_tv"
-                    android:layout_marginTop="15dp"
-                    android:text="自我挑战" />
+                    android:layout_marginTop="15dp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"

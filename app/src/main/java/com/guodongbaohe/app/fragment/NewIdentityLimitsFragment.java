@@ -185,6 +185,8 @@ public class NewIdentityLimitsFragment extends Fragment {
     TextView tv_team_person_num;
     @BindView(R.id.tv_team_go_invite)
     TextView tv_team_go_invite;
+    @BindView(R.id.tv_challenge_one)
+    TextView tv_challenge_one;
     /*累计收益布局*/
     @BindView(R.id.tv_income_explain)
     TextView tv_income_explain;
@@ -192,6 +194,8 @@ public class NewIdentityLimitsFragment extends Fragment {
     ProgressBar progressBar_mode_income;
     @BindView(R.id.tv_income_num)
     TextView tv_income_num;
+    @BindView(R.id.tv_challenge_two)
+    TextView tv_challenge_two;
     String levelOneOfPartner;/*条件合伙人*/
     DisplayMetrics displayMetrics;
 
@@ -443,6 +447,9 @@ public class NewIdentityLimitsFragment extends Fragment {
             ll_partern_promote_task.setVisibility( View.GONE );
             ll_partern_team_person.setVisibility( View.VISIBLE );
             ll_partern_income.setVisibility( View.VISIBLE );
+            tv_challenge_one.setText( "极限挑战" );
+            tv_challenge_two.setText( "极限挑战" );
+            tv_team_go_invite.setVisibility( View.GONE );
         } else if (Constant.PARTNER_USER_LEVEL.contains( member_role )) {/*合伙人*/
             iv_user_level.setImageResource( R.mipmap.upgrade_hhr_icon );
             roundimageview_big.setImageResource( R.mipmap.upgrade_partner_to_boss );
@@ -451,6 +458,9 @@ public class NewIdentityLimitsFragment extends Fragment {
             ll_partern_promote_task.setVisibility( View.VISIBLE );
             ll_partern_team_person.setVisibility( View.VISIBLE );
             ll_partern_income.setVisibility( View.VISIBLE );
+            tv_challenge_one.setText( "自我挑战" );
+            tv_challenge_two.setText( "自我挑战" );
+            tv_team_go_invite.setVisibility( View.VISIBLE );
         } else {/*vip*/
             iv_user_level.setImageResource( R.mipmap.new_vip_level );
             roundimageview_big.setImageResource( R.mipmap.upgrade_partern );

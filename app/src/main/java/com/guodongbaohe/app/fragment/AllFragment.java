@@ -217,6 +217,10 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                     return;
                                 }
                                 theme_list = themeBean.getResult();
+                                if (theme_list.size() == 0) {
+                                    ll_theme_parent.setVisibility( View.GONE );
+                                    return;
+                                }
                                 /*主题头部图片*/
                                 for (int i = 0; i < theme_list.size(); i++) {
                                     if (theme_list.get( i ).getUrl().equals( "center" )) {
@@ -526,6 +530,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
     List<BannerDataBean.BannerList> banner_result;
     BannerDataBean bannerDataBean;
     String member_id;
+    ImageView iv_point;
 
     private void getBannerData() {
         member_id = PreferUtils.getString( context, "member_id" );
@@ -557,14 +562,14 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 banner_result = bannerDataBean.getResult();
                                 if (banner_result.size() == 0) return;
                                 indicators = new ImageView[banner_result.size()];
+                                viewpager.setAdapter( new MyPagerAdapter() );
                                 for (int i = 0; i < banner_result.size(); i++) {
                                     View view = LayoutInflater.from( context ).inflate( R.layout.view_cycle_viewpager_indicator, null );
-                                    ImageView iv = (ImageView) view.findViewById( R.id.image_indicator );
-                                    indicators[i] = iv;
+                                    iv_point = view.findViewById( R.id.image_indicator );
+                                    indicators[i] = iv_point;
                                     llpoint.addView( view );
                                 }
                                 setIndicator( 0 );
-                                viewpager.setAdapter( new MyPagerAdapter() );
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -787,6 +792,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         screen_point = headView.findViewById( R.id.screen_point );
         /*活动主题大布局*/
         ll_theme_parent = headView.findViewById( R.id.ll_theme_parent );
+        iv_list_bg = headView.findViewById( R.id.iv_list_bg );
+        iv_theme = headView.findViewById( R.id.iv_theme );
         if (TextUtils.isEmpty( is_index_activity )) {
             ll_theme_parent.setVisibility( View.GONE );
         } else {
@@ -796,8 +803,6 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 ll_theme_parent.setVisibility( View.VISIBLE );
             }
         }
-        iv_theme = headView.findViewById( R.id.iv_theme );
-        iv_list_bg = headView.findViewById( R.id.iv_list_bg );
         /*横向布局*/
         recyclerview_horizontal = headView.findViewById( R.id.recyclerview_horizontal );
         recyclerview_horizontal.setHasFixedSize( true );
@@ -928,7 +933,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             View view = LayoutInflater.from( context ).inflate( R.layout.banner_viewpager, container, false );
-            RoundedImageView iv = (RoundedImageView) view.findViewById( R.id.iv );
+            RoundedImageView iv = view.findViewById( R.id.iv );
             Glide.with( context ).load( banner_result.get( position % banner_result.size() ).getImage() ).into( iv );
             container.addView( view );
             iv.setOnClickListener( new View.OnClickListener() {

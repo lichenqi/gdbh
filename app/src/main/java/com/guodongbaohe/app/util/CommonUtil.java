@@ -11,6 +11,8 @@ import android.os.Environment;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -29,32 +31,38 @@ public class CommonUtil {
     public static void saveBitmap2file(Bitmap bmp, Context context) {
         String savePath;
         String fileName = generateFileName() + ".JPEG";
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+        FileOutputStream fos = null;
+        if (Environment.getExternalStorageState().equals( Environment.MEDIA_MOUNTED )) {
             savePath = SD_PATH;
         } else {
-            Toast.makeText(context, "保存失败！", Toast.LENGTH_SHORT).show();
+            Toast.makeText( context, "保存失败！", Toast.LENGTH_SHORT ).show();
             return;
         }
-        File filePic = new File(savePath + fileName);
+        File filePic = new File( savePath + fileName );
         try {
             if (!filePic.exists()) {
                 filePic.getParentFile().mkdirs();
                 filePic.createNewFile();
             }
-            FileOutputStream fos = new FileOutputStream(filePic);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
+            fos = new FileOutputStream( filePic );
+            bmp.compress( Bitmap.CompressFormat.JPEG, 100, fos );
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         // 最后通知图库更新
-        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + savePath + fileName)));
-        ToastUtils.showToast(context, "图片已保存至手机图库");
+        context.sendBroadcast( new Intent( Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse( "file://" + savePath + fileName ) ) );
+        ToastUtils.showToast( context, "图片已保存至手机图库" );
     }
 
     public static Bitmap scale(String src, int newWidth, int newHeight) {
-        Bitmap ret = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(src), newWidth, newHeight, true);
+        Bitmap ret = Bitmap.createScaledBitmap( BitmapFactory.decodeFile( src ), newWidth, newHeight, true );
         return ret;
     }
 
@@ -80,7 +88,7 @@ public class CommonUtil {
      */
     private static String getPhoneRootPath(Context context) {
         // 是否有SD卡
-        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)
+        if (Environment.getExternalStorageState().equals( Environment.MEDIA_MOUNTED )
                 || !Environment.isExternalStorageRemovable()) {
             // 获取SD卡根目录
             return context.getExternalCacheDir().getPath();
@@ -96,15 +104,15 @@ public class CommonUtil {
      * @return 存储的根路径+图片名称
      */
     public static String getPhotoFileName(Context context) {
-        File file = new File(getPhoneRootPath(context) + FILES_NAME);
+        File file = new File( getPhoneRootPath( context ) + FILES_NAME );
         // 判断文件是否已经存在，不存在则创建
         if (!file.exists()) {
             file.mkdirs();
         }
         // 设置图片文件名称
-        SimpleDateFormat format = new SimpleDateFormat(TIME_STYLE, Locale.getDefault());
-        Date date = new Date(System.currentTimeMillis());
-        String time = format.format(date);
+        SimpleDateFormat format = new SimpleDateFormat( TIME_STYLE, Locale.getDefault() );
+        Date date = new Date( System.currentTimeMillis() );
+        String time = format.format( date );
         String photoName = "/" + time + IMAGE_TYPE;
         return file + photoName;
     }
@@ -118,11 +126,11 @@ public class CommonUtil {
      */
     public static String savePhotoToSD(Bitmap mbitmap, Context context) {
         FileOutputStream outStream = null;
-        String fileName = getPhotoFileName(context);
+        String fileName = getPhotoFileName( context );
         try {
-            outStream = new FileOutputStream(fileName);
+            outStream = new FileOutputStream( fileName );
             // 把数据写入文件，100表示不压缩
-            mbitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
+            mbitmap.compress( Bitmap.CompressFormat.PNG, 100, outStream );
             return fileName;
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,7 +160,7 @@ public class CommonUtil {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = false;
         options.inSampleSize = 10; // 图片的大小设置为原来的十分之一
-        Bitmap bmp = BitmapFactory.decodeFile(path, options);
+        Bitmap bmp = BitmapFactory.decodeFile( path, options );
         options = null;
         return bmp;
     }
@@ -167,12 +175,12 @@ public class CommonUtil {
     public static String amendRotatePhoto(String originpath, Context context) {
 
         // 取得图片旋转角度
-        int angle = readPictureDegree(originpath);
+        int angle = readPictureDegree( originpath );
         // 把原图压缩后得到Bitmap对象
         if (angle != 0) {
-            Bitmap bmp = getCompressPhoto(originpath);
-            Bitmap bitmap = rotaingImageView(angle, bmp);
-            return savePhotoToSD(bitmap, context);
+            Bitmap bmp = getCompressPhoto( originpath );
+            Bitmap bitmap = rotaingImageView( angle, bmp );
+            return savePhotoToSD( bitmap, context );
         } else {
             return originpath;
         }
@@ -188,8 +196,8 @@ public class CommonUtil {
     public static int readPictureDegree(String path) {
         int degree = 0;
         try {
-            ExifInterface exifInterface = new ExifInterface(path);
-            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            ExifInterface exifInterface = new ExifInterface( path );
+            int orientation = exifInterface.getAttributeInt( ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL );
             switch (orientation) {
                 case ExifInterface.ORIENTATION_ROTATE_90:
                     degree = 90;
@@ -218,10 +226,10 @@ public class CommonUtil {
         Bitmap returnBm = null;
         // 根据旋转角度，生成旋转矩阵
         Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
+        matrix.postRotate( angle );
         try {
             // 将原始图片按照旋转矩阵进行旋转，并得到新的图片
-            returnBm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            returnBm = Bitmap.createBitmap( bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true );
         } catch (OutOfMemoryError e) {
         }
         if (returnBm == null) {
@@ -237,19 +245,42 @@ public class CommonUtil {
         // 用option设置返回的bitmap对象的一些属性参数
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;// 设置仅读取Bitmap的宽高而不读取内容
-        BitmapFactory.decodeFile(path, options);// 获取到图片的宽高，放在option里边
+        BitmapFactory.decodeFile( path, options );// 获取到图片的宽高，放在option里边
         final int height = options.outHeight;//图片的高度放在option里的outHeight属性中
         final int width = options.outWidth;
         int inSampleSize = 1;
         if (rqsW == 0 || rqsH == 0) {
             options.inSampleSize = 1;
         } else if (height > rqsH || width > rqsW) {
-            final int heightRatio = Math.round((float) height / (float) rqsH);
-            final int widthRatio = Math.round((float) width / (float) rqsW);
+            final int heightRatio = Math.round( (float) height / (float) rqsH );
+            final int widthRatio = Math.round( (float) width / (float) rqsW );
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
             options.inSampleSize = inSampleSize;
             options.inJustDecodeBounds = false;
         }
-        return BitmapFactory.decodeFile(path, options);// 主要通过option里的inSampleSize对原图片进行按比例压缩
+        return BitmapFactory.decodeFile( path, options );// 主要通过option里的inSampleSize对原图片进行按比例压缩
     }
+
+
+    /*使用Finally
+      相比于try，无论是在成功执行try里的代码后，或是在catch中处理了一个异常后，Finally里的内容是一定会被执行的。
+      因此，可以确保清理所有已打开的资源。*/
+    public void closeResourceInFinally() {
+        FileInputStream fileInputStream = null;
+        try {
+            File file = new File( "" );
+            fileInputStream = new FileInputStream( file );
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
 }

@@ -279,6 +279,8 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                                 int space_height;
                                 if (verticalList.size() / 3 == 1) {
                                     space_height = DensityUtils.dip2px( getContext(), 32 );
+                                } else if (verticalList.size() == 0) {
+                                    space_height = DensityUtils.dip2px( getContext(), 26 );
                                 } else {
                                     space_height = DensityUtils.dip2px( getContext(), 38 );
                                 }

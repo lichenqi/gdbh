@@ -238,4 +238,6 @@ public class Constant {
     public static final String NEWIDENTITYLIMITSFRAGMENT_REFRESH = "newidentitylimitsfragment_refresh";
     /*免费升级接口*/
     public static final String FREE_UPGRADE_API = "upgrade/free";
+    /*超值品牌商品接口*/
+    public static final String OVERFLOW_BRAND_SHOP = "goods/brand";
 }

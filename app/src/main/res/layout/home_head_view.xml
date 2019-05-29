@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants">
 
@@ -15,12 +16,17 @@
             android:layout_height="160dp"
             android:background="@color/white" />
 
-        <ImageView
+        <com.guodongbaohe.app.view.BotBgView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/bigquxian" />
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"/>
+
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@drawable/bigquxian" />-->
 
     </RelativeLayout>
 
@@ -30,18 +36,13 @@
         android:layout_height="170dp"
         android:layout_marginTop="10dp">
 
-        <android.support.v4.view.ViewPager
+        <com.youth.banner.Banner
             android:id="@+id/viewpager"
+            app:delay_time="5000"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/llpoint"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_alignParentBottom="true"
-            android:gravity="center"
-            android:orientation="horizontal" />
+        </com.youth.banner.Banner>
 
     </RelativeLayout>
 
@@ -128,18 +129,27 @@
             android:layout_width="match_parent"
             android:layout_height="100dp">
 
-            <android.support.v4.view.ViewPager
+            <com.youth.banner.Banner
                 android:id="@+id/viewpager_xin"
+                app:delay_time="5000"
+                app:image_scale_type="fit_center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/llpoint_xin"
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
-                android:orientation="horizontal" />
+            </com.youth.banner.Banner>
+
+            <!--<android.support.v4.view.ViewPager-->
+                <!--android:id="@+id/viewpager_xin"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent" />-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/llpoint_xin"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="20dp"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="horizontal" />-->
 
         </RelativeLayout>
 

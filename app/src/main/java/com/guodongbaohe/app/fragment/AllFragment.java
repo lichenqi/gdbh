@@ -782,17 +782,21 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
                 getListData(0);
                 break;
             case "timeStart":
-                initTimer();
+                viewpager.startAutoPlay();
+                viewpager_xin.startAutoPlay();
+//                initTimer();
                 break;
             case "timeStop":
-                if (timer != null) {
-                    timer.cancel();
-                    timer = null;
-                }
-                if (task != null) {
-                    task.cancel();
-                    task = null;
-                }
+                viewpager.stopAutoPlay();
+                viewpager_xin.stopAutoPlay();
+//                if (timer != null) {
+//                    timer.cancel();
+//                    timer = null;
+//                }
+//                if (task != null) {
+//                    task.cancel();
+//                    task = null;
+//                }
                 break;
         }
     }
@@ -918,213 +922,213 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
 //            }
 //        } );
 //    }
-
-    /*设置指示器*/
-    private void setIndicator(int selectedPosition) {
-        for (int i = 0; i < indicators.length; i++) {
-            indicators[i].setBackgroundResource(R.drawable.indicator_unselected1);
-        }
-        indicators[selectedPosition % indicators.length].setBackgroundResource(R.drawable.indicator_selected1);
-    }
-
-    /*设置指示器*/
-    private void setIndicatorXin(int selectedPosition) {
-        for (int i = 0; i < indicators_xin.length; i++) {
-            indicators_xin[i].setBackgroundResource(R.drawable.indicator_unselected1);
-        }
-        indicators_xin[selectedPosition % indicators_xin.length].setBackgroundResource(R.drawable.indicator_selected1);
-    }
-
-    public class MyPagerAdapter extends PagerAdapter {
-
-        @Override
-        public int getCount() {
-            return banner_result == null ? 0 : Integer.MAX_VALUE;
-        }
-
-        @Override
-        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View) object);
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-            View view = LayoutInflater.from(context).inflate(R.layout.banner_viewpager, container, false);
-            RoundedImageView iv = view.findViewById(R.id.iv);
-            Glide.with(context).load(banner_result.get(position % banner_result.size()).getImage()).into(iv);
-            container.addView(view);
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (PreferUtils.getBoolean(context, "isLogin")) {
-                        String url = banner_result.get(position % banner_result.size()).getUrl();/*跳转地址*/
-                        String type = banner_result.get(position % banner_result.size()).getType();/*跳转类型*/
-                        String extend = banner_result.get(position % banner_result.size()).getExtend();/*轮播图标题*/
-                        if (!TextUtils.isEmpty(type)) {
-                            switch (type) {
-                                case "normal":
-                                    /*普通链接地址*/
-                                    intent = new Intent(context, BaseH5Activity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "tmall":
-                                    /*淘宝天猫会场地址*/
-                                    intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
-                                    intent.putExtra("url", url);
-                                    intent.putExtra("title", extend);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "local_goods":
-                                    /*本地商品进商品详情*/
-                                    getShopBasicData(url);
-                                    break;
-                                case "xinshou":
-                                    /*新手教程主题*/
-                                    intent = new Intent(context, XinShouJiaoChengActivity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "app_theme":
-                                    /*app主题*/
-                                    intent = new Intent(context, BaseH5Activity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
-                                    intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "ldms":/*0点秒杀*/
-                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
-                                    intent.putExtra("goods_type", "ldms");
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "gysp":/*高佣金商品*/
-                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
-                                    intent.putExtra("goods_type", "gysp");
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                            }
-                        }
-                    } else {
-                        startToLoginActivity();
-                    }
-                }
-            });
-            return view;
-        }
-    }
-
-    /*新手教程适配器*/
-    private class XinShouJiaoAdapter extends PagerAdapter {
-
-        @Override
-        public int getCount() {
-            return xin_list == null ? 0 : Integer.MAX_VALUE;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
-        }
-
-        @Override
-        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-            container.removeView((View) object);
-        }
-
-        @NonNull
-        @Override
-        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
-            View view = LayoutInflater.from(context).inflate(R.layout.xinshoujiao, container, false);
-            ImageView iv = (ImageView) view.findViewById(R.id.iv);
-            Glide.with(context).load(xin_list.get(position % xin_list.size()).getImage()).into(iv);
-            container.addView(view);
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (PreferUtils.getBoolean(context, "isLogin")) {
-                        String url = xin_list.get(position % xin_list.size()).getUrl();/*跳转地址*/
-                        String type = xin_list.get(position % xin_list.size()).getType();/*跳转类型*/
-                        String title = xin_list.get(position % xin_list.size()).getTitle();/*标题*/
-                        if (!TextUtils.isEmpty(type)) {
-                            switch (type) {
-                                case "xinshou":
-                                    /*新手教程界面*/
-                                    intent = new Intent(context, XinShouJiaoChengActivity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "tmall":
-                                    /*淘宝天猫会场活动*/
-                                    intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
-                                    intent.putExtra("url", url);
-                                    intent.putExtra("title", title);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "normal":
-                                    /*普通链接*/
-                                    intent = new Intent(context, BaseH5Activity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "app_theme":
-                                    /*app主题*/
-                                    intent = new Intent(context, BaseH5Activity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "local_goods":
-                                    /*实例商品到商品详情*/
-                                    getShopBasicData(url);
-                                    break;
-                                case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
-                                    intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
-                                    intent.putExtra("url", url);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "ldms":/*0点秒杀*/
-                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
-                                    intent.putExtra("goods_type", "ldms");
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                                case "gysp":/*高佣金商品*/
-                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
-                                    intent.putExtra("goods_type", "gysp");
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    startActivity(intent);
-                                    break;
-                            }
-                        }
-                    } else {
-                        startToLoginActivity();
-                    }
-                }
-            });
-            return view;
-        }
-    }
+//
+//    /*设置指示器*/
+//    private void setIndicator(int selectedPosition) {
+//        for (int i = 0; i < indicators.length; i++) {
+//            indicators[i].setBackgroundResource(R.drawable.indicator_unselected1);
+//        }
+//        indicators[selectedPosition % indicators.length].setBackgroundResource(R.drawable.indicator_selected1);
+//    }
+//
+//    /*设置指示器*/
+//    private void setIndicatorXin(int selectedPosition) {
+//        for (int i = 0; i < indicators_xin.length; i++) {
+//            indicators_xin[i].setBackgroundResource(R.drawable.indicator_unselected1);
+//        }
+//        indicators_xin[selectedPosition % indicators_xin.length].setBackgroundResource(R.drawable.indicator_selected1);
+//    }
+//
+//    public class MyPagerAdapter extends PagerAdapter {
+//
+//        @Override
+//        public int getCount() {
+//            return banner_result == null ? 0 : Integer.MAX_VALUE;
+//        }
+//
+//        @Override
+//        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+//            return view == object;
+//        }
+//
+//        @Override
+//        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+//            container.removeView((View) object);
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+//            View view = LayoutInflater.from(context).inflate(R.layout.banner_viewpager, container, false);
+//            RoundedImageView iv = view.findViewById(R.id.iv);
+//            Glide.with(context).load(banner_result.get(position % banner_result.size()).getImage()).into(iv);
+//            container.addView(view);
+//            iv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (PreferUtils.getBoolean(context, "isLogin")) {
+//                        String url = banner_result.get(position % banner_result.size()).getUrl();/*跳转地址*/
+//                        String type = banner_result.get(position % banner_result.size()).getType();/*跳转类型*/
+//                        String extend = banner_result.get(position % banner_result.size()).getExtend();/*轮播图标题*/
+//                        if (!TextUtils.isEmpty(type)) {
+//                            switch (type) {
+//                                case "normal":
+//                                    /*普通链接地址*/
+//                                    intent = new Intent(context, BaseH5Activity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "tmall":
+//                                    /*淘宝天猫会场地址*/
+//                                    intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.putExtra("title", extend);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "local_goods":
+//                                    /*本地商品进商品详情*/
+//                                    getShopBasicData(url);
+//                                    break;
+//                                case "xinshou":
+//                                    /*新手教程主题*/
+//                                    intent = new Intent(context, XinShouJiaoChengActivity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "app_theme":
+//                                    /*app主题*/
+//                                    intent = new Intent(context, BaseH5Activity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
+//                                    intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "ldms":/*0点秒杀*/
+//                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
+//                                    intent.putExtra("goods_type", "ldms");
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "gysp":/*高佣金商品*/
+//                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
+//                                    intent.putExtra("goods_type", "gysp");
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                            }
+//                        }
+//                    } else {
+//                        startToLoginActivity();
+//                    }
+//                }
+//            });
+//            return view;
+//        }
+//    }
+//
+//    /*新手教程适配器*/
+//    private class XinShouJiaoAdapter extends PagerAdapter {
+//
+//        @Override
+//        public int getCount() {
+//            return xin_list == null ? 0 : Integer.MAX_VALUE;
+//        }
+//
+//        @Override
+//        public boolean isViewFromObject(View view, Object object) {
+//            return view == object;
+//        }
+//
+//        @Override
+//        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+//            container.removeView((View) object);
+//        }
+//
+//        @NonNull
+//        @Override
+//        public Object instantiateItem(@NonNull ViewGroup container, final int position) {
+//            View view = LayoutInflater.from(context).inflate(R.layout.xinshoujiao, container, false);
+//            ImageView iv = (ImageView) view.findViewById(R.id.iv);
+//            Glide.with(context).load(xin_list.get(position % xin_list.size()).getImage()).into(iv);
+//            container.addView(view);
+//            iv.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (PreferUtils.getBoolean(context, "isLogin")) {
+//                        String url = xin_list.get(position % xin_list.size()).getUrl();/*跳转地址*/
+//                        String type = xin_list.get(position % xin_list.size()).getType();/*跳转类型*/
+//                        String title = xin_list.get(position % xin_list.size()).getTitle();/*标题*/
+//                        if (!TextUtils.isEmpty(type)) {
+//                            switch (type) {
+//                                case "xinshou":
+//                                    /*新手教程界面*/
+//                                    intent = new Intent(context, XinShouJiaoChengActivity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "tmall":
+//                                    /*淘宝天猫会场活动*/
+//                                    intent = new Intent(context, TaoBaoAndTianMaoUrlActivity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.putExtra("title", title);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "normal":
+//                                    /*普通链接*/
+//                                    intent = new Intent(context, BaseH5Activity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "app_theme":
+//                                    /*app主题*/
+//                                    intent = new Intent(context, BaseH5Activity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "local_goods":
+//                                    /*实例商品到商品详情*/
+//                                    getShopBasicData(url);
+//                                    break;
+//                                case "taobao_no_coupon":/*淘宝天猫不需要一键查询*/
+//                                    intent = new Intent(context, TaobaoTianMaoHolidayOfActivity.class);
+//                                    intent.putExtra("url", url);
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "ldms":/*0点秒杀*/
+//                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
+//                                    intent.putExtra("goods_type", "ldms");
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                                case "gysp":/*高佣金商品*/
+//                                    intent = new Intent(context, ZeroPointsGoodsActivity.class);
+//                                    intent.putExtra("goods_type", "gysp");
+//                                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                    startActivity(intent);
+//                                    break;
+//                            }
+//                        }
+//                    } else {
+//                        startToLoginActivity();
+//                    }
+//                }
+//            });
+//            return view;
+//        }
+//    }
 
     String first_color, second_color;
 

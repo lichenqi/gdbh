@@ -38,7 +38,7 @@
 
         <com.youth.banner.Banner
             android:id="@+id/viewpager"
-            app:delay_time="5000"
+            app:delay_time="9000"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -131,7 +131,7 @@
 
             <com.youth.banner.Banner
                 android:id="@+id/viewpager_xin"
-                app:delay_time="5000"
+                app:delay_time="8000"
                 app:image_scale_type="fit_center"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">

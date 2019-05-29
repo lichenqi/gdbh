@@ -1,10 +1,9 @@
 package com.guodongbaohe.app.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -38,16 +38,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
-    @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout swiperefreshlayout;
     @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
     List<HomeListBean.ListData> listData;
     List<HomeListBean.ListData> list = new ArrayList<>();
     LoadMoreAdapter adapter;
     int pageNum = 1;
-    /*上拉加载是否还有数据  1 代表还有数据  -1代表没有数据了*/
+    /*上拉加载是否还有数据  1 代表还有数据  -1代表没有数据了；0 代表 刷新*/
     int data_is_exist = 1;
+    int head_type = 0;
 
     @Override
     public int getContainerView() {
@@ -63,20 +62,6 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
         recyclerview.setLayoutManager( new LinearLayoutManager( getApplicationContext() ) );
         getListData();
         initRecyclerData();
-        swiperefreshlayout.setColorSchemeColors( Color.parseColor( "#EFA818" ) );
-        swiperefreshlayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed( new Runnable() {
-                    public void run() {
-                        pageNum = 1;
-                        data_is_exist = 1;
-                        adapter.changeState( data_is_exist );
-                        swiperefreshlayout.setRefreshing( false );
-                    }
-                }, 1500 );
-            }
-        } );
     }
 
     private void initRecyclerData() {
@@ -86,16 +71,25 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged( recyclerView, newState );
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                boolean top = recyclerView.canScrollVertically( -1 );//值表示是否能向下滚动，false表示已经滚动到顶部
+                boolean bottom = recyclerView.canScrollVertically( 1 );//值表示是否能向上滚动，false表示已经滚动到底部
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {/*滑动停止时*/
                     //到达底部之后如果footView的状态不是正在加载的状态,就将 他切换成正在加载的状态
                     new Handler().postDelayed( new Runnable() {
                         @Override
                         public void run() {
-                            pageNum++;
+                            Log.i( "打印滑动状态", newState + "  " + top + "  " + bottom );
                             if (data_is_exist == 1) {
+                                if (!top) {
+                                    pageNum = 1;
+                                    head_type = 1;
+                                } else {
+                                    head_type = 0;
+                                    pageNum++;
+                                }
                                 getListData();
                             }
-                            adapter.changeState( data_is_exist );
+                            adapter.changeState( data_is_exist, head_type );
                         }
                     }, 1500 );
                 }
@@ -138,7 +132,7 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
                                 HomeListBean bean = GsonUtil.GsonToBean( response.toString(), HomeListBean.class );
                                 if (bean == null) return;
                                 listData = bean.getResult();
-                                if (listData.size() > 1) {
+                                if (listData.size() > 0) {
                                     data_is_exist = 1;
                                     if (pageNum == 1) {
                                         list.clear();
@@ -170,12 +164,15 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
     public class LoadMoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private List<HomeListBean.ListData> list;
+        private int item_head = 0;/*刷新头布局*/
         private int item_normal = 1;/*正常布局*/
         private int item_foot = -1;/*加载更多脚布局*/
         private int state;
+        private int head_type;
 
-        public void changeState(int state) {
+        public void changeState(int state, int head_type) {
             this.state = state;
+            this.head_type = head_type;
             notifyDataSetChanged();
         }
 
@@ -192,6 +189,9 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
             } else if (viewType == item_foot) {
                 view = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.load_more_foot_view, parent, false );
                 return new FootHolder( view );
+            } else if (viewType == item_head) {
+                view = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.head_item_view, parent, false );
+                return new HeadHolder( view );
             }
             return null;
         }
@@ -199,16 +199,25 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             if (holder instanceof LoadMoreHolder) {
-                Glide.with( getApplicationContext() ).load( list.get( position ).getGoods_thumb() ).into( ((LoadMoreHolder) holder).iv );
+                Glide.with( getApplicationContext() ).load( list.get( position - 1 ).getGoods_thumb() ).into( ((LoadMoreHolder) holder).iv );
             } else if (holder instanceof FootHolder) {
                 switch (state) {
                     case 1:/*还有数据*/
-                        ((FootHolder) holder).progressBar.setVisibility( View.VISIBLE );
+                        ((FootHolder) holder).ll_parent.setVisibility( View.VISIBLE );
                         ((FootHolder) holder).tv_foot.setVisibility( View.GONE );
                         break;
                     case -1:/*没有更多数据了*/
-                        ((FootHolder) holder).progressBar.setVisibility( View.GONE );
+                        ((FootHolder) holder).ll_parent.setVisibility( View.GONE );
                         ((FootHolder) holder).tv_foot.setVisibility( View.VISIBLE );
+                        break;
+                }
+            } else if (holder instanceof HeadHolder) {
+                switch (head_type) {
+                    case 0:
+                        ((HeadHolder) holder).tv_head.setVisibility( View.GONE );
+                        break;
+                    default:
+                        ((HeadHolder) holder).tv_head.setVisibility( View.VISIBLE );
                         break;
                 }
             }
@@ -216,17 +225,20 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
 
         @Override
         public int getItemCount() {
-            return list == null ? 0 : list.size() + 1;
+            return list == null ? 0 : list.size() + 2;
         }
 
         @Override
         public int getItemViewType(int position) {
-            if (position + 1 == getItemCount()) {
+            if (position == 0) {
+                return item_head;
+            } else if (position + 1 == getItemCount()) {
                 return item_foot;
             } else {
                 return item_normal;
             }
         }
+
     }
 
     /*正常Holder*/
@@ -240,13 +252,27 @@ public class CeShiRecyclerviewLoadMoreActivity extends BaseActivity {
         }
     }
 
+    /*加载底部holder*/
     public class FootHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.ll_parent)
+        LinearLayout ll_parent;
         @BindView(R.id.progressBar)
         ProgressBar progressBar;
         @BindView(R.id.tv_foot)
         TextView tv_foot;
 
         public FootHolder(View itemView) {
+            super( itemView );
+            ButterKnife.bind( this, itemView );
+        }
+    }
+
+    /*刷新头部holder*/
+    public class HeadHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_head)
+        TextView tv_head;
+
+        public HeadHolder(@NonNull View itemView) {
             super( itemView );
             ButterKnife.bind( this, itemView );
         }

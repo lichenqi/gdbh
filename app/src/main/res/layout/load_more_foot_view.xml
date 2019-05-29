@@ -5,13 +5,34 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:id="@+id/ll_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:indeterminateTint="@color/paihangbang"
-        android:visibility="visible" />
+        android:orientation="horizontal"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:indeterminateBehavior="repeat"
+            android:indeterminateDrawable="@drawable/loadmore_style" />
+
+        <TextView
+            android:id="@+id/tipTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="4dp"
+            android:text="加载中..."
+            android:textColor="@color/txgray"
+            android:textSize="13sp" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_foot"

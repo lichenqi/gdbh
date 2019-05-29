@@ -3,8 +3,6 @@ package com.guodongbaohe.app.util;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 
 import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;

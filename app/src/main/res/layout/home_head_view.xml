@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:descendantFocusability="blocksDescendants">
 
@@ -19,14 +19,7 @@
         <com.guodongbaohe.app.view.BotBgView
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_alignParentBottom="true"/>
-
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@drawable/bigquxian" />-->
+            android:layout_alignParentBottom="true" />
 
     </RelativeLayout>
 
@@ -38,11 +31,9 @@
 
         <com.youth.banner.Banner
             android:id="@+id/viewpager"
-            app:delay_time="9000"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </com.youth.banner.Banner>
+            android:layout_height="match_parent"
+            app:delay_time="9000" />
 
     </RelativeLayout>
 
@@ -131,25 +122,10 @@
 
             <com.youth.banner.Banner
                 android:id="@+id/viewpager_xin"
-                app:delay_time="8000"
-                app:image_scale_type="fit_center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </com.youth.banner.Banner>
-
-            <!--<android.support.v4.view.ViewPager-->
-                <!--android:id="@+id/viewpager_xin"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent" />-->
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/llpoint_xin"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="20dp"-->
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:gravity="center"-->
-                <!--android:orientation="horizontal" />-->
+                android:layout_height="match_parent"
+                app:delay_time="8000"
+                app:image_scale_type="fit_center" />
 
         </RelativeLayout>
 

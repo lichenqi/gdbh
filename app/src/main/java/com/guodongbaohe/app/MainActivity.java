@@ -297,7 +297,7 @@ public class MainActivity extends OriginalActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_home:/*首页*/
-                EventBus.getDefault().post( "toFirst" );
+                EventBus.getDefault().post( Constant.BANNER_IS_START_PLAY );
                 setHomeClickColor();
                 setStatusColor( 0 );
                 setBackSize();
@@ -305,12 +305,14 @@ public class MainActivity extends OriginalActivity {
                 replaceFragment( curIndex );
                 break;
             case R.id.ll_circle:/*排行榜*/
+                EventBus.getDefault().post( Constant.BANNER_IS_STOP_PLAY );
                 setStatusColor( 1 );
                 setBackSize();
                 curIndex = 1;
                 replaceFragment( curIndex );
                 break;
             case R.id.ll_money:/*赚钱*/
+                EventBus.getDefault().post( Constant.BANNER_IS_STOP_PLAY );
                 if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
                     setStatusColor( 2 );
                     ViewGroup.LayoutParams layoutParams = ll_money.getLayoutParams();
@@ -327,12 +329,14 @@ public class MainActivity extends OriginalActivity {
                 }
                 break;
             case R.id.ll_ticket:/*发圈*/
+                EventBus.getDefault().post( Constant.BANNER_IS_STOP_PLAY );
                 setStatusColor( 3 );
                 setBackSize();
                 curIndex = 3;
                 replaceFragment( curIndex );
                 break;
             case R.id.ll_mine:/*我的*/
+                EventBus.getDefault().post( Constant.BANNER_IS_STOP_PLAY );
                 if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
                     setStatusColor( 4 );
                     setBackSize();
@@ -458,7 +462,7 @@ public class MainActivity extends OriginalActivity {
         String loginout = intent.getStringExtra( "loginout" );
         if (!TextUtils.isEmpty( loginout )) {
             if (loginout.equals( "loginout" )) {/*首页*/
-                EventBus.getDefault().post( "toFirst" );
+                EventBus.getDefault().post( Constant.BANNER_IS_START_PLAY );
                 setHomeClickColor();
                 setStatusColor( 0 );
                 setBackSize();

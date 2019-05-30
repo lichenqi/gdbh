@@ -29,7 +29,7 @@ public class BannerOnClickListener implements OnBannerListener {
     private List<BannerDataBean.BannerList> banner_result;
     Intent intent;
 
-    public BannerOnClickListener(Context context, List<BannerDataBean.BannerList> banner_result){
+    public BannerOnClickListener(Context context, List<BannerDataBean.BannerList> banner_result) {
         this.context = context;
         this.banner_result = banner_result;
     }
@@ -94,7 +94,6 @@ public class BannerOnClickListener implements OnBannerListener {
                         context.startActivity( intent );
                         break;
                 }
-            }else {
             }
         } else {
             intent = new Intent( context, LoginAndRegisterActivity.class );

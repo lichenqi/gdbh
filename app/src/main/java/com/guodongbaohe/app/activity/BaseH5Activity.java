@@ -97,8 +97,8 @@ public class BaseH5Activity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         ButterKnife.bind( this );
-        iv_back = (ImageView) findViewById( R.id.iv_back );
-        iv_right = (ImageView) findViewById( R.id.iv_right );
+        iv_back = findViewById( R.id.iv_back );
+        iv_right = findViewById( R.id.iv_right );
         setRightIVVisible();
         iv_right.setImageResource( R.mipmap.webview_reload );
         Intent intent = getIntent();
@@ -127,14 +127,8 @@ public class BaseH5Activity extends BaseActivity {
                 handler.proceed();
             }
 
-//            @Nullable
-//            @Override
-//            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-//                webview.loadUrl( request.getUrl(), WebViewUtil.getWebViewHead( getApplicationContext() ) );
-//                return super.shouldInterceptRequest( view, request );
-//            }
-
         } );
+
         webview.setWebChromeClient( new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {

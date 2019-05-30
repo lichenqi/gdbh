@@ -109,7 +109,7 @@ public class NewHomeFragment extends Fragment {
     @Subscribe
     public void onEvent(String msg) {
         switch (msg) {
-            case "toFirst":
+            case Constant.BANNER_IS_START_PLAY:
                 viewpager.setCurrentItem( 0 );
                 break;
         }
@@ -175,7 +175,6 @@ public class NewHomeFragment extends Fragment {
                 titleList.get( position ).setChoose( true );
                 homeChoiceAdapter.notifyDataSetChanged();
                 if (position == 0) {
-                    EventBus.getDefault().post( "timeStart" );
                     String currentColor = PreferUtils.getString( context, "currentColor" );
                     if (!TextUtils.isEmpty( currentColor )) {
                         if (currentColor.length() == 7 && currentColor.substring( 0, 1 ).equals( "#" )) {
@@ -187,7 +186,6 @@ public class NewHomeFragment extends Fragment {
                         setColor( "#000000" );
                     }
                 } else {
-                    EventBus.getDefault().post( "timeStop" );
                     String s = "#000000";
                     setColor( s );
                 }

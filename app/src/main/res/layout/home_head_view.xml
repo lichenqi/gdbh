@@ -23,25 +23,20 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/re_pager"
+    <com.youth.banner.Banner
+        android:id="@+id/viewpager_banner"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginTop="10dp">
-
-        <com.youth.banner.Banner
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:delay_time="9000" />
-
-    </RelativeLayout>
+        android:layout_height="165dp"
+        android:layout_marginTop="10dp"
+        app:delay_time="5000"
+        app:indicator_drawable_selected="@drawable/indicator_selected1"
+        app:indicator_drawable_unselected="@drawable/indicator_unselected1" />
 
     <LinearLayout
         android:id="@+id/ll_big_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/re_pager"
+        android:layout_below="@+id/viewpager_banner"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -100,16 +95,16 @@
                         android:id="@+id/recyclerview_horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none"
-                        android:nestedScrollingEnabled="false"/>
+                        android:nestedScrollingEnabled="false"
+                        android:scrollbars="none" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recyclerview_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/recyclerview_horizontal"
-                        android:scrollbars="none"
-                        android:nestedScrollingEnabled="false" />
+                        android:nestedScrollingEnabled="false"
+                        android:scrollbars="none" />
 
                 </RelativeLayout>
 
@@ -117,19 +112,13 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/re_xinshuojiaoc"
+        <com.youth.banner.Banner
+            android:id="@+id/viewpager_xin"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
-
-            <com.youth.banner.Banner
-                android:id="@+id/viewpager_xin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:delay_time="8000"
-                app:image_scale_type="fit_center" />
-
-        </RelativeLayout>
+            android:layout_height="100dp"
+            app:delay_time="5000"
+            app:indicator_drawable_selected="@drawable/indicator_selected1"
+            app:indicator_drawable_unselected="@drawable/indicator_unselected1" />
 
         <LinearLayout
             android:id="@+id/ll_ma"
@@ -209,8 +198,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:scrollbars="none"
-                android:nestedScrollingEnabled="false"/>
+                android:nestedScrollingEnabled="false"
+                android:scrollbars="none" />
 
             <TextView
                 android:layout_width="wrap_content"

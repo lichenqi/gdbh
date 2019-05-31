@@ -15,13 +15,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -77,6 +75,12 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.CircleImageView;
+import com.guodongbaohe.app.view.StatusBarUtil;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -165,7 +169,9 @@ public class MineFragment extends Fragment {
     @BindView(R.id.tv_lingpai_num)
     TextView tv_lingpai_num;
     @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout swiperefreshlayout;
+    SmartRefreshLayout swiperefreshlayout;
+    @BindView(R.id.header)
+    ClassicsHeader header;
     AlibcLogin alibcLogin;
     /*官方微信*/
     @BindView(R.id.guanfangweixin)
@@ -222,25 +228,33 @@ public class MineFragment extends Fragment {
         return view;
     }
 
+
     private void initVersionView() {
         String androidNumVersion = VersionUtil.getAndroidNumVersion( context );
         tv_version_display.setText( androidNumVersion );
     }
 
     private void initRefresh() {
-        swiperefreshlayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+        //状态栏透明和间距处理
+        StatusBarUtil.setMargin( context, header );
+        swiperefreshlayout.setOnMultiPurposeListener( new SimpleMultiPurposeListener() {
             @Override
-            public void onRefresh() {
-                new Handler().postDelayed( new Runnable() {
-                    public void run() {
-                        /*获取用户基本信息*/
-                        getUserData();
-                        getMineData();
-                        swiperefreshlayout.setRefreshing( false );
-                        EventBus.getDefault().post( Constant.SWIPEREFRESHLAYOUT );
-                    }
-                }, 2000 );
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                /*获取用户基本信息*/
+                getUserData();
+                getMineData();
+                EventBus.getDefault().post( Constant.SWIPEREFRESHLAYOUT );
+                refreshLayout.finishRefresh( 1000 );
             }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            }
+
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+            }
+
         } );
     }
 

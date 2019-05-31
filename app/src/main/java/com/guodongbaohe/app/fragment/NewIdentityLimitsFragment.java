@@ -6,12 +6,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -51,6 +49,9 @@ import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.CircleImageView;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -69,7 +70,7 @@ public class NewIdentityLimitsFragment extends Fragment {
     @BindView(R.id.roundimageview_big)
     ImageView roundimageview_big;
     @BindView(R.id.swiperefreshlayout)
-    SwipeRefreshLayout swiperefreshlayout;
+    SmartRefreshLayout swiperefreshlayout;
     /*用户头像*/
     @BindView(R.id.user_iv)
     CircleImageView user_iv;
@@ -252,16 +253,23 @@ public class NewIdentityLimitsFragment extends Fragment {
     }
 
     private void initRefresh() {
-        swiperefreshlayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+//        swiperefreshlayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                new Handler().postDelayed( new Runnable() {
+//                    public void run() {
+//                        getUserLevelData();
+//                        swiperefreshlayout.setRefreshing( false );
+//                        EventBus.getDefault().post( Constant.NEWIDENTITYLIMITSFRAGMENT_REFRESH );
+//                    }
+//                }, 2000 );
+//            }
+//        } );
+        swiperefreshlayout.setOnRefreshListener( new OnRefreshListener() {
             @Override
-            public void onRefresh() {
-                new Handler().postDelayed( new Runnable() {
-                    public void run() {
-                        getUserLevelData();
-                        swiperefreshlayout.setRefreshing( false );
-                        EventBus.getDefault().post( Constant.NEWIDENTITYLIMITSFRAGMENT_REFRESH );
-                    }
-                }, 2000 );
+            public void onRefresh(RefreshLayout refreshLayout) {
+                getUserLevelData();
+                EventBus.getDefault().post( Constant.NEWIDENTITYLIMITSFRAGMENT_REFRESH );
             }
         } );
     }
@@ -418,6 +426,7 @@ public class NewIdentityLimitsFragment extends Fragment {
                                         progressBar_mode_five.setProgress( 100 );
                                     }
                                 }
+                                swiperefreshlayout.finishRefresh();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -426,6 +435,7 @@ public class NewIdentityLimitsFragment extends Fragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
+                        swiperefreshlayout.finishRefresh();
                         ToastUtils.showToast( context, Constant.NONET );
                     }
                 } );

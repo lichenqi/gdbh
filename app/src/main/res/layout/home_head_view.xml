@@ -95,7 +95,6 @@
                         android:id="@+id/recyclerview_horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:nestedScrollingEnabled="false"
                         android:scrollbars="none" />
 
                     <android.support.v7.widget.RecyclerView
@@ -103,7 +102,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/recyclerview_horizontal"
-                        android:nestedScrollingEnabled="false"
                         android:scrollbars="none" />
 
                 </RelativeLayout>
@@ -196,9 +194,7 @@
                 android:id="@+id/recyclerview_hours_hot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:nestedScrollingEnabled="false"
                 android:scrollbars="none" />
 
             <TextView

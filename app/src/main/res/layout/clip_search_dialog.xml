@@ -3,46 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <com.makeramen.roundedimageview.RoundedImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/clip_search_bg"
-            app:riv_corner_radius_top_left="10dp"
-            app:riv_corner_radius_top_right="10dp" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true">
-
-            <ImageView
-                android:id="@+id/cnlsco"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/clip_seach" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cnlsco"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:text="您是否想搜索以下商品"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-        </RelativeLayout>
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/title_search_small"
+        app:riv_corner_radius_top_left="10dp"
+        app:riv_corner_radius_top_right="10dp" />
 
     <TextView
         android:id="@+id/content"
@@ -53,10 +24,10 @@
         android:gravity="center_horizontal"
         android:lineSpacingExtra="2dp"
         android:maxLines="2"
-        android:paddingBottom="15dp"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
         android:paddingTop="15dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="15dp"
         android:textColor="@color/black" />
 
     <View

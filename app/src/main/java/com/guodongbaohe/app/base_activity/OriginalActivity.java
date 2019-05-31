@@ -63,10 +63,6 @@ public class OriginalActivity extends AppCompatActivity {
     }
 
     private void showDialog(final String content) {
-        /*清空剪切板内容*/
-//        if (cm.hasPrimaryClip()) {
-//            cm.setPrimaryClip( ClipData.newPlainText( null, "" ) );
-//        }
         guoDuTanKuang( content );
     }
 

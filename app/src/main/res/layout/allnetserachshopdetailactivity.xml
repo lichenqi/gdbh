@@ -36,17 +36,16 @@
                     android:layout_marginRight="20dp"
                     android:alpha="0.5"
                     android:background="@drawable/shape_goods_coupon"
-                    android:paddingBottom="5dp"
                     android:paddingLeft="20dp"
                     android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/iv_goods_rand_user"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/haowutuijian" />
+                        android:layout_centerVertical="true" />
 
                     <TextView
                         android:id="@+id/tv_goods_rand_user"
@@ -101,8 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_old_price"
@@ -139,8 +138,8 @@
                         android:layout_centerVertical="true"
                         android:background="@drawable/shape_coupon_left"
                         android:gravity="center"
-                        android:paddingBottom="2dp"
                         android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
                         android:text="12"
                         android:textColor="#B9A866"
                         android:textSize="10sp" />
@@ -169,13 +168,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/tianmaoandtao_bg"
-                android:paddingBottom="4dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="4dp"
                 android:paddingTop="4dp"
+                android:paddingRight="4dp"
+                android:paddingBottom="4dp"
                 android:text="淘宝|天猫所有商品都能赚钱"
                 android:textColor="#6f4207"
                 android:textSize="10sp" />
@@ -198,10 +197,10 @@
                 android:id="@+id/ll_youke"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -209,9 +208,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/detail_classic"
-                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingRight="15dp"
-                    android:paddingTop="15dp">
+                    android:paddingBottom="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -244,10 +243,10 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/detail_update"
-                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
                         android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
                         android:text="立即升级"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -260,10 +259,10 @@
                 android:id="@+id/ll_tishensix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -271,9 +270,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/detail_classic"
-                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingRight="20dp"
-                    android:paddingTop="15dp">
+                    android:paddingBottom="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -306,10 +305,10 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/detail_update"
-                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
                         android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
                         android:text="立即升级"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -322,10 +321,10 @@
                 android:id="@+id/ll_sjizcai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -333,9 +332,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/detail_classic"
-                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
                     android:paddingRight="20dp"
-                    android:paddingTop="15dp">
+                    android:paddingBottom="15dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -368,10 +367,10 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/detail_update"
-                        android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
                         android:paddingTop="5dp"
+                        android:paddingRight="10dp"
+                        android:paddingBottom="5dp"
                         android:text="立即升级"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -384,10 +383,10 @@
                 android:id="@+id/ll_youhuiquan_show"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 android:visibility="gone">
 
@@ -451,9 +450,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/homelistitem"
-                android:paddingBottom="10dp"
                 android:paddingLeft="5dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
 
                 <TextView
                     android:id="@+id/tv_goods_image"
@@ -512,8 +511,8 @@
             android:layout_weight="1"
             android:background="@drawable/share_yellow"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="分享赚¥"
             android:textColor="#6f4207" />
 
@@ -524,8 +523,8 @@
             android:layout_weight="1"
             android:background="@drawable/buy_bg"
             android:gravity="center"
-            android:paddingBottom="10dp"
             android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:text="购买返¥"
             android:textColor="@color/white" />
 

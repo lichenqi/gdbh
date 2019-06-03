@@ -75,6 +75,7 @@ public class OriginalActivity extends AppCompatActivity {
         dialog.setContentView( R.layout.clip_search_dialog );
         Window window = dialog.getWindow();
         window.setGravity( Gravity.CENTER | Gravity.CENTER );
+        window.setWindowAnimations( R.style.my_dialog_style_animation );
         TextView sure = (TextView) dialog.findViewById( R.id.sure );
         TextView cancel = (TextView) dialog.findViewById( R.id.cancel );
         TextView title = (TextView) dialog.findViewById( R.id.content );

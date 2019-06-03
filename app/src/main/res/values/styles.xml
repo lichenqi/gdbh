@@ -452,4 +452,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="my_dialog_style_animation">
+        <item name="android:windowEnterAnimation">@anim/dialog_scale_in</item>
+        <item name="android:windowExitAnimation">@anim/my_dialog_out</item>
+    </style>
+
 </resources>

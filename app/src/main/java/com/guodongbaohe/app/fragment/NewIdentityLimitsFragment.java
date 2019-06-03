@@ -253,18 +253,6 @@ public class NewIdentityLimitsFragment extends Fragment {
     }
 
     private void initRefresh() {
-//        swiperefreshlayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                new Handler().postDelayed( new Runnable() {
-//                    public void run() {
-//                        getUserLevelData();
-//                        swiperefreshlayout.setRefreshing( false );
-//                        EventBus.getDefault().post( Constant.NEWIDENTITYLIMITSFRAGMENT_REFRESH );
-//                    }
-//                }, 2000 );
-//            }
-//        } );
         swiperefreshlayout.setOnRefreshListener( new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {

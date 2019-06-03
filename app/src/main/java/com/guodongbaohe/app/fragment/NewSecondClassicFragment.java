@@ -36,7 +36,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class NewSecondClassicFragment extends BaseLazyLoadFragment {
+public class NewSecondClassicFragment extends OldLazyLoadFragment {
 
     private View view;
     private int pageNum = 1;

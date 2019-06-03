@@ -75,12 +75,9 @@ import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.CircleImageView;
-import com.guodongbaohe.app.view.StatusBarUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-import com.scwang.smartrefresh.layout.listener.SimpleMultiPurposeListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -170,8 +167,6 @@ public class MineFragment extends Fragment {
     TextView tv_lingpai_num;
     @BindView(R.id.swiperefreshlayout)
     SmartRefreshLayout swiperefreshlayout;
-    @BindView(R.id.header)
-    ClassicsHeader header;
     AlibcLogin alibcLogin;
     /*官方微信*/
     @BindView(R.id.guanfangweixin)
@@ -235,26 +230,15 @@ public class MineFragment extends Fragment {
     }
 
     private void initRefresh() {
-        //状态栏透明和间距处理
-        StatusBarUtil.setMargin( context, header );
-        swiperefreshlayout.setOnMultiPurposeListener( new SimpleMultiPurposeListener() {
+        swiperefreshlayout.setOnRefreshListener( new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 /*获取用户基本信息*/
                 getUserData();
                 getMineData();
                 EventBus.getDefault().post( Constant.SWIPEREFRESHLAYOUT );
-                refreshLayout.finishRefresh( 1000 );
+                refreshLayout.finishRefresh( 1500 );
             }
-
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            }
-
-            @Override
-            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-            }
-
         } );
     }
 

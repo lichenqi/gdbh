@@ -428,6 +428,12 @@
         <activity
             android:name=".activity.ExclusiveTutorActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".dagger2_test.DaggerActvity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyShopActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

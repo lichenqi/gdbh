@@ -1,6 +1,5 @@
 package com.guodongbaohe.app.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +20,7 @@ import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.JumpToShopDetailUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -76,7 +76,7 @@ public class KesalanPathActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister( this );
     }
 
     @Override
@@ -86,22 +86,22 @@ public class KesalanPathActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        EventBus.getDefault().register(this);
-        String title = getIntent().getStringExtra("title");
-        setMiddleTitle(title);
+        super.onCreate( savedInstanceState );
+        ButterKnife.bind( this );
+        EventBus.getDefault().register( this );
+        String title = getIntent().getStringExtra( "title" );
+        setMiddleTitle( title );
         getData();
-        xrecycler.setHasFixedSize(true);
-        xrecycler.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        XRecyclerViewUtil.setView(xrecycler);
-        adapter = new JhsAdapter(list, getApplicationContext());
-        xrecycler.setAdapter(adapter);
-        View view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.base_head_img, null);
-        iv_head = (RoundedImageView) view.findViewById(R.id.iv_head);
-        xrecycler.addHeaderView(view);
+        xrecycler.setHasFixedSize( true );
+        xrecycler.setLayoutManager( new LinearLayoutManager( getApplicationContext() ) );
+        XRecyclerViewUtil.setView( xrecycler );
+        adapter = new JhsAdapter( list, getApplicationContext() );
+        xrecycler.setAdapter( adapter );
+        View view = LayoutInflater.from( getApplicationContext() ).inflate( R.layout.base_head_img, null );
+        iv_head = (RoundedImageView) view.findViewById( R.id.iv_head );
+        xrecycler.addHeaderView( view );
         getFourHeadIVData();
-        xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
+        xrecycler.setLoadingListener( new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 pageNum = 1;
@@ -113,109 +113,88 @@ public class KesalanPathActivity extends BaseActivity {
                 pageNum++;
                 getData();
             }
-        });
-        adapter.setonclicklistener(new OnItemClick() {
+        } );
+        adapter.setonclicklistener( new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
                 int pos = position - 2;
-                Intent intent = new Intent(getApplicationContext(), ShopDetailActivity.class);
-                intent.putExtra("goods_id", list.get(pos).getGoods_id());
-                intent.putExtra("cate_route", list.get(pos).getCate_route());/*类目名称*/
-                intent.putExtra("cate_category", list.get(pos).getCate_category());
-                intent.putExtra("attr_price", list.get(pos).getAttr_price());
-                intent.putExtra("attr_prime", list.get(pos).getAttr_prime());
-                intent.putExtra("attr_ratio", list.get(pos).getAttr_ratio());
-                intent.putExtra("sales_month", list.get(pos).getSales_month());
-                intent.putExtra("goods_name", list.get(pos).getGoods_name());/*长标题*/
-                intent.putExtra("goods_short", list.get(pos).getGoods_short());/*短标题*/
-                intent.putExtra("seller_shop", list.get(pos).getSeller_shop());/*店铺姓名*/
-                intent.putExtra("goods_thumb", list.get(pos).getGoods_thumb());/*单图*/
-                intent.putExtra("goods_gallery", list.get(pos).getGoods_gallery());/*多图*/
-                intent.putExtra("coupon_begin", list.get(pos).getCoupon_begin());/*开始时间*/
-                intent.putExtra("coupon_final", list.get(pos).getCoupon_final());/*结束时间*/
-                intent.putExtra("coupon_surplus", list.get(pos).getCoupon_surplus());/*是否有券*/
-                intent.putExtra("coupon_explain", list.get(pos).getGoods_slogan());/*推荐理由*/
-                intent.putExtra("attr_site", list.get(pos).getAttr_site());/*天猫或者淘宝*/
-                intent.putExtra("coupon_total", list.get(pos).getCoupon_total());
-                intent.putExtra("coupon_id", list.get(pos).getCoupon_id());/*优惠券id*/
-                intent.putExtra(Constant.SHOP_REFERER, "local");/*商品来源*/
-                intent.putExtra(Constant.GAOYONGJIN_SOURCE, list.get(pos).getSource());/*高佣金来源*/
-                startActivity(intent);
+                HomeListBean.ListData listData = list.get( pos );
+                JumpToShopDetailUtil.start2ShopDetailOfListBean( getApplicationContext(), listData );
             }
-        });
-        xrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        } );
+        xrecycler.addOnScrollListener( new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
+                super.onScrollStateChanged( recyclerView, newState );
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
+                super.onScrolled( recyclerView, dx, dy );
                 int i = recyclerView.computeVerticalScrollOffset();
                 if (i > 1200) {
-                    to_top.setVisibility(View.VISIBLE);
+                    to_top.setVisibility( View.VISIBLE );
                 } else {
-                    to_top.setVisibility(View.GONE);
+                    to_top.setVisibility( View.GONE );
                 }
             }
-        });
-        to_top.setOnClickListener(new View.OnClickListener() {
+        } );
+        to_top.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                xrecycler.scrollToPosition(0);
+                xrecycler.scrollToPosition( 0 );
             }
-        });
+        } );
     }
 
     private void getData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activity", "jhs");
-        map.put("page", String.valueOf(pageNum));
-        String mapParam = ParamUtil.getMapParam(map);
-        Log.i("聚划算地址", Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam);
-        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+        map.put( "activity", "jhs" );
+        map.put( "page", String.valueOf( pageNum ) );
+        String mapParam = ParamUtil.getMapParam( map );
+        Log.i( "聚划算地址", Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam );
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("数据", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "数据", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                HomeListBean bean = GsonUtil.GsonToBean(response.toString(), HomeListBean.class);
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                HomeListBean bean = GsonUtil.GsonToBean( response.toString(), HomeListBean.class );
                                 if (bean == null) return;
                                 List<HomeListBean.ListData> result = bean.getResult();
                                 if (result.size() == 0) {
-                                    xrecycler.setNoMore(true);
+                                    xrecycler.setNoMore( true );
                                     xrecycler.refreshComplete();
                                     xrecycler.loadMoreComplete();
                                 } else {
-                                    boolean isLogin = PreferUtils.getBoolean(getApplicationContext(), "isLogin");
-                                    String son_count = PreferUtils.getString(getApplicationContext(), "son_count");
-                                    String member_role = PreferUtils.getString(getApplicationContext(), "member_role");
+                                    boolean isLogin = PreferUtils.getBoolean( getApplicationContext(), "isLogin" );
+                                    String son_count = PreferUtils.getString( getApplicationContext(), "son_count" );
+                                    String member_role = PreferUtils.getString( getApplicationContext(), "member_role" );
                                     for (HomeListBean.ListData listData : result) {
-                                        listData.setLogin(isLogin);
-                                        listData.setSon_count(son_count);
-                                        listData.setMember_role(member_role);
+                                        listData.setLogin( isLogin );
+                                        listData.setSon_count( son_count );
+                                        listData.setMember_role( member_role );
                                     }
                                     if (pageNum == 1) {
                                         list.clear();
-                                        list.addAll(result);
+                                        list.addAll( result );
                                         adapter.notifyDataSetChanged();
                                         xrecycler.refreshComplete();
                                     } else {
-                                        list.addAll(result);
+                                        list.addAll( result );
                                         adapter.notifyDataSetChanged();
                                         xrecycler.loadMoreComplete();
                                     }
@@ -231,11 +210,11 @@ public class KesalanPathActivity extends BaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast(getApplicationContext(), Constant.NONET);
+                        ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
                     }
-                });
+                } );
     }
 
     /*四大模块头部图片数据*/
@@ -243,33 +222,33 @@ public class KesalanPathActivity extends BaseActivity {
 
     private void getFourHeadIVData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("type", "button");
-        String param = ParamUtil.getMapParam(map);
+        map.put( "type", "button" );
+        String param = ParamUtil.getMapParam( map );
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.BANNER + "?" + param)
-                .tag(this)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), ""))
-                .enqueue(new JsonResponseHandler() {
+                .url( Constant.BASE_URL + Constant.BANNER + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("四大模块头部图片数据", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "四大模块头部图片数据", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
-                                FourIVBean bean = GsonUtil.GsonToBean(response.toString(), FourIVBean.class);
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                FourIVBean bean = GsonUtil.GsonToBean( response.toString(), FourIVBean.class );
                                 if (bean == null) return;
                                 four_iv_list = bean.getResult();
                                 for (int i = 0; i < four_iv_list.size(); i++) {
-                                    if (four_iv_list.get(i).getUrl().equals("jhs")) {
-                                        Glide.with(getApplicationContext()).load(four_iv_list.get(i).getImage()).into(iv_head);
+                                    if (four_iv_list.get( i ).getUrl().equals( "jhs" )) {
+                                        Glide.with( getApplicationContext() ).load( four_iv_list.get( i ).getImage() ).into( iv_head );
                                         return;
                                     }
                                 }
@@ -283,6 +262,6 @@ public class KesalanPathActivity extends BaseActivity {
                     public void onFailure(int statusCode, String error_msg) {
 
                     }
-                });
+                } );
     }
 }

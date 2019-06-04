@@ -2,7 +2,6 @@ package com.guodongbaohe.app.activity;
 
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,9 +22,9 @@ import com.guodongbaohe.app.bean.GCollectionBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
-import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.JumpToShopDetailUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -448,7 +447,6 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
     Dialog loadingDialog;
 
     private void getShopDetail(String keyword) {
-        loadingDialog = DialogUtil.createLoadingDialog( GCollectionActivity.this, "加载中..." );
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
         map.put( "sort", "" );
         map.put( "coupon", "false" );
@@ -470,7 +468,6 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
                         super.onSuccess( statusCode, response );
-                        DialogUtil.closeDialog( loadingDialog, GCollectionActivity.this );
                         Log.i( "搜索数据", response.toString() );
                         try {
                             JSONObject jsonObject = new JSONObject( response.toString() );
@@ -480,29 +477,8 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
                                 if (bean == null) return;
                                 List<AllNetBean.AllNetData> list = bean.getResult();
                                 if (list.size() > 0) {
-                                    Intent intent = new Intent( getApplicationContext(), ShopDetailActivity.class );
-                                    intent.putExtra( "goods_id", list.get( 0 ).getGoods_id() );
-                                    intent.putExtra( "cate_route", list.get( 0 ).getCate_route() );/*类目名称*/
-                                    intent.putExtra( "cate_category", list.get( 0 ).getCate_category() );
-                                    intent.putExtra( "attr_price", list.get( 0 ).getAttr_price() );
-                                    intent.putExtra( "attr_prime", list.get( 0 ).getAttr_prime() );
-                                    intent.putExtra( "attr_ratio", list.get( 0 ).getAttr_ratio() );
-                                    intent.putExtra( "sales_month", list.get( 0 ).getSales_month() );
-                                    intent.putExtra( "goods_name", list.get( 0 ).getGoods_name() );/*长标题*/
-                                    intent.putExtra( "goods_short", list.get( 0 ).getGoods_short() );/*短标题*/
-                                    intent.putExtra( "seller_shop", list.get( 0 ).getSeller_shop() );/*店铺姓名*/
-                                    intent.putExtra( "goods_thumb", list.get( 0 ).getGoods_thumb() );/*单图*/
-                                    intent.putExtra( "goods_gallery", list.get( 0 ).getGoods_gallery() );/*多图*/
-                                    intent.putExtra( "coupon_begin", list.get( 0 ).getCoupon_begin() );/*开始时间*/
-                                    intent.putExtra( "coupon_final", list.get( 0 ).getCoupon_final() );/*结束时间*/
-                                    intent.putExtra( "coupon_surplus", list.get( 0 ).getCoupon_surplus() );/*是否有券*/
-                                    intent.putExtra( "coupon_explain", list.get( 0 ).getGoods_slogan() );/*推荐理由*/
-                                    intent.putExtra( "attr_site", list.get( 0 ).getAttr_site() );/*天猫或者淘宝*/
-                                    intent.putExtra( "coupon_total", list.get( 0 ).getCoupon_total() );
-                                    intent.putExtra( "coupon_id", list.get( 0 ).getCoupon_id() );
-                                    intent.putExtra( Constant.SHOP_REFERER, "search" );/*商品来源*/
-                                    intent.putExtra( Constant.GAOYONGJIN_SOURCE, list.get( 0 ).getSource() );/*高佣金来源*/
-                                    startActivity( intent );
+                                    AllNetBean.AllNetData allNetData = list.get( 0 );
+                                    JumpToShopDetailUtil.startToDetailOfSearch( getApplicationContext(), allNetData );
                                 } else {
                                     ToastUtils.showToast( getContext(), "该商品已下架" );
                                 }
@@ -517,7 +493,6 @@ public class GCollectionActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog( loadingDialog, GCollectionActivity.this );
                         ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                     }
                 } );

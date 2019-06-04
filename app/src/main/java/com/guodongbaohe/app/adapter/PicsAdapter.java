@@ -31,18 +31,21 @@ public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.PicsHolder> {
     @Override
     public PicsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.item_pics, parent, false);
-        return new PicsHolder(view);
+        View view = LayoutInflater.from( context ).inflate( R.layout.item_pics, parent, false );
+        return new PicsHolder( view );
     }
 
     @Override
     public void onBindViewHolder(final PicsHolder holder, int position) {
         final int widthPixels = context.getResources().getDisplayMetrics().widthPixels;
-        String url = list_detail.get(position);
-        Glide.with(context).load(url).asBitmap().placeholder(R.drawable.loading_img)
-                .skipMemoryCache(true)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+        String url = list_detail.get( position );
+        if (!url.substring( 0, 4 ).equals( "http" )) {
+            url = "http:" + url;
+        }
+        Glide.with( context ).load( url ).asBitmap().placeholder( R.drawable.loading_img )
+                .skipMemoryCache( true )
+                .diskCacheStrategy( DiskCacheStrategy.NONE )
+                .into( new SimpleTarget<Bitmap>( Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL ) {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         //原始图片宽高
@@ -55,10 +58,10 @@ public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.PicsHolder> {
                             ViewGroup.LayoutParams params = holder.iv.getLayoutParams();
                             params.width = widthPixels;
                             params.height = height;
-                            holder.iv.setImageBitmap(resource);
+                            holder.iv.setImageBitmap( resource );
                         }
                     }
-                });
+                } );
     }
 
     @Override
@@ -71,8 +74,8 @@ public class PicsAdapter extends RecyclerView.Adapter<PicsAdapter.PicsHolder> {
         ImageView iv;
 
         public PicsHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            super( itemView );
+            ButterKnife.bind( this, itemView );
         }
     }
 

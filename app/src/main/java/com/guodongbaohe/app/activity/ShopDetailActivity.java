@@ -57,6 +57,7 @@ import com.guodongbaohe.app.bean.BaseUserBean;
 import com.guodongbaohe.app.bean.GaoYongJinBean;
 import com.guodongbaohe.app.bean.PhotoAndTextBean;
 import com.guodongbaohe.app.bean.RouteBean;
+import com.guodongbaohe.app.bean.ShopDataBean;
 import com.guodongbaohe.app.bean.ShopIsCollectBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
@@ -67,11 +68,13 @@ import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.DialogUtil;
 import com.guodongbaohe.app.util.EncryptUtil;
 import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.JumpToShopDetailUtil;
 import com.guodongbaohe.app.util.NetUtil;
 import com.guodongbaohe.app.util.NumUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.StringCleanZeroUtil;
+import com.guodongbaohe.app.util.StringThirdthNumUtil;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.CenterAlignImageSpan;
@@ -120,6 +123,9 @@ public class ShopDetailActivity extends BigBaseActivity {
     /*旗舰店名字*/
     @BindView(R.id.qijiandian)
     TextView qijiandian;
+    /*进入店铺*/
+    @BindView(R.id.ll_enter_shop)
+    LinearLayout ll_enter_shop;
     /*图文详情列表*/
     @BindView(R.id.recyclerview_pic)
     RecyclerView recyclerview_pic;
@@ -151,7 +157,7 @@ public class ShopDetailActivity extends BigBaseActivity {
     String son_count, member_role, tax_rate;
     String goods_id, cate_route, attr_price, attr_prime, attr_ratio, sales_month, goods_name, goods_short, seller_shop,
             goods_thumb, goods_gallery, coupon_begin, coupon_final, coupon_surplus, coupon_explain, cate_category,
-            attr_site, coupon_total, coupon_id, referer, source, short_title;
+            attr_site, coupon_total, coupon_id, referer, source, short_title, seller_id;
     /*标题头部布局*/
     @BindView(R.id.iv_yuanxing_back)
     ImageView iv_yuanxing_back;
@@ -215,6 +221,14 @@ public class ShopDetailActivity extends BigBaseActivity {
     TextView tv_rule;
     @BindView(R.id.iv_fanyong)
     ImageView iv_fanyong;
+    @BindView(R.id.ll_service_data)
+    LinearLayout ll_service_data;
+    @BindView(R.id.tv_treasure_describe)
+    TextView tv_treasure_describe;
+    @BindView(R.id.tv_seller_service)
+    TextView tv_seller_service;
+    @BindView(R.id.tv_logistics_service)
+    TextView tv_logistics_service;
     private boolean isShopDetailPhotoShow = false;
     /*开关字段*/
     private String is_pop_window, upgrade_vip_invite, money_upgrade_switch, is_show_money_vip, is_pop_window_vip;
@@ -226,8 +240,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         setContentView( R.layout.shopdetailactivity );
         ButterKnife.bind( this );
         EventBus.getDefault().post( this );
-        loadingDialog = DialogUtil.createLoadingDialog( ShopDetailActivity.this, "加载..." );
-        this.widthPixels = getResources().getDisplayMetrics().widthPixels;
+        widthPixels = getResources().getDisplayMetrics().widthPixels;
         Intent intent = getIntent();
         goods_id = intent.getStringExtra( "goods_id" );
         cate_route = intent.getStringExtra( "cate_route" );
@@ -250,6 +263,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         coupon_id = intent.getStringExtra( "coupon_id" );
         referer = intent.getStringExtra( Constant.SHOP_REFERER );
         source = intent.getStringExtra( Constant.GAOYONGJIN_SOURCE );
+        seller_id = intent.getStringExtra( "seller_id" );
         short_title = PreferUtils.getString( getApplicationContext(), "short_title" );
         is_pop_window = PreferUtils.getString( getApplicationContext(), "is_pop_window" );
         is_show_money_vip = PreferUtils.getString( getApplicationContext(), "is_show_money_vip" );
@@ -263,8 +277,6 @@ public class ShopDetailActivity extends BigBaseActivity {
         alibcShowParams = new AlibcShowParams( OpenType.Native, true );
         /*初始化商品信息*/
         initGoodHeadView();
-        /*图文详情接口*/
-        getPhotoTextData();
         /*精品推荐*/
         if (Double.valueOf( cate_category ) > 0) {
             getRouteData();
@@ -275,6 +287,67 @@ public class ShopDetailActivity extends BigBaseActivity {
         initBannerView();
         /*复制标题操作*/
         initEditView();
+        /*店铺信息接口*/
+        getShopData();
+    }
+
+    String shop_id;
+
+    private void getShopData() {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        if (!TextUtils.isEmpty( seller_id )) {
+            map.put( "seller_id", seller_id );
+        }
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url( Constant.BASE_URL + Constant.SHOP_DATA_API + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        Log.i( "店铺信息", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                ShopDataBean shopDataBean = GsonUtil.GsonToBean( response.toString(), ShopDataBean.class );
+                                if (shopDataBean == null) {
+                                    ll_enter_shop.setVisibility( View.GONE );
+                                    ll_service_data.setVisibility( View.GONE );
+                                    return;
+                                }
+                                ll_enter_shop.setVisibility( View.VISIBLE );
+                                ll_service_data.setVisibility( View.VISIBLE );
+                                ShopDataBean.ShopData result = shopDataBean.getResult();
+                                shop_id = result.getShop_id();
+                                String consignment = result.getConsignment();/*物流*/
+                                String merchandis = result.getMerchandis();/*卖家*/
+                                String service = result.getService();/*宝贝描述*/
+                                tv_treasure_describe.setText( "宝贝描述" + StringThirdthNumUtil.getThirdthNum( service ) );
+                                tv_seller_service.setText( "卖家服务" + StringThirdthNumUtil.getThirdthNum( merchandis ) );
+                                tv_logistics_service.setText( "物流服务" + StringThirdthNumUtil.getThirdthNum( consignment ) );
+                            } else {
+                                ll_enter_shop.setVisibility( View.GONE );
+                                ll_service_data.setVisibility( View.GONE );
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                } );
     }
 
     private void initCollectShop() {
@@ -515,7 +588,6 @@ public class ShopDetailActivity extends BigBaseActivity {
         if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
             getUserData();
         }
-        DialogUtil.closeDialog( loadingDialog, ShopDetailActivity.this );
     }
 
     Dialog dialog;
@@ -588,11 +660,12 @@ public class ShopDetailActivity extends BigBaseActivity {
         tv_lijiyaoqing.setText( "立即升级" );
     }
 
+    PhotoAndTextBean photoAndTextBean;
+
     private void getPhotoTextData() {
         HashMap<String, String> map = new HashMap<>();
         map.put( "goods_id", goods_id );
         String param = ParamUtil.getMapParam( map );
-        Log.i( "图文详情", Constant.BASE_URL + "goods/detail" + "?" + param );
         MyApplication.getInstance().getMyOkHttp().post()
                 .url( Constant.BASE_URL + "goods/detail" + "?" + param )
                 .tag( this )
@@ -612,7 +685,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject( response.toString() );
                             if (jsonObject.getInt( "status" ) >= 0) {
-                                PhotoAndTextBean photoAndTextBean = GsonUtil.GsonToBean( response.toString(), PhotoAndTextBean.class );
+                                photoAndTextBean = GsonUtil.GsonToBean( response.toString(), PhotoAndTextBean.class );
                                 if (photoAndTextBean == null) return;
                                 PhotoAndTextBean.DetailObj detail = photoAndTextBean.getResult();
                                 if (detail.getDetail().size() > 0) {
@@ -624,12 +697,10 @@ public class ShopDetailActivity extends BigBaseActivity {
                                     }
                                     PicsAdapter picsAdapter = new PicsAdapter( list_detail );
                                     recyclerview_pic.setAdapter( picsAdapter );
-                                    DialogUtil.closeDialog( loadingDialog, ShopDetailActivity.this );
-                                } else {
-                                    DialogUtil.closeDialog( loadingDialog, ShopDetailActivity.this );
                                 }
                             } else {
-                                DialogUtil.closeDialog( loadingDialog, ShopDetailActivity.this );
+                                String result = jsonObject.getString( "result" );
+                                ToastUtils.showToast( getApplicationContext(), result );
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -639,7 +710,6 @@ public class ShopDetailActivity extends BigBaseActivity {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        DialogUtil.closeDialog( loadingDialog, ShopDetailActivity.this );
                     }
                 } );
     }
@@ -682,29 +752,8 @@ public class ShopDetailActivity extends BigBaseActivity {
                                 jpAdapter.setonclicklistener( new OnItemClick() {
                                     @Override
                                     public void OnItemClickListener(View view, int pos) {
-                                        intent = new Intent( getApplicationContext(), ShopDetailActivity.class );
-                                        intent.putExtra( "goods_id", result.get( pos ).getGoods_id() );
-                                        intent.putExtra( "cate_route", result.get( pos ).getCate_route() );/*类目名称*/
-                                        intent.putExtra( "cate_category", result.get( pos ).getCate_category() );/*类目id*/
-                                        intent.putExtra( "attr_price", result.get( pos ).getAttr_price() );
-                                        intent.putExtra( "attr_prime", result.get( pos ).getAttr_prime() );
-                                        intent.putExtra( "attr_ratio", result.get( pos ).getAttr_ratio() );
-                                        intent.putExtra( "sales_month", result.get( pos ).getSales_month() );
-                                        intent.putExtra( "goods_name", result.get( pos ).getGoods_name() );/*长标题*/
-                                        intent.putExtra( "goods_short", result.get( pos ).getGoods_short() );/*短标题*/
-                                        intent.putExtra( "seller_shop", result.get( pos ).getSeller_shop() );/*店铺姓名*/
-                                        intent.putExtra( "goods_thumb", result.get( pos ).getGoods_thumb() );/*单图*/
-                                        intent.putExtra( "goods_gallery", result.get( pos ).getGoods_gallery() );/*多图*/
-                                        intent.putExtra( "coupon_begin", result.get( pos ).getCoupon_begin() );/*开始时间*/
-                                        intent.putExtra( "coupon_final", result.get( pos ).getCoupon_final() );/*结束时间*/
-                                        intent.putExtra( "coupon_surplus", result.get( pos ).getCoupon_surplus() );/*是否有券*/
-                                        intent.putExtra( "coupon_explain", result.get( pos ).getGoods_slogan() );/*推荐理由*/
-                                        intent.putExtra( "attr_site", result.get( pos ).getAttr_site() );
-                                        intent.putExtra( "coupon_total", result.get( pos ).getCoupon_total() );
-                                        intent.putExtra( "coupon_id", result.get( pos ).getCoupon_id() );
-                                        intent.putExtra( Constant.SHOP_REFERER, "search" );/*商品来源*/
-                                        intent.putExtra( Constant.GAOYONGJIN_SOURCE, result.get( pos ).getSource() );/*高佣金来源*/
-                                        startActivity( intent );
+                                        RouteBean.RouteData routeData = result.get( pos );
+                                        JumpToShopDetailUtil.startToDetailOfLike( getApplicationContext(), routeData );
                                     }
                                 } );
                                 /*精品推荐end*/
@@ -766,7 +815,7 @@ public class ShopDetailActivity extends BigBaseActivity {
 
     @OnClick({R.id.iv_back, R.id.tv_buy, R.id.tv_share_money, R.id.tv_tuijian, R.id.tv_baobei, R.id.re_yao_zhuanqian,
             R.id.ll_youhuiquan_show, R.id.to_home, R.id.tv_xiangqing, R.id.iv_yuanxing_back, R.id.re_look_shop_detail,
-            R.id.to_top, R.id.re_collect, R.id.collect_list, R.id.ll_most_bottom, R.id.tv_rule, R.id.iv_fanyong})
+            R.id.to_top, R.id.re_collect, R.id.collect_list, R.id.ll_most_bottom, R.id.tv_rule, R.id.iv_fanyong, R.id.ll_enter_shop})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
@@ -867,6 +916,9 @@ public class ShopDetailActivity extends BigBaseActivity {
                 } else {
                     iv_shop_show.setImageResource( R.drawable.bottom );
                     recyclerview_pic.setVisibility( View.VISIBLE );
+                    if (photoAndTextBean == null) {
+                        getPhotoTextData();
+                    }
                 }
                 isShopDetailPhotoShow = !isShopDetailPhotoShow;
                 break;
@@ -879,6 +931,17 @@ public class ShopDetailActivity extends BigBaseActivity {
                 intent = new Intent( getApplicationContext(), BaseH5Activity.class );
                 intent.putExtra( "url", "http://app.mopland.com/question/comis" );
                 startActivity( intent );
+                break;
+            case R.id.ll_enter_shop:/*进入店铺*/
+                if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
+                    if (!TextUtils.isEmpty( shop_id )) {
+                        intent = new Intent( getApplicationContext(), MyShopActivity.class );
+                        intent.putExtra( "shop_id", shop_id );
+                        startActivity( intent );
+                    }
+                } else {
+                    startActivity( new Intent( getApplicationContext(), LoginAndRegisterActivity.class ) );
+                }
                 break;
         }
     }

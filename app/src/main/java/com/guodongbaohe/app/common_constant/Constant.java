@@ -244,4 +244,6 @@ public class Constant {
     public static final String BANNER_IS_STOP_PLAY = "stopautoplay";
     /*自动轮播开始状态*/
     public static final String BANNER_IS_START_PLAY = "startautoplay";
+    /*店铺接口*/
+    public static final String SHOP_DATA_API = "goods/shop";
 }

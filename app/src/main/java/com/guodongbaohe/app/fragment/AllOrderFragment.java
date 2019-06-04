@@ -250,6 +250,7 @@ public class AllOrderFragment extends android.support.v4.app.Fragment {
                                     intent.putExtra( "coupon_id", list.get( 0 ).getCoupon_id() );
                                     intent.putExtra( Constant.SHOP_REFERER, "search" );/*商品来源*/
                                     intent.putExtra( Constant.GAOYONGJIN_SOURCE, list.get( 0 ).getSource() );/*高佣金来源*/
+                                    intent.putExtra( "seller_id", list.get( 0 ).getSeller_id() );/*店铺id*/
                                     startActivity( intent );
                                 } else {
                                     ToastUtils.showToast( getContext(), "该商品已下架" );

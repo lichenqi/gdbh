@@ -1,7 +1,6 @@
 package com.guodongbaohe.app.myokhttputils.response;
 
 
-
 import com.guodongbaohe.app.myokhttputils.MyOkHttp;
 import com.guodongbaohe.app.myokhttputils.util.LogUtils;
 
@@ -30,14 +29,14 @@ public abstract class JsonResponseHandler implements IResponseHandler {
             responseBodyStr = responseBody.string();
         } catch (IOException e) {
             e.printStackTrace();
-            LogUtils.e("onResponse fail read response body");
+            LogUtils.e( "onResponse fail read response body" );
 
-            MyOkHttp.mHandler.post(new Runnable() {
+            MyOkHttp.mHandler.post( new Runnable() {
                 @Override
                 public void run() {
-                    onFailure(response.code(), "fail read response body");
+                    onFailure( response.code(), "fail read response body" );
                 }
-            });
+            } );
             return;
         } finally {
             responseBody.close();
@@ -46,52 +45,51 @@ public abstract class JsonResponseHandler implements IResponseHandler {
         final String finalResponseBodyStr = responseBodyStr;
 
         try {
-            final Object result = new JSONTokener(finalResponseBodyStr).nextValue();
+            final Object result = new JSONTokener( finalResponseBodyStr ).nextValue();
             if (result instanceof JSONObject) {
-                MyOkHttp.mHandler.post(new Runnable() {
+                MyOkHttp.mHandler.post( new Runnable() {
                     @Override
                     public void run() {
-                        onSuccess(response.code(), (JSONObject) result);
+                        onSuccess( response.code(), (JSONObject) result );
                     }
-                });
+                } );
             } else if (result instanceof JSONArray) {
-                MyOkHttp.mHandler.post(new Runnable() {
+                MyOkHttp.mHandler.post( new Runnable() {
                     @Override
                     public void run() {
-                        onSuccess(response.code(), (JSONArray) result);
+                        onSuccess( response.code(), (JSONArray) result );
                     }
-                });
+                } );
             } else {
-                LogUtils.e("onResponse fail parse jsonobject, body=" + finalResponseBodyStr);
-                MyOkHttp.mHandler.post(new Runnable() {
+                LogUtils.e( "onResponse fail parse jsonobject, body=" + finalResponseBodyStr );
+                MyOkHttp.mHandler.post( new Runnable() {
                     @Override
                     public void run() {
-                        onFailure(response.code(), "fail parse jsonobject, body=" + finalResponseBodyStr);
+                        onFailure( response.code(), "fail parse jsonobject, body=" + finalResponseBodyStr );
                     }
-                });
+                } );
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            LogUtils.e("onResponse fail parse jsonobject, body=" + finalResponseBodyStr);
-            MyOkHttp.mHandler.post(new Runnable() {
+            LogUtils.e( "onResponse fail parse jsonobject, body=" + finalResponseBodyStr );
+            MyOkHttp.mHandler.post( new Runnable() {
                 @Override
                 public void run() {
-                    onFailure(response.code(), "fail parse jsonobject, body=" + finalResponseBodyStr);
+                    onFailure( response.code(), "fail parse jsonobject, body=" + finalResponseBodyStr );
                 }
-            });
+            } );
         }
     }
 
     public void onSuccess(int statusCode, JSONObject response) {
-        LogUtils.w("onSuccess(int statusCode, JSONObject response) was not overriden, but callback was received");
+        LogUtils.w( "onSuccess(int statusCode, JSONObject response) was not overriden, but callback was received" );
     }
 
     public void onSuccess(int statusCode, JSONArray response) {
-        LogUtils.w("onSuccess(int statusCode, JSONArray response) was not overriden, but callback was received");
+        LogUtils.w( "onSuccess(int statusCode, JSONArray response) was not overriden, but callback was received" );
     }
 
     @Override
     public void onProgress(long currentBytes, long totalBytes) {
-
     }
 }

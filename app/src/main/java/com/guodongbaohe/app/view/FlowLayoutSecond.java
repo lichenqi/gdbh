@@ -76,15 +76,31 @@ public class FlowLayoutSecond extends ViewGroup {
                 tv.setMaxLines( 1 );
                 tv.setEllipsize( TextUtils.TruncateAt.END );
                 //点击事件
-                tv.setOnClickListener( new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onItem.OnItemClick( name );
-                    }
-                } );
+//                tv.setOnClickListener( new View.OnClickListener() {/*匿名内部类写法*/
+////                    @Override
+////                    public void onClick(View v) {
+////                        onItem.OnItemClick( name );
+////                    }
+////                } );
+                tv.setOnClickListener( new MyClickListener( name ) );
                 //添加到容器中
                 addView( tv );
             }
+        }
+    }
+
+    /*外部监听实例化写法*/
+    private class MyClickListener implements OnClickListener {
+
+        private String name;
+
+        public MyClickListener(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItem.OnItemClick( name );
         }
     }
 

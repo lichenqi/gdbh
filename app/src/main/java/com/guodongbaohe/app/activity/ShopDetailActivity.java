@@ -769,6 +769,7 @@ public class ShopDetailActivity extends BigBaseActivity {
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                     }
+
                 } );
     }
 

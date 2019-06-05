@@ -588,6 +588,7 @@ public class ShopDetailActivity extends BigBaseActivity {
         if (PreferUtils.getBoolean( getApplicationContext(), "isLogin" )) {
             getUserData();
         }
+        DialogUtil.closeDialog( loadingDialog, ShopDetailActivity.this );
     }
 
     Dialog dialog;

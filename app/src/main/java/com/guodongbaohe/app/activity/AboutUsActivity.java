@@ -24,6 +24,7 @@ import com.guodongbaohe.app.util.WebViewUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 /*关于 我们*/
 public class AboutUsActivity extends BaseActivity {
     @BindView(R.id.webview)
@@ -35,6 +36,7 @@ public class AboutUsActivity extends BaseActivity {
     ImageView iv_right;
     String url, getUrl;
     ConfigurationBean.PageBean list_data;
+
     @Override
     public int getContainerView() {
         return R.layout.aboutusactivity;
@@ -43,50 +45,50 @@ public class AboutUsActivity extends BaseActivity {
     @SuppressLint("JavascriptInterface")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-        getUrl = PreferUtils.getString(this, "http_list_data");
-        if (!TextUtils.isEmpty(getUrl)) {
+        super.onCreate( savedInstanceState );
+        ButterKnife.bind( this );
+        getUrl = PreferUtils.getString( this, "http_list_data" );
+        if (!TextUtils.isEmpty( getUrl )) {
             Gson gson = new Gson();
-            list_data = gson.fromJson(getUrl, new TypeToken<ConfigurationBean.PageBean>() {
-            }.getType());
+            list_data = gson.fromJson( getUrl, new TypeToken<ConfigurationBean.PageBean>() {
+            }.getType() );
             url = list_data.getAbout().getUrl();
         }
-        setMiddleTitle("关于我们");
-        iv_right=(ImageView)findViewById(R.id.iv_right);
+        setMiddleTitle( "关于我们" );
+        iv_right = (ImageView) findViewById( R.id.iv_right );
         setRightIVVisible();
-        iv_right.setImageResource(R.mipmap.refish_h);
-        String versionCode = VersionUtil.getAndroidNumVersion(getApplicationContext());
-        version.setText("版本号: V" + versionCode);
+        iv_right.setImageResource( R.mipmap.refish_h );
+        String versionCode = VersionUtil.getAndroidNumVersion( getApplicationContext() );
+        version.setText( "版本号: V" + versionCode );
         WebSettings settings = webview.getSettings();
-        webview.setVerticalScrollBarEnabled(false);
-        settings.setJavaScriptEnabled(true);
-        settings.setSupportZoom(false);
-        settings.setBuiltInZoomControls(true);
-        webview.setWebViewClient(new WebViewClient() {
+        webview.setVerticalScrollBarEnabled( false );
+        settings.setJavaScriptEnabled( true );
+        settings.setSupportZoom( false );
+        settings.setBuiltInZoomControls( true );
+        webview.setWebViewClient( new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
+                view.loadUrl( url, WebViewUtil.getWebViewHead( getApplicationContext() ) );
                 return true;
             }
-        });
-        webview.setWebChromeClient(new WebChromeClient() {
+        } );
+        webview.setWebChromeClient( new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility( View.GONE );
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(newProgress);
+                    progressBar.setVisibility( View.VISIBLE );
+                    progressBar.setProgress( newProgress );
                 }
             }
-        });
-        webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
-        iv_right.setOnClickListener(new View.OnClickListener() {
+        } );
+        webview.loadUrl( url, WebViewUtil.getWebViewHead( getApplicationContext() ) );
+        iv_right.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 webview.reload();
             }
-        });
+        } );
     }
 }

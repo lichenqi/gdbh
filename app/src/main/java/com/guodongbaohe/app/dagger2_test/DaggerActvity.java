@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BaseActivity;
+
+import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
 
@@ -21,6 +24,7 @@ public class DaggerActvity extends BaseActivity {
     TextView tv_content;
     @Inject
     Student student;
+    MyHandler myHandler;
 
     @Override
     public int getContainerView() {
@@ -34,19 +38,34 @@ public class DaggerActvity extends BaseActivity {
         setMiddleTitle( "我是dagger" );
         DaggerMainComponent.builder().build().inject( this );
         tv_content.setText( student.showMessage() );
+        myHandler = new MyHandler( DaggerActvity.this );
+        Message message = new Message();
+        message.obj = "我是李晨奇";
+        myHandler.sendMessageDelayed( message, 2000 );
     }
 
 
     private static final class MyHandler extends Handler {
 
-        public MyHandler() {
+        private WeakReference<DaggerActvity> mActivity;
 
+        public MyHandler(DaggerActvity mainActivity) {
+            mActivity = new WeakReference<>( mainActivity );
         }
 
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage( msg );
+            DaggerActvity daggerActvity = mActivity.get();
+            if (null != daggerActvity) {
+                Log.i( "打印handler消息", msg.obj.toString() );
+            }
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myHandler.removeCallbacksAndMessages( null );
+    }
 }

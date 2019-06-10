@@ -486,8 +486,7 @@ public class MainActivity extends OriginalActivity {
     ConfigurationBean.PageBean http_list;
 
     private void getPeiZhiData() {
-        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.APPPEIZHIDATA )
-                .tag( this )
+        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.APPPEIZHIDATA ).tag( this )
                 .addHeader( "x-appid", Constant.APPID )
                 .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
                 .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )

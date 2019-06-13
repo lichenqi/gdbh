@@ -1,6 +1,7 @@
 package com.guodongbaohe.app.bean;
 
 public class ExclusiveTutorBean {
+
     public MyResult getResult() {
         return result;
     }
@@ -9,9 +10,13 @@ public class ExclusiveTutorBean {
         this.result = result;
     }
 
-    private MyResult result;
+    public MyResult result;
 
     public class MyResult {
+
+        private String wechat;
+        private String avatar;
+
         public String getWechat() {
             return wechat;
         }
@@ -28,8 +33,6 @@ public class ExclusiveTutorBean {
             this.avatar = avatar;
         }
 
-        private String wechat;
-        private String avatar;
 
     }
 }

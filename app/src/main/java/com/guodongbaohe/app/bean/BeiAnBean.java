@@ -30,8 +30,10 @@ public class BeiAnBean {
     }
 
 
-    public class BeiAnData {
+    public  class BeiAnData {
+
         private String note;
+        private String url;
 
         public String getScript() {
             return script;
@@ -42,6 +44,7 @@ public class BeiAnBean {
         }
 
         private String script;
+
         public String getNote() {
             return note;
         }
@@ -58,6 +61,5 @@ public class BeiAnBean {
             this.url = url;
         }
 
-        private String url;
     }
 }

@@ -11,8 +11,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -47,6 +45,7 @@ import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.itemdecoration.PinLeiItemDecoration;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
+import com.guodongbaohe.app.myutil.MyBitmapUtil;
 import com.guodongbaohe.app.util.ClipContentUtil;
 import com.guodongbaohe.app.util.CommonUtil;
 import com.guodongbaohe.app.util.DensityUtils;
@@ -1696,22 +1695,6 @@ public class CreateShare_New_Activity extends BaseActivity {
         }
     };
 
-    /*看不见的view转化成bitmap*/
-    public Bitmap createBitmapOfNew(View v, int width, int height) {
-        int viewWidth = DensityUtils.dip2px( getApplicationContext(), 350 );
-        //测量使得view指定大小
-        int measuredWidth = View.MeasureSpec.makeMeasureSpec( viewWidth, View.MeasureSpec.EXACTLY );
-        int measuredHeight = View.MeasureSpec.makeMeasureSpec( height, View.MeasureSpec.AT_MOST );
-        v.measure( measuredWidth, measuredHeight );
-        //调用layout方法布局后，可以得到view的尺寸大小
-        v.layout( 0, 0, viewWidth, v.getMeasuredHeight() );
-        Bitmap bmp = Bitmap.createBitmap( viewWidth, v.getHeight(), Bitmap.Config.ARGB_8888 );
-        Canvas c = new Canvas( bmp );
-        c.drawColor( Color.WHITE );
-        v.draw( c );
-        return bmp;
-    }
-
     Bitmap hebingBitmap;
 
     private void viewSaveToImage(View view) {
@@ -1719,7 +1702,10 @@ public class CreateShare_New_Activity extends BaseActivity {
         getWindowManager().getDefaultDisplay().getMetrics( metric );
         int width = metric.widthPixels;
         int height = metric.heightPixels;
-        hebingBitmap = createBitmapOfNew( view, width, height );
+        hebingBitmap = MyBitmapUtil.createBitmapOfNew( getApplicationContext(), view, width, height );
+//        if (hebingBitmap.getRowBytes() * hebingBitmap.getHeight() > 1024) {
+//            hebingBitmap = MyBitmapUtil.compressImage( hebingBitmap );
+//        }
         String one_buide_pic = NetPicsToBitmap.convertIconToString( hebingBitmap );
         PreferUtils.putString( getApplicationContext(), "one_buide_pic", one_buide_pic );
         ChooseImagsNum bean = new ChooseImagsNum();

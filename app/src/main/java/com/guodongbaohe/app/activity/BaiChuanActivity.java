@@ -59,22 +59,22 @@ public class BaiChuanActivity extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
+        super.onCreate( savedInstanceState );
+        ButterKnife.bind( this );
         AlibcLogin instance = AlibcLogin.getInstance();
         taobao_nick = instance.getSession().nick;
-        iv_back = (ImageView) findViewById(R.id.iv_back);
-        member_id = PreferUtils.getString(getApplicationContext(), "member_id");
-        alibcShowParams = new AlibcShowParams(OpenType.H5, true);
+        iv_back = (ImageView) findViewById( R.id.iv_back );
+        member_id = PreferUtils.getString( getApplicationContext(), "member_id" );
+        alibcShowParams = new AlibcShowParams( OpenType.H5, true );
         exParams = new HashMap<>();
-        exParams.put("isv_code", "appisvcode");
-        exParams.put("alibaba", "阿里巴巴");
+        exParams.put( "isv_code", "appisvcode" );
+        exParams.put( "alibaba", "阿里巴巴" );
         WebSettings settings = webview.getSettings();
-        webview.setVerticalScrollBarEnabled(false);
-        settings.setJavaScriptEnabled(true);
-        settings.setSupportZoom(false);
-        settings.setBuiltInZoomControls(true);
-        webview.setWebViewClient(new WebViewClient() {
+        webview.setVerticalScrollBarEnabled( false );
+        settings.setJavaScriptEnabled( true );
+        settings.setSupportZoom( false );
+        settings.setBuiltInZoomControls( true );
+        webview.setWebViewClient( new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
@@ -82,32 +82,32 @@ public class BaiChuanActivity extends BaseActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                if (!TextUtils.isEmpty(js)) {
-                    webview.loadUrl("javascript:" + js);
-                    Log.i("聚到地址", js);
+                super.onPageFinished( view, url );
+                if (!TextUtils.isEmpty( js )) {
+                    webview.loadUrl( "javascript:" + js );
+                    Log.i( "聚到地址", js );
                 }
             }
 
-        });
-        webview.setWebChromeClient(new WebChromeClient() {
+        } );
+        webview.setWebChromeClient( new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility( View.GONE );
                 } else {
-                    progressBar.setVisibility(View.VISIBLE);
-                    progressBar.setProgress(newProgress);
+                    progressBar.setVisibility( View.VISIBLE );
+                    progressBar.setProgress( newProgress );
                 }
             }
 
             @Override
             public void onReceivedTitle(WebView view, String title) {
-                setMiddleTitle(title);
-                super.onReceivedTitle(view, title);
+                setMiddleTitle( title );
+                super.onReceivedTitle( view, title );
             }
-        });
-        iv_back.setOnClickListener(new View.OnClickListener() {
+        } );
+        iv_back.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (webview.canGoBack()) {
@@ -116,59 +116,59 @@ public class BaiChuanActivity extends BaseActivity {
                     finish();
                 }
             }
-        });
+        } );
         /*检查是否需要备案*/
         checkIsNeedBeian();
-        webview.addJavascriptInterface(new DemoJavascriptInterface(), "Guodong");
+        webview.addJavascriptInterface( new DemoJavascriptInterface(), "Guodong" );
     }
 
     public class DemoJavascriptInterface {
 
         @JavascriptInterface
         public void saved(String msg) {
-            Log.i("回调消息", msg + "  1  ");
+            Log.i( "回调消息", msg + "  1  " );
             /*保存接口*/
-            saveMsg(msg);
+            saveMsg( msg );
         }
     }
 
     private void saveMsg(String msg) {
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-        map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", member_id);
-        map.put("account_name", taobao_nick);
-        map.put("explain", msg);
-        String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
-        String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
-        map.put(Constant.TOKEN, token);
-        String param = ParamUtil.getMapParam(map);
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "member_id", member_id );
+        map.put( "account_name", taobao_nick );
+        map.put( "explain", msg );
+        String qianMingMapParam = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( qianMingMapParam + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        String param = ParamUtil.getMapParam( map );
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.SAVEBEIAN + "?" + param)
-                .tag(this)
-                .addHeader("x-userid", member_id)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), member_id))
-                .enqueue(new JsonResponseHandler() {
+                .url( Constant.BASE_URL + Constant.SAVEBEIAN + "?" + param )
+                .tag( this )
+                .addHeader( "x-userid", member_id )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), member_id ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("保存结果", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "保存结果", response.toString() );
                         finish();
                     }
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        Log.i("保存结果错误", error_msg);
+                        Log.i( "保存结果错误", error_msg );
                     }
-                });
+                } );
     }
 
     String note;
@@ -177,44 +177,45 @@ public class BaiChuanActivity extends BaseActivity {
     private void checkIsNeedBeian() {
         long timelineStr = System.currentTimeMillis() / 1000;
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
-        map.put(Constant.TIMELINE, String.valueOf(timelineStr));
-        map.put(Constant.PLATFORM, Constant.ANDROID);
-        map.put("member_id", member_id);
-        String qianMingMapParam = ParamUtil.getQianMingMapParam(map);
-        String token = EncryptUtil.encrypt(qianMingMapParam + Constant.NETKEY);
-        map.put(Constant.TOKEN, token);
-        String param = ParamUtil.getMapParam(map);
+        map.put( Constant.TIMELINE, String.valueOf( timelineStr ) );
+        map.put( Constant.PLATFORM, Constant.ANDROID );
+        map.put( "member_id", member_id );
+        String qianMingMapParam = ParamUtil.getQianMingMapParam( map );
+        String token = EncryptUtil.encrypt( qianMingMapParam + Constant.NETKEY );
+        map.put( Constant.TOKEN, token );
+        String param = ParamUtil.getMapParam( map );
         MyApplication.getInstance().getMyOkHttp().post()
-                .url(Constant.BASE_URL + Constant.BEIANCHECK + "?" + param)
-                .tag(this)
-                .addHeader("x-userid", member_id)
-                .addHeader("x-appid", Constant.APPID)
-                .addHeader("x-devid", PreferUtils.getString(getApplicationContext(), Constant.PESUDOUNIQUEID))
-                .addHeader("x-nettype", PreferUtils.getString(getApplicationContext(), Constant.NETWORKTYPE))
-                .addHeader("x-agent", VersionUtil.getVersionCode(getApplicationContext()))
-                .addHeader("x-platform", Constant.ANDROID)
-                .addHeader("x-devtype", Constant.IMEI)
-                .addHeader("x-token", ParamUtil.GroupMap(getApplicationContext(), member_id))
-                .enqueue(new JsonResponseHandler() {
+                .url( Constant.BASE_URL + Constant.BEIANCHECK + "?" + param )
+                .tag( this )
+                .addHeader( "x-userid", member_id )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), member_id ) )
+                .enqueue( new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess(statusCode, response);
-                        Log.i("是否需要备案", response.toString());
+                        super.onSuccess( statusCode, response );
+                        Log.i( "是否需要备案", response.toString() );
                         try {
-                            JSONObject jsonObject = new JSONObject(response.toString());
-                            if (jsonObject.getInt("status") >= 0) {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
                             } else {
-                                BeiAnBean beiAnBean = GsonUtil.GsonToBean(response.toString(), BeiAnBean.class);
-                                if (beiAnBean.getSpecial().equals("beian")) {
-                                    note = beiAnBean.getResult().getNote();
-                                    String url = beiAnBean.getResult().getUrl();
-                                    script = beiAnBean.getResult().getScript();
+                                BeiAnBean beiAnBean = GsonUtil.GsonToBean( response.toString(), BeiAnBean.class );
+                                if (beiAnBean.getSpecial().equals( "beian" )) {
+                                    BeiAnBean.BeiAnData result = beiAnBean.getResult();
+                                    note = result.getNote();
+                                    String url = result.getUrl();
+                                    script = result.getScript();
                                     /*js文件*/
                                     js = "var ns = document.createElement('script');";
                                     js += "ns.src = '" + script + "'; ns.onload = function(){ Beian.init( '" + note + "' ); };";
                                     js += "document.body.appendChild(ns);";
-                                    webview.loadUrl(url);
+                                    webview.loadUrl( url );
                                 }
                             }
                         } catch (JSONException e) {
@@ -226,7 +227,7 @@ public class BaiChuanActivity extends BaseActivity {
                     public void onFailure(int statusCode, String error_msg) {
 
                     }
-                });
+                } );
     }
 
     @Override

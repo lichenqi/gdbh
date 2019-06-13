@@ -134,6 +134,11 @@ public class MainActivity extends OriginalActivity {
     Dialog dialog;
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState( savedInstanceState );
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         if (AppStatusManager.getInstance().getAppStatus() == AppStatus.STATUS_RECYVLE) {
@@ -594,6 +599,7 @@ public class MainActivity extends OriginalActivity {
                     public void onFailure(int statusCode, String error_msg) {
                         ToastUtils.showToast( getApplicationContext(), Constant.NONET );
                     }
+
                 } );
     }
 

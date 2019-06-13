@@ -39,7 +39,7 @@ public class DaggerActvity extends BaseActivity {
         DaggerMainComponent.builder().build().inject( this );
         tv_content.setText( student.showMessage() );
         myHandler = new MyHandler( DaggerActvity.this );
-        Message message = new Message();
+        Message message = Message.obtain();
         message.obj = "我是李晨奇";
         myHandler.sendMessageDelayed( message, 2000 );
     }

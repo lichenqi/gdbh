@@ -16,7 +16,6 @@ import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.GShenJiActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
-import com.guodongbaohe.app.activity.NinePinkageActivity;
 import com.guodongbaohe.app.activity.ShopRangingClassicActivity;
 import com.guodongbaohe.app.activity.SuperMakeActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;

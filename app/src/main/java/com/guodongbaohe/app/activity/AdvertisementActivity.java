@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guodongbaohe.app.MainActivity;
 import com.guodongbaohe.app.R;
-import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.util.NetUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
@@ -20,7 +20,7 @@ import com.guodongbaohe.app.util.ToastUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AdvertisementActivity extends BigBaseActivity {
+public class AdvertisementActivity extends AppCompatActivity {
     @BindView(R.id.re_parent)
     RelativeLayout re_parent;
     @BindView(R.id.iv_advertisement)
@@ -101,10 +101,6 @@ public class AdvertisementActivity extends BigBaseActivity {
         public void onFinish() {
             toMainActivity();
         }
-    }
-
-    @Override
-    public void onNetChange(int netMobile) {
     }
 
     @Override

@@ -822,9 +822,11 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getActivity().getWindow();
-            window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
-            /*状态栏*/
-            window.setStatusBarColor( evaluate );
+            if (window != null) {
+                window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
+                /*状态栏*/
+                window.setStatusBarColor( evaluate );
+            }
         }
 
         if (!TextUtils.isEmpty( first_color )) {

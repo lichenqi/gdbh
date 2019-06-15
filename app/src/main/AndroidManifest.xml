@@ -182,8 +182,9 @@
             android:name=".activity.TransparencyPicsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.guodongbaohe.app.activity.AdvertisementActivity"
-            android:screenOrientation="portrait" />
+            android:name=".activity.AdvertisementActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.MyDepatermentSearchActivity"
             android:screenOrientation="portrait" />
@@ -436,6 +437,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.TestScrollClassicActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AdvertisementOfWebViewActivity"
             android:screenOrientation="portrait" />
 
         <receiver

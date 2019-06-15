@@ -4,28 +4,26 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.guodongbaohe.app.MainActivity;
-import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.app_status.AppStatus;
 import com.guodongbaohe.app.app_status.AppStatusManager;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.bean.ConfigurationBean;
 import com.guodongbaohe.app.bean.NoticeBean;
+import com.guodongbaohe.app.bean.ThemeBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.NetUtil;
 import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.SpUtil;
@@ -38,18 +36,11 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 
 public class StartActivity extends AppCompatActivity {
     Intent intent;
-    @BindView(R.id.time)
-    TextView time;
-    @BindView(R.id.re_parent)
-    RelativeLayout re_parent;
-    private TimeCount countdownTime;
     boolean isFirst;
+    String advertise_img, advertise_url;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,84 +53,56 @@ public class StartActivity extends AppCompatActivity {
                 return;
             }
         }
-        setContentView( R.layout.advertisementactivity );
-        ButterKnife.bind( this );
+        isFirst = PreferUtils.getBoolean( getApplicationContext(), "isFirst" );
         /*获取头部分类标题*/
         getClassicHeadTitle();
         /*获取小提示数据*/
         getNoticeData();
         /*获取app配置信息*/
         getPeiZhiData();
+        /*获取广告图片*/
+        getAdvertisementData();
+        /*进行跳转逻辑*/
+        initJumpView();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isFirst = PreferUtils.getBoolean( getApplicationContext(), "isFirst" );
-        countdownTime = new TimeCount( 3000, 1000 );
-        countdownTime.start();
-        time.setOnClickListener( new View.OnClickListener() {
+    private void initJumpView() {
+        new Handler().postDelayed( new Runnable() {
             @Override
-            public void onClick(View v) {
-                toMainActivity();
+            public void run() {
+                if (NetUtil.getNetWorkState( getApplicationContext() ) < 0) {
+                    /*无网操作*/
+                    if (!isFirst) {
+                        intent = new Intent( getApplicationContext(), GuideActivity.class );
+                        //app状态改为正常
+                        AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
+                        startActivity( intent );
+                        PreferUtils.putBoolean( getApplicationContext(), "isFirst", true );
+                    } else {
+                        intent = new Intent( getApplicationContext(), MainActivity.class );
+                        //app状态改为正常
+                        AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
+                        startActivity( intent );
+                    }
+                } else {
+                    /*有网操作*/
+                    if (!TextUtils.isEmpty( advertise_img ) && !TextUtils.isEmpty( advertise_url )) {
+                        intent = new Intent( getApplicationContext(), AdvertisementActivity.class );
+                        //app状态改为正常
+                        AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
+                        intent.putExtra( "advertise_img", advertise_img );
+                        intent.putExtra( "advertise_url", advertise_url );
+                        startActivity( intent );
+                    } else {
+                        intent = new Intent( getApplicationContext(), MainActivity.class );
+                        //app状态改为正常
+                        AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
+                        startActivity( intent );
+                    }
+                }
+                finish();
             }
-        } );
-        re_parent.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toMainActivity();
-            }
-        } );
-        time.getBackground().setAlpha( 150 );
-    }
-
-    private void toMainActivity() {
-        if (!isFirst) {
-            intent = new Intent( getApplicationContext(), GuideActivity.class );
-            //app状态改为正常
-            AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
-            startActivity( intent );
-            PreferUtils.putBoolean( getApplicationContext(), "isFirst", true );
-        } else {
-            intent = new Intent( getApplicationContext(), MainActivity.class );
-            //app状态改为正常
-            AppStatusManager.getInstance().setAppStatus( AppStatus.STATUS_NORMAL );
-            startActivity( intent );
-        }
-        finish();
-    }
-
-    private class TimeCount extends CountDownTimer {
-
-        public TimeCount(long millisInFuture, long countDownInterval) {
-            super( millisInFuture, countDownInterval );
-        }
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            time.setText( "跳过\n" + millisUntilFinished / 1000 );
-        }
-
-        @Override
-        public void onFinish() {
-            toMainActivity();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (countdownTime != null) {
-            countdownTime.cancel();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (countdownTime != null) {
-            countdownTime.cancel();
-        }
+        }, 1500 );
     }
 
     List<CommonBean.CommonResult> result_list;
@@ -335,16 +298,60 @@ public class StartActivity extends AppCompatActivity {
                 } );
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            // 仿返回键退出界面,但不销毁，程序仍在后台运行
-//            moveTaskToBack(false); // 关键的一行代码
-            return false;
+    public void getAdvertisementData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put( "type", "advert" );
+        String param = ParamUtil.getMapParam( map );
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url( Constant.BASE_URL + Constant.BANNER + "?" + param )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
 
-        }
-        return super.onKeyDown( keyCode, event );
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        Log.i( "广告图片", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            int status = jsonObject.getInt( "status" );
+                            if (status >= 0) {
+                                ThemeBean bean = GsonUtil.GsonToBean( response.toString(), ThemeBean.class );
+                                if (bean == null) return;
+                                List<ThemeBean.ThemeData> result = bean.getResult();
+                                if (result.size() > 0) {
+                                    advertise_img = result.get( 0 ).getImage();
+                                    advertise_url = result.get( 0 ).getUrl();
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                } );
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            // 仿返回键退出界面,但不销毁，程序仍在后台运行
+////            moveTaskToBack(false); // 关键的一行代码
+//            return false;
+//
+//        }
+//        return super.onKeyDown( keyCode, event );
+//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

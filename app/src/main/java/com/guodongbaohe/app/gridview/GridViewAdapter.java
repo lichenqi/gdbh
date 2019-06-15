@@ -16,6 +16,7 @@ import com.guodongbaohe.app.activity.BaseH5Activity;
 import com.guodongbaohe.app.activity.GShenJiActivity;
 import com.guodongbaohe.app.activity.KesalanPathActivity;
 import com.guodongbaohe.app.activity.LoginAndRegisterActivity;
+import com.guodongbaohe.app.activity.NinePinkageActivity;
 import com.guodongbaohe.app.activity.ShopRangingClassicActivity;
 import com.guodongbaohe.app.activity.SuperMakeActivity;
 import com.guodongbaohe.app.activity.TaoBaoAndTianMaoUrlActivity;
@@ -27,7 +28,6 @@ import com.guodongbaohe.app.bean.NewBanDataBean;
 import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
-import com.guodongbaohe.app.dagger2_test.DaggerActvity;
 import com.guodongbaohe.app.fragment.AllFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.GsonUtil;
@@ -157,8 +157,7 @@ public class GridViewAdapter extends BaseAdapter {
                         switch (url) {
                             case "jkj":
                                 /*9.9包邮*/
-//                                intent = new Intent( context, NinePinkageActivity.class );
-                                intent = new Intent( context, DaggerActvity.class );
+                                intent = new Intent( context, NinePinkageActivity.class );
                                 intent.putExtra( "title", title );
                                 intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                                 context.startActivity( intent );

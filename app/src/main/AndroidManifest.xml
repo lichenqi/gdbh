@@ -434,6 +434,9 @@
         <activity
             android:name=".activity.MyShopActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.TestScrollClassicActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

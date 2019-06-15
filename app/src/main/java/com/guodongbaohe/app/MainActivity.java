@@ -196,7 +196,6 @@ public class MainActivity extends OriginalActivity {
                 startActivity( new Intent( getApplicationContext(), LoginAndRegisterActivity.class ) );
             }
         }
-
     }
 
     @Override

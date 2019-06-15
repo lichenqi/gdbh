@@ -20,11 +20,12 @@ import butterknife.ButterKnife;
 /*handler导致的内存泄漏*/
 public class DaggerActvity extends BaseActivity {
 
-    @BindView(R.id.tv_content)
-    TextView tv_content;
     @Inject
     Student student;
     MyHandler myHandler;
+    @BindView(R.id.tv_content)
+    TextView tvContent;
+
 
     @Override
     public int getContainerView() {
@@ -37,7 +38,7 @@ public class DaggerActvity extends BaseActivity {
         ButterKnife.bind( this );
         setMiddleTitle( "我是dagger" );
         DaggerMainComponent.builder().build().inject( this );
-        tv_content.setText( student.showMessage() );
+        tvContent.setText( student.showMessage() );
         myHandler = new MyHandler( DaggerActvity.this );
         Message message = Message.obtain();
         message.obj = "我是李晨奇";

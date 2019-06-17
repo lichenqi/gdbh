@@ -278,7 +278,7 @@ public class MyApplication extends MultiDexApplication {
         mPushAgent.setNotificationClickHandler( notificationClickHandler );
         closeAndroidPDialog();
 
-        /*京东联盟sdk初始化*/
+//        /*京东联盟sdk初始化*/
 //        KeplerApiManager.asyncInitSdk( this, "ce98033df056eacc1c12af48d94bf98f",
 //                "3fb35eb08fbe4b07a4dda3858934c30b", new AsyncInitListener() {
 //                    @Override

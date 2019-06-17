@@ -34,6 +34,7 @@ import com.guodongbaohe.app.adapter.HomeChoiceAdapter;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.lazy_base_fragment.SecondFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.DensityUtils;
 import com.guodongbaohe.app.util.GsonUtil;
@@ -148,7 +149,7 @@ public class NewHomeFragment extends Fragment {
         allFragment.setArguments( bundle );
         fragments.add( allFragment );
         for (int i = 1; i < titleList.size(); i++) {
-            NewOtherFragment otherFragment = new NewOtherFragment();
+            SecondFragment otherFragment = new SecondFragment();
             bundle = new Bundle();
             bundle.putInt( "which_position", i );
             bundle.putString( "cate_id", titleList.get( i ).getCate_id() );
@@ -160,7 +161,7 @@ public class NewHomeFragment extends Fragment {
         viewpager.setAdapter( adapter );
         tablayout.setupWithViewPager( viewpager );
         viewpager.setCurrentItem( 0 );
-        viewpager.setOffscreenPageLimit( 0 );
+        viewpager.setOffscreenPageLimit( fragments.size() );
         viewpager.addOnPageChangeListener( new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

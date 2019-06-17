@@ -437,7 +437,7 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
         map.put( "page", String.valueOf( pageNum ) );
         map.put( "label", "today" );
         String param = ParamUtil.getMapParam( map );
-        Log.i( "列表数据参数", Constant.BASE_URL + Constant.SHOP_LIST + "?" + param );
+        Log.i( "列表数据参数其他0", Constant.BASE_URL + Constant.SHOP_LIST + "?" + param );
         MyApplication.getInstance().getMyOkHttp().post()
                 .url( Constant.BASE_URL + Constant.SHOP_LIST + "?" + param )
                 .tag( this )

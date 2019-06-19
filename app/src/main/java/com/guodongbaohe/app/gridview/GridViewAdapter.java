@@ -28,6 +28,7 @@ import com.guodongbaohe.app.bean.NewBanDataBean;
 import com.guodongbaohe.app.bean.ShopBasicBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.custom_view.XiaoHaiActivity;
 import com.guodongbaohe.app.fragment.AllFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.GsonUtil;
@@ -157,7 +158,8 @@ public class GridViewAdapter extends BaseAdapter {
                         switch (url) {
                             case "jkj":
                                 /*9.9包邮*/
-                                intent = new Intent( context, NinePinkageActivity.class );
+//                                intent = new Intent( context, NinePinkageActivity.class );
+                                intent = new Intent( context, XiaoHaiActivity.class );
                                 intent.putExtra( "title", title );
                                 intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                                 context.startActivity( intent );

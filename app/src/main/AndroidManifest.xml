@@ -441,6 +441,8 @@
         <activity
             android:name=".activity.AdvertisementOfWebViewActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".custom_view.TestRefreshActivity" />
+        <activity android:name=".custom_view.XiaoHaiActivity" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

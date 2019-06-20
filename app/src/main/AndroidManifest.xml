@@ -183,7 +183,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.AdvertisementActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".activity.MyDepatermentSearchActivity"
@@ -443,6 +442,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".custom_view.TestRefreshActivity" />
         <activity android:name=".custom_view.XiaoHaiActivity" />
+        <activity
+            android:name=".activity.MadRushActivity"
+            android:theme="@style/TranslucentTheme" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

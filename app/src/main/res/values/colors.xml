@@ -32,4 +32,5 @@
     <color name="my_black_base">#000000</color>
     <color name="my_yia_color">#000000</color>
     <color name="tutor_color">#FF7D0F</color>
+    <color name="transparent">#00000000</color>
 </resources>

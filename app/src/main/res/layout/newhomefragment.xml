@@ -125,8 +125,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/re_choice"
+                app:tabBackground="@color/transparent"
                 app:tabIndicatorColor="@color/white"
                 app:tabMode="scrollable"
+                app:tabRippleColor="@color/transparent"
                 app:tabSelectedTextColor="@color/white"
                 app:tabTextColor="@color/white" />
 

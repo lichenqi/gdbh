@@ -61,11 +61,12 @@
                     android:button="@null"
                     android:checked="true"
                     android:drawableBottom="@drawable/order_tab"
-                    android:drawablePadding="2dp"
+                    android:drawablePadding="6dp"
                     android:gravity="center"
                     android:tag="0"
                     android:text="2小时排行"
                     android:textColor="@color/tab_color_order"
+                    android:textSize="14sp"
                     toly:rb_height="1dp"
                     toly:rb_width="30dp" />
 
@@ -76,11 +77,12 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:drawableBottom="@drawable/order_tab"
-                    android:drawablePadding="2dp"
+                    android:drawablePadding="6dp"
                     android:gravity="center"
                     android:tag="1"
                     android:text="全天排行"
                     android:textColor="@color/tab_color_order"
+                    android:textSize="14sp"
                     toly:rb_height="1dp"
                     toly:rb_width="30dp" />
 

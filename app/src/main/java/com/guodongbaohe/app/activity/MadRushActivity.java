@@ -18,6 +18,7 @@ import com.guodongbaohe.app.base_activity.BigBaseActivity;
 import com.guodongbaohe.app.lazy_base_fragment.MadRushFragment;
 import com.guodongbaohe.app.myutil.MobilePhoneUtil;
 import com.guodongbaohe.app.view.MyRadioButton;
+import com.kepler.jd.login.KeplerApiManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,11 @@ public class MadRushActivity extends BigBaseActivity {
         layoutParams.setMargins( 0, statusBarHeight, 0, 0 );
         reTitle.setLayoutParams( layoutParams );
         initViewPager();
+        initJd();
+    }
+
+    private void initJd() {
+        boolean keplerLogined = KeplerApiManager.getWebViewService().isKeplerLogined();
     }
 
     private void initViewPager() {

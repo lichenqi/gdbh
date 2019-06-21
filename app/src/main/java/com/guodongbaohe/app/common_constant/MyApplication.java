@@ -278,19 +278,19 @@ public class MyApplication extends MultiDexApplication {
         mPushAgent.setNotificationClickHandler( notificationClickHandler );
         closeAndroidPDialog();
 
-//        /*京东联盟sdk初始化*/
-//        KeplerApiManager.asyncInitSdk( this, "ce98033df056eacc1c12af48d94bf98f",
-//                "3fb35eb08fbe4b07a4dda3858934c30b", new AsyncInitListener() {
-//                    @Override
-//                    public void onSuccess() {
-//                        Log.i( "京东", "onSuccess" );
-//                    }
-//
-//                    @Override
-//                    public void onFailure() {
-//                        Log.i( "京东", "onFailure" );
-//                    }
-//                } );
+        /*京东联盟sdk初始化*/
+        KeplerApiManager.asyncInitSdk( this, Constant.JD_APPKEY, Constant.JD_SECRETKEY, new AsyncInitListener() {
+
+            @Override
+            public void onSuccess() {
+                Log.i( "京东", "onSuccess" );
+            }
+
+            @Override
+            public void onFailure() {
+                Log.i( "京东", "onFailure" );
+            }
+        } );
 
     }
 

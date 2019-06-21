@@ -20,6 +20,7 @@
 
     <application
         android:name=".common_constant.MyApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/login_logo"
         android:label="@string/app_name"
         android:launchMode="singleInstance"
@@ -29,7 +30,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:name">
+        tools:replace="android:allowBackup">
         <activity
             android:name=".activity.StartActivity"
             android:alwaysRetainTaskState="true"

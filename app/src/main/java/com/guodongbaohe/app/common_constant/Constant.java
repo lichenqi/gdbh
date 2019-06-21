@@ -246,4 +246,8 @@ public class Constant {
     public static final String BANNER_IS_START_PLAY = "startautoplay";
     /*店铺接口*/
     public static final String SHOP_DATA_API = "goods/shop";
+    /*京东联盟appkey*/
+    public static final String JD_APPKEY = "ce98033df056eacc1c12af48d94bf98f";
+    /*京东联盟secretkey*/
+    public static final String JD_SECRETKEY = "3fb35eb08fbe4b07a4dda3858934c30b";
 }

@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.umeng.umsdk:xiaomi-umengaccs:1.0.9@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c38eb7fc31507501e586251ed773778a/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/c38eb7fc31507501e586251ed773778a/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cfd2938bb2092943f9145a2558bf5a5d/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/cfd2938bb2092943f9145a2558bf5a5d/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

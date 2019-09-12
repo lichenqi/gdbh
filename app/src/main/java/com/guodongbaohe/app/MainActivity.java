@@ -131,6 +131,7 @@ public class MainActivity extends OriginalActivity {
     int num;
     String local_version, start_guide_to_login;
     Dialog dialog;
+    /*我是李晨奇*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

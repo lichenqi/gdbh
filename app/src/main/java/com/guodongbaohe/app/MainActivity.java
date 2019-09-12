@@ -88,7 +88,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/*入口李晨奇*/
 public class MainActivity extends OriginalActivity {
     @BindView(R.id.fl_container)
     FrameLayout fl_container;

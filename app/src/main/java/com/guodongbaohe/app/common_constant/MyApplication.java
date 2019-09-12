@@ -41,8 +41,6 @@ import com.guodongbaohe.app.util.ParamUtil;
 import com.guodongbaohe.app.util.PreferUtils;
 import com.guodongbaohe.app.util.ToastUtils;
 import com.guodongbaohe.app.util.VersionUtil;
-import com.kepler.jd.Listener.AsyncInitListener;
-import com.kepler.jd.login.KeplerApiManager;
 import com.mob.MobSDK;
 import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengRegisterCallback;
@@ -279,18 +277,18 @@ public class MyApplication extends MultiDexApplication {
         closeAndroidPDialog();
 
         /*京东联盟sdk初始化*/
-        KeplerApiManager.asyncInitSdk( this, Constant.JD_APPKEY, Constant.JD_SECRETKEY, new AsyncInitListener() {
-
-            @Override
-            public void onSuccess() {
-                Log.i( "京东", "onSuccess" );
-            }
-
-            @Override
-            public void onFailure() {
-                Log.i( "京东", "onFailure" );
-            }
-        } );
+//        KeplerApiManager.asyncInitSdk( this, Constant.JD_APPKEY, Constant.JD_SECRETKEY, new AsyncInitListener() {
+//
+//            @Override
+//            public void onSuccess() {
+//                Log.i( "京东", "onSuccess" );
+//            }
+//
+//            @Override
+//            public void onFailure() {
+//                Log.i( "京东", "onFailure" );
+//            }
+//        } );
 
     }
 

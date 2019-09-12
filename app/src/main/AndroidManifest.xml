@@ -446,6 +446,9 @@
         <activity
             android:name=".activity.MadRushActivity"
             android:theme="@style/TranslucentTheme" />
+        <activity
+            android:name=".my_test_activity.MyTablayoutActivity"
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.guodongbaohe.app.receiver.InitApkBroadCastReceiver"

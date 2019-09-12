@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -49,6 +51,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SearchResultActivity extends BigBaseActivity {
+    @BindView(R.id.radiogroup)
+    RadioGroup radiogroup;
+    @BindView(R.id.radio_one)
+    RadioButton radio_one;
+    @BindView(R.id.radio_two)
+    RadioButton radio_two;
+    @BindView(R.id.radio_three)
+    RadioButton radio_three;
     /*返回键*/
     @BindView(R.id.iv_back)
     ImageView iv_back;
@@ -136,6 +146,17 @@ public class SearchResultActivity extends BigBaseActivity {
         initXrecycler();
         initSwitch();
         relevanceView();
+        initRadioGroupListener();
+    }
+
+    /*radiogroup点击切换监听*/
+    private void initRadioGroupListener() {
+        radiogroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+
+            }
+        } );
     }
 
     /*关联搜索布局*/

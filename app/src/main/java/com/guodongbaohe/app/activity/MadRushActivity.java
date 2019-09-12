@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
@@ -15,19 +16,32 @@ import android.widget.TextView;
 
 import com.guodongbaohe.app.R;
 import com.guodongbaohe.app.base_activity.BigBaseActivity;
+import com.guodongbaohe.app.bean.MadRushBean;
+import com.guodongbaohe.app.common_constant.Constant;
+import com.guodongbaohe.app.common_constant.MyApplication;
 import com.guodongbaohe.app.lazy_base_fragment.MadRushFragment;
+import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.myutil.MobilePhoneUtil;
+import com.guodongbaohe.app.util.GsonUtil;
+import com.guodongbaohe.app.util.ParamUtil;
+import com.guodongbaohe.app.util.PreferUtils;
+import com.guodongbaohe.app.util.VersionUtil;
 import com.guodongbaohe.app.view.MyRadioButton;
-import com.kepler.jd.login.KeplerApiManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MadRushActivity extends BigBaseActivity {
-
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
     @BindView(R.id.re_title)
     RelativeLayout reTitle;
     @BindView(R.id.radio_one)
@@ -40,9 +54,16 @@ public class MadRushActivity extends BigBaseActivity {
     TabLayout tablayout;
     @BindView(R.id.viewpager)
     ViewPager viewpager;
-    private String[] titles = {"精选", "母婴", "美食", "女装", "美妆个护", "内衣", "居家百货", "鞋包装饰", "数码家电", "男装", "运动户外"};
     private List<Fragment> fragmentList;
     MyFragmnetAdapter adapter;
+    List<MadRushBean.MadRushData> result;
+    MadRushFragment fragment;
+    Bundle bundle;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,22 +74,90 @@ public class MadRushActivity extends BigBaseActivity {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) reTitle.getLayoutParams();
         layoutParams.setMargins( 0, statusBarHeight, 0, 0 );
         reTitle.setLayoutParams( layoutParams );
-        initViewPager();
-        initJd();
+        getTitleData();
+        initRadioGroupListener();
     }
 
-    private void initJd() {
-        boolean keplerLogined = KeplerApiManager.getWebViewService().isKeplerLogined();
+    public interface OnItem {
+        void OnItemClick(String name);
+    }
+
+    private OnItem onItem;
+
+    // 绑定接口
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        try {
+            onItem = (OnItem) fragment;
+        } catch (Exception e) {
+        }
+        super.onAttachFragment( fragment );
+    }
+
+    private void initRadioGroupListener() {
+        radiogroup.setOnCheckedChangeListener( new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_one:
+                        onItem.OnItemClick( "hour" );
+                        EventBus.getDefault().post( "hour" );
+                        break;
+                    case R.id.radio_two:
+                        onItem.OnItemClick( "day" );
+                        EventBus.getDefault().post( "day" );
+                        break;
+                }
+            }
+        } );
+    }
+
+    /*标题数据*/
+    private void getTitleData() {
+        MyApplication.getInstance().getMyOkHttp().post()
+                .url( Constant.BASE_URL + Constant.MADRUSH_TITLE_DATA )
+                .tag( this )
+                .addHeader( "x-appid", Constant.APPID )
+                .addHeader( "x-devid", PreferUtils.getString( getApplicationContext(), Constant.PESUDOUNIQUEID ) )
+                .addHeader( "x-nettype", PreferUtils.getString( getApplicationContext(), Constant.NETWORKTYPE ) )
+                .addHeader( "x-agent", VersionUtil.getVersionCode( getApplicationContext() ) )
+                .addHeader( "x-platform", Constant.ANDROID )
+                .addHeader( "x-devtype", Constant.IMEI )
+                .addHeader( "x-token", ParamUtil.GroupMap( getApplicationContext(), "" ) )
+                .enqueue( new JsonResponseHandler() {
+
+                    @Override
+                    public void onSuccess(int statusCode, JSONObject response) {
+                        super.onSuccess( statusCode, response );
+                        Log.i( "标题数据", response.toString() );
+                        try {
+                            JSONObject jsonObject = new JSONObject( response.toString() );
+                            if (jsonObject.getInt( "status" ) >= 0) {
+                                MadRushBean bean = GsonUtil.GsonToBean( response.toString(), MadRushBean.class );
+                                if (bean == null) return;
+                                result = bean.getResult();
+                                if (result.size() == 0) return;
+                                initViewPager();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, String error_msg) {
+
+                    }
+                } );
     }
 
     private void initViewPager() {
         fragmentList = new ArrayList<>();
-        MadRushFragment fragment;
-        Bundle bundle;
-        for (int i = 0; i < titles.length; i++) {
+        for (int i = 0; i < result.size(); i++) {
             fragment = new MadRushFragment();
             bundle = new Bundle();
-            bundle.putString( "title", titles[i] );
+            bundle.putString( "name", result.get( i ).getCate_name() );
+            bundle.putString( "id", result.get( i ).getExtra_id() );
             fragment.setArguments( bundle );
             fragmentList.add( fragment );
         }
@@ -87,7 +176,7 @@ public class MadRushActivity extends BigBaseActivity {
                 iv_location.setVisibility( View.VISIBLE );
             }
             TextView textView = tab.getCustomView().findViewById( R.id.tab_text );
-            textView.setText( titles[i] );//设置tab上的文字
+            textView.setText( result.get( i ).getCate_name() );//设置tab上的文字
         }
         tablayout.addOnTabSelectedListener( new TabLayout.OnTabSelectedListener() {
             @Override
@@ -122,7 +211,7 @@ public class MadRushActivity extends BigBaseActivity {
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return result.get( position ).getCate_name();
         }
 
         @Override
@@ -132,7 +221,16 @@ public class MadRushActivity extends BigBaseActivity {
 
         @Override
         public int getCount() {
-            return titles == null ? 0 : titles.length;
+            return result == null ? 0 : result.size();
+        }
+    }
+
+    @OnClick({R.id.iv_back})
+    public void OnClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                finish();
+                break;
         }
     }
 

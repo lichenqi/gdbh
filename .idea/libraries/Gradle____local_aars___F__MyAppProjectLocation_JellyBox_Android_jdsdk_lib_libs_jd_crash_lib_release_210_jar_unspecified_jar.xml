@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: __local_aars__:F.\MyAppProjectLocation\JellyBox_Android\jdsdk_lib\libs\jd_crash_lib_release_210.jar:unspecified@jar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jdsdk_lib/libs/jd_crash_lib_release_210.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

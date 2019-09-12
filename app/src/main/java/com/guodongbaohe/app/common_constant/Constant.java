@@ -246,8 +246,15 @@ public class Constant {
     public static final String BANNER_IS_START_PLAY = "startautoplay";
     /*店铺接口*/
     public static final String SHOP_DATA_API = "goods/shop";
+<<<<<<< HEAD
     /*京东联盟appkey*/
     public static final String JD_APPKEY = "ce98033df056eacc1c12af48d94bf98f";
     /*京东联盟secretkey*/
     public static final String JD_SECRETKEY = "3fb35eb08fbe4b07a4dda3858934c30b";
+    /*疯抢榜标题数据*/
+    public static final String MADRUSH_TITLE_DATA = "ranking/cate";
+    /*疯抢列表数据*/
+    public static final String MADRUSH_LIST_DATA = "ranking/goods";
+=======
+>>>>>>> parent of b18dfd3... Merge branch 'master' of D:\gdbh\JellyBox_Android\JellyBox_Android with conflicts.
 }

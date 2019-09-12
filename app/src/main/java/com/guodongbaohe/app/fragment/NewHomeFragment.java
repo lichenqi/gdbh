@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -34,6 +33,7 @@ import com.guodongbaohe.app.adapter.HomeChoiceAdapter;
 import com.guodongbaohe.app.bean.CommonBean;
 import com.guodongbaohe.app.common_constant.Constant;
 import com.guodongbaohe.app.common_constant.MyApplication;
+import com.guodongbaohe.app.custom_view.SlidingTabLayout;
 import com.guodongbaohe.app.lazy_base_fragment.SecondFragment;
 import com.guodongbaohe.app.myokhttputils.response.JsonResponseHandler;
 import com.guodongbaohe.app.util.DensityUtils;
@@ -71,7 +71,7 @@ public class NewHomeFragment extends Fragment {
     @BindView(R.id.re_tablayout_parent)
     RelativeLayout re_tablayout_parent;
     @BindView(R.id.tablayout)
-    TabLayout tablayout;
+    SlidingTabLayout tablayout;
     @BindView(R.id.re_choice)
     RelativeLayout re_choice;
     @BindView(R.id.iv_choice)
@@ -159,7 +159,7 @@ public class NewHomeFragment extends Fragment {
         }
         adapter = new TabLayoutAdapter( fragments, getChildFragmentManager() );
         viewpager.setAdapter( adapter );
-        tablayout.setupWithViewPager( viewpager );
+        tablayout.setViewPager( viewpager );
         viewpager.setCurrentItem( 0 );
         viewpager.setOffscreenPageLimit( fragments.size() );
         viewpager.addOnPageChangeListener( new ViewPager.OnPageChangeListener() {

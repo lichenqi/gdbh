@@ -122,15 +122,17 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tablayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/re_choice"
-                app:tabBackground="@color/transparent"
-                app:tabIndicatorColor="@color/white"
-                app:tabMode="scrollable"
-                app:tabRippleColor="@color/transparent"
-                app:tabSelectedTextColor="@color/white"
-                app:tabTextColor="@color/white" />
+                android:background="@color/transparent"
+                app:tl_indicator_color="#ffffff"
+                app:tl_indicator_height="2dp"
+                app:tl_indicator_width_equal_title="true"
+                app:tl_tab_padding="20dp"
+                app:tl_textSelectColor="#ffffff"
+                app:tl_textUnselectColor="#ffffff"
+                app:tl_textsize="16sp" />
 
             <RelativeLayout
                 android:id="@+id/re_choice"

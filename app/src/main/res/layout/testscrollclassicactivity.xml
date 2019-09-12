@@ -2,36 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:scrollbars="horizontal">
+    android:orientation="vertical">
 
-    <HorizontalScrollView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="horizontal">
+        android:background="@color/gray"
+        android:scrollbars="none" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:scrollbars="none" />
-
-    </HorizontalScrollView>
-
-    <RelativeLayout
-        android:layout_width="70dp"
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="80dp"
         android:layout_height="5dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:background="@drawable/scroll_classic_bg">
-
-        <View
-            android:id="@+id/view_scroll"
-            android:layout_width="35dp"
-            android:layout_height="5dp"
-            android:background="@drawable/scroll_classic_bg_yellow" />
-
-    </RelativeLayout>
+        android:background="@drawable/bg_fast_scroll_bar_track"
+        android:progressDrawable="@drawable/bg_fast_scroll_bar_track"
+        android:thumb="@drawable/bg_fast_scroll_bar_thumb" />
 
 </LinearLayout>

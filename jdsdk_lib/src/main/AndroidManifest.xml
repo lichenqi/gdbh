@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jd.jdsdk">
+
+
+    <application android:allowBackup="true">
+
+        <!-- 直接回呼 -->
+        <activity
+            android:name="com.kepler.jd.sdk.KeplerBackActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sdkbackce98033df056eacc1c12af48d94bf98f" />
+            </intent-filter>
+        </activity>
+    </application>
+
+
+</manifest>

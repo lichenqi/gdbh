@@ -821,11 +821,13 @@ public class AllFragment extends Fragment implements ViewPager.OnPageChangeListe
             re_space_line.setBackgroundColor( evaluate );
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getActivity().getWindow();
-            if (window != null) {
-                window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
-                /*状态栏*/
-                window.setStatusBarColor( evaluate );
+            if (getActivity() != null) {
+                Window window = getActivity().getWindow();
+                if (window != null) {
+                    window.addFlags( WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS );
+                    /*状态栏*/
+                    window.setStatusBarColor( evaluate );
+                }
             }
         }
 

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="#ff3831"
     android:orientation="vertical">
 
     <LinearLayout
@@ -29,7 +29,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             android:text="加载中..."
-            android:textColor="@color/txgray"
+            android:textColor="@color/white"
             android:textSize="13sp" />
 
     </LinearLayout>
@@ -41,7 +41,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="已经全部加载完毕"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="14sp"
         android:visibility="gone" />
 

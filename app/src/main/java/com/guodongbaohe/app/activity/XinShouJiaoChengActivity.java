@@ -201,6 +201,7 @@ public class XinShouJiaoChengActivity extends BaseActivity {
         webview.loadUrl(url, WebViewUtil.getWebViewHead(getApplicationContext()));
         webview.addJavascriptInterface(new DemoJavascriptInterface(), "daihao");
         initRightListener();
+        Log.i("新手教程地址", url);
     }
 
     /*webview刷新*/

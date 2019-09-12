@@ -103,18 +103,18 @@ public class SecondFragment extends LazyBaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister( this );
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (getArguments() != null) {
             Bundle arguments = getArguments();
-            which_position = arguments.getInt( "which_position" );
-            cate_id = arguments.getString( "cate_id" );
-            label = arguments.getString( "label" );
+            which_position = arguments.getInt("which_position");
+            cate_id = arguments.getString("cate_id");
+            label = arguments.getString("label");
         }
-        super.onCreate( savedInstanceState );
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -124,9 +124,9 @@ public class SecondFragment extends LazyBaseFragment {
 
     @Override
     protected void initData() {
-        ButterKnife.bind( this, getView() );
+        ButterKnife.bind(this, getView());
         context = MyApplication.getInstance();
-        EventBus.getDefault().register( this );
+        EventBus.getDefault().register(this);
         initView();
         getListData();
         userLevelChange();
@@ -136,36 +136,36 @@ public class SecondFragment extends LazyBaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_newly:
-                xrecycler.scrollToPosition( 0 );
+                xrecycler.scrollToPosition(0);
                 setNewColor();
                 break;
             case R.id.tv_sale:
-                xrecycler.scrollToPosition( 0 );
+                xrecycler.scrollToPosition(0);
                 setXiaoliangColor();
                 break;
             case R.id.tv_price:
-                xrecycler.scrollToPosition( 0 );
+                xrecycler.scrollToPosition(0);
                 setPriceColor();
                 break;
             case R.id.tv_renqi:
-                xrecycler.scrollToPosition( 0 );
+                xrecycler.scrollToPosition(0);
                 setRenqiColor();
                 break;
             case R.id.to_top:
-                xrecycler.scrollToPosition( 0 );
+                xrecycler.scrollToPosition(0);
                 break;
         }
     }
 
     private void initView() {
-        xrecycler.setHasFixedSize( true );
-        xrecycler.setLayoutManager( new GridLayoutManager( context, 2 ) );
-        XRecyclerViewUtil.setView( xrecycler );
-        ninePinkageAdapter = new NinePinkageAdapter( context, list );
-        xrecycler.setAdapter( ninePinkageAdapter );
-        View view = LayoutInflater.from( context ).inflate( R.layout.other_head_view, null );
-        xrecycler.addHeaderView( view );
-        xrecycler.setLoadingListener( new XRecyclerView.LoadingListener() {
+        xrecycler.setHasFixedSize(true);
+        xrecycler.setLayoutManager(new GridLayoutManager(context, 2));
+        XRecyclerViewUtil.setView(xrecycler);
+        ninePinkageAdapter = new NinePinkageAdapter(context, list);
+        xrecycler.setAdapter(ninePinkageAdapter);
+        View view = LayoutInflater.from(context).inflate(R.layout.other_head_view, null);
+        xrecycler.addHeaderView(view);
+        xrecycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 pageNum = 1;
@@ -178,84 +178,84 @@ public class SecondFragment extends LazyBaseFragment {
                 pageNum++;
                 getListData();
             }
-        } );
-        initHeadView( view );
-        ninePinkageAdapter.setonclicklistener( new OnItemClick() {
+        });
+        initHeadView(view);
+        ninePinkageAdapter.setonclicklistener(new OnItemClick() {
             @Override
             public void OnItemClickListener(View view, int position) {
                 int pos = position - 2;
-                HomeListBean.ListData listData = list.get( pos );
-                JumpToShopDetailUtil.start2ShopDetailOfListBean( context, listData );
+                HomeListBean.ListData listData = list.get(pos);
+                JumpToShopDetailUtil.start2ShopDetailOfListBean(context, listData);
             }
-        } );
-        xrecycler.addOnScrollListener( new RecyclerView.OnScrollListener() {
+        });
+        xrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged( recyclerView, newState );
+                super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled( recyclerView, dx, dy );
+                super.onScrolled(recyclerView, dx, dy);
                 int i = recyclerView.computeVerticalScrollOffset();
                 if (i > 1200) {
-                    to_top.setVisibility( View.VISIBLE );
+                    to_top.setVisibility(View.VISIBLE);
                 } else {
-                    to_top.setVisibility( View.GONE );
+                    to_top.setVisibility(View.GONE);
                 }
             }
-        } );
+        });
     }
 
     private void getListData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put( "sort", type );
-        map.put( "supid", cate_id );
-        map.put( "label", label );
-        map.put( "page", String.valueOf( pageNum ) );
-        map.put( "limit", "12" );
-        String mapParam = ParamUtil.getMapParam( map );
-        Log.i( "列表数据参数其他1", Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam );
-        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam )
-                .tag( this )
-                .addHeader( "x-appid", Constant.APPID )
-                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
-                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
-                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
-                .addHeader( "x-platform", Constant.ANDROID )
-                .addHeader( "x-devtype", Constant.IMEI )
-                .addHeader( "x-token", ParamUtil.GroupMap( context, "" ) )
-                .enqueue( new JsonResponseHandler() {
+        map.put("sort", type);
+        map.put("supid", cate_id);
+        map.put("label", label);
+        map.put("page", String.valueOf(pageNum));
+        map.put("limit", "12");
+        String mapParam = ParamUtil.getMapParam(map);
+        Log.i("列表数据参数其他1", Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam);
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.SHOP_LIST + "?" + mapParam)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
+                .enqueue(new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess( statusCode, response );
+                        super.onSuccess(statusCode, response);
                         try {
-                            JSONObject jsonObject = new JSONObject( response.toString() );
-                            if (jsonObject.getInt( "status" ) >= 0) {
-                                HomeListBean bean = GsonUtil.GsonToBean( response.toString(), HomeListBean.class );
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                HomeListBean bean = GsonUtil.GsonToBean(response.toString(), HomeListBean.class);
                                 if (bean == null) return;
                                 List<HomeListBean.ListData> result = bean.getResult();
                                 if (result.size() == 0) {
-                                    xrecycler.setNoMore( true );
+                                    xrecycler.setNoMore(true);
                                     xrecycler.refreshComplete();
                                     xrecycler.loadMoreComplete();
                                 } else {
-                                    boolean isLogin = PreferUtils.getBoolean( context, "isLogin" );
-                                    String son_count = PreferUtils.getString( context, "son_count" );
-                                    String member_role = PreferUtils.getString( context, "member_role" );
+                                    boolean isLogin = PreferUtils.getBoolean(context, "isLogin");
+                                    String son_count = PreferUtils.getString(context, "son_count");
+                                    String member_role = PreferUtils.getString(context, "member_role");
                                     for (HomeListBean.ListData listData : result) {
-                                        listData.setLogin( isLogin );
-                                        listData.setSon_count( son_count );
-                                        listData.setMember_role( member_role );
+                                        listData.setLogin(isLogin);
+                                        listData.setSon_count(son_count);
+                                        listData.setMember_role(member_role);
                                     }
                                     if (pageNum == 1) {
                                         list.clear();
-                                        list.addAll( result );
+                                        list.addAll(result);
                                         ninePinkageAdapter.notifyDataSetChanged();
                                         xrecycler.refreshComplete();
                                     } else {
-                                        list.addAll( result );
+                                        list.addAll(result);
                                         ninePinkageAdapter.notifyDataSetChanged();
                                         xrecycler.loadMoreComplete();
                                     }
@@ -272,52 +272,52 @@ public class SecondFragment extends LazyBaseFragment {
 
                     @Override
                     public void onFailure(int statusCode, String error_msg) {
-                        ToastUtils.showToast( context, Constant.NONET );
+                        ToastUtils.showToast(context, Constant.NONET);
                         xrecycler.refreshComplete();
                         xrecycler.loadMoreComplete();
                     }
-                } );
+                });
     }
 
     CommonBean commonBean;
     List<CommonBean.CommonResult> result;
 
     private void getHeadData() {
-        MyApplication.getInstance().getMyOkHttp().post().url( Constant.BASE_URL + Constant.GOODS_CATES )
-                .tag( this )
-                .addHeader( "x-appid", Constant.APPID )
-                .addHeader( "x-devid", PreferUtils.getString( context, Constant.PESUDOUNIQUEID ) )
-                .addHeader( "x-nettype", PreferUtils.getString( context, Constant.NETWORKTYPE ) )
-                .addHeader( "x-agent", VersionUtil.getVersionCode( context ) )
-                .addHeader( "x-platform", Constant.ANDROID )
-                .addHeader( "x-devtype", Constant.IMEI )
-                .addHeader( "x-token", ParamUtil.GroupMap( context, "" ) )
-                .enqueue( new JsonResponseHandler() {
+        MyApplication.getInstance().getMyOkHttp().post().url(Constant.BASE_URL + Constant.GOODS_CATES)
+                .tag(this)
+                .addHeader("x-appid", Constant.APPID)
+                .addHeader("x-devid", PreferUtils.getString(context, Constant.PESUDOUNIQUEID))
+                .addHeader("x-nettype", PreferUtils.getString(context, Constant.NETWORKTYPE))
+                .addHeader("x-agent", VersionUtil.getVersionCode(context))
+                .addHeader("x-platform", Constant.ANDROID)
+                .addHeader("x-devtype", Constant.IMEI)
+                .addHeader("x-token", ParamUtil.GroupMap(context, ""))
+                .enqueue(new JsonResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, JSONObject response) {
-                        super.onSuccess( statusCode, response );
-                        Log.i( "头部数据", response.toString() );
+                        super.onSuccess(statusCode, response);
+                        Log.i("头部数据", response.toString());
                         try {
-                            JSONObject jsonObject = new JSONObject( response.toString() );
-                            if (jsonObject.getInt( "status" ) >= 0) {
-                                commonBean = GsonUtil.GsonToBean( response.toString(), CommonBean.class );
+                            JSONObject jsonObject = new JSONObject(response.toString());
+                            if (jsonObject.getInt("status") >= 0) {
+                                commonBean = GsonUtil.GsonToBean(response.toString(), CommonBean.class);
                                 if (commonBean == null) return;
                                 result = commonBean.getResult();
                                 if (result.size() > 0) {
-                                    final List<CommonBean.CommonSecond> childList = result.get( which_position ).getChild();
-                                    otherCommonHeadAdapter = new OtherCommonHeadAdapter( childList );
-                                    recyclerview.setAdapter( otherCommonHeadAdapter );
-                                    otherCommonHeadAdapter.setonclicklistener( new OnItemClick() {
+                                    final List<CommonBean.CommonSecond> childList = result.get(which_position).getChild();
+                                    otherCommonHeadAdapter = new OtherCommonHeadAdapter(childList);
+                                    recyclerview.setAdapter(otherCommonHeadAdapter);
+                                    otherCommonHeadAdapter.setonclicklistener(new OnItemClick() {
                                         @Override
                                         public void OnItemClickListener(View view, int position) {
-                                            Intent intent = new Intent( context, NewSecondClassicActivity.class );
-                                            intent.putExtra( "name", childList.get( position ).getName() );
-                                            intent.putExtra( "cate_id", childList.get( position ).getCate_id() );
-                                            intent.putExtra( "parent_id", result.get( which_position ).getCate_id() );
-                                            startActivity( intent );
+                                            Intent intent = new Intent(context, NewSecondClassicActivity.class);
+                                            intent.putExtra("name", childList.get(position).getName());
+                                            intent.putExtra("cate_id", childList.get(position).getCate_id());
+                                            intent.putExtra("parent_id", result.get(which_position).getCate_id());
+                                            startActivity(intent);
                                         }
-                                    } );
+                                    });
                                 }
                             }
                         } catch (JSONException e) {
@@ -329,7 +329,7 @@ public class SecondFragment extends LazyBaseFragment {
                     public void onFailure(int statusCode, String error_msg) {
 
                     }
-                } );
+                });
     }
 
     OtherCommonHeadAdapter otherCommonHeadAdapter;
@@ -339,103 +339,103 @@ public class SecondFragment extends LazyBaseFragment {
     RecyclerView recyclerview;
 
     private void initHeadView(View view) {
-        ll_head_parent = view.findViewById( R.id.ll_head_parent );
-        recyclerview = view.findViewById( R.id.recyclerview );
-        recyclerview.setHasFixedSize( true );
-        recyclerview.setLayoutManager( new GridLayoutManager( context, 4 ) );
+        ll_head_parent = view.findViewById(R.id.ll_head_parent);
+        recyclerview = view.findViewById(R.id.recyclerview);
+        recyclerview.setHasFixedSize(true);
+        recyclerview.setLayoutManager(new GridLayoutManager(context, 4));
         getHeadData();
-        zuixin = view.findViewById( R.id.zuixin );
-        xiaoliang = view.findViewById( R.id.xiaoliang );
-        tv_jiage = view.findViewById( R.id.tv_jiage );
-        renqi = view.findViewById( R.id.renqi );
-        zuixin.setOnClickListener( new View.OnClickListener() {
+        zuixin = view.findViewById(R.id.zuixin);
+        xiaoliang = view.findViewById(R.id.xiaoliang);
+        tv_jiage = view.findViewById(R.id.tv_jiage);
+        renqi = view.findViewById(R.id.renqi);
+        zuixin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setNewColor();
             }
-        } );
-        xiaoliang.setOnClickListener( new View.OnClickListener() {
+        });
+        xiaoliang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setXiaoliangColor();
             }
-        } );
-        tv_jiage.setOnClickListener( new View.OnClickListener() {
+        });
+        tv_jiage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setPriceColor();
             }
-        } );
-        renqi.setOnClickListener( new View.OnClickListener() {
+        });
+        renqi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 setRenqiColor();
             }
-        } );
+        });
         userLevelHeadChange();
 
-        classicHeight = DensityUtils.dip2px( context, 205 );
-        totalHeight = DensityUtils.dip2px( context, 245 );
+        classicHeight = DensityUtils.dip2px(context, 205);
+        totalHeight = DensityUtils.dip2px(context, 245);
 
-        xrecycler.addOnScrollListener( new RecyclerView.OnScrollListener() {
+        xrecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled( recyclerView, dx, dy );
+                super.onScrolled(recyclerView, dx, dy);
                 GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
                 int position = layoutManager.findFirstVisibleItemPosition();
-                View firstVisiableChildView = layoutManager.findViewByPosition( position );
+                View firstVisiableChildView = layoutManager.findViewByPosition(position);
                 if (firstVisiableChildView == null) return;
                 int itemHeight = firstVisiableChildView.getHeight();
                 int scollYDistance = (position) * itemHeight - firstVisiableChildView.getTop();
-                Log.i( "看看高度", scollYDistance + "   " + totalHeight + "  " + classicHeight );
+                Log.i("看看高度", scollYDistance + "   " + totalHeight + "  " + classicHeight);
                 if (scollYDistance - totalHeight >= classicHeight) {
-                    ll_hover.setVisibility( View.VISIBLE );
+                    ll_hover.setVisibility(View.VISIBLE);
                     switch (colorId) {
                         case 1:
-                            tv_newly.setTextColor( 0xfff6c15b );
-                            tv_sale.setTextColor( 0xff000000 );
-                            tv_price.setTextColor( 0xff000000 );
-                            tv_renqi.setTextColor( 0xff000000 );
+                            tv_newly.setTextColor(0xfff6c15b);
+                            tv_sale.setTextColor(0xff000000);
+                            tv_price.setTextColor(0xff000000);
+                            tv_renqi.setTextColor(0xff000000);
                             break;
                         case 2:
-                            tv_newly.setTextColor( 0xff000000 );
-                            tv_sale.setTextColor( 0xfff6c15b );
-                            tv_price.setTextColor( 0xff000000 );
-                            tv_renqi.setTextColor( 0xff000000 );
+                            tv_newly.setTextColor(0xff000000);
+                            tv_sale.setTextColor(0xfff6c15b);
+                            tv_price.setTextColor(0xff000000);
+                            tv_renqi.setTextColor(0xff000000);
                             break;
                         case 3:
-                            tv_newly.setTextColor( 0xff000000 );
-                            tv_sale.setTextColor( 0xff000000 );
-                            tv_price.setTextColor( 0xfff6c15b );
-                            tv_renqi.setTextColor( 0xff000000 );
+                            tv_newly.setTextColor(0xff000000);
+                            tv_sale.setTextColor(0xff000000);
+                            tv_price.setTextColor(0xfff6c15b);
+                            tv_renqi.setTextColor(0xff000000);
                             break;
                         case 4:
-                            tv_newly.setTextColor( 0xff000000 );
-                            tv_sale.setTextColor( 0xff000000 );
-                            tv_price.setTextColor( 0xff000000 );
-                            tv_renqi.setTextColor( 0xfff6c15b );
+                            tv_newly.setTextColor(0xff000000);
+                            tv_sale.setTextColor(0xff000000);
+                            tv_price.setTextColor(0xff000000);
+                            tv_renqi.setTextColor(0xfff6c15b);
                             break;
                     }
                 } else {
-                    ll_hover.setVisibility( View.GONE );
+                    ll_hover.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged( recyclerView, newState );
+                super.onScrollStateChanged(recyclerView, newState);
             }
-        } );
+        });
     }
 
     private void setNewColor() {
         type = "";
         colorId = 1;
-        zuixin.setTextColor( 0xfff6c15b );
-        xiaoliang.setTextColor( 0xff000000 );
-        tv_jiage.setTextColor( 0xff000000 );
-        renqi.setTextColor( 0xff000000 );
+        zuixin.setTextColor(0xfff6c15b);
+        xiaoliang.setTextColor(0xff000000);
+        tv_jiage.setTextColor(0xff000000);
+        renqi.setTextColor(0xff000000);
         pageNum = 1;
         xrecycler.refresh();
     }
@@ -443,10 +443,10 @@ public class SecondFragment extends LazyBaseFragment {
     private void setXiaoliangColor() {
         type = "sales";
         colorId = 2;
-        zuixin.setTextColor( 0xff000000 );
-        xiaoliang.setTextColor( 0xfff6c15b );
-        tv_jiage.setTextColor( 0xff000000 );
-        renqi.setTextColor( 0xff000000 );
+        zuixin.setTextColor(0xff000000);
+        xiaoliang.setTextColor(0xfff6c15b);
+        tv_jiage.setTextColor(0xff000000);
+        renqi.setTextColor(0xff000000);
         pageNum = 1;
         xrecycler.refresh();
     }
@@ -454,10 +454,10 @@ public class SecondFragment extends LazyBaseFragment {
     private void setPriceColor() {
         type = "price";
         colorId = 3;
-        zuixin.setTextColor( 0xff000000 );
-        xiaoliang.setTextColor( 0xff000000 );
-        tv_jiage.setTextColor( 0xfff6c15b );
-        renqi.setTextColor( 0xff000000 );
+        zuixin.setTextColor(0xff000000);
+        xiaoliang.setTextColor(0xff000000);
+        tv_jiage.setTextColor(0xfff6c15b);
+        renqi.setTextColor(0xff000000);
         pageNum = 1;
         xrecycler.refresh();
     }
@@ -465,43 +465,43 @@ public class SecondFragment extends LazyBaseFragment {
     private void setRenqiColor() {
         type = "commission";
         colorId = 4;
-        zuixin.setTextColor( 0xff000000 );
-        xiaoliang.setTextColor( 0xff000000 );
-        tv_jiage.setTextColor( 0xff000000 );
-        renqi.setTextColor( 0xfff6c15b );
+        zuixin.setTextColor(0xff000000);
+        xiaoliang.setTextColor(0xff000000);
+        tv_jiage.setTextColor(0xff000000);
+        renqi.setTextColor(0xfff6c15b);
         pageNum = 1;
         xrecycler.refresh();
     }
 
     //佣金和人气切换（初始布局）
     private void userLevelChange() {
-        if (PreferUtils.getBoolean( context, "isLogin" )) {
-            String member_role = PreferUtils.getString( context, "member_role" );
-            if (Constant.COMMON_USER_LEVEL.contains( member_role )) {
+        if (PreferUtils.getBoolean(context, "isLogin")) {
+            String member_role = PreferUtils.getString(context, "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 //普通用户
-                tv_renqi.setText( "人气" );
+                tv_renqi.setText("人气");
             } else {
                 //vip及以上
-                tv_renqi.setText( "佣金" );
+                tv_renqi.setText("佣金");
             }
         } else {
-            tv_renqi.setText( "人气" );
+            tv_renqi.setText("人气");
         }
     }
 
     //佣金和人气切换（头部布局）
     private void userLevelHeadChange() {
-        if (PreferUtils.getBoolean( context, "isLogin" )) {
-            String member_role = PreferUtils.getString( context, "member_role" );
-            if (Constant.COMMON_USER_LEVEL.contains( member_role )) {
+        if (PreferUtils.getBoolean(context, "isLogin")) {
+            String member_role = PreferUtils.getString(context, "member_role");
+            if (Constant.COMMON_USER_LEVEL.contains(member_role)) {
                 //普通用户
-                renqi.setText( "人气" );
+                renqi.setText("人气");
             } else {
                 //vip及以上
-                renqi.setText( "佣金" );
+                renqi.setText("佣金");
             }
         } else {
-            renqi.setText( "人气" );
+            renqi.setText("人气");
         }
     }
 

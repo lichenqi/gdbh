@@ -164,7 +164,10 @@ public class GridViewAdapter extends BaseAdapter {
                                 break;
                             case "fqb":
                                 /*疯抢榜*/
+<<<<<<< HEAD
+=======
 //                                intent = new Intent( context, ShopRangingClassicActivity.class );
+>>>>>>> parent of b18dfd3... Merge branch 'master' of D:\gdbh\JellyBox_Android\JellyBox_Android with conflicts.
                                 intent = new Intent( context, MadRushActivity.class );
                                 intent.putExtra( "title", title );
                                 intent.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );

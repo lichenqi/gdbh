@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.umeng.umsdk:meizu-push:3.8.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8c2203ce2e16cdde1586101fa0511b76/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/8c2203ce2e16cdde1586101fa0511b76/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/meizu-push/3.8.1/b9b38f6a75e444fff5568f5a65e47a1859639050/meizu-push-3.8.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

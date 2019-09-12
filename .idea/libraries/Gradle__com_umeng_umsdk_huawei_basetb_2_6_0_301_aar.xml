@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Gradle: com.umeng.umsdk:huawei-basetb:2.6.0.301@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/272f4c210c25da1e5d44683e71badd99/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/272f4c210c25da1e5d44683e71badd99/jars/libs/hianalytics_v2.9.1.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/272f4c210c25da1e5d44683e71badd99/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/272f4c210c25da1e5d44683e71badd99/jars/libs/UpdateSdk_release_V2.0.1.303.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.umeng.umsdk/huawei-basetb/2.6.0.301/b9b38f6a75e444fff5568f5a65e47a1859639050/huawei-basetb-2.6.0.301-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

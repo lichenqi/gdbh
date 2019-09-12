@@ -16,6 +16,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/iv_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -65,8 +66,8 @@
                     android:gravity="center"
                     android:tag="0"
                     android:text="2小时排行"
-                    android:textColor="@color/tab_color_order"
-                    android:textSize="14sp"
+                    android:textColor="@color/tab_color_madrush"
+                    android:textSize="16sp"
                     toly:rb_height="1dp"
                     toly:rb_width="30dp" />
 
@@ -81,8 +82,8 @@
                     android:gravity="center"
                     android:tag="1"
                     android:text="全天排行"
-                    android:textColor="@color/tab_color_order"
-                    android:textSize="14sp"
+                    android:textColor="@color/tab_color_madrush"
+                    android:textSize="16sp"
                     toly:rb_height="1dp"
                     toly:rb_width="30dp" />
 

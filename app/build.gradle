@@ -7,7 +7,11 @@ android {
         config {
             keyAlias 'guodongbaohe'
             keyPassword '123456'
+<<<<<<< HEAD
+            storeFile file('D:/guodongbaohe_key_store/guodongbaohe.jks')
+=======
             storeFile file('D:\\jellybox\\key/guodongbaohe.jks')
+>>>>>>> parent of b18dfd3... Merge branch 'master' of D:\gdbh\JellyBox_Android\JellyBox_Android with conflicts.
             storePassword '123456'
         }
     }
@@ -40,7 +44,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
@@ -134,9 +137,25 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     /*内存溢出工具*/
+<<<<<<< HEAD
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    //1.1.0 androidx 完美的刷新头功能版本
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-27'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-27'
+
+    /*依赖注解框架Dagger2降低程序耦合*/
+    implementation 'com.google.dagger:dagger:2.23.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.23.1'
+    /*京东开普勒sdk 即京东联盟*/
+//    implementation project(':jdsdk_lib')
+=======
     debugCompile   'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile    'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+>>>>>>> parent of b18dfd3... Merge branch 'master' of D:\gdbh\JellyBox_Android\JellyBox_Android with conflicts.
 }
 
 repositories {

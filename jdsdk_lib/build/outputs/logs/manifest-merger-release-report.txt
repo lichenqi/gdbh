@@ -1,0 +1,51 @@
+-- Merging decision tree log ---
+manifest
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:2:1-22:12
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:2:1-22:12
+	package
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:3:5-27
+		INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+		INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:2:11-69
+application
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:6:5-19:19
+	android:allowBackup
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:6:18-44
+activity#com.kepler.jd.sdk.KeplerBackActivity
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:9:9-18:20
+	android:exported
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:11:13-36
+	android:theme
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:12:13-61
+	android:name
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:10:13-64
+intent-filter#action:name:android.intent.action.VIEW+category:name:android.intent.category.DEFAULT+data:scheme:sdkbackce98033df056eacc1c12af48d94bf98f
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:13:13-17:29
+action#android.intent.action.VIEW
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:14:17-69
+	android:name
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:14:25-66
+category#android.intent.category.DEFAULT
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:15:17-76
+	android:name
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:15:27-73
+data
+ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:16:17-82
+	android:scheme
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml:16:23-79
+uses-sdk
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+		INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+		ADDED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
+		INJECTED from D:\code\JellyBox_Android\jdsdk_lib\src\main\AndroidManifest.xml
